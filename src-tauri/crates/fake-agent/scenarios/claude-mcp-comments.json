@@ -1,0 +1,98 @@
+{
+  "name": "claude-mcp-comments",
+  "description": "J3-style review flow: a skill/workflow run lands a severity-and-source-attributed finding via add_comments, then the agent defends it via reply_to_comment — both MCP calls interleaved with the stream-JSON turn, alongside claude-mcp-propose's propose_changes flow. MCP calls ride the side channel (not stdout); the stub tool server answers with TD-1 §3.2-shaped canned responses. Exercises the comment-side delivery path (P2b-5a, FR-REVIEW-2/FR-CMT-4) for acceptance #354.",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "cwd": "/tmp/project",
+        "session_id": "9f2c1a77-1e4b-4c0a-9a1d-2f6b8c0d1e2f",
+        "tools": ["Read", "Write"],
+        "mcp_servers": [{ "name": "cowrite", "status": "connected" }],
+        "model": "claude-sonnet-4-5",
+        "permissionMode": "default",
+        "apiKeySource": "none",
+        "claude_code_version": "2.1.200"
+      }
+    },
+    {
+      "mcp_call": {
+        "tool": "get_document_state",
+        "arguments": { "doc": "notes.md" }
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "model": "claude-sonnet-4-5",
+          "id": "msg_mcp_comments01",
+          "role": "assistant",
+          "content": [{ "type": "text", "text": "Running the fact-check skill over notes.md." }],
+          "usage": { "input_tokens": 198, "output_tokens": 22 }
+        },
+        "parent_tool_use_id": null,
+        "session_id": "9f2c1a77-1e4b-4c0a-9a1d-2f6b8c0d1e2f"
+      }
+    },
+    {
+      "mcp_call": {
+        "tool": "add_comments",
+        "arguments": {
+          "doc": "notes.md",
+          "comments": [
+            {
+              "anchor": { "offset": 0, "length": 10, "text_snapshot": "This claim" },
+              "body": "this claim needs a citation",
+              "severity": "high",
+              "skill": "fact-check",
+              "workflow_run": "run-stub-0001"
+            }
+          ]
+        },
+        "expect": { "ids": [{ "id": "cmt-stub-0000", "placement": "placed" }] }
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "model": "claude-sonnet-4-5",
+          "id": "msg_mcp_comments02",
+          "role": "assistant",
+          "content": [{ "type": "text", "text": "On reflection, the claim is already sourced — defending rather than editing." }],
+          "usage": { "input_tokens": 64, "output_tokens": 18 }
+        },
+        "parent_tool_use_id": null,
+        "session_id": "9f2c1a77-1e4b-4c0a-9a1d-2f6b8c0d1e2f"
+      }
+    },
+    {
+      "mcp_call": {
+        "tool": "reply_to_comment",
+        "arguments": {
+          "comment_id": "cmt-stub-0000",
+          "body": "the claim is sourced in footnote 3",
+          "kind": "defense"
+        },
+        "expect": { "reply_id": "reply-stub-0001" }
+      }
+    },
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "success",
+        "is_error": false,
+        "duration_ms": 3877,
+        "num_turns": 1,
+        "result": "Filed one finding on notes.md and defended it.",
+        "stop_reason": "end_turn",
+        "session_id": "9f2c1a77-1e4b-4c0a-9a1d-2f6b8c0d1e2f",
+        "total_cost_usd": 0.0488,
+        "permission_denials": [],
+        "terminal_reason": "completed"
+      }
+    }
+  ]
+}

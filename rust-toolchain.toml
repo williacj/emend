@@ -1,0 +1,6 @@
+# ABOUTME: Pins the Rust compiler and lint/format components used by local development and CI.
+# ABOUTME: Toolchain upgrades are explicit so rustfmt drift cannot silently make main fail its gates.
+[toolchain]
+channel = "1.97.0"
+components = ["rustfmt", "clippy"]
+profile = "minimal"

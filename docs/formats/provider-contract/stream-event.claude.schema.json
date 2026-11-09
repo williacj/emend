@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cowrite.local/formats/provider-contract/stream-event.claude.schema.json",
+  "schema_version": 1,
+  "title": "Claude Code CLI stream-json event",
+  "description": "One event object from Claude Code CLI `-p --output-format stream-json --verbose`. Grammar derived from SPIKE-1 recorded transcript (docs/spikes/spike1-provider-contract.md §5.2) and §3.1. TD-1/TD-5 contract-parity fixture (test-plan §1). Deliberately drift-tolerant: unknown `type` values validate (version-drift canary = a recorded real session still parses), while known event types are checked for their load-bearing fields. Providers add fields freely, so additional properties are permitted.",
+  "type": "object",
+  "required": ["type"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Event discriminator. Known: system, rate_limit_event, assistant, user, result, stream_event."
+    }
+  },
+  "allOf": [
+    {
+      "$comment": "system/init — session bootstrap (§5.2 line 1).",
+      "if": {
+        "required": ["type", "subtype"],
+        "properties": {
+          "type": { "const": "system" },
+          "subtype": { "const": "init" }
+        }
+      },
+      "then": {
+        "required": ["session_id", "model", "claude_code_version"],
+        "properties": {
+          "session_id": { "type": "string" },
+          "model": { "type": "string" },
+          "claude_code_version": { "type": "string" },
+          "mcp_servers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "status"],
+              "properties": {
+                "name": { "type": "string" },
+                "status": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "$comment": "rate_limit_event (§5.2 line 2).",
+      "if": {
+        "required": ["type"],
+        "properties": { "type": { "const": "rate_limit_event" } }
+      },
+      "then": {
+        "required": ["rate_limit_info"],
+        "properties": { "rate_limit_info": { "type": "object" } }
+      }
+    },
+    {
+      "$comment": "assistant message envelope (§5.2 lines 4-5).",
+      "if": {
+        "required": ["type"],
+        "properties": { "type": { "const": "assistant" } }
+      },
+      "then": {
+        "required": ["message"],
+        "properties": { "message": { "type": "object" } }
+      }
+    },
+    {
+      "$comment": "terminal result event (§5.2 line 6).",
+      "if": {
+        "required": ["type"],
+        "properties": { "type": { "const": "result" } }
+      },
+      "then": {
+        "required": ["subtype", "session_id"],
+        "properties": {
+          "subtype": { "type": "string" },
+          "session_id": { "type": "string" },
+          "is_error": { "type": "boolean" },
+          "result": {
+            "type": "string",
+            "description": "The turn's own answer — the agent's prose reply, which Cowrite renders as a chat message in the timeline (#1118, `agent::reply`). Typed but not required: a turn that produced no prose, or whose stream ended before this event, carries none."
+          }
+        }
+      }
+    }
+  ]
+}

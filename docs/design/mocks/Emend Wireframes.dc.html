@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Caveat:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#4F46E5}a:hover{color:#4338CA}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.55)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#4F46E5;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}</style></helmet>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">1c without the timeline — comment column only</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a"><div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>J4 — Authoring shell, comments-only right column (no timeline rail) · Windows</div>
+<div class="dv-card" style="width:1340px">
+<div style="display:flex;align-items:stretch;background:#e8e5de;border-bottom:1px solid #cfcabf">
+<div style="flex:1;padding:9px 12px;font-size:13px;color:#6b665c">Emend — project-folder</div>
+<div style="display:flex;font-size:12px;color:#6b665c"><span style="width:42px;display:flex;align-items:center;justify-content:center">—</span><span style="width:42px;display:flex;align-items:center;justify-content:center">▢</span><span style="width:42px;display:flex;align-items:center;justify-content:center">✕</span></div></div>
+<div style="display:flex;height:1120px">
+
+<div style="width:190px;display:flex;flex-direction:column;gap:8px;padding:12px;border-right:1px solid #cfcabf;background:#faf9f6">
+<div style="display:flex;font-size:12px;color:#8a857b;letter-spacing:.06em"><span style="font-size:13px;letter-spacing:0;color:#4a463e">project-folder</span><span style="margin-left:auto">⟳ ‹‹</span></div>
+<div style="display:flex;flex-direction:column;gap:5px;font-size:13px;color:#4a463e">
+<div style="font-size:11px;letter-spacing:.06em;color:#8a857b">DOCUMENTS</div>
+<div>▾ drafts/</div>
+<div style="padding-left:14px;padding-right:6px;background:#e6e2d8;border-left:2px solid #2b2b2b;font-weight:600">document-one.md</div>
+<div style="padding-left:14px;color:#8a857b">document-two.md</div>
+<div style="padding-left:6px;color:#8a857b">— readme.md</div>
+<div style="font-size:11px;letter-spacing:.06em;color:#8a857b;padding-top:5px">SKILLS</div>
+<div>▸ Grammar review</div>
+<div>▾ Sermon review</div><div style="padding-left:14px;color:#8a857b">— SKILL.md</div>
+<div style="font-size:11px;letter-spacing:.06em;color:#8a857b;padding-top:5px">WORKFLOWS</div>
+<div style="padding-left:6px;color:#8a857b">— tighten-hook</div></div>
+<div style="margin-top:auto;font:14px Caveat;color:#c8553d">Timeline is collapsed to the ›› tab — comments own the right side.</div></div>
+
+<div style="flex:1;display:flex;flex-direction:column;border-right:1px solid #cfcabf;background:#fdfcf9;min-width:0">
+<div style="display:flex;gap:2px;padding:6px 10px 0;background:#f4f2ec;border-bottom:1px solid #cfcabf">
+<div style="display:flex;align-items:center;gap:8px;padding:7px 12px;background:#fdfcf9;border:1px solid #cfcabf;border-bottom-color:#fdfcf9;border-radius:5px 5px 0 0;font-size:13px"><span>● document-one.md</span><span style="color:#a6a196">✕</span></div>
+<div style="display:flex;align-items:center;gap:8px;padding:7px 12px;font-size:13px;color:#8a857b"><span>document-two.md</span><span>✕</span></div></div>
+<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid #e2ded4;font-size:12px;flex-wrap:wrap">
+<div style="display:flex;border:1px solid #b8b3a8;border-radius:5px;overflow:hidden"><span style="padding:5px 10px;background:#2b2b2b;color:#fff">Rich text</span><span style="padding:5px 10px">Markdown</span></div>
+<div style="display:flex;gap:5px;padding-left:8px;border-left:1px solid #ddd8cd"><span style="padding:5px 8px;border:1px solid #cfcabf;border-radius:4px">B</span><span style="padding:5px 8px;border:1px solid #cfcabf;border-radius:4px">I</span><span style="padding:5px 8px;border:1px solid #cfcabf;border-radius:4px">H1</span><span style="padding:5px 8px;border:1px solid #cfcabf;border-radius:4px">🎙</span></div>
+<div style="display:flex;align-items:center;gap:5px;padding-left:8px;border-left:1px solid #ddd8cd"><span>Comments:</span><span style="padding:5px 9px;border:1px solid #cfcabf;border-radius:4px">Open (6) ▾</span><span style="padding:5px 9px;border:1px solid #cfcabf;border-radius:4px">Address all… ▾</span></div>
+<div style="margin-left:auto;display:flex;align-items:center;gap:6px"><span style="padding:5px 9px;border:1px solid #cfcabf;border-radius:4px;color:#6b665c">Timeline ››</span><span style="padding:5px 11px;border:1.5px solid #2b2b2b;border-radius:5px">Share ▾</span></div></div>
+
+<div style="flex:1;display:flex;gap:0;padding:26px 0 26px 56px;overflow:hidden">
+<div style="flex:1;display:flex;flex-direction:column;gap:18px;min-width:0;padding-right:18px">
+<div style="height:20px;width:52%;background:#d6d1c6;border-radius:3px"></div>
+
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="height:9px;background:#e0dcd3;border-radius:3px"></div>
+<div style="height:9px;width:88%;background:#e0dcd3;border-radius:3px"></div></div>
+
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="font-size:14px;line-height:1.8;color:#4a463e"><span style="background:#efe6c8;box-shadow:0 1px 0 #d9c98d">————— anchored span of text —————</span> ———— ————— ——— ———— —————</div>
+<div style="height:9px;width:72%;background:#e0dcd3;border-radius:3px"></div></div>
+
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="height:9px;background:#e0dcd3;border-radius:3px"></div>
+<div style="font-size:14px;line-height:1.8;color:#4a463e">———— <span style="background:#efe6c8;box-shadow:0 1px 0 #d9c98d">————— second anchor —————</span> ————— ———</div></div>
+
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="height:9px;background:#e0dcd3;border-radius:3px"></div>
+<div style="height:9px;width:64%;background:#e0dcd3;border-radius:3px"></div></div>
+
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="font-size:14px;line-height:1.8;color:#4a463e">————— <span style="background:#DCDAF9;box-shadow:0 1px 0 #9F9AF3">live selection — user just dragged over this</span> ————— ————</div>
+<div style="height:9px;width:80%;background:#e0dcd3;border-radius:3px"></div>
+<div style="align-self:flex-start;display:flex;gap:8px;padding:6px 10px;border:1px solid #b8b3a8;border-radius:6px;background:#fff;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.08)"><span>❝ Quote to chat</span><span>✦ Ask agent</span></div></div>
+
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="height:9px;background:#e0dcd3;border-radius:3px"></div>
+<div style="font-size:14px;line-height:1.8;color:#4a463e">———— <span style="background:#e8e5de;box-shadow:0 1px 0 #cfcabf;color:#8a857b">————— resolved anchor —————</span> ————</div>
+<div style="height:9px;width:58%;background:#e0dcd3;border-radius:3px"></div></div>
+
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="height:9px;background:#e0dcd3;border-radius:3px"></div>
+<div style="height:9px;width:86%;background:#e0dcd3;border-radius:3px"></div>
+<div style="height:9px;width:41%;background:#e0dcd3;border-radius:3px"></div></div>
+</div>
+
+<div style="width:56px;position:relative;border-left:1px dashed #e2ded4">
+<div style="position:absolute;top:88px;left:8px;display:flex;align-items:center;gap:5px"><span style="width:26px;height:22px;border:1.5px solid #6b665c;border-radius:4px 4px 4px 0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#6b665c;background:#fff">▭</span></div>
+<div style="position:absolute;top:168px;left:8px;display:flex;align-items:center"><span style="width:26px;height:22px;border:1.5px solid #6b665c;border-radius:4px 4px 4px 0;background:#fff"></span></div>
+<div style="position:absolute;top:256px;left:8px;display:flex;align-items:center;gap:6px"><span style="width:26px;height:22px;border:1.5px solid #4F46E5;border-radius:4px 4px 4px 0;background:#E8E7FF;color:#4F46E5;display:flex;align-items:center;justify-content:center;font-size:13px;line-height:1">+</span><span style="width:19px;height:19px;border-radius:50%;background:#c8553d;color:#fff;font:600 11px system-ui;display:flex;align-items:center;justify-content:center">2</span></div>
+<div style="position:absolute;top:375px;left:8px;display:flex;align-items:center;gap:6px"><span style="width:26px;height:22px;border:1.5px solid #3f8f4f;border-radius:4px 4px 4px 0;background:#eaf4ec;color:#3f8f4f;display:flex;align-items:center;justify-content:center;font-size:12px;line-height:1">✓</span><span style="width:19px;height:19px;border-radius:50%;background:#c8553d;color:#fff;font:600 11px system-ui;display:flex;align-items:center;justify-content:center">1</span></div>
+</div>
+</div>
+</div>
+
+<div style="width:400px;display:flex;flex-direction:column;background:#f2f0ec">
+<div style="display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid #e2ded4;font-size:12px"><span style="color:#8a857b;letter-spacing:.06em">COMMENTS · 6 open</span><span style="margin-left:auto">Sort: position ▾</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;padding:12px;overflow:hidden">
+
+<div style="display:flex;flex-direction:column;gap:9px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05)">
+<div style="display:flex;align-items:center;gap:9px">
+<span style="width:26px;height:26px;border-radius:50%;background:#d6d1c6"></span>
+<span style="font-size:13px;font-weight:600;color:#2b2b2b">Reviewer name</span>
+<span style="margin-left:auto;display:flex;align-items:center;gap:9px;font-size:13px;color:#6b665c">
+<span>⋯</span>
+<span style="display:flex;align-items:center;gap:5px"><span style="padding:1px 4px;border:1px solid #c8553d;border-radius:4px;color:#c8553d">✎</span><span style="width:19px;height:19px;border-radius:50%;background:#c8553d;color:#fff;font:600 11px system-ui;display:flex;align-items:center;justify-content:center">4</span></span>
+<span>✓</span></span></div>
+<div style="font-size:13px;line-height:1.6;color:#4a463e">What do you think about this? ————— ———</div>
+<div style="display:flex;align-items:center;gap:6px"><span style="font-size:12.5px;color:#4F46E5">▸ 2 more replies</span><span style="width:19px;height:19px;border-radius:50%;background:#c8553d;color:#fff;font:600 11px system-ui;display:flex;align-items:center;justify-content:center">3</span></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding-left:12px;border-left:2px solid #e6e2d8">
+<div style="display:flex;align-items:center;gap:8px"><span style="width:20px;height:20px;border-radius:50%;background:#e0dcd3"></span><span style="font-size:12.5px;font-weight:600;color:#4a463e">You</span><span style="margin-left:auto;font-size:12px;color:#8a857b">2m</span><span style="font-size:12px;color:#6b665c">⋯ ✎</span></div>
+<div style="font-size:13px;line-height:1.6;color:#4a463e">————— latest reply text —————</div></div>
+<div style="padding:8px 10px;border:1px solid #b8b3a8;border-radius:5px;background:#fdfcf9;font-size:12.5px;color:#a6a196">Reply</div></div>
+
+<div style="display:flex;flex-direction:column;gap:9px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05)">
+<div style="display:flex;align-items:center;gap:9px">
+<span style="width:26px;height:26px;border-radius:50%;background:#d6d1c6"></span>
+<span style="font-size:13px;font-weight:600;color:#2b2b2b">Reviewer name</span>
+<span style="margin-left:auto;display:flex;align-items:center;gap:9px;font-size:13px;color:#6b665c"><span>⋯</span><span>✎</span><span>✓</span></span></div>
+<div style="font-size:13px;line-height:1.6;color:#4a463e">————— comment body —————</div>
+<div style="display:flex;flex-direction:column;gap:6px;padding-left:12px;border-left:2px solid #e6e2d8">
+<div style="display:flex;align-items:center;gap:8px"><span style="width:20px;height:20px;border-radius:50%;background:#e0dcd3"></span><span style="font-size:12.5px;font-weight:600;color:#4a463e">You</span><span style="margin-left:auto;font-size:12px;color:#8a857b">6m</span><span style="font-size:12px;color:#6b665c">⋯ ✎</span></div>
+<div style="font-size:13px;line-height:1.6;color:#4a463e">————— the only reply —————</div></div>
+<div style="display:flex;align-items:center;gap:8px"><div style="flex:1;padding:8px 10px;border:1px solid #b8b3a8;border-radius:5px;background:#fdfcf9;font-size:12.5px;color:#a6a196">Reply</div><span style="width:19px;height:19px;border-radius:50%;background:#c8553d;color:#fff;font:600 11px system-ui;display:flex;align-items:center;justify-content:center">5</span></div>
+<div style="font:14px Caveat;color:#c8553d">one reply → shown inline, no collapse row</div></div>
+
+<div style="display:flex;flex-direction:column;gap:9px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05);position:relative">
+<div style="display:flex;align-items:center;gap:9px">
+<span style="width:26px;height:26px;border-radius:50%;background:#d6d1c6"></span>
+<span style="font-size:13px;font-weight:600;color:#2b2b2b">Reviewer name</span>
+<span style="margin-left:auto;display:flex;align-items:center;gap:9px;font-size:13px;color:#6b665c">
+<span style="display:flex;align-items:center;gap:5px"><span style="padding:1px 5px;border:1px solid #c8553d;border-radius:4px;color:#c8553d">⋯</span><span style="width:19px;height:19px;border-radius:50%;background:#c8553d;color:#fff;font:600 11px system-ui;display:flex;align-items:center;justify-content:center">6</span></span>
+<span>✎</span><span>✓</span></span></div>
+<div style="font-size:13px;line-height:1.6;color:#4a463e">————— comment body —————</div>
+<div style="align-self:flex-end;width:200px;display:flex;flex-direction:column;padding:5px 0;border:1px solid #b8b3a8;border-radius:6px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.12);font-size:12.5px;color:#4a463e">
+<span style="padding:7px 12px">Copy link to comment</span>
+<span style="padding:7px 12px">Mark as resolved</span>
+<span style="padding:7px 12px;border-top:1px solid #eae7e0;color:#b34a3f">Delete comment</span></div>
+<div style="padding:8px 10px;border:1px solid #b8b3a8;border-radius:5px;background:#fdfcf9;font-size:12.5px;color:#a6a196">Reply</div></div>
+
+<div style="display:flex;flex-direction:column;gap:9px;padding:12px;border:1.5px solid #2b2b2b;border-radius:6px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05)">
+<div style="display:flex;align-items:center;gap:9px">
+<span style="width:26px;height:26px;border-radius:50%;background:#d6d1c6"></span>
+<span style="font-size:13px;font-weight:600;color:#2b2b2b">You</span>
+<span style="margin-left:auto;font-size:12px;color:#8a857b">editing</span></div>
+<div style="min-height:46px;padding:8px 10px;border:1px solid #2b2b2b;border-radius:5px;background:#fdfcf9;font-size:13px;color:#4a463e">————— editable comment text —————<span style="color:#4F46E5">|</span></div>
+<div style="display:flex;gap:8px;align-items:center"><span style="padding:6px 12px;border:1.5px solid #2b2b2b;border-radius:5px;font-size:12.5px">Save</span><span style="padding:6px 12px;border:1px solid #b8b3a8;border-radius:5px;font-size:12.5px">Cancel</span><span style="margin-left:auto;font:14px Caveat;color:#c8553d">✎ opens in place — same for replies</span></div></div>
+
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px;border:1px dashed #cfcabf;border-radius:6px;background:#f7f6f2">
+<div style="display:flex;align-items:center;gap:9px">
+<span style="width:26px;height:26px;border-radius:50%;background:#e0dcd3"></span>
+<span style="font-size:13px;font-weight:600;color:#8a857b">Reviewer name</span>
+<span style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:12px;color:#3f8f4f"><span style="padding:2px 7px;border:1px solid #a9cdb2;border-radius:10px;background:#eaf4ec">✓ Resolved</span><span style="color:#6b665c">⋯</span></span></div>
+<div style="font-size:13px;line-height:1.6;color:#8a857b">————— resolved thread, collapsed —————</div>
+<div style="font-size:12.5px;color:#4F46E5">▸ 1 more reply</div></div>
+
+<div style="align-self:center;padding:5px 11px;border:1px solid #cfcabf;border-radius:12px;font-size:12px;color:#6b665c">2 resolved threads hidden</div>
+</div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px/1.5 Caveat;color:#c8553d">
+<span>① margin icons: outline = open · green ✓ = completed/resolved thread &nbsp;·&nbsp; ② selection shows the blue “+” add-comment icon at the selection's line</span>
+<span>③ 2+ replies collapse to “n more replies” (newest stays visible) &nbsp;·&nbsp; ④ ✎ edits the comment or any reply in place &nbsp;·&nbsp; ⑤ exactly one reply → always inline &nbsp;·&nbsp; ⑥ ⋯ holds delete (plus copy-link, resolve)</span></div>
+</div></div>
+
+</div>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Emend — every screen in the UX spec, lo-fi</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>J8 — First launch. A door, not a wizard (macOS)</div>
+<div class="dv-card" style="width:1000px">
+<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:#e8e5de;border-bottom:1px solid #cfcabf">
+<div style="display:flex;gap:6px"><span style="width:11px;height:11px;border-radius:50%;background:#cfcabf"></span><span style="width:11px;height:11px;border-radius:50%;background:#cfcabf"></span><span style="width:11px;height:11px;border-radius:50%;background:#cfcabf"></span></div>
+<div style="flex:1;text-align:center;font-size:13px;color:#6b665c">Emend</div><div style="width:52px"></div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:26px;padding:56px 0 44px;background:#fdfcf9">
+<div style="font-size:28px;color:#2b2b2b">Welcome to Emend</div>
+<div style="display:flex;gap:12px">
+<div style="padding:11px 20px;border:1.5px solid #2b2b2b;border-radius:6px;font-size:15px">Open a folder…</div>
+<div style="padding:11px 20px;border:1.5px dashed #b8b3a8;border-radius:6px;font-size:15px;color:#8a857b">Clone from GitHub…</div></div>
+<div style="width:520px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:13px;color:#8a857b;letter-spacing:.06em">RECENT</div><div style="font-size:14px;color:#a6a196">(none yet)</div></div>
+<div style="display:flex;flex-direction:column;gap:10px;padding:16px;border:1px solid #cfcabf;border-radius:8px;background:#fff">
+<div style="font-size:13px;color:#8a857b;letter-spacing:.06em">WRITING PARTNERS</div>
+<div style="display:flex;align-items:center;gap:9px;font-size:14px"><span>●</span><span>Claude Code — signed in as ————</span><span style="margin-left:auto">✓</span></div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;align-items:center;gap:9px;font-size:14px;color:#6b665c"><span>○</span><span>Copilot CLI — installed, not signed in</span></div>
+<div style="margin-left:24px;padding:5px 11px;border:1px solid #b8b3a8;border-radius:5px;font-size:13px;align-self:flex-start">Guide me through sign-in</div></div>
+<div style="font-size:13px;color:#8a857b;padding-top:4px;border-top:1px dashed #ddd8cd">No partner installed? The editor works fully — AI lights up when one is ready.</div></div>
+<div style="display:flex;align-items:center;gap:12px;font-size:13px;color:#6b665c"><span>GitHub: not connected — needed only when you share or review.</span><span style="padding:5px 11px;border:1px solid #cfcabf;border-radius:5px;color:#a6a196">Connect now</span></div>
+</div></div>
+<div style="padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px Caveat;color:#c8553d">↖ Deferred by design: GitHub is first mentioned here, first demanded at J5. Zero providers = no nagging.</div>
+</div></div>
+
+<div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>J2 — Workshop mode: no doc open, conversation is center stage</div>
+<div class="dv-card" style="width:1280px">
+<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:#e8e5de;border-bottom:1px solid #cfcabf">
+<div style="display:flex;gap:6px"><span style="width:11px;height:11px;border-radius:50%;background:#cfcabf"></span><span style="width:11px;height:11px;border-radius:50%;background:#cfcabf"></span><span style="width:11px;height:11px;border-radius:50%;background:#cfcabf"></span></div>
+<div style="flex:1;text-align:center;font-size:13px;color:#6b665c">Emend — project-folder</div><div style="width:52px"></div></div>
+<div style="display:flex;height:620px">
+<div style="width:200px;display:flex;flex-direction:column;gap:8px;padding:12px;border-right:1px solid #cfcabf;background:#faf9f6">
+<div style="display:flex;align-items:center;font-size:12px;color:#8a857b;letter-spacing:.06em"><span style="font-size:13px;letter-spacing:0;color:#4a463e">project-folder</span><span style="margin-left:auto;font-size:12px">⟳ ‹‹</span></div>
+<div style="display:flex;flex-direction:column;gap:5px;font-size:13px;color:#4a463e">
+<div style="font-size:11px;letter-spacing:.06em;color:#8a857b">DOCUMENTS</div>
+<div>▾ drafts/</div><div style="padding-left:14px">— document-one.md</div><div style="padding-left:14px">— document-two.md</div>
+<div style="padding-left:6px">— readme.md</div>
+<div>▾ research/</div><div style="padding-left:14px">— interview-notes.txt</div>
+<div style="font-size:11px;letter-spacing:.06em;color:#8a857b;padding-top:5px">SKILLS</div>
+<div>▸ Grammar review</div><div style="padding-left:14px;font-size:11px;color:#8a857b">line-edit for grammar ————</div>
+<div>▾ Sermon review</div><div style="padding-left:14px">— SKILL.md</div>
+<div style="font-size:11px;letter-spacing:.06em;color:#8a857b;padding-top:5px">WORKFLOWS</div>
+<div style="padding-left:6px">— tighten-hook <span style="font-size:11px;color:#8a857b">skills/sermon-…/workflows/</span></div></div>
+<div style="margin-top:auto;font:14px Caveat;color:#c8553d">Documents = FR-ED-9 types only; non-documents are absent, not greyed. Skills is a discovery result, not a folder.</div></div>
+<div style="flex:1;display:flex;flex-direction:column;background:#fdfcf9">
+<div style="display:flex;align-items:center;gap:14px;padding:10px 16px;border-bottom:1px solid #e2ded4;font-size:13px;color:#6b665c"><span style="font-size:15px;color:#2b2b2b">project-folder</span><span style="margin-left:auto">Recent: document-one.md · document-two.md</span><span>Reviews: 1 live</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;padding:24px 90px;overflow:hidden">
+<div style="display:flex;flex-direction:column;gap:7px;align-self:flex-end;max-width:60%;padding:12px 14px;border:1px solid #cfcabf;border-radius:8px 8px 2px 8px;background:#fff">
+<div style="font-size:12px;color:#8a857b">You</div>
+<div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:70%;background:#e0dcd3;border-radius:3px"></div></div>
+<div style="display:flex;flex-direction:column;gap:7px;max-width:78%;padding:12px 14px;border:1px solid #cfcabf;border-radius:8px 8px 8px 2px;background:#fff">
+<div style="font-size:12px;color:#8a857b">Agent</div>
+<div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:88%;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:45%;background:#e0dcd3;border-radius:3px"></div>
+<div style="align-self:flex-end;font-size:12px;color:#8a857b;padding:2px 7px;border:1px solid #ddd8cd;border-radius:10px">refs: 2 files read</div></div>
+<div style="display:flex;flex-direction:column;gap:7px;align-self:flex-end;max-width:50%;padding:12px 14px;border:1px solid #cfcabf;border-radius:8px 8px 2px 8px;background:#fff">
+<div style="font-size:12px;color:#8a857b">You</div><div style="height:8px;width:80%;background:#e0dcd3;border-radius:3px"></div></div></div>
+<div style="display:flex;align-items:center;gap:10px;padding:12px 90px 18px">
+<div style="width:34px;height:34px;border:1px solid #b8b3a8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px">🎙</div>
+<div style="flex:1;padding:10px 12px;border:1px solid #b8b3a8;border-radius:6px;font-size:14px;color:#a6a196">Type a message…</div>
+<div style="padding:9px 13px;border:1px solid #b8b3a8;border-radius:6px;font-size:13px">Claude ▾</div>
+<div style="padding:9px 17px;border:1.5px solid #2b2b2b;border-radius:6px;font-size:14px">Send</div></div></div></div>
+<div style="padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px Caveat;color:#c8553d">↖ No right rail yet — the same thread slides into it the moment a document is born. Rail + project-home strip are two different jobs.</div>
+</div></div>
+
+<div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>J2/J1 — Standard authoring shell: rail · document · timeline (Windows)</div>
+<div class="dv-card" style="width:1280px">
+<div style="display:flex;align-items:stretch;background:#e8e5de;border-bottom:1px solid #cfcabf">
+<div style="flex:1;padding:9px 12px;font-size:13px;color:#6b665c">Emend — project-folder</div>
+<div style="display:flex;font-size:12px;color:#6b665c"><span style="width:42px;display:flex;align-items:center;justify-content:center">—</span><span style="width:42px;display:flex;align-items:center;justify-content:center">▢</span><span style="width:42px;display:flex;align-items:center;justify-content:center">✕</span></div></div>
+<div style="display:flex;align-items:center;gap:10px;padding:7px 14px;background:#fbf4e6;border-bottom:1px solid #e6dcc4;font-size:13px;color:#6b665c"><span>Emend couldn't complete the document action. —————</span><span style="margin-left:auto">✕</span></div>
+<div style="display:flex;height:640px">
+<div style="width:200px;display:flex;flex-direction:column;gap:8px;padding:12px;border-right:1px solid #cfcabf;background:#faf9f6">
+<div style="display:flex;font-size:12px;color:#8a857b;letter-spacing:.06em"><span style="font-size:13px;letter-spacing:0;color:#4a463e">project-folder</span><span style="margin-left:auto">⟳ ‹‹</span></div>
+<div style="display:flex;flex-direction:column;gap:5px;font-size:13px;color:#4a463e">
+<div style="font-size:11px;letter-spacing:.06em;color:#8a857b">DOCUMENTS</div>
+<div>▾ drafts/</div>
+<div style="padding-left:14px;padding-right:6px;background:#e6e2d8;border-left:2px solid #2b2b2b;font-weight:600">document-one.md</div>
+<div style="padding-left:14px;color:#8a857b">document-two.md</div>
+<div style="padding-left:6px;color:#8a857b">— readme.md</div>
+<div style="font-size:11px;letter-spacing:.06em;color:#8a857b;padding-top:5px">SKILLS</div>
+<div>▸ Grammar review</div>
+<div>▾ Sermon review</div><div style="padding-left:14px;color:#8a857b">— SKILL.md</div>
+<div style="font-size:11px;letter-spacing:.06em;color:#8a857b;padding-top:5px">WORKFLOWS</div>
+<div style="padding-left:6px;color:#8a857b">— tighten-hook</div></div>
+<div style="margin-top:auto;font-size:12px;color:#8a857b">Updating documents…</div></div>
+<div style="flex:1;display:flex;flex-direction:column;border-right:1px solid #cfcabf;background:#fdfcf9;min-width:0">
+<div style="display:flex;gap:2px;padding:6px 10px 0;background:#f4f2ec;border-bottom:1px solid #cfcabf">
+<div style="display:flex;align-items:center;gap:8px;padding:7px 12px;background:#fdfcf9;border:1px solid #cfcabf;border-bottom-color:#fdfcf9;border-radius:5px 5px 0 0;font-size:13px"><span>● document-one.md</span><span style="color:#a6a196">✕</span></div>
+<div style="display:flex;align-items:center;gap:8px;padding:7px 12px;font-size:13px;color:#8a857b"><span>document-two.md</span><span>✕</span></div></div>
+<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid #e2ded4;font-size:12px;flex-wrap:wrap">
+<div style="display:flex;border:1px solid #b8b3a8;border-radius:5px;overflow:hidden"><span style="padding:5px 10px;background:#2b2b2b;color:#fff">Rich text</span><span style="padding:5px 10px">Markdown</span></div>
+<div style="display:flex;gap:5px;padding-left:8px;border-left:1px solid #ddd8cd"><span style="padding:5px 8px;border:1px solid #cfcabf;border-radius:4px">B</span><span style="padding:5px 8px;border:1px solid #cfcabf;border-radius:4px">I</span><span style="padding:5px 8px;border:1px solid #cfcabf;border-radius:4px">H1</span><span style="padding:5px 8px;border:1px solid #cfcabf;border-radius:4px">🎙</span></div>
+<div style="display:flex;align-items:center;gap:5px;padding-left:8px;border-left:1px solid #ddd8cd"><span style="padding:5px 9px;border:1px solid #cfcabf;border-radius:4px">✓ Accept</span><span style="padding:5px 9px;border:1px solid #cfcabf;border-radius:4px">✗ Reject</span><span style="padding:5px 7px;border:1px solid #cfcabf;border-radius:4px">◀</span><span style="min-width:38px;text-align:center">3 / 14</span><span style="padding:5px 7px;border:1px solid #cfcabf;border-radius:4px">▶</span><span style="padding:5px 9px;border:1px solid #cfcabf;border-radius:4px">Bulk ▾</span></div>
+<div style="display:flex;align-items:center;gap:5px;padding-left:8px;border-left:1px solid #ddd8cd"><span>Display:</span><span style="padding:5px 9px;border:1px solid #cfcabf;border-radius:4px">All ▾</span></div>
+<div style="margin-left:auto;padding:5px 11px;border:1.5px solid #2b2b2b;border-radius:5px">Share ▾</div></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;padding:26px 56px;overflow:hidden">
+<div style="height:20px;width:62%;background:#d6d1c6;border-radius:3px"></div>
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="height:9px;background:#e0dcd3;border-radius:3px"></div>
+<div style="font-size:14px;line-height:1.7;color:#4a463e"><span style="text-decoration:line-through;color:#b34a3f">deleted phrase here</span> <span style="border-bottom:2px solid #3f8f4f;color:#2f6b3a">inserted replacement phrase</span> ———— ————— ———</div>
+<div style="height:9px;width:94%;background:#e0dcd3;border-radius:3px"></div>
+<div style="height:9px;width:78%;background:#e0dcd3;border-radius:3px"></div></div>
+<div style="display:flex;flex-direction:column;gap:9px;padding-left:10px;border-left:3px solid #c99b2e">
+<div style="height:9px;background:#e0dcd3;border-radius:3px"></div>
+<div style="height:9px;width:88%;background:#e0dcd3;border-radius:3px"></div>
+<div style="font:14px Caveat;color:#c8553d">margin mark = anchored comment · severity is always colour + letter</div></div>
+<div style="display:flex;flex-direction:column;gap:9px"><div style="height:9px;background:#e0dcd3;border-radius:3px"></div><div style="height:9px;width:66%;background:#e0dcd3;border-radius:3px"></div></div>
+<div style="align-self:flex-start;display:flex;gap:8px;padding:6px 10px;border:1px solid #b8b3a8;border-radius:6px;background:#fff;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.08)"><span>💬 Comment</span><span>❝ Quote to chat</span></div></div></div>
+<div style="width:330px;display:flex;flex-direction:column;background:#faf9f6">
+<div style="display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid #e2ded4;font-size:12px"><span style="color:#8a857b;letter-spacing:.06em">TIMELINE</span><span style="margin-left:auto">Address all… ▾</span><span>››</span></div>
+<div style="display:flex;gap:5px;padding:9px 12px;border-bottom:1px solid #e2ded4;font-size:12px">
+<span style="padding:4px 9px;border:1px solid #2b2b2b;border-radius:12px;background:#2b2b2b;color:#fff">All</span>
+<span style="padding:4px 9px;border:1px solid #cfcabf;border-radius:12px">Chat</span>
+<span style="padding:4px 9px;border:1px solid #cfcabf;border-radius:12px">Cmt</span>
+<span style="padding:4px 9px;border:1px solid #cfcabf;border-radius:12px">Chg</span>
+<span style="padding:4px 9px;border:1px solid #cfcabf;border-radius:12px">Fnd</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;padding:12px;overflow:hidden">
+<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid #cfcabf;border-radius:5px;background:#f2efe8;font-size:12px;color:#6b665c"><span>▸ 6 changes decided</span><span style="margin-left:auto">2d</span></div>
+<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid #cfcabf;border-radius:5px;background:#f2efe8;font-size:12px;color:#6b665c"><span>▸ thread resolved</span><span style="margin-left:auto">1d</span></div>
+<div style="display:flex;flex-direction:column;gap:7px;padding:11px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="display:flex;font-size:12px;color:#8a857b"><span>You</span><span style="margin-left:auto">4m</span></div>
+<div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:60%;background:#e0dcd3;border-radius:3px"></div></div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:11px;border:1.5px solid #2b2b2b;border-radius:6px;background:#fff">
+<div style="display:flex;align-items:center;gap:6px;font-size:12px"><span>⬒ REVISION · Agent</span><span style="margin-left:auto;color:#8a857b">now</span></div>
+<div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:72%;background:#e0dcd3;border-radius:3px"></div>
+<div style="font-size:12px;color:#6b665c">14 changes · 2 sections</div>
+<div style="display:flex;flex-direction:column;gap:4px;font-size:12px;color:#4a463e"><span>▸ §1 ———— (9)</span><span>▸ §2 ———— (5)</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1.5px solid #2b2b2b;border-radius:4px">Review 1-by-1</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Accept all</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Reject all</span><span style="padding:5px 8px;border:1px solid #b8b3a8;border-radius:4px">⋯</span></div></div>
+<div style="align-self:center;padding:5px 11px;border:1px solid #4F46E5;border-radius:12px;font-size:12px;color:#4F46E5">1 new in Chat →</div></div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px;border-top:1px solid #e2ded4">
+<div style="display:flex;align-items:center;gap:8px;padding:6px 9px;border-left:3px solid #b8b3a8;background:#f2efe8;font-size:12px;color:#6b665c"><span>❝ quoted excerpt ————</span><span style="margin-left:auto">✕</span></div>
+<div style="display:flex;align-items:center;gap:8px"><span style="width:30px;height:30px;border:1px solid #b8b3a8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px">🎙</span><div style="flex:1;padding:8px 10px;border:1px solid #b8b3a8;border-radius:6px;font-size:13px;color:#a6a196">Message…</div><span style="padding:7px 10px;border:1px solid #b8b3a8;border-radius:6px;font-size:12px">Claude ▾</span></div></div></div></div>
+<div style="padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px Caveat;color:#c8553d">↖ Four regions, no more: rail · document · timeline · document-status line. Resolved threads and decided sets collapse to one line by default.</div>
+</div></div>
+
+<div class="dv-opt" id="1d"><div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>J1/J7 — Agent working, queued, and waiting on permission (timeline detail)</div>
+<div class="dv-card" style="width:760px">
+<div style="display:flex;gap:16px;padding:20px;background:#faf9f6">
+<div style="width:330px;display:flex;flex-direction:column;gap:10px">
+<div style="font-size:12px;color:#8a857b;letter-spacing:.06em">WORKING · you keep typing</div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:11px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="display:flex;align-items:center;gap:6px;font-size:13px"><span>◔ Agent working…</span><span style="margin-left:auto;color:#8a857b">0:42</span></div>
+<div style="display:flex;flex-direction:column;gap:5px;font-size:12px;color:#4a463e"><span>✓ read ————.md</span><span>✓ read skills/————/SKILL.md</span><span>◔ drafting revision…</span></div>
+<div style="align-self:flex-end;padding:5px 13px;border:1px solid #b8b3a8;border-radius:4px;font-size:12px">Stop</div></div>
+<div style="display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px dashed #b8b3a8;border-radius:6px;background:#fff;font-size:12px;color:#6b665c"><span>⏳ queued behind ————</span><span style="margin-left:auto;padding:3px 8px;border:1px solid #cfcabf;border-radius:4px">Cancel</span></div>
+<div style="font:14px Caveat;color:#c8553d">One run at a time per project. Queued cards are visible and cancellable; Stop never touches the queue.</div></div>
+<div style="width:330px;display:flex;flex-direction:column;gap:10px">
+<div style="font-size:12px;color:#8a857b;letter-spacing:.06em">NEEDS PERMISSION · inline, never modal</div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:11px;border:1.5px solid #c99b2e;border-radius:6px;background:#fffdf6">
+<div style="display:flex;align-items:center;gap:6px;font-size:13px"><span>◔ Agent working…</span><span style="margin-left:auto;color:#8a6f1e">⏸ waiting 4m</span></div>
+<div style="font-size:12px;color:#4a463e">✓ read workflows/————.md</div>
+<div style="font-size:12px;color:#8a6f1e">⚠ WANTS TO RUN:</div>
+<div style="padding:7px 9px;background:#f2efe8;border:1px solid #ddd8cd;border-radius:4px;font:12px ui-monospace,Menlo,monospace;color:#4a463e">python scripts/————.py drafts/…</div>
+<div style="font-size:12px;color:#6b665c">why: "————— ———— ——"</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1.5px solid #2b2b2b;border-radius:4px">Allow once</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Always allow ▾</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Deny — tell it why…</span></div></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:11px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:13px">■ STOPPED — partial delivery</div>
+<div style="font-size:12px;color:#4a463e">Completed: §1 changes (5), 2 replies</div>
+<div style="font-size:12px;color:#4a463e">Not started: §2, 1 comment</div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Review what landed</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Retry from here</span></div></div></div></div>
+<div style="padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px Caveat;color:#c8553d">↖ Ignored requests just wait — the agent never times out into acting.</div>
+</div></div>
+
+<div class="dv-opt" id="1e"><div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>J1 — Focused 1-by-1 triage in the document, and the same set as a list</div>
+<div class="dv-card" style="width:1280px">
+<div style="display:flex;height:520px">
+<div style="flex:1;display:flex;flex-direction:column;background:#fdfcf9;border-right:1px solid #cfcabf">
+<div style="display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid #e2ded4;font-size:12px">
+<span style="padding:5px 9px;border:1px solid #cfcabf;border-radius:4px">✓ Accept</span><span style="padding:5px 9px;border:1px solid #cfcabf;border-radius:4px">✗ Reject</span><span style="padding:5px 7px;border:1px solid #cfcabf;border-radius:4px">◀</span><span>3 / 14</span><span style="padding:5px 7px;border:1px solid #cfcabf;border-radius:4px">▶</span>
+<span style="margin-left:auto;padding:4px 10px;border:1px solid #4F46E5;border-radius:12px;color:#4F46E5">Focused pass · Esc to exit</span>
+<span style="padding:5px 9px;border:1px solid #cfcabf;border-radius:4px">Changes as a list ▸</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;padding:26px 56px">
+<div style="height:9px;width:90%;background:#eae6dd;border-radius:3px"></div>
+<div style="height:9px;width:70%;background:#eae6dd;border-radius:3px"></div>
+<div style="position:relative;display:flex;flex-direction:column;gap:10px;padding:12px;border:2px solid #4F46E5;border-radius:6px;background:#fff">
+<div style="font-size:14px;line-height:1.7;color:#4a463e"><span style="text-decoration:line-through;color:#b34a3f">the older phrasing</span> <span style="border-bottom:2px solid #3f8f4f;color:#2f6b3a">the newer phrasing</span> ———— ————</div></div>
+<div style="align-self:flex-start;width:400px;display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid #b8b3a8;border-radius:8px;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.1)">
+<div style="display:flex;font-size:12px;color:#8a857b"><span>⬒ Agent · substitution</span><span style="margin-left:auto">3 of 14</span></div>
+<div style="display:flex;flex-direction:column;gap:5px;font-size:13px"><span style="color:#b34a3f">− the older phrasing</span><span style="color:#2f6b3a">+ the newer phrasing</span></div>
+<div style="font-size:12px;color:#6b665c;padding-top:6px;border-top:1px dashed #ddd8cd">why: "———— ————— ———"</div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:6px 10px;border:1.5px solid #2b2b2b;border-radius:4px">Accept &amp; next ⌘↵</span><span style="padding:6px 10px;border:1px solid #b8b3a8;border-radius:4px">Reject &amp; next ⌘⌫</span></div></div>
+<div style="height:9px;width:84%;background:#eae6dd;border-radius:3px"></div>
+<div style="font:14px Caveat;color:#c8553d">Entering the pass is granted focus, not stolen focus. Exit anytime — partial triage is fine.</div></div></div>
+<div style="width:420px;display:flex;flex-direction:column;background:#faf9f6">
+<div style="padding:9px 12px;border-bottom:1px solid #e2ded4;font-size:12px;color:#8a857b;letter-spacing:.06em">CHANGES AS A LIST (P2) — triage outside the document flow</div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px">
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:4px 9px;border:1px solid #2b2b2b;border-radius:12px;background:#2b2b2b;color:#fff">Pending 14</span><span style="padding:4px 9px;border:1px solid #cfcabf;border-radius:12px">Insertions</span><span style="padding:4px 9px;border:1px solid #cfcabf;border-radius:12px">Deletions</span></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:10px;border:2px solid #4F46E5;border-radius:6px;background:#fff">
+<div style="display:flex;font-size:12px;color:#8a857b"><span>§1 ———— · Agent</span><span style="margin-left:auto">3/14</span></div>
+<div style="font-size:13px;color:#b34a3f;text-decoration:line-through">the older phrasing</div><div style="font-size:13px;color:#2f6b3a">the newer phrasing</div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:4px 9px;border:1px solid #b8b3a8;border-radius:4px">✓</span><span style="padding:4px 9px;border:1px solid #b8b3a8;border-radius:4px">✗</span><span style="padding:4px 9px;border:1px solid #b8b3a8;border-radius:4px">Go to →</span></div></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:12px;color:#8a857b">§1 ———— · Agent</div><div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:64%;background:#e0dcd3;border-radius:3px"></div></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:12px;color:#8a857b">§2 ———— · You</div><div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:50%;background:#e0dcd3;border-radius:3px"></div></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid #cfcabf;border-radius:6px;background:#f2efe8;color:#8a857b">
+<div style="font-size:12px">§2 ———— · accepted</div><div style="height:8px;background:#e6e2d8;border-radius:3px"></div></div></div></div></div>
+<div style="padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px Caveat;color:#c8553d">↖ Same set, two homes for triage — in the text (no mode required) or as a linear list. Both drive one decision model.</div>
+</div></div>
+
+<div class="dv-opt" id="1f"><div class="dv-olabel"><a class="dv-oid" href="#1f">1f</a>J1 — Change-set card states: self-decided, reach, decided-elsewhere, gated</div>
+<div class="dv-card" style="width:1000px">
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:20px;background:#faf9f6">
+<div style="display:flex;flex-direction:column;gap:7px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="display:flex;font-size:12px"><span>⬒ REVISION · Agent</span><span style="margin-left:auto;color:#8a857b">4m</span></div>
+<div style="height:8px;background:#e0dcd3;border-radius:3px"></div>
+<div style="font-size:12px;color:#6b665c">3 changes · 1 section</div>
+<div style="font-size:12px;color:#4a463e">▸ §1 ———— (3)</div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1.5px solid #2b2b2b;border-radius:4px">Review 1-by-1</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Accept all</span></div>
+<div style="font:14px Caveat;color:#c8553d">Self-decided — counts are the whole story</div></div>
+<div style="display:flex;flex-direction:column;gap:7px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="display:flex;font-size:12px"><span>⬒ REVISION · Agent</span><span style="margin-left:auto;color:#8a857b">4m</span></div>
+<div style="height:8px;background:#e0dcd3;border-radius:3px"></div>
+<div style="font-size:12px;color:#6b665c">3 changes · 1 section</div>
+<div style="font-size:12px;color:#6b665c;padding:6px 8px;background:#f2efe8;border-radius:4px">↳ also decided 2 linked changes outside this set</div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Review 1-by-1</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Accept all</span></div>
+<div style="font:14px Caveat;color:#c8553d">Reach note: an outcome, not a warning. No link, no control. Undo withdraws it.</div></div>
+<div style="display:flex;flex-direction:column;gap:7px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="display:flex;font-size:12px"><span>⬒ REVISION · Agent</span><span style="margin-left:auto;color:#8a857b">12m</span></div>
+<div style="height:8px;background:#e0dcd3;border-radius:3px"></div>
+<div style="font-size:12px;color:#6b665c">1 change · 1 section</div>
+<div style="font-size:12px;color:#6b665c;padding:6px 8px;background:#f2efe8;border-radius:4px">↳ 2 changes decided elsewhere</div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Review 1-by-1</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Accept all</span></div>
+<div style="font:14px Caveat;color:#c8553d">Persistent status line, not an event</div></div>
+<div style="display:flex;flex-direction:column;gap:7px;padding:12px;border:1px dashed #b8b3a8;border-radius:6px;background:#f6f4ef;color:#8a857b">
+<div style="display:flex;font-size:12px"><span>⬒ REVISION · Agent</span><span style="margin-left:auto">1h</span></div>
+<div style="height:8px;background:#e6e2d8;border-radius:3px"></div>
+<div style="font-size:12px;padding:6px 8px;border:1px solid #ddd8cd;border-radius:4px;background:#fff">⚠ This card can't match the document as it stands now. ———— [Reload the set]</div>
+<div style="font:14px Caveat;color:#c8553d">Gated: no counts, no notes — it neither decides nor absorbs a decision</div></div></div>
+<div style="padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px Caveat;color:#c8553d">↖ A card never asserts a count it cannot verify. Collapsed, a fully-decided set is one line counting only its own changes.</div>
+</div></div>
+
+<div class="dv-opt" id="1g"><div class="dv-olabel"><a class="dv-oid" href="#1g">1g</a>J3 — Workflow run: live stage card, stage report, findings in the margin</div>
+<div class="dv-card" style="width:1280px">
+<div style="display:flex;height:520px">
+<div style="flex:1;display:flex;flex-direction:column;padding:24px 40px;gap:14px;background:#fdfcf9;border-right:1px solid #cfcabf">
+<div style="height:18px;width:52%;background:#d6d1c6;border-radius:3px"></div>
+<div style="display:flex;gap:12px"><div style="width:4px;background:#b34a3f;border-radius:2px"></div><div style="flex:1;display:flex;flex-direction:column;gap:9px"><div style="height:9px;background:#e0dcd3;border-radius:3px"></div><div style="height:9px;width:88%;background:#e0dcd3;border-radius:3px;box-shadow:inset 0 -3px 0 #f0cfc9"></div></div><div style="align-self:flex-start;padding:2px 7px;border:1px solid #b34a3f;border-radius:10px;font-size:11px;color:#b34a3f">● H</div></div>
+<div style="display:flex;gap:12px"><div style="width:4px;background:#c99b2e;border-radius:2px"></div><div style="flex:1;display:flex;flex-direction:column;gap:9px"><div style="height:9px;background:#e0dcd3;border-radius:3px"></div><div style="height:9px;width:72%;background:#e0dcd3;border-radius:3px"></div></div><div style="align-self:flex-start;padding:2px 7px;border:1px solid #c99b2e;border-radius:10px;font-size:11px;color:#8a6f1e">● M</div></div>
+<div style="display:flex;gap:12px"><div style="width:4px;background:#b8b3a8;border-radius:2px"></div><div style="flex:1;display:flex;flex-direction:column;gap:9px"><div style="height:9px;background:#e0dcd3;border-radius:3px"></div><div style="height:9px;width:60%;background:#e0dcd3;border-radius:3px"></div></div><div style="align-self:flex-start;padding:2px 7px;border:1px solid #b8b3a8;border-radius:10px;font-size:11px;color:#6b665c">● L</div></div>
+<div style="font:15px Caveat;color:#c8553d">Margin marks ordered by position; the report card orders by severity.</div></div>
+<div style="width:400px;display:flex;flex-direction:column;gap:12px;padding:14px;background:#faf9f6">
+<div style="display:flex;gap:5px;font-size:12px"><span style="padding:4px 9px;border:1px solid #cfcabf;border-radius:12px">All</span><span style="padding:4px 9px;border:1px solid #2b2b2b;background:#2b2b2b;color:#fff;border-radius:12px">Findings</span><span style="padding:4px 9px;border:1px solid #cfcabf;border-radius:12px">by severity ▾</span></div>
+<div style="display:flex;flex-direction:column;gap:7px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:13px">⬒ WORKFLOW · ————-review</div>
+<div style="font-size:12px;color:#6b665c">Stage 1/3 · ————-accuracy</div>
+<div style="display:flex;font-size:12px"><span>◔ checking ————…</span><span style="margin-left:auto;color:#8a857b">1:12</span></div>
+<div style="font-size:12px;color:#4a463e">Findings so far: 3 &nbsp; ● 1 H &nbsp; ● 2 M</div>
+<div style="align-self:flex-end;padding:5px 13px;border:1px solid #b8b3a8;border-radius:4px;font-size:12px">Stop</div></div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px;border:1.5px solid #2b2b2b;border-radius:6px;background:#fff">
+<div style="font-size:13px">■ STAGE 1 · ————-accuracy DONE</div>
+<div style="font-size:12px;color:#6b665c">Verdict: Needs minor revision</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;font-size:11px"><span style="padding:2px 7px;border:1px solid #cfcabf;border-radius:10px">● 0 C</span><span style="padding:2px 7px;border:1px solid #b34a3f;color:#b34a3f;border-radius:10px">● 1 H</span><span style="padding:2px 7px;border:1px solid #c99b2e;color:#8a6f1e;border-radius:10px">● 2 M</span><span style="padding:2px 7px;border:1px solid #b8b3a8;color:#6b665c;border-radius:10px">● 1 L</span></div>
+<div style="display:flex;flex-direction:column;gap:5px;font-size:12px;color:#4a463e"><span>▸ H: ———— ————— (§2)</span><span>▸ M: ———— ———— (§1)</span><span>▸ M: ———— (§3)</span></div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1.5px solid #2b2b2b;border-radius:4px">Address findings</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Continue → 2/3</span></div>
+<div style="align-self:flex-start;padding:2px 8px;border:1px solid #b34a3f;border-radius:10px;font-size:11px;color:#b34a3f">1 Critical open</div></div>
+<div style="font:14px Caveat;color:#c8553d">Gate is conversational — the card carries the obvious buttons, the app enforces nothing.</div></div></div>
+<div style="padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px Caveat;color:#c8553d">↖ Every finding is an ordinary anchored comment — addressing one is exactly J4.</div>
+</div></div>
+
+<div class="dv-opt" id="1h"><div class="dv-olabel"><a class="dv-oid" href="#1h">1h</a>J4 — Address a comment with AI: single thread lifecycle, then batch</div>
+<div class="dv-card" style="width:1080px">
+<div style="display:flex;gap:14px;padding:20px;background:#faf9f6">
+<div style="width:320px;display:flex;flex-direction:column;gap:10px">
+<div style="font-size:12px;color:#8a857b;letter-spacing:.06em">OPEN</div>
+<div style="display:flex;flex-direction:column;gap:7px;padding:12px;border-left:3px solid #b34a3f;border-top:1px solid #cfcabf;border-right:1px solid #cfcabf;border-bottom:1px solid #cfcabf;border-radius:0 6px 6px 0;background:#fff">
+<div style="display:flex;align-items:center;gap:6px;font-size:12px"><span style="padding:2px 7px;border:1px solid #b34a3f;border-radius:10px;color:#b34a3f">● H</span><span>————-accuracy</span></div>
+<div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:72%;background:#e0dcd3;border-radius:3px"></div>
+<div style="font-size:12px;color:#6b665c">→ Go to passage · Rec: ———— ————</div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1.5px solid #2b2b2b;border-radius:4px">Address with AI</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Reply</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">✓</span></div></div>
+<div style="display:flex;flex-direction:column;gap:7px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="display:flex;align-items:center;gap:6px;font-size:12px"><span style="padding:2px 7px;border:1px solid #c99b2e;border-radius:10px;color:#8a6f1e">orphaned</span><span style="color:#8a857b">original text changed</span></div>
+<div style="padding:7px 9px;background:#f2efe8;border-radius:4px;font-size:12px;color:#6b665c">❝ ———— ————— (quote preserved)</div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Re-anchor</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Reply</span></div></div></div>
+<div style="width:320px;display:flex;flex-direction:column;gap:10px">
+<div style="font-size:12px;color:#8a857b;letter-spacing:.06em">AFTER DELIVERY</div>
+<div style="display:flex;flex-direction:column;gap:7px;padding:12px;border-left:3px solid #4F46E5;border-top:1px solid #cfcabf;border-right:1px solid #cfcabf;border-bottom:1px solid #cfcabf;border-radius:0 6px 6px 0;background:#fff">
+<div style="font-size:12px">◐ ADDRESSED — pending review</div>
+<div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:80%;background:#e0dcd3;border-radius:3px"></div>
+<div style="font-size:12px;color:#6b665c">↳ 2 linked changes &nbsp;<span style="text-decoration:underline">Go to →</span></div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1.5px solid #2b2b2b;border-radius:4px">Accept both</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Triage in text</span></div></div>
+<div style="display:flex;flex-direction:column;gap:7px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:12px">⚑ defended — no change proposed</div>
+<div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:60%;background:#e0dcd3;border-radius:3px"></div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Try again — add guidance…</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">✓</span></div></div>
+<div style="display:flex;flex-direction:column;gap:7px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:12px">✎ SUGGESTION · reviewer-name</div>
+<div style="display:flex;flex-direction:column;gap:4px;font-size:12px"><span style="color:#b34a3f;text-decoration:line-through">current wording</span><span style="color:#2f6b3a">suggested wording</span></div>
+<div style="align-self:flex-start;padding:5px 11px;border:1.5px solid #2b2b2b;border-radius:4px;font-size:12px">Apply</div></div></div>
+<div style="width:340px;display:flex;flex-direction:column;gap:10px">
+<div style="font-size:12px;color:#8a857b;letter-spacing:.06em">BATCH — from the timeline header</div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:11px;border:1px solid #b8b3a8;border-radius:6px;background:#fff">
+<div style="font-size:12px">Address all… ▾</div>
+<div style="display:flex;flex-direction:column;gap:5px;font-size:12px;color:#4a463e"><span>◉ All open comments (6)</span><span>○ Severity ≥ ———— ▾</span><span>○ Source ———— ▾</span><span>○ This review pass</span></div></div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px;border:1.5px solid #2b2b2b;border-radius:6px;background:#fff">
+<div style="font-size:13px">⬒ ADDRESSED 6 COMMENTS · Agent</div>
+<div style="font-size:12px;color:#6b665c">9 changes · 5 replies · 1 defense</div>
+<div style="display:flex;flex-direction:column;gap:5px;font-size:12px;color:#4a463e"><span>▸ ● H ———— (2 chg)</span><span>▸ ● M ———— (1)</span><span>▸ ● M ———— (3)</span><span>▸ ⚑ defended: "————"</span></div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1.5px solid #2b2b2b;border-radius:4px">Review 1-by-1</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Accept all</span></div></div>
+<div style="font:14px Caveat;color:#c8553d">Grouped by comment, not by section. Defenses listed distinctly so the accept sweep can't bury them.</div></div></div>
+<div style="padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px Caveat;color:#c8553d">↖ Accept resolves the thread; reject reopens it with the outcome recorded.</div>
+</div></div>
+
+<div class="dv-opt" id="1i"><div class="dv-olabel"><a class="dv-oid" href="#1i">1i</a>J5 — Start review sheet, with pre-flight handled inline</div>
+<div class="dv-card" style="width:640px">
+<div style="padding:22px;background:#faf9f6">
+<div style="display:flex;flex-direction:column;gap:16px;padding:22px;border:1px solid #b8b3a8;border-radius:10px;background:#fff;box-shadow:0 8px 24px rgba(0,0,0,.08)">
+<div style="font-size:19px">Start review</div>
+<div style="display:flex;flex-direction:column;gap:7px"><div style="font-size:12px;color:#8a857b;letter-spacing:.06em">DOCUMENTS</div><div style="font-size:14px">☑ document-one.md</div><div style="align-self:flex-start;padding:5px 11px;border:1px dashed #b8b3a8;border-radius:5px;font-size:13px;color:#6b665c">+ add documents…</div></div>
+<div style="display:flex;flex-direction:column;gap:7px"><div style="font-size:12px;color:#8a857b;letter-spacing:.06em">NAME</div><div style="padding:9px 11px;border:1px solid #b8b3a8;border-radius:5px;font-size:14px;color:#a6a196">————— ————</div></div>
+<div style="display:flex;flex-direction:column;gap:7px"><div style="font-size:12px;color:#8a857b;letter-spacing:.06em">REVIEWERS</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:7px;border:1px solid #b8b3a8;border-radius:5px">
+<span style="padding:4px 9px;border:1px solid #cfcabf;border-radius:12px;font-size:13px">@reviewer-one</span>
+<span style="display:flex;align-items:center;gap:6px;padding:4px 9px;border:1px solid #cfcabf;border-radius:12px;font-size:13px">@reviewer-two <span style="font-size:11px;color:#8a6f1e;padding:1px 6px;border:1px solid #c99b2e;border-radius:8px">will send invite</span></span>
+<span style="font-size:13px;color:#a6a196">add a GitHub username…</span></div></div>
+<div style="display:flex;flex-direction:column;gap:7px"><div style="font-size:12px;color:#8a857b;letter-spacing:.06em">NOTE TO REVIEWERS (OPTIONAL)</div><div style="height:52px;padding:9px 11px;border:1px solid #b8b3a8;border-radius:5px;font-size:14px;color:#a6a196">———— ————— ————</div></div>
+<div style="display:flex;align-items:center;gap:10px;padding:10px;background:#fbf4e6;border:1px solid #e6dcc4;border-radius:6px;font-size:13px;color:#6b665c"><span>This folder isn't versioned yet — set that up?</span><span style="margin-left:auto;padding:5px 11px;border:1px solid #b8b3a8;border-radius:5px;background:#fff">Set up</span></div>
+<div style="display:flex;gap:8px;justify-content:flex-end"><span style="padding:9px 16px;border:1px solid #b8b3a8;border-radius:5px;font-size:14px">Cancel</span><span style="padding:9px 16px;border:1.5px solid #2b2b2b;border-radius:5px;font-size:14px">Start review</span></div></div>
+</div>
+<div style="padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px Caveat;color:#c8553d">↖ No branch, no commit, no push. Git is invisible — versioning lives behind Share.</div>
+</div></div>
+
+<div class="dv-opt" id="1j"><div class="dv-olabel"><a class="dv-oid" href="#1j">1j</a>J5 — Review live: the bar, the card, sync states, and the completion gate</div>
+<div class="dv-card" style="width:800px">
+<div style="display:flex;flex-direction:column;gap:14px;padding:20px;background:#faf9f6">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:12px;color:#8a857b;letter-spacing:.06em">REVIEW BAR — above the editor, only while live</div>
+<div style="display:flex;align-items:center;gap:12px;padding:9px 14px;border:1px solid #cfcabf;border-radius:6px;background:#fff;font-size:13px">
+<span>⇄ In review "————— ————" ▾</span><span style="color:#8a857b">👤 👤</span><span style="color:#6b665c">3 open comments</span><span style="margin-left:auto;color:#2f6b3a">synced ✓</span></div>
+<div style="display:flex;gap:10px;font-size:12px;color:#6b665c"><span style="padding:4px 9px;border:1px solid #cfcabf;border-radius:12px;background:#fff">⇡ syncing</span><span style="padding:4px 9px;border:1px solid #c99b2e;border-radius:12px;background:#fff;color:#8a6f1e">⚠ offline — will sync when connected</span><span style="font:14px Caveat;color:#c8553d">the only machinery you ever see · click to force refresh</span></div></div>
+<div style="display:flex;gap:14px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:13px">⬒ REVIEW LIVE · started 2m ago</div>
+<div style="font-size:12px;color:#6b665c">reviewer-one invited · reviewer-two viewing</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;font-size:12px"><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">View comments</span><span style="padding:5px 9px;border:1.5px solid #2b2b2b;border-radius:4px">Complete…</span><span style="padding:5px 9px;border:1px solid #b8b3a8;border-radius:4px">Cancel review</span><span style="padding:5px 9px;border:1px dashed #b8b3a8;border-radius:4px;color:#6b665c">GitHub ↗</span></div>
+<div style="font-size:12px;color:#8a857b">invited 3d ago — resend?</div></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;padding:12px;border:1.5px solid #c99b2e;border-radius:6px;background:#fffdf6">
+<div style="font-size:13px">Complete review — the gate</div>
+<div style="font-size:12px;color:#b34a3f">✗ Pending tracked changes block:</div>
+<div style="display:flex;flex-direction:column;gap:4px;font-size:12px;color:#4a463e;padding-left:10px"><span>document-one.md: 4</span><span>document-two.md: 1</span></div>
+<div style="align-self:flex-start;padding:5px 11px;border:1.5px solid #2b2b2b;border-radius:4px;font-size:12px">Review them now</div>
+<div style="font-size:12px;color:#8a6f1e">⚠ 2 comments still open — won't block</div></div></div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:13px">End this review without merging?</div>
+<div style="font-size:12px;color:#6b665c">Reviewers keep read access until you remove them. Keep the review's comment history for later?</div>
+<div style="display:flex;gap:6px;font-size:12px"><span style="padding:5px 11px;border:1.5px solid #2b2b2b;border-radius:4px">Keep</span><span style="padding:5px 11px;border:1px solid #b8b3a8;border-radius:4px">Discard</span><span style="padding:5px 11px;border:1px solid #b8b3a8;border-radius:4px">Cancel</span></div></div></div>
+<div style="padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px Caveat;color:#c8553d">↖ Success = one timeline card and the bar disappears. No other fanfare.</div>
+</div></div>
+
+<div class="dv-opt" id="1k"><div class="dv-olabel"><a class="dv-oid" href="#1k">1k</a>J6 — Reviewer mode: deliberately less app (Windows)</div>
+<div class="dv-card" style="width:1160px">
+<div style="display:flex;align-items:stretch;background:#e8e5de;border-bottom:1px solid #cfcabf">
+<div style="flex:1;padding:9px 12px;font-size:13px;color:#6b665c">Emend — review</div>
+<div style="display:flex;font-size:12px;color:#6b665c"><span style="width:42px;display:flex;align-items:center;justify-content:center">—</span><span style="width:42px;display:flex;align-items:center;justify-content:center">▢</span><span style="width:42px;display:flex;align-items:center;justify-content:center">✕</span></div></div>
+<div style="display:flex;height:520px">
+<div style="flex:1;display:flex;flex-direction:column;background:#fdfcf9;border-right:1px solid #cfcabf">
+<div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid #e2ded4;font-size:13px">
+<span style="padding:5px 10px;border:1px solid #b8b3a8;border-radius:5px">————— ———— ▾ &nbsp;Documents: 3</span>
+<span style="padding:2px 7px;border:1px solid #4F46E5;border-radius:10px;font-size:11px;color:#4F46E5">2 unread</span>
+<span style="color:#8a857b">from ————</span><span style="margin-left:auto;color:#8a857b">document updated · 2m ago</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;padding:26px 56px">
+<div style="height:18px;width:56%;background:#d6d1c6;border-radius:3px"></div>
+<div style="height:9px;background:#e0dcd3;border-radius:3px"></div>
+<div style="font-size:14px;line-height:1.7;color:#4a463e"><span style="text-decoration:line-through;color:#b34a3f">old wording</span> <span style="border-bottom:2px solid #3f8f4f;color:#2f6b3a">new wording</span> ———— <span style="font-size:11px;color:#8a857b">(CJ / Agent)</span></div>
+<div style="font:14px Caveat;color:#c8553d">redline visible and attributed — but not decidable here</div>
+<div style="display:flex;gap:12px"><div style="width:3px;background:#4F46E5;border-radius:2px"></div><div style="flex:1;display:flex;flex-direction:column;gap:9px"><div style="height:9px;background:#e0dcd3;border-radius:3px"></div><div style="height:9px;width:70%;background:#e0dcd3;border-radius:3px"></div></div></div>
+<div style="align-self:flex-start;display:flex;gap:8px;padding:6px 10px;border:1px solid #b8b3a8;border-radius:6px;background:#fff;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.08)"><span>💬 Comment</span><span>✎ Suggest</span></div></div></div>
+<div style="width:340px;display:flex;flex-direction:column;background:#faf9f6">
+<div style="padding:10px 12px;border-bottom:1px solid #e2ded4;font-size:12px;color:#8a857b;letter-spacing:.06em">REVIEW</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;padding:12px">
+<div style="display:flex;flex-direction:column;gap:6px;padding:11px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:12px;color:#8a857b">CJ (note)</div><div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:56%;background:#e0dcd3;border-radius:3px"></div></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:11px;border-left:3px solid #4F46E5;border-top:1px solid #cfcabf;border-right:1px solid #cfcabf;border-bottom:1px solid #cfcabf;border-radius:0 6px 6px 0;background:#fff">
+<div style="font-size:12px;color:#8a857b">reviewer-two</div><div style="height:8px;background:#e0dcd3;border-radius:3px"></div><div style="height:8px;width:74%;background:#e0dcd3;border-radius:3px"></div>
+<div style="font-size:12px;color:#6b665c">↳ Reply</div></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:11px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:12px;color:#8a857b">you · ✎ suggested — awaiting author</div>
+<div style="display:flex;flex-direction:column;gap:4px;font-size:12px"><span style="color:#b34a3f;text-decoration:line-through">old wording</span><span style="color:#2f6b3a">your suggested wording</span></div></div>
+<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid #c99b2e;border-radius:6px;background:#fffdf6;font-size:12px;color:#8a6f1e">⚠ offline — comments will sync</div>
+<div style="margin-top:auto;font:14px Caveat;color:#c8553d">No file tree. No agent. No accept/reject. No "finish review" ceremony.</div></div>
+<div style="padding:12px;border-top:1px solid #e2ded4"><div style="padding:9px 11px;border:1px solid #b8b3a8;border-radius:6px;font-size:13px;color:#a6a196">Reply…</div></div></div></div>
+<div style="padding:10px 16px;border-top:1px solid #cfcabf;background:#f4f2ec;font:15px Caveat;color:#c8553d">↖ The doc-set dropdown exposes only the review set — never the surrounding project.</div>
+</div></div>
+
+<div class="dv-opt" id="1l"><div class="dv-olabel"><a class="dv-oid" href="#1l">1l</a>J8 Screen 2 — project opened: grounding card, then restored tabs</div>
+<div class="dv-card" style="width:640px">
+<div style="display:flex;flex-direction:column;gap:12px;padding:20px;background:#faf9f6">
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:13px">⬒ PROJECT · ————-folder</div>
+<div style="font-size:12px;color:#4a463e">Found 9 skills, 5 workflows, claude.md</div>
+<div style="align-self:flex-start;padding:5px 11px;border:1px solid #b8b3a8;border-radius:4px;font-size:12px">List them</div></div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:13px">⬒ DRAFT CREATED · Agent</div>
+<div style="font-size:12px;color:#4a463e">drafts/————.md</div>
+<div style="font-size:12px;color:#6b665c">———— · 1,480 words · via skill: ————</div>
+<div style="align-self:flex-start;padding:4px 9px;border:1px solid #cfcabf;border-radius:10px;font-size:11px;color:#6b665c">Opened in editor</div></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:12px;border:1px solid #cfcabf;border-radius:6px;background:#fff">
+<div style="font-size:12px;color:#6b665c">Untitled-2 saved as drafts/————.md — 2 comments moved with it</div></div>
+<div style="font:15px Caveat;color:#c8553d">The birth card is the transition: rail reveals the new active row, chat slides right, standard authoring layout takes over.</div></div>
+</div></div>
+
+
+<div class="dv-opt" id="1n"><div class="dv-olabel"><a class="dv-oid" href="#1n">1n</a>FR-ED-7 changed on disk — the whole moment, frame by frame (#1641)</div>
+<div class="dv-card" style="width:1400px">
+<div style="display:flex;flex-wrap:wrap;gap:26px;padding:20px;background:#faf9f6">
+<div style="display:flex;flex-direction:column;gap:7px;width:330px">
+<div style="font-size:11.5px;color:#4a463e"><b>1</b> &nbsp;Something else wrote to the file</div>
+<div style="border:1px solid #cfcabf;border-radius:6px;overflow:hidden;background:#fff"><div style="display:flex;gap:4px;padding:7px 10px;border-bottom:1px solid #cfcabf;background:#f4f2ec;font-size:11.5px;color:#4a463e"><span style="display:flex;align-items:center;gap:6px;padding:4px 9px;border:1px solid #cfcabf;border-radius:4px;background:#fff"><span style="width:5px;height:5px;border-radius:50%;background:#4a463e"></span>————-brief.md</span><span style="padding:4px 9px;color:#8a857b">————-notes.md</span></div><div style="display:flex;align-items:flex-start;gap:8px;padding:8px 11px;border:1px solid #c99b2e;border-radius:6px;background:#fffdf6;font-size:12px;color:#8a6f1e">
+<span>⚠</span><div style="display:flex;flex-direction:column;gap:3px;flex:1"><div>This file changed outside the editor</div><div style="color:#8a857b">Writes paused · your unsaved edits are still here</div></div>
+<div style="display:flex;gap:5px;flex:none"><span style="padding:3px 8px;border:1px solid #cfcabf;border-radius:4px;background:#fff;color:#4a463e;font-size:11px">Reload</span><span style="padding:3px 8px;border:1px solid #4a463e;border-radius:4px;background:#4a463e;color:#fff;font-size:11px">Keep mine</span><span style="padding:3px 8px;border:1px solid #cfcabf;border-radius:4px;background:#fff;color:#4a463e;font-size:11px">Compare</span></div></div><div style="display:flex;flex-direction:column;gap:6px;padding:12px;background:#fff">
+<div style="height:9px;width:58%;background:#d8d4ca;border-radius:3px"></div>
+<div style="height:7px;background:#e4e0d7;border-radius:3px"></div>
+<div style="height:7px;width:88%;background:#e4e0d7;border-radius:3px"></div>
+<div style="height:7px;width:71%;background:#e4e0d7;border-radius:3px"></div></div><div style="padding:6px 11px;border-top:1px solid #cfcabf;background:#f4f2ec;font-size:11px;color:#6b665c">Not saved — writes paused</div></div>
+<div style="font:14px Caveat;color:#c8553d">A bar, not a dialog. The caret does not move. Keep mine is highlighted because there is something of yours to lose.</div></div>
+<div style="display:flex;flex-direction:column;gap:7px;width:330px">
+<div style="font-size:11.5px;color:#4a463e"><b>2</b> &nbsp;The author presses Save anyway</div>
+<div style="border:1px solid #cfcabf;border-radius:6px;overflow:hidden;background:#fff"><div style="display:flex;gap:4px;padding:7px 10px;border-bottom:1px solid #cfcabf;background:#f4f2ec;font-size:11.5px;color:#4a463e"><span style="display:flex;align-items:center;gap:6px;padding:4px 9px;border:1px solid #cfcabf;border-radius:4px;background:#fff"><span style="width:5px;height:5px;border-radius:50%;background:#4a463e"></span>————-brief.md</span><span style="padding:4px 9px;color:#8a857b">————-notes.md</span></div><div style="display:flex;align-items:flex-start;gap:8px;padding:8px 11px;border:1px solid #c99b2e;border-radius:6px;background:#fffdf6;font-size:12px;color:#8a6f1e">
+<span>⚠</span><div style="display:flex;flex-direction:column;gap:3px;flex:1"><div><b>Not saved — this file changed outside the editor</b></div><div style="color:#8a857b">Emend didn’t write over it. Choose Reload, Keep mine, or Compare</div></div>
+<div style="display:flex;gap:5px;flex:none"><span style="padding:3px 8px;border:1px solid #cfcabf;border-radius:4px;background:#fff;color:#4a463e;font-size:11px">Reload</span><span style="padding:3px 8px;border:1px solid #4a463e;border-radius:4px;background:#4a463e;color:#fff;font-size:11px">Keep mine</span><span style="padding:3px 8px;border:1px solid #cfcabf;border-radius:4px;background:#fff;color:#4a463e;font-size:11px">Compare</span></div></div><div style="display:flex;flex-direction:column;gap:6px;padding:12px;background:#fff">
+<div style="height:9px;width:58%;background:#d8d4ca;border-radius:3px"></div>
+<div style="height:7px;background:#e4e0d7;border-radius:3px"></div>
+<div style="height:7px;width:88%;background:#e4e0d7;border-radius:3px"></div>
+<div style="height:7px;width:71%;background:#e4e0d7;border-radius:3px"></div></div><div style="padding:6px 11px;border-top:1px solid #cfcabf;background:#f4f2ec;font-size:11px;color:#6b665c">Not saved — writes paused</div></div>
+<div style="font:14px Caveat;color:#c8553d">Save is not a silent Keep mine. No write happens, the reason is announced, and focus lands on Keep mine.</div></div>
+<div style="display:flex;flex-direction:column;gap:7px;width:330px">
+<div style="font-size:11.5px;color:#4a463e"><b>3</b> &nbsp;Reload — and the honest gap after it</div>
+<div style="border:1px solid #cfcabf;border-radius:6px;overflow:hidden;background:#fff"><div style="display:flex;gap:4px;padding:7px 10px;border-bottom:1px solid #cfcabf;background:#f4f2ec;font-size:11.5px;color:#4a463e"><span style="display:flex;align-items:center;gap:6px;padding:4px 9px;border:1px solid #cfcabf;border-radius:4px;background:#fff"><span style="width:5px;height:5px;border-radius:50%;background:#4a463e"></span>————-brief.md</span><span style="padding:4px 9px;color:#8a857b">————-notes.md</span></div><div style="display:flex;align-items:flex-start;gap:8px;padding:8px 11px;border:1px solid #c99b2e;border-radius:6px;background:#fffdf6;font-size:12px;color:#8a6f1e">
+<span>⚠</span><div style="display:flex;flex-direction:column;gap:3px;flex:1"><div>Bringing in the version from disk…</div><div style="color:#8a857b">Reloading… · actions inert</div></div>
+<div style="display:flex;gap:5px;flex:none"><span style="padding:3px 8px;border:1px solid #cfcabf;border-radius:4px;background:#fff;color:#4a463e;font-size:11px">Reload</span><span style="padding:3px 8px;border:1px solid #cfcabf;border-radius:4px;background:#fff;color:#4a463e;font-size:11px">Keep mine</span><span style="padding:3px 8px;border:1px solid #cfcabf;border-radius:4px;background:#fff;color:#4a463e;font-size:11px">Compare</span></div></div><div style="display:flex;flex-direction:column;gap:6px;padding:12px;background:#fff">
+<div style="height:9px;width:58%;background:#d8d4ca;border-radius:3px"></div>
+<div style="height:7px;background:#e4e0d7;border-radius:3px"></div>
+<div style="height:7px;width:88%;background:#e4e0d7;border-radius:3px"></div>
+<div style="height:7px;width:71%;background:#e4e0d7;border-radius:3px"></div></div><div style="padding:6px 11px;border-top:1px solid #cfcabf;background:#f4f2ec;font-size:11px;color:#6b665c">Reloaded from disk · not saved yet</div></div>
+<div style="font:14px Caveat;color:#c8553d">The buffer is the disk version, but the write has not landed yet — so the tab keeps the ordinary dirty dot. No new badge for “nearly saved”.</div></div>
+<div style="display:flex;flex-direction:column;gap:7px;width:330px">
+<div style="font-size:11.5px;color:#4a463e"><b>4</b> &nbsp;Compare — two versions, side by side</div>
+<div style="border:1px solid #cfcabf;border-radius:6px;overflow:hidden;background:#fff"><div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-bottom:1px solid #cfcabf;background:#f4f2ec;font-size:11.5px;color:#6b665c"><span>Comparing ————-brief.md</span><span style="padding:3px 8px;border:1px solid #cfcabf;border-radius:4px;background:#fff">Close</span></div>
+<div style="display:flex"><div style="flex:1;display:flex;flex-direction:column;gap:5px;padding:10px;border-right:1px solid #cfcabf"><div style="font-size:11px;color:#8a857b">Your version</div><div style="height:6px;background:#e4e0d7;border-radius:3px"></div><div style="height:6px;width:80%;background:#e4e0d7;border-radius:3px"></div><div style="height:6px;width:64%;background:#c8d3c9;border-radius:3px"></div></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:5px;padding:10px"><div style="font-size:11px;color:#8a857b">On disk</div><div style="height:6px;background:#e4e0d7;border-radius:3px"></div><div style="height:6px;width:80%;background:#e4e0d7;border-radius:3px"></div><div style="height:6px;width:52%;background:#e0cfcb;border-radius:3px"></div></div></div></div>
+<div style="font:14px Caveat;color:#c8553d">Read-only, two panes, no merge editor. Closing comes back to the bar with the choice still open — Compare decides nothing.</div></div>
+<div style="display:flex;flex-direction:column;gap:7px;width:330px">
+<div style="font-size:11.5px;color:#4a463e"><b>5</b> &nbsp;Reload could not finish saving</div>
+<div style="border:1px solid #cfcabf;border-radius:6px;overflow:hidden;background:#fff"><div style="display:flex;gap:4px;padding:7px 10px;border-bottom:1px solid #cfcabf;background:#f4f2ec;font-size:11.5px;color:#4a463e"><span style="display:flex;align-items:center;gap:6px;padding:4px 9px;border:1px solid #cfcabf;border-radius:4px;background:#fff"><span style="width:5px;height:5px;border-radius:50%;background:#4a463e"></span>————-brief.md</span><span style="padding:4px 9px;color:#8a857b">————-notes.md</span></div><div style="display:flex;align-items:flex-start;gap:8px;padding:8px 11px;border:1px solid #c99b2e;border-radius:6px;background:#fffdf6;font-size:12px;color:#8a6f1e">
+<span>⚠</span><div style="display:flex;flex-direction:column;gap:3px;flex:1"><div>The version from disk is here, but it isn’t saved</div><div style="color:#8a857b">Couldn’t save the reloaded file · nothing was lost</div></div>
+<div style="display:flex;gap:5px;flex:none"><span style="padding:3px 8px;border:1px solid #4a463e;border-radius:4px;background:#4a463e;color:#fff;font-size:11px">Try again</span><span style="padding:3px 8px;border:1px solid #cfcabf;border-radius:4px;background:#fff;color:#4a463e;font-size:11px">Save As…</span><span style="padding:3px 8px;border:1px solid #cfcabf;border-radius:4px;background:#fff;color:#4a463e;font-size:11px">Compare</span></div></div><div style="display:flex;flex-direction:column;gap:6px;padding:12px;background:#fff">
+<div style="height:9px;width:58%;background:#d8d4ca;border-radius:3px"></div>
+<div style="height:7px;background:#e4e0d7;border-radius:3px"></div>
+<div style="height:7px;width:88%;background:#e4e0d7;border-radius:3px"></div>
+<div style="height:7px;width:71%;background:#e4e0d7;border-radius:3px"></div></div><div style="padding:6px 11px;border-top:1px solid #cfcabf;background:#f4f2ec;font-size:11px;color:#6b665c">Reloaded from disk · not saved yet</div></div>
+<div style="font:14px Caveat;color:#c8553d">The heading changes, because the old text really is gone. The failure reason is shown, not swallowed. No Keep mine here — “mine” is now the disk version; Save As… is the way out.</div></div>
+<div style="width:330px;display:flex;flex-direction:column;gap:8px;font-size:12px;color:#4a463e">
+<div style="font:15px Caveat;color:#c8553d">Not the same moment as Missing-on-disk →</div>
+<div style="line-height:1.55">Same bar, same amber, <b>different offer</b>. Changed-on-disk has a disk version to reckon with: Reload / Keep mine / Compare. Missing-on-disk has none: Keep editing / Save As… / Close…, plus a tab status that survives dismissal. One vocabulary, two situations — told apart by words and actions, never by colour.</div>
+<div style="font:14px Caveat;color:#c8553d">Save As… stays a safe path out of either one.</div></div>
+</div></div></div>
+
+<div class="dv-opt" id="1m"><div class="dv-olabel"><a class="dv-oid" href="#1m">1m</a>Settings — the MUSTs need an address, not a wireframe</div>
+<div class="dv-card" style="width:720px">
+<div style="display:flex;height:460px">
+<div style="width:180px;display:flex;flex-direction:column;gap:4px;padding:14px;border-right:1px solid #cfcabf;background:#faf9f6;font-size:13px">
+<div style="padding:7px 10px;background:#e6e2d8;border-radius:5px">General</div>
+<div style="padding:7px 10px;color:#6b665c">Writing partners</div>
+<div style="padding:7px 10px;color:#6b665c">GitHub</div>
+<div style="padding:7px 10px;color:#6b665c">Voice</div>
+<div style="padding:7px 10px;color:#6b665c">Notifications</div>
+<div style="margin-top:auto;padding:7px 10px;color:#6b665c">Send feedback</div></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px;padding:20px;background:#fdfcf9;font-size:13px">
+<div style="display:flex;align-items:center;gap:10px"><span style="width:150px;color:#6b665c">Theme</span><div style="display:flex;border:1px solid #b8b3a8;border-radius:5px;overflow:hidden"><span style="padding:5px 11px">Light</span><span style="padding:5px 11px">Dark</span><span style="padding:5px 11px;background:#2b2b2b;color:#fff">System</span></div></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:150px;color:#6b665c">Autosave</span><span style="width:34px;height:19px;border-radius:10px;background:#2b2b2b;display:flex;align-items:center;justify-content:flex-end;padding:0 3px"><span style="width:13px;height:13px;border-radius:50%;background:#fff"></span></span><span style="color:#6b665c">every</span><span style="padding:4px 9px;border:1px solid #b8b3a8;border-radius:4px">2s ▾</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:150px;color:#6b665c">Default partner</span><span style="padding:5px 11px;border:1px solid #b8b3a8;border-radius:5px">Claude ▾</span><span style="color:#8a857b;font-size:12px">for this project</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:150px;color:#6b665c">GitHub</span><span style="color:#4a463e">not connected</span><span style="padding:5px 11px;border:1px solid #b8b3a8;border-radius:5px">Connect</span></div>
+<div style="display:flex;align-items:flex-start;gap:10px"><span style="width:150px;color:#6b665c">Voice</span><div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;gap:8px"><span style="width:34px;height:19px;border-radius:10px;background:#cfcabf;display:flex;align-items:center;padding:0 3px"><span style="width:13px;height:13px;border-radius:50%;background:#fff"></span></span><span>Enable dictation</span></div><div style="display:flex;align-items:center;gap:8px;color:#6b665c"><span>Model: not downloaded</span><span style="padding:4px 9px;border:1px solid #b8b3a8;border-radius:4px">Download</span></div><div style="display:flex;align-items:center;gap:8px;color:#6b665c"><span>Input device</span><span style="padding:4px 9px;border:1px solid #b8b3a8;border-radius:4px">System default ▾</span></div></div></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:150px;color:#6b665c">Notifications</span><div style="display:flex;flex-direction:column;gap:6px"><span>☑ Permission requests &amp; failures</span><span style="color:#6b665c">☐ Routine completions</span></div></div>
+<div style="margin-top:auto;font:14px Caveat;color:#c8553d">Every status-honesty point has a home here: provider chip, sync dot, voice state, document status.</div></div></div>
+</div></div>
+
+</div>
+<p class="dv-next">Try next: "give me 3 alternatives for the authoring shell in <a class="dv-oid" href="#1c">1c</a>" · "wireframe the missing-on-disk banner" · "make <a class="dv-oid" href="#1b">1b</a>→<a class="dv-oid" href="#1c">1c</a> a transition storyboard"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1400,&quot;height&quot;:900}}"></script>
+</body>
+</html>

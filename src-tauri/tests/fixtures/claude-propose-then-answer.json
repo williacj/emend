@@ -1,0 +1,48 @@
+{
+  "name": "claude-propose-then-answer",
+  "description": "#1118 delivery-with-prose: the stream announces a `propose_changes` tool_use (`agent::session::is_delivery_call`) and then ends with a terminal `result` whose prose restates the edit as done — the shape a real tool-using Claude Code run has. The delivery already reports itself through its own change-set card, so this run's `RunPhase::Completed` must carry no reply (CJ's ruling on #1118); the counterpart to the shared `claude-read-then-answer.json`'s prose-only turn, which does.",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "session_id": "propose-then-answer-0001",
+        "model": "claude-sonnet-4-5",
+        "claude_code_version": "2.1.200"
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "id": "msg_propose_then_answer",
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_proposechanges02",
+              "name": "mcp__cowrite__propose_changes",
+              "input": { "doc": "draft.md", "revision": "rev-1", "edits": [] }
+            }
+          ]
+        },
+        "session_id": "propose-then-answer-0001"
+      }
+    },
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "success",
+        "is_error": false,
+        "duration_ms": 4120,
+        "num_turns": 2,
+        "result": "Tightened the hook and fixed two citations in draft.md.",
+        "stop_reason": "end_turn",
+        "session_id": "propose-then-answer-0001",
+        "total_cost_usd": 0.0511,
+        "permission_denials": [],
+        "terminal_reason": "completed"
+      }
+    }
+  ]
+}

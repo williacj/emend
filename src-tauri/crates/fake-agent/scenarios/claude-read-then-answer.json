@@ -1,0 +1,87 @@
+{
+  "name": "claude-read-then-answer",
+  "description": "Two-turn Claude Code run: the assistant issues a tool_use (Read) then answers. Exercises a multi-turn stream with a tool call in an assistant envelope. Shapes mirror SPIKE-1 §5.2.",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "cwd": "/tmp/project",
+        "session_id": "3b568d03-c868-4116-a0b2-4a3bff284a40",
+        "tools": ["Read", "Write", "Bash"],
+        "mcp_servers": [{ "name": "cowrite", "status": "connected" }],
+        "model": "claude-sonnet-4-5",
+        "permissionMode": "default",
+        "apiKeySource": "none",
+        "claude_code_version": "2.1.200"
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "model": "claude-sonnet-4-5",
+          "id": "msg_readtool01",
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_01readme",
+              "name": "Read",
+              "input": { "file_path": "/tmp/project/README.md" }
+            }
+          ],
+          "usage": { "input_tokens": 120, "output_tokens": 30 }
+        },
+        "parent_tool_use_id": null,
+        "session_id": "3b568d03-c868-4116-a0b2-4a3bff284a40"
+      }
+    },
+    {
+      "emit": {
+        "type": "user",
+        "message": {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_01readme",
+              "content": "# Project\n\nA sample project."
+            }
+          ]
+        },
+        "parent_tool_use_id": null,
+        "session_id": "3b568d03-c868-4116-a0b2-4a3bff284a40"
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "model": "claude-sonnet-4-5",
+          "id": "msg_answer01",
+          "role": "assistant",
+          "content": [{ "type": "text", "text": "The project is a sample project." }],
+          "usage": { "input_tokens": 160, "output_tokens": 12 }
+        },
+        "parent_tool_use_id": null,
+        "session_id": "3b568d03-c868-4116-a0b2-4a3bff284a40"
+      }
+    },
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "success",
+        "is_error": false,
+        "duration_ms": 3421,
+        "num_turns": 2,
+        "result": "The project is a sample project.",
+        "stop_reason": "end_turn",
+        "session_id": "3b568d03-c868-4116-a0b2-4a3bff284a40",
+        "total_cost_usd": 0.0421,
+        "permission_denials": [],
+        "terminal_reason": "completed"
+      }
+    }
+  ]
+}

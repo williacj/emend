@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="Emend">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6158F0"/>
+      <stop offset="1" stop-color="#4338CA"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".28"/>
+      <stop offset=".5" stop-color="#FFFFFF" stop-opacity=".06"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity=".14"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000000" flood-opacity=".28"/>
+    </filter>
+  </defs>
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="url(#body)" filter="url(#shadow)"/>
+  <rect x="102" y="102" width="820" height="820" rx="183" fill="none" stroke="url(#edge)" stroke-width="4"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="62" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M265 327H518M622 327H759M265 585H440"/>
+    <path d="M502 698 625 528 749 698"/>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+# Editor toolbar mic visual refresh brief (UXR-Q14.1)
+
+ABOUTME: Handoff for CJ's generated design project to draw editor dictation on Windows and macOS.
+ABOUTME: `docs/ux-design.md` §2 and §4 own behavior; this brief does not replace `docs/design/` appearance authority.
+
+**Ruling:** CJ, 2026-09-30. FR-ED-5 and `docs/ux-design.md` §2 require dictation into the editor and place the mic on the editor toolbar. UXR-Q14.1 now confirms that placement for file-backed and pathless authoring panes, in Rich text and Markdown views. The current `docs/design/specs/authoring-shell.md` toolbar inventory and generated `3a`/`3b`/`4a`/`4b` mocks omit it. `9c.9` is a comparison variant, not the ratified placement or default appearance. Refresh the generated design project; do not hand-edit `docs/design/` here.
+
+## Frames to add
+
+1. **Ordinary editor:** show the mic in the single-row editor toolbar on Windows and macOS, with a file-backed document in both the redline (`3a`/`3b`) and comment (`4a`/`4b`) contexts. Show its idle state with a clear accessible name and keyboard focus treatment. Keep the existing `Rich text | Markdown`, format, context, Timeline and Share controls in their ruled contexts. The mic is a dictation control for the active editor buffer, not a format command.
+2. **Pathless editor:** show the mic on an untitled/scratch pane (`9a`/`9b`) before Save As and after adoption (`9c.7`). It stays available across that transition because it needs no project path. The pathless pane's other absences, such as Share and path-keyed comments, remain as J12 specifies. Show the same placement in both editor projections.
+3. **Voice progression:** draw idle → first-use model download with progress → recording with live partial as ghost text in the editor → transcribing → idle. Draw error treatments for no device, mic permission denied and missing model. §2's voice inventory and FR-ED-5 govern these states across editor, chat input and comment composer; this refresh needs the editor-toolbar projection of each. Show how the mic conveys its current state without relying on animation alone (FR-X-5 / Principle 7), including keyboard focus and an accessible state name.
+4. **Narrow toolbar:** compare full and narrow document columns on both platforms, with zero and at least one tracked change and with the timeline expanded/collapsed. Include `9c.4`/`9c.7` widths and a narrower measured case where the added mic affects fit. The row remains one line; the existing 28×26 `⋯` chip takes only controls that no longer fit, in current visual order, using B4b's click/keyboard popover behavior. The available actions and their states must remain truthful when relocated. Measure the actual controls on each platform and show what moves; do not infer a fixed breakpoint or a second row from the old drawings.
+
+## Appearance questions for the refresh
+
+- Choose the mic's exact position, icon/chip treatment and spacing within the existing toolbar composition for each platform. `9c.9` suggests a right-cluster position ahead of `Timeline ››`; it is a comparison, not a ratified pixel rule. Apply `specs/tokens.md` and `specs/platform-variants.md` to the result.
+- Show where download progress, recording, transcribing and error information remain legible if the mic moves into `⋯`. Preserve the single-row rule and FR-X-5's honest voice state; specify any state-bearing treatment on the overflow chip or opened menu as part of the visual refresh. The exact geometry and threshold are for the generated design to settle through measurement.
+- Show the toolbar in its Save As/finalization freeze state on a pathless pane. J12's freeze refuses buffer mutation and discards an in-flight uncommitted dictation partial; the drawing should make the mic's unavailable state legible without implying the partial was committed.
+
+**Authority boundary:** This brief asks for visual states and measured fit for CJ's ruled editor-toolbar mic. It does not define voice transport, model/download controls, device selection, permission handling or reviewer-mode placement beyond FR-ED-5 and the existing UX inventory. `docs/ux-design.md` §2, §4, J12 and UXR-Q14.1 govern behavior; the generated `docs/design/` refresh will govern appearance.

@@ -1,0 +1,14 @@
+{
+  "name": "claude-fresh-session-failure",
+  "description": "A fresh provider turn that fails for an ordinary non-continuity reason.",
+  "steps": [
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "error_during_execution",
+        "is_error": true,
+        "result": "Provider network unavailable"
+      }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+# ABOUTME: Reports an isolation-canary run evicted from its concurrency group while still pending.
+# ABOUTME: Runs on a hosted runner outside that run, which is the only place the eviction is visible.
+
+name: Canary eviction observer
+
+# A displaced canary is cancelled BEFORE any job is created, so it has no step, no `if: cancelled()`
+# hook and no token-bearing context — it cannot report its own eviction (#1229). Only an observer
+# outside the run can, and `workflow_run` is the trigger that sees it.
+on:
+  workflow_run:
+    workflows:
+      - Windows runner isolation canary
+    types:
+      - completed
+
+permissions:
+  actions: read
+  # Naming any scope sets every unnamed one to `none`, and this repository is private — so without
+  # `contents: read` the checkout below cannot read the repo, the observer dies on its first step
+  # and the displaced head stays bare. That is the very outcome this workflow exists to prevent,
+  # and it would hide itself: a `workflow_run` run reports against the default branch, never
+  # against the pull request whose head went unreported.
+  contents: read
+  # The verdict is a check-run because there is no job on the displaced run to carry a conclusion.
+  checks: write
+
+jobs:
+  report-eviction:
+    name: Report a displaced canary
+    # ubuntu-latest deliberately: an observer that queued for the two self-hosted Windows runners
+    # would contend with the very cohort whose starvation it exists to report.
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ github.event.workflow_run.conclusion == 'cancelled' }}
+    steps:
+      # Explicit rather than implicit: a `workflow_run` checkout defaults to the default-branch head,
+      # which is where this script lives, but the observer only works if that resolution holds and
+      # saying so costs one line.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+
+      - name: Publish the displaced-canary verdict
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COWRITE_WORKFLOW_RUN: ${{ toJSON(github.event.workflow_run) }}
+        run: node scripts/canary-eviction-observer.mjs

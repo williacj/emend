@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cowrite.local/formats/provider-contract/stream-event.copilot.schema.json",
+  "schema_version": 1,
+  "title": "GitHub Copilot CLI stream-json event",
+  "description": "One event object from GitHub Copilot CLI `-p --output-format json` (JSONL: one object per line). Grammar derived from SPIKE-1 recorded transcript (docs/spikes/spike1-provider-contract.md §5.3) and §4.2. TD-1/TD-5 contract-parity fixture (test-plan §1). Copilot events are a parent-linked tree: non-`result` events carry a `data` object plus `id`/`timestamp`/`parentId`/`ephemeral`; the terminal `result` event is flat (fields at top level). Drift-tolerant: unknown `type` values validate, known ones are checked. Additional properties permitted.",
+  "type": "object",
+  "required": ["type"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Dotted event discriminator, e.g. session.mcp_servers_loaded, assistant.message, result."
+    },
+    "ephemeral": { "type": "boolean" }
+  },
+  "allOf": [
+    {
+      "$comment": "Every non-result event carries a data object (§5.3).",
+      "if": {
+        "required": ["type"],
+        "properties": { "type": { "not": { "const": "result" } } }
+      },
+      "then": {
+        "required": ["data"],
+        "properties": { "data": { "type": "object" } }
+      }
+    },
+    {
+      "$comment": "Terminal result event is flat (§5.3 last line).",
+      "if": {
+        "required": ["type"],
+        "properties": { "type": { "const": "result" } }
+      },
+      "then": {
+        "required": ["sessionId", "exitCode", "usage"],
+        "properties": {
+          "sessionId": { "type": "string" },
+          "exitCode": { "type": "integer" },
+          "usage": { "type": "object" }
+        }
+      }
+    },
+    {
+      "$comment": "Final assistant message (§5.3): authoritative, non-ephemeral.",
+      "if": {
+        "required": ["type"],
+        "properties": { "type": { "const": "assistant.message" } }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": ["messageId", "content", "model"],
+            "properties": {
+              "messageId": { "type": "string" },
+              "content": { "type": "string" },
+              "model": { "type": "string" },
+              "toolRequests": { "type": "array" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "$comment": "User message (§5.3): records what Cowrite sent.",
+      "if": {
+        "required": ["type"],
+        "properties": { "type": { "const": "user.message" } }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": ["content"],
+            "properties": { "content": { "type": "string" } }
+          }
+        }
+      }
+    }
+  ]
+}

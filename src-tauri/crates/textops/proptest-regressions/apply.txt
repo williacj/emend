@@ -1,0 +1,8 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 39de2b7b0bf955adde9e65df265dde7f7b6355e6a6af6d0ccc700c1ce83a2b9d # shrinks to atoms = [Text("    "), Ins("0")]
+cc 2c4532a51ce0892e332a2d92a553da84e266591e949029d8079e8da1ceccbcf1 # shrinks to atoms = [Sub("    ", "0"), Ins("A")], seed = 9162301123211750073

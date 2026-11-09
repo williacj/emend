@@ -1,0 +1,59 @@
+{
+  "name": "claude-mcp-create-document",
+  "description": "J2-style draft birth: the agent drafts a new chapter from the conversation and calls create_document to write it (P2b-6a-i, FR-CHAT-2). MCP calls ride the side channel (not stdout); the stub tool server answers with the real tool's TD-1 §3.2-shaped response (path + minted doc identity — opening the tab is the sibling card's job).",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "cwd": "/tmp/project",
+        "session_id": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
+        "tools": ["Read", "Write"],
+        "mcp_servers": [{ "name": "cowrite", "status": "connected" }],
+        "model": "claude-sonnet-4-5",
+        "permissionMode": "default",
+        "apiKeySource": "none",
+        "claude_code_version": "2.1.200"
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "model": "claude-sonnet-4-5",
+          "id": "msg_mcp_create_doc01",
+          "role": "assistant",
+          "content": [{ "type": "text", "text": "Drafting chapter two from what we outlined." }],
+          "usage": { "input_tokens": 142, "output_tokens": 19 }
+        },
+        "parent_tool_use_id": null,
+        "session_id": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d"
+      }
+    },
+    {
+      "mcp_call": {
+        "tool": "create_document",
+        "arguments": {
+          "path": "chapters/02-draft.md",
+          "content": "# Chapter 2\n\nThe conversation continues here.\n"
+        },
+        "expect": { "path": "chapters/02-draft.md", "doc_id": "doc-stub-0001" }
+      }
+    },
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "success",
+        "is_error": false,
+        "duration_ms": 2984,
+        "num_turns": 1,
+        "result": "Created chapters/02-draft.md.",
+        "stop_reason": "end_turn",
+        "session_id": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
+        "total_cost_usd": 0.0327,
+        "permission_denials": [],
+        "terminal_reason": "completed"
+      }
+    }
+  ]
+}

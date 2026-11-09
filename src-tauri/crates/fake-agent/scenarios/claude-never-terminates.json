@@ -1,0 +1,26 @@
+{
+  "name": "claude-never-terminates",
+  "description": "Misbehavior (test-plan §1): never-terminating stream. The agent emits its opening events, then goes silent forever (hang) — stdout stays open, no terminal `result` ever arrives, and the process never exits on its own. The consumer's watchdog must fire and kill it. `hang` is terminal: nothing after it runs. Run without --validate.",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "session_id": "dead10c0-0000-4000-8000-000000000002",
+        "model": "claude-sonnet-4-5"
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "id": "msg_hang01",
+          "role": "assistant",
+          "content": [{ "type": "text", "text": "Working on it" }]
+        },
+        "session_id": "dead10c0-0000-4000-8000-000000000002"
+      }
+    },
+    "hang"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "claude-comment-then-answer",
+  "description": "#1118 delivery-with-prose, comment lane: the stream announces an `add_comments` tool_use and then ends with a terminal `result` whose prose restates the finding. Comments are the other half of CJ's ruling — a run that filed one already reports itself through its own comment card, so `RunPhase::Completed` carries no reply here either. Sibling of `claude-propose-then-answer.json` (the tracked-changes half).",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "session_id": "comment-then-answer-0001",
+        "model": "claude-sonnet-4-5",
+        "claude_code_version": "2.1.200"
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "id": "msg_comment_then_answer",
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_addcomments01",
+              "name": "mcp__cowrite__add_comments",
+              "input": { "doc": "notes.md", "comments": [] }
+            }
+          ]
+        },
+        "session_id": "comment-then-answer-0001"
+      }
+    },
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "success",
+        "is_error": false,
+        "duration_ms": 2870,
+        "num_turns": 2,
+        "result": "Filed one finding on notes.md: the claim in paragraph two needs a citation.",
+        "stop_reason": "end_turn",
+        "session_id": "comment-then-answer-0001",
+        "total_cost_usd": 0.0333,
+        "permission_denials": [],
+        "terminal_reason": "completed"
+      }
+    }
+  ]
+}

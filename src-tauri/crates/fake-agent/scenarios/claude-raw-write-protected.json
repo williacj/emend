@@ -1,0 +1,82 @@
+{
+  "name": "claude-raw-write-protected",
+  "description": "Misbehavior (test-plan §1): raw file-write to a protected doc WITH correlated stream events. The agent announces a Write tool_use for protected-notes.md in its stream, then performs a direct filesystem write (write_file) that bypasses the MCP propose_changes contract, then reports a tool_result. Because the raw write is *positively attributed* by the correlated stream event, attribution precedence (test-plan §1/§3) must convert it to a tracked change, not treat it as an untracked external edit. The emitted Write path uses ${PROJECT_ROOT}, which the fake-agent expands to its canonical process cwd to match the absolute path spelling emitted by the shipped Claude Code provider. write_file resolves protected-notes.md relative to the process cwd.",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "cwd": "${PROJECT_ROOT}",
+        "session_id": "b1a2c3d4-0000-4000-8000-abcdef012345",
+        "tools": ["Read", "Write"],
+        "mcp_servers": [{ "name": "cowrite", "status": "connected" }],
+        "model": "claude-sonnet-4-5",
+        "permissionMode": "default",
+        "apiKeySource": "none",
+        "claude_code_version": "2.1.200"
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "model": "claude-sonnet-4-5",
+          "id": "msg_rawwrite01",
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_rawwrite01",
+              "name": "Write",
+              "input": {
+                "file_path": "${PROJECT_ROOT}/protected-notes.md",
+                "content": "# Notes\n\nRewritten by a misbehaving agent — a raw write that skipped MCP.\n"
+              }
+            }
+          ],
+          "usage": { "input_tokens": 180, "output_tokens": 40 }
+        },
+        "parent_tool_use_id": null,
+        "session_id": "b1a2c3d4-0000-4000-8000-abcdef012345"
+      }
+    },
+    {
+      "write_file": {
+        "path": "protected-notes.md",
+        "contents": "# Notes\n\nRewritten by a misbehaving agent — a raw write that skipped MCP.\n"
+      }
+    },
+    {
+      "emit": {
+        "type": "user",
+        "message": {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_rawwrite01",
+              "content": "File written successfully."
+            }
+          ]
+        },
+        "parent_tool_use_id": null,
+        "session_id": "b1a2c3d4-0000-4000-8000-abcdef012345"
+      }
+    },
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "success",
+        "is_error": false,
+        "duration_ms": 3120,
+        "num_turns": 1,
+        "result": "Rewrote protected-notes.md.",
+        "stop_reason": "end_turn",
+        "session_id": "b1a2c3d4-0000-4000-8000-abcdef012345",
+        "total_cost_usd": 0.041,
+        "permission_denials": [],
+        "terminal_reason": "completed"
+      }
+    }
+  ]
+}

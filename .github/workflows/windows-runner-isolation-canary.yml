@@ -1,0 +1,363 @@
+# ABOUTME: Bounded two-runner canary that proves Windows work-root isolation before concurrency changes.
+# ABOUTME: It owns a cohort-only concurrency guard and cleans only the sentinel it created.
+
+name: Windows runner isolation canary
+run-name: Windows isolation (${{ inputs.host_label }}, ${{ inputs.ref_a }} vs ${{ inputs.ref_b }})
+
+# Dispatch is the ONLY trigger, deliberately (#1266). The canary needs an atomic 2-of-2 reservation
+# of a two-runner pool, and each slot holds one of those runners while it waits for the other, so any
+# third Windows job starves the cohort. A `pull_request:` trigger fired it on exactly the PRs that
+# edit it — the same PRs that also run the unfiltered `Windows (self-hosted)` suite, which holds one
+# runner for 7-11 minutes — leaving one runner for two slots. Measured over the last 23 settled runs:
+# 7 never overlapped (30%) and 8 measured nothing (35%). Since #1231 made a starved slot exit green,
+# that outcome publishes a neutral check-run nobody consumes rather than failing anything. This is a
+# pre-concurrency-change gate, not a continuous monitor (#1234): dispatch it when the pool is quiet,
+# which is the one condition under which it can measure anything at all. A canary-machinery PR is
+# verified by dispatching this workflow on its branch before merge — see docs/ci-windows-runner.md.
+on:
+  workflow_dispatch:
+    inputs:
+      host_label:
+        description: Physical Windows host whose two runners must be isolated
+        required: true
+        default: host-williacj-01
+        type: choice
+        options:
+          - host-williacj-01
+          - host-finn-pc10
+      ref_a:
+        description: First Git ref to check out
+        required: true
+        default: main
+      ref_b:
+        description: Different Git ref to check out
+        required: true
+        default: main
+
+permissions:
+  actions: read
+  contents: read
+  # A workflow job has no neutral conclusion — success, failure, cancelled and skipped are the only
+  # ones GitHub offers — so "this canary convened nothing" can only be said through a check-run
+  # published via the Checks API (#1229/#1231).
+  checks: write
+
+# Keep separate canary cohorts from each claiming one runner and waiting forever for their own peer.
+# This guard applies only to canaries; production owns no global concurrency group after #982.
+# #1262 (CJ, 2026-08-14): the GLOBAL group STANDS. `windows-runner-isolation-canary` is a decided
+# keying — reconsidered against a measurement and deliberately kept, not an unreviewed default.
+# The measurement, taken 2026-08-14: 0 canary runs across the 119 PRs merged after #1266 made
+# dispatch the only trigger (`3678d98c4`, 2026-08-08T07:07:16Z), so runs-per-merged-PR is 0.00 and
+# nothing has been evicted since. Keying per ref (a `github.ref`-keyed group) rested on "every PR
+# keeps its own canary", which now describes nothing, while its cost survives dispatch-only intact:
+# two dispatches on different refs would contend for the same two runners, which is the #1231
+# starvation this group exists to prevent. Canary-vs-PRODUCTION contention is a separate question,
+# owned by #1266 and its follow-ons, and this group is not the place to answer it.
+concurrency:
+  group: windows-runner-isolation-canary
+  cancel-in-progress: false
+
+jobs:
+  isolation-canary:
+    name: Isolation canary (${{ matrix.slot }})
+    runs-on: [self-hosted, Windows, "${{ inputs.host_label }}"]
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Both refs come from the dispatch inputs and nowhere else. They used to lead with
+          # `github.event.pull_request.base.sha ||` / `head.sha ||`; with no `pull_request:` trigger
+          # those terms can only ever be empty, and a dead first term misstates where the value
+          # comes from. The trailing `|| github.sha` went for the same reason: an omitted input never
+          # arrives empty, so nothing could reach it. Both `required: true` and `default:` are load-
+          # bearing and both are pinned by the test — GitHub documents defaults being applied when a
+          # dispatch omits an input, while `required: true` is what makes the browser form mandatory
+          # and rejects an omission that has no default. Which one fires first is not settleable
+          # without creating a live run, so neither is treated as decorative: dropping either changes
+          # how an omitted input resolves, and if that becomes the branch tip both slots check out the
+          # same ref and the canary goes green having proved less. An EMPTY value is the one case that
+          # would still have reached the old fallback, and there `actions/checkout` resolves the
+          # triggering ref anyway (its `input-helper.ts` sets `ref = context.ref` when `ref` is
+          # empty), which is exactly what `github.sha` supplied — so dropping it changes nothing.
+          # (#1266)
+          - slot: base
+            other_slot: head
+            checkout_ref: ${{ inputs.ref_a }}
+          - slot: head
+            other_slot: base
+            checkout_ref: ${{ inputs.ref_b }}
+    defaults:
+      run:
+        shell: powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command ". '{0}'"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ matrix.checkout_ref }}
+
+      - name: Stage readiness marker
+        run: |
+          $ready = Join-Path $env:RUNNER_TEMP ("cowrite-isolation-ready-" + "${{ matrix.slot }}" + ".txt")
+          $hostEvidence = Join-Path $env:RUNNER_TEMP ("cowrite-isolation-host-" + "${{ matrix.slot }}" + ".txt")
+          Set-Content -LiteralPath $ready -Value "${{ matrix.checkout_ref }}" -NoNewline
+          Set-Content -LiteralPath $hostEvidence -Value $env:COMPUTERNAME -NoNewline
+
+      - name: Publish readiness marker
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: isolation-ready-${{ matrix.slot }}
+          path: |
+            ${{ runner.temp }}\cowrite-isolation-ready-${{ matrix.slot }}.txt
+            ${{ runner.temp }}\cowrite-isolation-host-${{ matrix.slot }}.txt
+          if-no-files-found: error
+          retention-days: 1
+
+      # Convening is a liveness question, not a counting one. A run's artifact list is durable for
+      # the whole run: `isolation-ready-<peer>` stays listed long after that peer job has exited, so
+      # a `Count -ge 2` barrier can be satisfied entirely by a dead peer. That is not hypothetical —
+      # runs 31046727724 and 30684554436 both cleared it in zero seconds against a peer that had
+      # timed out minutes earlier, then probed a workspace nobody else was using and reported
+      # SUCCESS on a run where the two slots never overlapped and in fact shared one runner. So the
+      # barrier reads live job state as well: the peer must be `in_progress` AND both markers must
+      # be visible. Artifacts alone prove the peer once reached the publish step; only the job API
+      # proves it is still there to be isolated from (#1229/#1231).
+      - name: Convene with the peer canary
+        id: convene
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COWRITE_SLOT: ${{ matrix.slot }}
+          COWRITE_OTHER_SLOT: ${{ matrix.other_slot }}
+          # The tip of the branch this run was dispatched on — a real commit an operator can see on
+          # that branch. It led with `github.event.pull_request.head.sha ||` because under a
+          # `pull_request:` trigger `github.sha` is the ephemeral `refs/pull/N/merge` commit, which
+          # no branch or PR view shows; dispatch-only removes that hazard along with the trigger.
+          # This is also the SHA the eviction observer binds a displaced run to
+          # (`workflow_run.head_sha`), so both not-measured paths land on one commit — as they did
+          # before, except that the agreement rested on the dropped first term and now holds
+          # unconditionally, because there is only one source left for either to read. It is
+          # deliberately NOT `ref_a`/`ref_b`: the verdict is about this run, and the run belongs to
+          # the branch it was dispatched from, not to the revisions it happened to check out (#1266).
+          COWRITE_VERDICT_SHA: ${{ github.sha }}
+        run: |
+          $headers = @{
+            Authorization = "Bearer $env:GH_TOKEN"
+            Accept = "application/vnd.github+json"
+            "X-GitHub-Api-Version" = "2022-11-28"
+          }
+          $uri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID/artifacts?per_page=100"
+          $jobsUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID/jobs?per_page=100"
+          $peerJobName = "Isolation canary (" + $env:COWRITE_OTHER_SLOT + ")"
+          $convened = $false
+          $peerStatus = 'queued'
+          # How many polls saw the peer alive. "Live but no marker" only means the barrier is broken
+          # once the peer has been up long enough to have published one; a peer that got a runner
+          # seconds ago is still a starved-pool outcome. Measured publish latency after job start is
+          # ~17-27s (runs 31206416568 and 31185275886) and checkout alone is ~15-20s, so 24 polls
+          # (~120s) leaves well over 4x margin. Being too generous here merely reports a genuine
+          # artifact fault as not-measured, which still fails the job; being too strict blames the
+          # diff for the pool, which is the #1231 defect this card exists to remove.
+          $peerLivePolls = 0
+          $peerObserved = $false
+          for ($attempt = 0; $attempt -lt 90; $attempt++) {
+            # A failed read is not information about the peer. Let the budget keep running rather
+            # than aborting the step with a raw API stack trace and no verdict at all - which is the
+            # one outcome this design must never produce, since the docs tell operators to read a
+            # bare failure as a real isolation fault.
+            $jobs = try { Invoke-RestMethod -Uri $jobsUri -Headers $headers -Method Get -TimeoutSec 10 } catch { $null }
+            if ($null -ne $jobs) {
+              $peerObserved = $true
+              $peer = @($jobs.jobs | Where-Object { $_.name -eq $peerJobName })
+              $peerStatus = if ($peer.Count -gt 0) { $peer[0].status } else { 'queued' }
+              if ($peerStatus -eq 'in_progress') { $peerLivePolls++ }
+            }
+            # Only a live peer can convene, so there is nothing to learn from the artifact list while
+            # the peer is queued or gone. Skipping it there keeps this step's poll volume at roughly
+            # the single-call budget it had before the liveness check was added.
+            if ($peerStatus -eq 'in_progress') {
+              $response = try { Invoke-RestMethod -Uri $uri -Headers $headers -Method Get -TimeoutSec 10 } catch { $null }
+              if ($null -ne $response) {
+                $ready = @($response.artifacts | Where-Object {
+                  $_.name -eq 'isolation-ready-base' -or $_.name -eq 'isolation-ready-head'
+                })
+                if ($ready.Count -ge 2) {
+                  $convened = $true
+                  break
+                }
+              }
+            }
+            # A peer that has already reached a terminal state can never overlap with this slot, so
+            # spending the rest of the budget on it only delays the same verdict.
+            if ($peerStatus -eq 'completed') {
+              break
+            }
+            Start-Sleep -Seconds 5
+          }
+          if (-not $convened) {
+            # A peer observed up for a sustained period that still published nothing is a genuine
+            # artifact-visibility fault: the cohort convened and the barrier itself broke. That is a
+            # real failure, not a pool outcome - and it stays one whether or not the peer has since
+            # exited. Asking about the peer's CURRENT status here would excuse roughly half of every
+            # real barrier break, because a broken barrier times both slots out together and the
+            # slot that notices its peer terminate first would relabel it "already finished".
+            if ($peerLivePolls -ge 24) {
+              throw "$peerJobName was running for $peerLivePolls polls but both readiness artifacts were not visible within the bounded overlap window - artifact-visibility fault, not runner starvation"
+            }
+            if (-not $peerObserved) {
+              $reason = "NOT MEASURED: this slot could not read the run's job list at any point within the bounded overlap window, so the peer's state was never observed and no isolation property was exercised. This is an API-availability outcome, not an isolation violation."
+            }
+            elseif ($peerStatus -eq 'completed') {
+              $reason = "NOT MEASURED: the peer canary had already finished before this slot could convene with it, so the two slots never overlapped and no isolation property was exercised. This is a runner-pool outcome, not an isolation violation."
+            }
+            elseif ($peerStatus -eq 'in_progress') {
+              $reason = "NOT MEASURED: the peer canary got a runner too late to publish its readiness marker inside this slot's bounded overlap window, so the two slots never overlapped and no isolation property was exercised. This is a runner-pool outcome, not an isolation violation."
+            }
+            else {
+              $reason = "NOT MEASURED: the peer canary never got a runner within the bounded overlap window, so the two slots never overlapped and no isolation property was exercised. This is a runner-pool outcome, not an isolation violation."
+            }
+            # Say it in a form a consumer can read without parsing this log. This neutral check-run
+            # is the whole verdict now: THIS step goes on to exit 0, so the job reports success and
+            # the check-run is the only thing standing between "we measured nothing" and a reader's
+            # assumption that we did (#1229/#1231).
+            try {
+              $body = @{
+                name = "Isolation canary (not measured: $env:COWRITE_SLOT)"
+                head_sha = $env:COWRITE_VERDICT_SHA
+                status = 'completed'
+                conclusion = 'neutral'
+                output = @{
+                  title = "Isolation was not measured on this run"
+                  summary = $reason
+                }
+              } | ConvertTo-Json -Depth 4
+              Invoke-RestMethod -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/check-runs" -Headers $headers -Method Post -Body $body -ContentType 'application/json' -TimeoutSec 10 | Out-Null
+            }
+            catch {
+              Write-Host "Could not publish the not-measured check-run: $($_.Exception.Message)"
+            }
+            # A starved or unreadable pool is not this diff's failure, and a canary that goes red for
+            # it trains its readers to re-run without looking — which is how a real isolation
+            # violation gets waved through (#1231). So the step ends cleanly and says convened=false;
+            # the probe below is gated on that, which is what stops a clean exit from becoming the
+            # vacuous pass #1229's card closed. Only the barrier fault above stays red.
+            "convened=false" >> $env:GITHUB_OUTPUT
+            Write-Host $reason
+            exit 0
+          }
+          "convened=true" >> $env:GITHUB_OUTPUT
+          Write-Host "Convened with $peerJobName (status=$peerStatus); both readiness markers visible."
+
+      - name: Download hostname evidence
+        if: steps.convene.outputs.convened == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: isolation-ready-*
+          path: ${{ runner.temp }}\cowrite-isolation-host-evidence
+          merge-multiple: true
+
+      # The label requests one host; this evidence verifies what actually ran. A wrong live label
+      # must become NOT MEASURED rather than another confident cross-host pass (#1901).
+      - name: Validate co-located host cohort
+        id: colocation
+        if: steps.convene.outputs.convened == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COWRITE_SLOT: ${{ matrix.slot }}
+          COWRITE_VERDICT_SHA: ${{ github.sha }}
+        run: |
+          $evidenceRoot = Join-Path $env:RUNNER_TEMP 'cowrite-isolation-host-evidence'
+          $hostFiles = @(Get-ChildItem -LiteralPath $evidenceRoot -Filter 'cowrite-isolation-host-*.txt' -File)
+          $hostResult = $null
+          $hostnames = @()
+          if ($hostFiles.Count -ne 2) {
+            $hostResult = "expected 2 hostname evidence files; found $($hostFiles.Count)"
+          }
+          else {
+            foreach ($hostFile in $hostFiles) {
+              $rawHostname = Get-Content -LiteralPath $hostFile.FullName -Raw
+              $hostname = $rawHostname.Trim()
+              if ($hostname.Length -eq 0 -or $rawHostname -cne $hostname -or $hostname -match '[\r\n]') {
+                $hostResult = "hostname evidence is not exactly one non-empty line: $($hostFile.Name)"
+                break
+              }
+              $hostnames += $hostname.ToUpperInvariant()
+            }
+          }
+          if (-not $hostResult) {
+            $distinctHostnames = @($hostnames | Sort-Object -Unique)
+            if ($distinctHostnames.Count -ne 1) {
+              $hostResult = "hostname evidence must identify one physical host; found $($distinctHostnames -join ', ')"
+            }
+          }
+          if (-not $hostResult) {
+            $hostResult = "Validated 2 hostname evidence files on physical host $($hostnames[0])."
+            "co_located=true" >> $env:GITHUB_OUTPUT
+            Write-Host $hostResult
+            exit 0
+          }
+
+          $reason = "NOT MEASURED: the convened canary jobs reported different hostnames or incomplete hostname evidence. $hostResult"
+          $headers = @{
+            Authorization = "Bearer $env:GH_TOKEN"
+            Accept = "application/vnd.github+json"
+            "X-GitHub-Api-Version" = "2022-11-28"
+          }
+          try {
+            $body = @{
+              name = "Isolation canary (not measured: $env:COWRITE_SLOT)"
+              head_sha = $env:COWRITE_VERDICT_SHA
+              status = 'completed'
+              conclusion = 'neutral'
+              output = @{
+                title = "Isolation was not measured on this run"
+                summary = $reason
+              }
+            } | ConvertTo-Json -Depth 4
+            Invoke-RestMethod -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/check-runs" -Headers $headers -Method Post -Body $body -ContentType 'application/json' -TimeoutSec 10 | Out-Null
+          }
+          catch {
+            Write-Host "Could not publish the not-measured check-run: $($_.Exception.Message)"
+          }
+          "co_located=false" >> $env:GITHUB_OUTPUT
+          Write-Host $reason
+          exit 0
+
+      # Gated on the convene step's own verdict, never on the mere absence of a failure. Before
+      # #1231 this step carried no condition and was skipped only as a side effect of the convene
+      # step failing — so making that step exit cleanly, without this gate, would run the probe with
+      # no peer at all: it writes its sentinel, sleeps 30s, finds no other sentinel, and reports
+      # SUCCESS having measured nothing.
+      - name: Prove isolated runner workspace
+        if: steps.convene.outputs.convened == 'true' && steps.colocation.outputs.co_located == 'true'
+        env:
+          COWRITE_SLOT: ${{ matrix.slot }}
+          COWRITE_OTHER_SLOT: ${{ matrix.other_slot }}
+          COWRITE_EXPECTED_SHA: ${{ matrix.checkout_ref }}
+        run: |
+          $mine = Join-Path $env:RUNNER_WORKSPACE ("cowrite-isolation-" + $env:COWRITE_SLOT + ".txt")
+          $other = Join-Path $env:RUNNER_WORKSPACE ("cowrite-isolation-" + $env:COWRITE_OTHER_SLOT + ".txt")
+          try {
+            if (Test-Path -LiteralPath $other) {
+              throw "Detected another canary sentinel in the same RUNNER_WORKSPACE: $other"
+            }
+            Set-Content -LiteralPath $mine -Value $env:COWRITE_EXPECTED_SHA -NoNewline
+            Start-Sleep -Seconds 30
+            if (-not (Test-Path -LiteralPath $mine)) {
+              throw "This canary's sentinel disappeared from RUNNER_WORKSPACE: $mine"
+            }
+            $actual = (Get-Content -LiteralPath $mine -Raw).Trim()
+            if ($actual -ne $env:COWRITE_EXPECTED_SHA) {
+              throw "This canary's sentinel was overwritten: expected $env:COWRITE_EXPECTED_SHA, found $actual"
+            }
+            if (Test-Path -LiteralPath $other) {
+              throw "Concurrent canaries share RUNNER_WORKSPACE: $other"
+            }
+            Write-Host "Runner=$env:RUNNER_NAME Workspace=$env:RUNNER_WORKSPACE Ref=$env:COWRITE_EXPECTED_SHA"
+          }
+          finally {
+            if (Test-Path -LiteralPath $mine) {
+              Remove-Item -LiteralPath $mine -Force -ErrorAction Stop
+            }
+            if (Test-Path -LiteralPath $mine) {
+              throw "Canary sentinel cleanup failed: $mine"
+            }
+          }

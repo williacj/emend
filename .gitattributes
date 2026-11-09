@@ -1,0 +1,11 @@
+# Normalize line endings: store text as LF in the repo on every platform.
+* text=auto eol=lf
+
+# Binary assets — never normalize.
+*.png binary
+*.ico binary
+*.icns binary
+
+# Byte-level fidelity fixtures — store EXACT bytes; never normalize line endings
+# or the CRLF/mixed-ending fixtures lose the very property they exist to test (P1).
+fixtures/corpus/fidelity/*.md -text

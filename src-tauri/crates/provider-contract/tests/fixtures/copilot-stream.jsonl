@@ -1,0 +1,12 @@
+{"type":"session.mcp_server_status_changed","data":{"serverName":"github-mcp-server","status":"connected"},"id":"5efff570-...","timestamp":"2026-07-06T00:20:45.820Z","parentId":"7014f6e2-...","ephemeral":true}
+{"type":"session.mcp_servers_loaded","data":{"servers":[{"name":"github-mcp-server","status":"connected","source":"builtin","transport":"http"}]},"id":"c09dcb4e-...","parentId":"36fd5295-...","ephemeral":true}
+{"type":"session.skills_loaded","data":{"skills":[{"name":"customize-cloud-agent","source":"builtin","userInvocable":false,"enabled":true,"path":"C:\\...\\builtin\\customize-cloud-agent\\SKILL.md"}]},"id":"..."}
+{"type":"session.tools_updated","data":{"model":"claude-sonnet-5"},"id":"..."}
+{"type":"user.message","data":{"content":"Reply with exactly: ok","transformedContent":"<current_datetime>...</current_datetime>\n\nReply with exactly: ok\n\n<system_reminder>...</system_reminder>","attachments":[],"delivery":"idle","interactionId":"8a60fc52-..."},"id":"af71972f-..."}
+{"type":"assistant.turn_start","data":{"turnId":"0","interactionId":"8a60fc52-..."},"id":"78ffb44d-...","parentId":"af71972f-..."}
+{"type":"assistant.message_start","data":{"messageId":"49263494-..."},"ephemeral":true}
+{"type":"assistant.message_delta","data":{"messageId":"49263494-...","deltaContent":"ok"},"ephemeral":true}
+{"type":"assistant.message","data":{"messageId":"49263494-...","model":"claude-sonnet-5","content":"ok","toolRequests":[],"turnId":"0","outputTokens":4,"requestId":"CFB6:...","apiCallId":"msg_01Lqkh..."},"id":"f26a1b74-...","parentId":"78ffb44d-..."}
+{"type":"assistant.turn_end","data":{"turnId":"0"},"id":"3bdfc007-..."}
+{"type":"assistant.idle","data":{},"ephemeral":true}
+{"type":"result","timestamp":"2026-07-06T00:20:48.239Z","sessionId":"3b568d03-c868-4116-a0b2-4a3bff284a40","exitCode":0,"usage":{"premiumRequests":1,"totalApiDurationMs":1274,"sessionDurationMs":4045,"codeChanges":{"linesAdded":0,"linesRemoved":0,"filesModified":[]}}}

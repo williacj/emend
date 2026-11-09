@@ -1,0 +1,129 @@
+[workspace]
+members = [".", "crates/textops", "crates/provider-contract", "crates/fixtures", "crates/fake-agent", "crates/test-driver", "crates/rendezvous-test-helper", "crates/detached-launcher-test-helper"]
+resolver = "2"
+
+# Line tables only (#644): backtraces keep file:line and the dev target dir shrinks ~24%, at the
+# cost of local-variable inspection under a debugger. The `test` profile inherits from `dev`, so
+# restating it there would be a no-op — see README "Cached Rust builds and worktrees".
+[profile.dev]
+debug = 1
+
+[package]
+name = "cowrite"
+version = "0.1.0"
+description = "Cowrite — a desktop app for writing and reviewing markdown."
+authors = ["Cowrite"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "cowrite_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+# The app-global dictation owner polls captured audio on a cancellable async cadence.
+tokio = { version = "1", features = ["time", "sync", "rt-multi-thread", "macros"] }
+# Native microphone capture uses CPAL's stable device IDs and typed failures.
+# CPAL 0.18 exposes stable device IDs and typed permission/device failures.
+cpal = { version = "=0.18.2", optional = true }
+# The carried native capture pipeline resamples each mono recording for Whisper.
+rubato = { version = "=0.16.2", optional = true }
+# whisper-rs 0.16 binds a current whisper.cpp and exposes safe segment/abort callbacks.
+whisper-rs = { version = "=0.16.0", optional = true, default-features = false }
+# J7 attention on a newly blocked run; no provider input is sent to the OS notification.
+tauri-plugin-notification = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+textops = { path = "crates/textops" }
+# The published TD-1 MCP tool-call schemas (P0-5), embedded and compiled — the Cowrite-hosted MCP
+# server (`agent::mcp`) validates every incoming tool call against the same contract the fake agent
+# is held to (NI-contract-tool-surface), so an unknown tool / malformed args are rejected identically.
+provider-contract = { path = "crates/provider-contract" }
+# RFC3339 timestamp parsing for the D22 importer (v1 wrote `created_at`/`timestamp`
+# via `chrono::Utc::now().to_rfc3339()` — same crate family, no hand-rolled parser).
+chrono = { version = "0.4", default-features = false, features = ["std"] }
+# Per-doc identity (`.cowrite/docs.json`, TD §3.2b) — UUID v4 minted at first sidecar write.
+uuid = { version = "1", features = ["v4", "serde"] }
+# FS watcher for externally-landed sidecar changes (P2a-10) — native OS notification APIs
+# (FSEvents/inotify/ReadDirectoryChangesW), never polling.
+notify = "8"
+# Per-project lock (P2a-11, TD §3.5 finding M7) — cross-platform OS advisory file lock
+# (flock/LockFileEx), no libc. The OS releases the lock the instant the owning process's file
+# handle closes (including on a crash), which is what makes a stale lock self-healing.
+fs4 = "1"
+# Local transcript store project keying (P2a-17, D15) — same algorithm `textops::Revision`
+# already uses for content hashes; stable across machines/toolchains, unlike `std`'s
+# `DefaultHasher` (an unspecified, version-dependent algorithm).
+blake3 = "1"
+# HTTPS byte-range downloads stay in the Rust backend (FR-X-2); the registry verifies the pinned digest.
+reqwest = { version = "0.13.4", default-features = false, features = ["blocking", "rustls"] }
+# TD-3's embedded Git backend. HTTPS and OpenSSL are vendored so packaged macOS builds do not
+# link a developer-machine dylib (SPIKE-2); the same library serves local repository operations.
+git2 = { version = "=0.20.4", default-features = false, features = ["https", "vendored-libgit2", "vendored-openssl"] }
+# Cross-platform child process-group spawn/kill (P2a-15, TD-5 "stop = kill child process group") —
+# POSIX process group on Unix, job object on Windows, via one `std::process::Command` extension
+# rather than hand-rolled per-OS signal/job-object code.
+command-group = "5.0.1"
+tauri-plugin-dialog = "2.7.1"
+
+[target.'cfg(windows)'.dependencies]
+# TD-18's Windows-only Recreate adapter uses native handle-relative opens, non-delete-sharing
+# route locks, atomic no-replace publication, and stable `FILE_ID_INFO` object identity. D17's
+# missing-leaf sidecar identity comparison also uses Windows' ordinal Unicode case rule. Keep these
+# bindings absent on unsupported hosts.
+windows-sys = { version = "0.61", features = [
+    "Win32_Foundation",
+    "Win32_Globalization",
+    "Win32_Security",
+    "Win32_Storage_FileSystem",
+    "Win32_System_IO",
+    "Win32_System_JobObjects",
+    "Win32_System_Pipes",
+    "Win32_System_Threading",
+    "Win32_System_Console",
+    "Win32_UI_WindowsAndMessaging",
+] }
+
+[target.'cfg(unix)'.dependencies]
+# TD-20(7)'s direct dev-build launcher begins a fresh session. LaunchServices owns the packaged
+# macOS case; this remains the exact detached fallback and the shipped Unix primitive.
+# Agent stderr collection also uses libc to make its owned pipe nonblocking.
+libc = "0.2"
+
+[dev-dependencies]
+proptest = "1"
+jsonschema = { version = "0.26", default-features = false }
+tempfile = "3"
+# The spawnable stream-JSON stand-in CLI (test-plan §1) — session-manager integration tests (P2a-15)
+# spawn its compiled binary (`CARGO_BIN_EXE_fake-agent`) in place of the real `claude` binary.
+fake-agent = { path = "crates/fake-agent" }
+wait-timeout = "0.2"
+rmcp = { version = "3.2.0", default-features = false, features = ["client", "transport-streamable-http-client-reqwest"] }
+tokio = { version = "1", features = ["rt", "macros", "time", "test-util"] }
+
+# test-plan §6 tracked benchmark (P2b-10b) — a plain `fn main`, never run by `cargo test`
+# (`test = false`); invoke explicitly via `cargo bench --bench comment_fold`.
+[[bench]]
+name = "comment_fold"
+harness = false
+test = false
+
+# TD-18/project-files measurement (#1518) — generated filesystem trees and the real production
+# scanner, operator-run only because test-plan §6 forbids wall-clock gates on variable runners.
+[[bench]]
+name = "project_files_scan"
+harness = false
+test = false
+
+[features]
+default = ["voice-inference"]
+voice-capture = ["dep:cpal", "dep:rubato"]
+voice-inference = ["voice-capture", "dep:whisper-rs"]

@@ -1,0 +1,14 @@
+{
+  "name": "claude-stale-resume",
+  "description": "A resumed Claude provider identity that no longer exists.",
+  "steps": [
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "error_during_execution",
+        "is_error": true,
+        "result": "No conversation found with session ID e6639704-0d4d-497d-8898-ef5a938ef849"
+      }
+    }
+  ]
+}

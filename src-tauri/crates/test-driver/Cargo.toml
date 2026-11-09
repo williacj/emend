@@ -1,0 +1,37 @@
+[package]
+name = "test-driver"
+version = "0.1.0"
+edition = "2021"
+description = "D23 headless test driver (tech-design §3.7): a loopback HTTP surface over the app's backend commands (open_document/save_document), so e2e scripts can script document state without full GUI automation. Never shipped — reuses cowrite_lib's command functions directly, no duplicated logic."
+
+[lib]
+name = "test_driver"
+path = "src/lib.rs"
+
+[[bin]]
+name = "test-driver"
+path = "src/main.rs"
+
+[dependencies]
+# Path dependency on the app package (crate name `cowrite_lib`, TD-10) so this driver dispatches
+# to the exact same command functions the Tauri IPC layer calls — no reimplementation, no mocking.
+cowrite = { path = "../..", default-features = false }
+# Only for `Anchor`'s own type, so `/resolve_anchor`'s request shape can deserialize the anchor
+# field the frontend posts — the same TD-4 shape `capture_anchor` already returns through this
+# same driver, just needed here by name rather than only through `cowrite_lib`'s command signature.
+textops = { path = "../textops" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# Nonblocking response writes use one deadline across OS readiness waits on macOS and Windows.
+mio = { version = "1", features = ["net", "os-poll"] }
+# The driver's own stand-in for the OS app-config/app-local-data dirs `commands::settings` and
+# `commands::transcript` normally resolve from a Tauri `AppHandle` (#1395) — this driver has no
+# such handle, so `/get_settings`/`/patch_settings`/`/append_transcript_event`/`/load_transcript`
+# read and write under a directory scoped to this driver process's own lifetime instead. A real
+# (not dev-only) dependency now that `serve` itself creates one, not just the tests.
+tempfile = "3"
+
+[dev-dependencies]
+# Lets the event-response lifecycle test shrink both sides' kernel buffers before connect/accept,
+# so eight non-reading loopback clients deterministically drive the production write into timeout.
+socket2 = "0.6"

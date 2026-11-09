@@ -1,0 +1,16 @@
+{
+  "name": "claude-malformed-output",
+  "description": "Misbehavior (test-plan §1): malformed output. After a valid system-init line the agent emits a line that is not valid JSON at all (a truncated object), then a stray non-JSON line. The consumer's stream parser must survive garbage without crashing the session. emit_raw writes bytes verbatim (no framing, no validation); run without --validate.",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "session_id": "c0ffee00-0000-4000-8000-000000000001",
+        "model": "claude-sonnet-4-5"
+      }
+    },
+    { "emit_raw": "{\"type\":\"assistant\",\"message\":{\"content\":[  <-- truncated, not valid JSON\n" },
+    { "emit_raw": "not json at all — just a stray line the parser must skip\n" }
+  ]
+}

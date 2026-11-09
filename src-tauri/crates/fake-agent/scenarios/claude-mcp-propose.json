@@ -1,0 +1,73 @@
+{
+  "name": "claude-mcp-propose",
+  "description": "J1-style protected-doc flow: the agent reads the doc via get_document_state, then delivers a change set via propose_changes — both MCP calls interleaved with the stream-JSON turn. MCP calls ride the side channel (not stdout); the stub tool server answers with TD-1 §3.2-shaped canned responses. Exercises P0-7's schema-validated round-trip (acceptance for #33).",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "cwd": "/tmp/project",
+        "session_id": "9f2c1a77-1e4b-4c0a-9a1d-2f6b8c0d1e2f",
+        "tools": ["Read", "Write"],
+        "mcp_servers": [{ "name": "cowrite", "status": "connected" }],
+        "model": "claude-sonnet-4-5",
+        "permissionMode": "default",
+        "apiKeySource": "none",
+        "claude_code_version": "2.1.200"
+      }
+    },
+    {
+      "mcp_call": {
+        "tool": "get_document_state",
+        "arguments": { "doc": "notes.md" }
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "model": "claude-sonnet-4-5",
+          "id": "msg_mcp_propose01",
+          "role": "assistant",
+          "content": [{ "type": "text", "text": "I'll tighten the opening sentence." }],
+          "usage": { "input_tokens": 210, "output_tokens": 24 }
+        },
+        "parent_tool_use_id": null,
+        "session_id": "9f2c1a77-1e4b-4c0a-9a1d-2f6b8c0d1e2f"
+      }
+    },
+    {
+      "mcp_call": {
+        "tool": "propose_changes",
+        "arguments": {
+          "doc": "notes.md",
+          "revision": "rev-stub-0001",
+          "edits": [
+            {
+              "range": { "offset": 0, "length": 13 },
+              "replacement": "# Stub doc",
+              "note": "shorten heading"
+            }
+          ],
+          "summary": "Tighten the heading"
+        },
+        "expect": { "change_set_id": "cs-stub-0001" }
+      }
+    },
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "success",
+        "is_error": false,
+        "duration_ms": 4102,
+        "num_turns": 1,
+        "result": "Proposed one change to notes.md.",
+        "stop_reason": "end_turn",
+        "session_id": "9f2c1a77-1e4b-4c0a-9a1d-2f6b8c0d1e2f",
+        "total_cost_usd": 0.0512,
+        "permission_denials": [],
+        "terminal_reason": "completed"
+      }
+    }
+  ]
+}

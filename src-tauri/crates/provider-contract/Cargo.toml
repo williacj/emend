@@ -1,0 +1,9 @@
+[package]
+name = "provider-contract"
+version = "0.1.0"
+edition = "2021"
+description = "Validation helper for the Cowrite provider contract (stream-JSON grammar + MCP payloads) against the published docs/formats schemas."
+
+[dependencies]
+serde_json = "1"
+jsonschema = { version = "0.26", default-features = false }

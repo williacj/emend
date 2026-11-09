@@ -1,0 +1,23 @@
+[package]
+name = "textops"
+version = "0.1.0"
+edition = "2021"
+description = "Pure textops functions: CriticMarkup, diffs, anchors, coordinate transforms, property-tested."
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+blake3 = "1"
+
+[dev-dependencies]
+proptest = "1"
+# The open-source fixture corpus (P0-4/TP-Q3) — `delivery_apply` benchmarks over the
+# corpus's dedicated large-document fixture rather than a synthetic/degenerate one.
+fixtures = { path = "../fixtures" }
+
+# test-plan §6 tracked benchmark (P2b-10b) — a plain `fn main`, never run by `cargo test`
+# (`test = false`); invoke explicitly via `cargo bench -p textops --bench delivery_apply`.
+[[bench]]
+name = "delivery_apply"
+harness = false
+test = false

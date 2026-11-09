@@ -1,0 +1,18 @@
+{
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Cowrite",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 720,
+        "minHeight": 480,
+        "visible": false,
+        "decorations": true,
+        "titleBarStyle": "Overlay",
+        "hiddenTitle": true
+      }
+    ]
+  }
+}

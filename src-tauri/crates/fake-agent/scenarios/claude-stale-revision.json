@@ -1,0 +1,53 @@
+{
+  "name": "claude-stale-revision",
+  "description": "Misbehavior (test-plan §1): stale-revision tool call. The agent reads the doc, then proposes changes against revision `rev-stale-1` after the document has moved on to `rev-current`. The call is well-formed (it passes the McpToolCall schema — staleness is semantic, not structural), so this scenario runs WITH --validate; the injected RevisionAwareToolServer('rev-current') rejects it, and the step's `expect` asserts the stale rejection. Drive with a RevisionAwareToolServer whose current_revision is `rev-current`.",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "cwd": "/tmp/project",
+        "session_id": "51a1e000-0000-4000-8000-000000000004",
+        "tools": ["Read", "Write"],
+        "mcp_servers": [{ "name": "cowrite", "status": "connected" }],
+        "model": "claude-sonnet-4-5",
+        "permissionMode": "default",
+        "apiKeySource": "none",
+        "claude_code_version": "2.1.200"
+      }
+    },
+    {
+      "mcp_call": {
+        "tool": "propose_changes",
+        "arguments": {
+          "doc": "notes.md",
+          "revision": "rev-stale-1",
+          "edits": [
+            { "range": { "offset": 0, "length": 0 }, "replacement": "New opening line.\n" }
+          ],
+          "summary": "Add an opening line (against a stale revision)"
+        },
+        "expect": {
+          "rejected": "stale_revision",
+          "current_revision": "rev-current",
+          "submitted_revision": "rev-stale-1"
+        }
+      }
+    },
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "success",
+        "is_error": false,
+        "duration_ms": 2010,
+        "num_turns": 1,
+        "result": "Attempted a proposal against a stale revision.",
+        "stop_reason": "end_turn",
+        "session_id": "51a1e000-0000-4000-8000-000000000004",
+        "total_cost_usd": 0.03,
+        "permission_denials": [],
+        "terminal_reason": "completed"
+      }
+    }
+  ]
+}

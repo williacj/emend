@@ -1,0 +1,9 @@
+{
+  "name": "claude-interleaved-output",
+  "description": "Misbehavior (test-plan §1): interleaved output. The bytes of one event are split, and a second complete event is written into the gap — modelling two concurrent writers whose output interleaves on a single stream (no clean one-object-per-line framing). The consumer must not mis-parse the jammed-together bytes as one event. emit_raw writes fragments verbatim; run without --validate.",
+  "steps": [
+    { "emit_raw": "{\"type\":\"assistant\",\"message\":{\"content\":[{\"type\":\"tool_use\",\"name\":\"Read\"}" },
+    { "emit": { "type": "system", "subtype": "spliced_in_mid_event" } },
+    { "emit_raw": "]}}\n" }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cowrite.local/formats/provider-contract/permission-callback.claude.schema.json",
+  "schema_version": 1,
+  "title": "Claude native permission callback arguments",
+  "description": "Provider-owned permission-prompt-tool wire shape, adapted into the canonical TD-1 action/detail/why service request. Observed Claude 2.1.263, 2026-09-07.",
+  "type": "object",
+  "required": [
+    "tool_name",
+    "input"
+  ],
+  "properties": {
+    "tool_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input": {
+      "type": "object"
+    },
+    "tool_use_id": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
