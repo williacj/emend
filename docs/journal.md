@@ -1,6 +1,6 @@
 # Emend — Engineering Journal
 
-> **Renamed 2026-11-08:** the app was Cowrite until D36 and TD-29. Entries below that date keep the old name, the old on-disk names (`.cowrite/`, `COWRITE_*`, `com.cowrite.desktop`) and bare `#NNNN` issue numbers, which refer to `williacj/cowrite`. They are left as written, because they record what was true then.
+> **Renamed 2026-11-08:** the app was Cowrite until D36 and TD-29. Entries dated before 2026-11-08 keep the old name, the old on-disk names (`.cowrite/`, `COWRITE_*`, `com.cowrite.desktop`) and bare `#NNNN` issue numbers, which refer to `williacj/cowrite`. They are left as written, because they record what was true then.
 
 # 2026-11-08 — williacj/emend#10 design refresh (31) import
 

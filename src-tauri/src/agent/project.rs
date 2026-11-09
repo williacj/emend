@@ -724,9 +724,9 @@ mod tests {
         );
     }
 
-    /// TD-29: a project that holds only Emend's `.cowrite/` opens as a project with no sidecar
+    /// TD-29: a project that holds only the pre-rename `.cowrite/` opens as a project with no sidecar
     /// state. Real sidecar data and a saved tab session are written where Emend keeps them, then
-    /// moved to where Emend did; the open must restore none of it and leave it byte-identical.
+    /// moved to `.cowrite/`; the open must restore none of it and leave it byte-identical.
     #[test]
     fn a_project_holding_only_dot_cowrite_opens_with_no_state_and_leaves_it_untouched() {
         let registry = tempfile::TempDir::new().unwrap();

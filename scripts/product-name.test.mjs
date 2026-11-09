@@ -1,5 +1,5 @@
-// ABOUTME: Guards the product name in shipped code: nothing in src/, src-tauri/src/ or the app's
-// ABOUTME: shipped config and host files may still say "Cowrite" after the rename to Emend (D36).
+// ABOUTME: Guards the product name in shipped code: nothing in src/, src-tauri/ sources and crates, or
+// ABOUTME: the app's config, capability and host files may still say "Cowrite" after the rename (D36).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
@@ -8,9 +8,10 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const SHIPPED_DIRS = ['src', 'src-tauri/src'];
+const SHIPPED_DIRS = ['src', 'src-tauri/src', 'src-tauri/crates', 'src-tauri/capabilities'];
 const SHIPPED_FILES = [
   'index.html',
+  'src-tauri/Entitlements.plist',
   'src-tauri/Info.plist',
   'src-tauri/tauri.conf.json',
   'src-tauri/tauri.macos.conf.json',
@@ -20,6 +21,7 @@ const SHIPPED_FILES = [
 // Protocol values that are not copy. Each is renamed by its own card and leaves this list there.
 const NOT_COPY = [
   { file: 'src-tauri/src/agent/claude.rs', text: 'X-Cowrite-Run' }, // HTTP header name, #26
+  { file: 'src-tauri/crates/fake-agent/src/http_tool_server.rs', text: 'X-Cowrite-Run' }, // #26
 ];
 
 export function oldNameLines(files, read) {
@@ -37,7 +39,7 @@ export function oldNameLines(files, read) {
 test('nothing shipped names the product Cowrite', () => {
   const sources = execFileSync('git', ['ls-files', ...SHIPPED_DIRS], { cwd: ROOT, encoding: 'utf8' })
     .split('\n')
-    .filter((file) => /\.(ts|tsx|rs|css)$/.test(file));
+    .filter((file) => /\.(ts|tsx|rs|css|json|toml)$/.test(file));
   assert.ok(sources.length > 100, `expected the shipped source tree, found ${sources.length} files`);
   const files = [...sources, ...SHIPPED_FILES];
   assert.deepEqual(oldNameLines(files, (file) => readFileSync(join(ROOT, file), 'utf8')), []);

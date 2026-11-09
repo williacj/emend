@@ -1268,7 +1268,7 @@ mod comment_append_fold_tests {
     #[test]
     fn a_project_holding_only_dot_cowrite_opens_with_no_sidecar_state_and_leaves_it_untouched() {
         // TD-29: a clean break with no migration. Real sidecar data is written by the store, then
-        // moved to where Emend kept it; a fresh store must neither read, write nor delete it.
+        // moved to the pre-rename `.cowrite/`; a fresh store must neither read, write nor delete it.
         let (dir, writer, _) = store();
         let old_id = writer.get_or_mint_for_path("a.md").unwrap();
         writer

@@ -96,7 +96,7 @@ does not freeze the file between approval and the provider's later execution, no
 imported dependencies or ambient interpreter resolution. The original callback input still passes
 through unchanged after approval; no script content or grant is persisted in D15 or provider settings.
 
-The injected `X-Emend-Run` header binds the callback to the backend-created run in addition
+The injected `X-Cowrite-Run` header binds the callback to the backend-created run in addition
 to the existing project bearer token. An absent, ended, or different run is denied before a
 permission card is created. Permission snapshots also carry an opaque project-lifetime identity
 and a project-local revision, so delayed events from a displaced project cannot replace a new

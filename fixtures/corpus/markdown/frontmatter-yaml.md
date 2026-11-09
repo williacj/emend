@@ -1,6 +1,6 @@
 ---
 title: A Document With YAML Front Matter
-author: Emend Fixtures
+author: Cowrite Fixtures
 date: 2026-07-09
 tags:
   - fidelity
