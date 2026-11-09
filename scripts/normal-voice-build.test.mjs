@@ -15,7 +15,7 @@ test('the ordinary Cowrite app feature set links local Whisper', () => {
   assert.match(manifest, /^default = \["voice-inference"\]$/m);
   assert.match(manifest, /^voice-inference = \["voice-capture", "dep:whisper-rs"\]$/m);
   // The headless e2e helper is not the shipped desktop binary.
-  assert.match(read('src-tauri/crates/test-driver/Cargo.toml'), /^cowrite = \{ path = "\.\.\/\.\.", default-features = false \}$/m);
+  assert.match(read('src-tauri/crates/test-driver/Cargo.toml'), /^emend = \{ path = "\.\.\/\.\.", default-features = false \}$/m);
 });
 
 test('self-hosted Windows provisions target-native Whisper tools before default-feature clippy and tests', () => {
@@ -52,10 +52,10 @@ test('hosted Windows and macOS gates build and inspect a normal unsigned app exe
   assert.match(workflow, /npm run tauri -- build --ci --no-sign --bundles nsis/);
   assert.match(workflow, /npm run tauri -- build --ci --no-sign --bundles app/);
   assert.doesNotMatch(workflow, /tauri -- build[^\n]*--features/);
-  assert.match(workflow, /target\/release\/cowrite\.exe/);
-  assert.match(workflow, /target\/release\/cowrite(?:[^.\w]|$)/);
+  assert.match(workflow, /target\/release\/emend\.exe/);
+  assert.match(workflow, /target\/release\/emend(?:[^.\w]|$)/);
   assert.match(workflow, /target\/release\/bundle\/nsis[\s\S]*\*-setup\.exe/);
-  assert.match(workflow, /target\/release\/bundle\/macos\/Cowrite\.app/);
+  assert.match(workflow, /target\/release\/bundle\/macos\/Emend\.app/);
   assert.match(workflow, /PlistBuddy -c 'Print :NSMicrophoneUsageDescription'/);
   assert.match(workflow, /scripts\/provision-whisper-windows\.ps1/);
   assert.match(workflow, /LIBCLANG_PATH/);
@@ -130,7 +130,7 @@ test('on-demand self-hosted Windows NSIS build targets one immutable PR head wit
   assert.match(bundle, /npm ci/);
   assert.match(bundle, /npm run tauri -- build --ci --no-sign --bundles nsis/);
   assert.doesNotMatch(bundle, /tauri -- build[^\n]*--features/);
-  assert.match(bundle, /target\/release\/cowrite\.exe/);
+  assert.match(bundle, /target\/release\/emend\.exe/);
   assert.match(bundle, /bundle\/nsis[\s\S]*\*-setup\.exe/);
   assert.match(bundle, /actions\/upload-artifact@/);
 });

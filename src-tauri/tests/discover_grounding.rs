@@ -4,7 +4,7 @@
 use std::fs;
 use std::path::PathBuf;
 
-use cowrite_lib::commands::skills::{
+use emend_lib::commands::skills::{
     discover_grounding_payload, GroundingSkillPayload, GroundingWorkflowPayload,
 };
 

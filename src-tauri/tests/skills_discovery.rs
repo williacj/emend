@@ -12,7 +12,7 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use cowrite_lib::skills::{self, SkipReason};
+use emend_lib::skills::{self, SkipReason};
 
 /// A fresh, empty project root unique to `test` (under Cargo's per-target tmp dir).
 fn project_root(test: &str) -> PathBuf {

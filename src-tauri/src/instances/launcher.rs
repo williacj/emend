@@ -161,15 +161,15 @@ mod tests {
     fn macos_bundle_detection_requires_the_structural_contents_macos_layout() {
         assert_eq!(
             containing_app_bundle(Path::new(
-                "/Applications/Cowrite.app/Contents/MacOS/Cowrite"
+                "/Applications/Emend.app/Contents/MacOS/Emend"
             )),
-            Some(Path::new("/Applications/Cowrite.app"))
+            Some(Path::new("/Applications/Emend.app"))
         );
         assert_eq!(
-            containing_app_bundle(Path::new("/tmp/Cowrite.app/dev/Cowrite")),
+            containing_app_bundle(Path::new("/tmp/Emend.app/dev/Emend")),
             None
         );
-        assert_eq!(containing_app_bundle(Path::new("/tmp/Cowrite")), None);
+        assert_eq!(containing_app_bundle(Path::new("/tmp/Emend")), None);
     }
 
     #[test]
@@ -182,9 +182,9 @@ mod tests {
         let brokers = Cell::new(0);
         let directs = Cell::new(0);
         launch_macos_with(
-            Path::new("/Applications/Cowrite.app/Contents/MacOS/Cowrite"),
+            Path::new("/Applications/Emend.app/Contents/MacOS/Emend"),
             |bundle| {
-                assert_eq!(bundle, Path::new("/Applications/Cowrite.app"));
+                assert_eq!(bundle, Path::new("/Applications/Emend.app"));
                 brokers.set(brokers.get() + 1);
                 Ok(true)
             },
@@ -201,7 +201,7 @@ mod tests {
     fn failed_launchservices_broker_falls_back_direct_exactly_once() {
         let directs = Cell::new(0);
         launch_macos_with(
-            Path::new("/Applications/Cowrite.app/Contents/MacOS/Cowrite"),
+            Path::new("/Applications/Emend.app/Contents/MacOS/Emend"),
             |_| Ok(false),
             || {
                 directs.set(directs.get() + 1);
@@ -216,7 +216,7 @@ mod tests {
     fn unavailable_launchservices_broker_falls_back_direct_exactly_once() {
         let directs = Cell::new(0);
         launch_macos_with(
-            Path::new("/Applications/Cowrite.app/Contents/MacOS/Cowrite"),
+            Path::new("/Applications/Emend.app/Contents/MacOS/Emend"),
             |_| Err(io::Error::other("open unavailable")),
             || {
                 directs.set(directs.get() + 1);
@@ -232,7 +232,7 @@ mod tests {
         let brokers = Cell::new(0);
         let directs = Cell::new(0);
         launch_macos_with(
-            Path::new("/tmp/target/debug/cowrite"),
+            Path::new("/tmp/target/debug/emend"),
             |_| {
                 brokers.set(brokers.get() + 1);
                 Ok(true)

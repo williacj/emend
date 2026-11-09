@@ -22,7 +22,7 @@ use std::hint::black_box;
 use std::path::Path;
 use std::time::Instant;
 
-use cowrite_lib::project_files::{
+use emend_lib::project_files::{
     EntryKind, FilesystemScanner, ProjectFileEntry, ProjectFilesScanner,
 };
 

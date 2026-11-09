@@ -6,12 +6,12 @@ use std::path::{Path, PathBuf};
 use std::sync::{Arc, Condvar, Mutex};
 use std::time::{Duration, Instant};
 
-use cowrite_lib::agent::activity::ActivityLine;
-use cowrite_lib::agent::run_queue::{
+use emend_lib::agent::activity::ActivityLine;
+use emend_lib::agent::run_queue::{
     ActivityEmitter, NoopEmitter, RunObserver, RunPhase, RunQueue, RunRequest, RunStatus,
     StopOutcome,
 };
-use cowrite_lib::agent::session::{AgentSession, SessionError};
+use emend_lib::agent::session::{AgentSession, SessionError};
 
 mod common;
 use common::{fake_agent_bin, fake_agent_scenario, workdir};

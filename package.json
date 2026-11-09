@@ -1,5 +1,5 @@
 {
-  "name": "cowrite",
+  "name": "emend",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -10,8 +10,8 @@
     "preview": "vite preview",
     "tauri": "node scripts/rust-launcher.mjs tauri",
     "tauri:shared": "node scripts/rust-launcher.mjs --shared tauri",
-    "build:rust": "node scripts/rust-launcher.mjs cargo build --package cowrite",
-    "build:rust:shared": "node scripts/rust-launcher.mjs --shared cargo build --package cowrite",
+    "build:rust": "node scripts/rust-launcher.mjs cargo build --package emend",
+    "build:rust:shared": "node scripts/rust-launcher.mjs --shared cargo build --package emend",
     "matrix:check": "node scripts/check-test-matrix.mjs",
     "scope:tests": "node scripts/scope-tests.mjs",
     "check:vitest-unhandled-errors": "node scripts/check-vitest-unhandled-errors.mjs",

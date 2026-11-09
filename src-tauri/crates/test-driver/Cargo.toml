@@ -2,7 +2,7 @@
 name = "test-driver"
 version = "0.1.0"
 edition = "2021"
-description = "D23 headless test driver (tech-design §3.7): a loopback HTTP surface over the app's backend commands (open_document/save_document), so e2e scripts can script document state without full GUI automation. Never shipped — reuses cowrite_lib's command functions directly, no duplicated logic."
+description = "D23 headless test driver (tech-design §3.7): a loopback HTTP surface over the app's backend commands (open_document/save_document), so e2e scripts can script document state without full GUI automation. Never shipped — reuses emend_lib's command functions directly, no duplicated logic."
 
 [lib]
 name = "test_driver"
@@ -13,12 +13,12 @@ name = "test-driver"
 path = "src/main.rs"
 
 [dependencies]
-# Path dependency on the app package (crate name `cowrite_lib`, TD-10) so this driver dispatches
+# Path dependency on the app package (crate name `emend_lib`, TD-10) so this driver dispatches
 # to the exact same command functions the Tauri IPC layer calls — no reimplementation, no mocking.
-cowrite = { path = "../..", default-features = false }
+emend = { path = "../..", default-features = false }
 # Only for `Anchor`'s own type, so `/resolve_anchor`'s request shape can deserialize the anchor
 # field the frontend posts — the same TD-4 shape `capture_anchor` already returns through this
-# same driver, just needed here by name rather than only through `cowrite_lib`'s command signature.
+# same driver, just needed here by name rather than only through `emend_lib`'s command signature.
 textops = { path = "../textops" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

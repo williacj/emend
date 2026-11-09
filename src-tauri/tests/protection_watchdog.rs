@@ -11,10 +11,10 @@
 //!   external editor / git checkout). The watchdog never converts on a guess; it surfaces the
 //!   FR-ED-7 external-change signal (finding M11).
 
-use cowrite_lib::agent::session::AgentSession;
-use cowrite_lib::agent::watchdog::{Watchdog, WriteOutcome};
-use cowrite_lib::store::changes;
-use cowrite_lib::store::service::SidecarStore;
+use emend_lib::agent::session::AgentSession;
+use emend_lib::agent::watchdog::{Watchdog, WriteOutcome};
+use emend_lib::store::changes;
+use emend_lib::store::service::SidecarStore;
 
 mod common;
 use common::{fake_agent_bin, fake_agent_scenario, workdir};

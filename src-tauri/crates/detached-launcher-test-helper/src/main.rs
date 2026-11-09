@@ -6,7 +6,7 @@ use std::io::Write;
 use std::path::PathBuf;
 use std::time::{Duration, Instant};
 
-use cowrite_lib::instances::{parse_startup_intent, DetachedLauncher, Launcher, StartupIntent};
+use emend_lib::instances::{parse_startup_intent, DetachedLauncher, Launcher, StartupIntent};
 use uuid::Uuid;
 
 fn main() {

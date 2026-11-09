@@ -11,7 +11,7 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use cowrite_lib::skills::{self, SkipReason};
+use emend_lib::skills::{self, SkipReason};
 
 fn project_root(test: &str) -> PathBuf {
     let dir = PathBuf::from(env!("CARGO_TARGET_TMPDIR"))

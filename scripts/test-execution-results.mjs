@@ -62,7 +62,7 @@ export function stripAnsiEscapes(text) {
   return text.replace(ANSI_ESCAPE_RE, "");
 }
 
-// cargo's OWN progress line, e.g. `     Running unittests src\lib.rs (…\deps\cowrite_lib-19120b3956d52537.exe)`
+// cargo's OWN progress line, e.g. `     Running unittests src\lib.rs (…\deps\emend_lib-19120b3956d52537.exe)`
 // or `     Running tests\project_mcp_server.rs (…\deps\project_mcp_server-00d2a193c891da30.exe)`.
 // Printed on cargo's STDERR, before it spawns the named binary and blocks until that binary
 // exits — so in a merged transcript every `test … ok` line that follows one of these headers, up

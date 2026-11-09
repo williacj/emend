@@ -10,12 +10,12 @@ use serde_json::{json, Value};
 use tempfile::TempDir;
 use textops::Document;
 
-use cowrite_lib::agent::claude::McpServer;
-use cowrite_lib::agent::project::{OpenProjectRunObserver, ProjectObservers, SharedOpenProject};
-use cowrite_lib::agent::run_queue::{NoopEmitter, RunObserver, RunPhase, RunQueue, RunRequest};
-use cowrite_lib::agent::session::{AgentSession, SessionError};
-use cowrite_lib::commands::agent::{claude_invocation, spawn_claude_run, start_run_on};
-use cowrite_lib::commands::project::{
+use emend_lib::agent::claude::McpServer;
+use emend_lib::agent::project::{OpenProjectRunObserver, ProjectObservers, SharedOpenProject};
+use emend_lib::agent::run_queue::{NoopEmitter, RunObserver, RunPhase, RunQueue, RunRequest};
+use emend_lib::agent::session::{AgentSession, SessionError};
+use emend_lib::commands::agent::{claude_invocation, spawn_claude_run, start_run_on};
+use emend_lib::commands::project::{
     close_project_on, new_session, open_project_on, CommandError,
 };
 
@@ -287,7 +287,7 @@ fn close_side_run_active_refusal_keeps_the_open_project_identity() {
     let close = close_project_on(&session, &queue);
     assert_eq!(
         queue.stop(&run_id),
-        cowrite_lib::agent::run_queue::StopOutcome::Stopped
+        emend_lib::agent::run_queue::StopOutcome::Stopped
     );
     let error = close.unwrap_err();
     assert!(matches!(error, CommandError::RunActive(_)));
@@ -316,7 +316,7 @@ fn closing_a_project_while_a_run_is_active_keeps_the_live_binding() {
     let close = close_project_on(&session, &queue);
     assert_eq!(
         queue.stop(&run_id),
-        cowrite_lib::agent::run_queue::StopOutcome::Stopped
+        emend_lib::agent::run_queue::StopOutcome::Stopped
     );
     let error = close.unwrap_err();
     assert!(matches!(error, CommandError::RunActive(_)));
@@ -670,8 +670,8 @@ fn permission_provider_subprocess() {
 
 #[test]
 fn spawned_permission_callback_carries_allow_deny_stop_and_provider_exit() {
-    use cowrite_lib::agent::permission::{PermissionDecision, PermissionObserver, PermissionState};
-    use cowrite_lib::commands::agent::{decide_permission_on, permission_state_on};
+    use emend_lib::agent::permission::{PermissionDecision, PermissionObserver, PermissionState};
+    use emend_lib::commands::agent::{decide_permission_on, permission_state_on};
     use std::sync::mpsc;
     for mode in ["allow", "deny", "stop", "exit"] {
         let dir = TempDir::new().unwrap();
@@ -759,7 +759,7 @@ fn spawned_permission_callback_carries_allow_deny_stop_and_provider_exit() {
             "stop" => {
                 assert_eq!(
                     queue.stop(&run.id),
-                    cowrite_lib::agent::run_queue::StopOutcome::Stopped
+                    emend_lib::agent::run_queue::StopOutcome::Stopped
                 );
             }
             "exit" => kill_rx

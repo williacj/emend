@@ -9,4 +9,4 @@ name = "rendezvous-test-helper"
 path = "src/main.rs"
 
 [dependencies]
-cowrite = { path = "../.." }
+emend = { path = "../.." }

@@ -14,8 +14,8 @@ use std::sync::{Arc, Mutex};
 use std::thread::JoinHandle;
 use std::time::{Duration, Instant};
 
-use cowrite_lib::agent::watchdog::{DocWatcher, Watchdog};
-use cowrite_lib::project_files::{
+use emend_lib::agent::watchdog::{DocWatcher, Watchdog};
+use emend_lib::project_files::{
     AutomaticRefresh, NativeEventSink, NativeRenameMode, NormalizedEvent, NormalizedEventKind,
     PlatformFileId, ProjectFileEntry, ProjectFiles, ProjectFilesError, ProjectFilesObserver,
     ProjectFilesScanner, ProjectFilesSnapshot, QuietWindowScheduler, RefreshScheduler,
@@ -202,7 +202,7 @@ fn identified_file(path: &str, id: u128) -> ProjectFileEntry {
     ProjectFileEntry {
         path: path.to_string(),
         name: path.rsplit('/').next().unwrap_or(path).to_string(),
-        kind: cowrite_lib::project_files::EntryKind::File,
+        kind: emend_lib::project_files::EntryKind::File,
         platform_file_id: Some(PlatformFileId::opaque(0, id)),
         children: Vec::new(),
         warning: None,

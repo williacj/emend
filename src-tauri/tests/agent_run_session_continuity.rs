@@ -9,14 +9,14 @@ use std::time::{Duration, Instant};
 use serde_json::Value;
 use tempfile::TempDir;
 
-use cowrite_lib::agent::project::{OpenProjectRunObserver, ProjectObservers, SharedOpenProject};
-use cowrite_lib::agent::run_queue::{NoopEmitter, RunObserver, RunPhase, RunQueue, RunRequest};
-use cowrite_lib::agent::session::{AgentSession, SessionError};
-use cowrite_lib::commands::agent::claude_invocation;
-use cowrite_lib::commands::project::{
+use emend_lib::agent::project::{OpenProjectRunObserver, ProjectObservers, SharedOpenProject};
+use emend_lib::agent::run_queue::{NoopEmitter, RunObserver, RunPhase, RunQueue, RunRequest};
+use emend_lib::agent::session::{AgentSession, SessionError};
+use emend_lib::commands::agent::claude_invocation;
+use emend_lib::commands::project::{
     close_project_on, new_session, open_project_on, open_project_with_data_dir_on,
 };
-use cowrite_lib::store::transcript;
+use emend_lib::store::transcript;
 
 mod common;
 use common::{fake_agent_bin, fake_agent_scenario};
@@ -118,7 +118,7 @@ impl RunObserver for CountingRecoveryObserver {
     }
 }
 
-impl cowrite_lib::agent::run_queue::Spawn for RecoverySpawner {
+impl emend_lib::agent::run_queue::Spawn for RecoverySpawner {
     fn spawn(&self, request: &RunRequest) -> Result<AgentSession, SessionError> {
         self.calls.fetch_add(1, Ordering::SeqCst);
         self.prompts.lock().unwrap().push(request.prompt.clone());

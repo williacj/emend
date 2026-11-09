@@ -40,7 +40,7 @@
 
 use std::time::Instant;
 
-use cowrite_lib::store::comments::{fold, CommentEvent, EventKind, SCHEMA_VERSION};
+use emend_lib::store::comments::{fold, CommentEvent, EventKind, SCHEMA_VERSION};
 use textops::{Anchor, Document};
 
 /// test-plan §6: "Fold of 10k-event comment log: < 50ms." First capture of this

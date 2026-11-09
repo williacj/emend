@@ -5,8 +5,8 @@ use std::io::Write;
 use std::path::PathBuf;
 use std::time::Duration;
 
-use cowrite_lib::instances::{answer_request, RequestReceiver, RouteSuccess, SystemClock};
-use cowrite_lib::store::lock::{self, LockOutcome, LockOwner};
+use emend_lib::instances::{answer_request, RequestReceiver, RouteSuccess, SystemClock};
+use emend_lib::store::lock::{self, LockOutcome, LockOwner};
 
 fn main() {
     let mut args = std::env::args_os().skip(1);
@@ -41,7 +41,7 @@ fn main() {
     )
     .expect("answer request");
     assert!(
-        matches!(answer, cowrite_lib::instances::AnswerStatus::Answered),
+        matches!(answer, emend_lib::instances::AnswerStatus::Answered),
         "helper must publish the first and only answer"
     );
     drop(ownership);

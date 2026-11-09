@@ -21,8 +21,8 @@ use std::sync::{Arc, Mutex};
 use serde_json::json;
 use tempfile::TempDir;
 
-use cowrite_lib::agent::delivery::{DeliveryNotice, DeliveryObserver};
-use cowrite_lib::agent::mcp::ProjectMcpServer;
+use emend_lib::agent::delivery::{DeliveryNotice, DeliveryObserver};
+use emend_lib::agent::mcp::ProjectMcpServer;
 
 mod common;
 use common::mcp_call_ok;

@@ -12,7 +12,7 @@
 //! surface, with the bearer check genuinely in the path.
 //!
 //! Deliberately hand-rolled HTTP (no new dependencies), matching this workspace's existing
-//! loopback-server precedent (`cowrite_lib::agent::mcp`, `test-driver`): one request per
+//! loopback-server precedent (`emend_lib::agent::mcp`, `test-driver`): one request per
 //! connection, `Connection: close`, no keep-alive.
 
 use std::io::{BufRead, BufReader, Read, Write};
@@ -24,7 +24,7 @@ use serde_json::{json, Value};
 use crate::tool_server::{ToolError, ToolServer};
 
 /// Bounds every blocking read/write against the server, mirroring the server side's own
-/// `STREAM_TIMEOUT` (`cowrite_lib::agent::mcp`). A wedged server must fail this call — and so the
+/// `STREAM_TIMEOUT` (`emend_lib::agent::mcp`). A wedged server must fail this call — and so the
 /// test driving it — rather than hang the suite forever (test-plan §4: no unbounded waits).
 const STREAM_TIMEOUT: Duration = Duration::from_secs(5);
 
@@ -50,7 +50,7 @@ pub struct HttpToolServer {
 
 impl std::fmt::Debug for HttpToolServer {
     /// Hand-written so an accidental `{:?}` cannot print the bearer token — the same
-    /// token-leakage discipline `cowrite_lib::agent::claude::McpServer` keeps on the other side.
+    /// token-leakage discipline `emend_lib::agent::claude::McpServer` keeps on the other side.
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("HttpToolServer")
             .field("authority", &self.authority)
@@ -319,7 +319,7 @@ fn read_response(stream: &TcpStream) -> std::io::Result<(u16, String)> {
 mod tests {
     use super::*;
 
-    /// Exactly what `cowrite_lib::agent::claude::mcp_config` emits.
+    /// Exactly what `emend_lib::agent::claude::mcp_config` emits.
     fn config(url: &str) -> Value {
         json!({
             "mcpServers": {

@@ -11,7 +11,7 @@ The maintainer checks that Windows CI and any other checks that ran are green fo
 
 ## On-demand unsigned NSIS evidence (#2612)
 
-The existing Windows workflow has an operator-only `unsigned-nsis` dispatch mode. It builds the normal default-feature Tauri app on an admitted self-hosted Windows runner, without signing, and checks both `cowrite.exe` and one new NSIS `*-setup.exe`. The installer is uploaded as a seven-day artifact named for the exact commit. This job has a different check name from `Suites (Windows, self-hosted)` and does not run for pull requests, the daily schedule, or the ordinary `suites` dispatch. Keep it separate until its compilation time and runner contention are measured; it does not replace the required current-head Windows suites.
+The existing Windows workflow has an operator-only `unsigned-nsis` dispatch mode. It builds the normal default-feature Tauri app on an admitted self-hosted Windows runner, without signing, and checks both `emend.exe` and one new NSIS `*-setup.exe`. The installer is uploaded as a seven-day artifact named for the exact commit. This job has a different check name from `Suites (Windows, self-hosted)` and does not run for pull requests, the daily schedule, or the ordinary `suites` dispatch. Keep it separate until its compilation time and runner contention are measured; it does not replace the required current-head Windows suites.
 
 After the branch containing this workflow mode is pushed, dispatch the exact PR commit (not a mutable branch name as the target):
 

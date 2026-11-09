@@ -185,7 +185,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          $exe = 'src-tauri/target/release/cowrite.exe'
+          $exe = 'src-tauri/target/release/emend.exe'
           if (-not (Test-Path -LiteralPath $exe)) { throw "Normal app build produced no $exe" }
           $item = Get-Item -LiteralPath $exe
           if ($item.Length -lt 1048576) { throw "App executable is unexpectedly small: $($item.Length) bytes" }
@@ -198,11 +198,11 @@ jobs:
       - name: Inspect macOS app executable
         if: matrix.os == 'macos-latest'
         run: |
-          exe=src-tauri/target/release/cowrite
+          exe=src-tauri/target/release/emend
           test -s "$exe"
           file "$exe" | grep -q 'Mach-O'
           shasum -a 256 "$exe"
-          app=src-tauri/target/release/bundle/macos/Cowrite.app
+          app=src-tauri/target/release/bundle/macos/Emend.app
           test -d "$app/Contents/MacOS"
           test -s "$app/Contents/Info.plist"
           /usr/libexec/PlistBuddy -c 'Print :NSMicrophoneUsageDescription' "$app/Contents/Info.plist"

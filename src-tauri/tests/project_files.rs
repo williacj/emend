@@ -7,16 +7,16 @@ use std::path::Path;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 
-use cowrite_lib::agent::project::{OpenProject, ProjectObservers};
-use cowrite_lib::agent::watchdog::WriteOutcome;
-use cowrite_lib::project_files::{
+use emend_lib::agent::project::{OpenProject, ProjectObservers};
+use emend_lib::agent::watchdog::WriteOutcome;
+use emend_lib::project_files::{
     is_project_path_enumerable, is_user_visible, reconcile, EntryKind, NativeRenameMode,
     NormalizedEvent, NormalizedEventKind, PlatformFileId, ProjectFileEntry, ProjectFileMove,
     ProjectFiles, ProjectFilesError, ProjectFilesScanner, ProjectFilesStore, ProjectPathRekeyer,
     RecreateAdapter, RecreateAdapterError, RecreateCapabilityStatus, RecreateOutcome,
     RecreatePublishStatus, RecreateTransaction, UnavailableRecreateAdapter,
 };
-use cowrite_lib::store::service::{SidecarError, SidecarStore};
+use emend_lib::store::service::{SidecarError, SidecarStore};
 use serde_json::json;
 use uuid::Uuid;
 
@@ -420,7 +420,7 @@ fn a_windows_directory_symlink_is_listed_as_non_actionable_context_but_never_des
 fn an_unreadable_child_is_a_typed_warning_in_an_otherwise_completed_snapshot() {
     use std::os::unix::fs::PermissionsExt;
 
-    use cowrite_lib::project_files::ProjectFileWarningKind;
+    use emend_lib::project_files::ProjectFileWarningKind;
 
     let dir = tempfile::TempDir::new().unwrap();
     fs::write(dir.path().join("healthy.md"), "healthy\n").unwrap();
