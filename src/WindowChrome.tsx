@@ -1,4 +1,4 @@
-// ABOUTME: Draws Cowrite's one platform-sized app title row around the existing author controls.
+// ABOUTME: Draws Emend's one platform-sized app title row around the existing author controls.
 // ABOUTME: Tauri owns drag and double-click maximize; Windows close enters the app-lifetime guard.
 import { isTauri } from "@tauri-apps/api/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";

@@ -3,7 +3,7 @@
 
 # Fixture corpus
 
-Committed open-source documents used as test inputs across Cowrite — property
+Committed open-source documents used as test inputs across Emend — property
 tests (`textops/` P1–P6), corpus tests, and perf budgets (FR-X-4). Traces to
 **test-plan §2 / TP-Q3**.
 

@@ -3,7 +3,7 @@
 
 use serde_json::{json, Value};
 
-/// A server that answers Cowrite MCP tool calls (TD-1 §3.2 surface).
+/// A server that answers Emend MCP tool calls (TD-1 §3.2 surface).
 ///
 /// This is the seam the fake agent calls through when replaying an `McpCall`
 /// step. In production the calls land on the loopback MCP server (`emend_lib::
@@ -44,7 +44,7 @@ impl std::fmt::Display for ToolError {
 
 impl std::error::Error for ToolError {}
 
-/// A minimal stand-in for the Cowrite MCP server: every TD-1 §3.2 tool answers
+/// A minimal stand-in for the Emend MCP server: every TD-1 §3.2 tool answers
 /// with a fixed, well-shaped response. Deterministic (no clocks, no counters) so
 /// scenarios can assert exact round-trips via `expect`. Unknown tools error.
 ///

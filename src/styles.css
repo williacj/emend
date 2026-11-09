@@ -1,4 +1,4 @@
-/* ABOUTME: Global styles for the Cowrite app shell, including light/dark theme variables (FR-X-6). */
+/* ABOUTME: Global styles for the Emend app shell, including light/dark theme variables (FR-X-6). */
 /* ABOUTME: Theme variables switch on :root[data-theme]; the effective theme is set from src/theme.ts. */
 
 :root {

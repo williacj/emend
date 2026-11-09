@@ -157,7 +157,7 @@ pub enum CommandError {
 
 /// Builds and spawns the Claude Code CLI invocation for one run (TD-5), reusing the already-tested
 /// `agent::claude` argv builder — with the open project's bound TD-1 MCP server injected into it
-/// (#472: the seam #412 and #413 each handed to the other, so no spawned run had Cowrite tool
+/// (#472: the seam #412 and #413 each handed to the other, so no spawned run had Emend tool
 /// access at all). The server is *not* bound here: it belongs to the `OpenProject` the app opened
 /// (TD-17, Option B), and a run reads its connection info out of that aggregate.
 ///
@@ -223,7 +223,7 @@ fn bound_server(
 /// `RunQueue` test injects a fake `Spawn`).
 ///
 /// `mcp_server` is taken by value, not as an `Option`: after #472 every spawned run carries a bound
-/// server, so "a run with no Cowrite tool access" is not a state this function can express.
+/// server, so "a run with no Emend tool access" is not a state this function can express.
 /// `resume_session_id` stays an `Option` — the project's first run (or one against a project that
 /// has never completed a turn) is honestly fresh, never a fabricated resume.
 /// Public so `tests/agent_run_mcp_injection.rs` can assert the *production* argv reaches a real
@@ -649,7 +649,7 @@ mod tests {
         );
     }
 
-    /// D21/FR-X-3: a run that cannot reach the Cowrite tool surface is a *failed* run, never a
+    /// D21/FR-X-3: a run that cannot reach the Emend tool surface is a *failed* run, never a
     /// quietly tool-less one. With no project open there is no bound server to inject.
     #[test]
     fn a_run_with_no_open_project_fails_rather_than_spawning_without_tools() {

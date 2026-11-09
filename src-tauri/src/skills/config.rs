@@ -2,7 +2,7 @@
 // ABOUTME: defaults (FR-SKILL-5, split of #359 / #421); every path it names is §3.5-confined.
 
 //! **Untrusted input, honestly degraded (FR-X-5).** `.emend/config.json` is the one on-disk
-//! contract this module reads that isn't wholly authored by Cowrite itself — it travels with a
+//! contract this module reads that isn't wholly authored by Emend itself — it travels with a
 //! cloned repo, so a configured skill root or workflow glob is exactly the untrusted-path shape
 //! §3.5 confinement exists for. [`resolve`] never fails: a missing file is the ordinary "no
 //! override" case; an unreadable/malformed file, or any individual path that fails confinement,

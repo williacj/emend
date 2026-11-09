@@ -1,5 +1,5 @@
 // ABOUTME: Native CPAL input-device adapter for local microphone capture.
-// ABOUTME: Maps OS audio failures to typed Cowrite errors and keeps samples in Rust memory.
+// ABOUTME: Maps OS audio failures to typed Emend errors and keeps samples in Rust memory.
 use super::{CaptureBackend, CaptureError, CaptureSession, CapturedAudio, InputDevice, MonoBuffer};
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use cpal::{Sample, SampleFormat};

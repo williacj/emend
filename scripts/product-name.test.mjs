@@ -1,5 +1,5 @@
-// ABOUTME: Guards the product name in shipped code: no user-visible string in src/ or src-tauri/src/
-// ABOUTME: may still say "Cowrite" after the rename to Emend (D36). Comments are #7's and are skipped.
+// ABOUTME: Guards the product name in shipped code: nothing in src/, src-tauri/src/ or the app's
+// ABOUTME: shipped config and host files may still say "Cowrite" after the rename to Emend (D36).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
@@ -9,45 +9,49 @@ import { dirname, join } from 'node:path';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SHIPPED_DIRS = ['src', 'src-tauri/src'];
+const SHIPPED_FILES = [
+  'index.html',
+  'src-tauri/Info.plist',
+  'src-tauri/tauri.conf.json',
+  'src-tauri/tauri.macos.conf.json',
+  'src-tauri/tauri.windows.conf.json',
+];
 
 // Protocol values that are not copy. Each is renamed by its own card and leaves this list there.
 const NOT_COPY = [
   { file: 'src-tauri/src/agent/claude.rs', text: 'X-Cowrite-Run' }, // HTTP header name, #26
 ];
 
-const COMMENT_LINE = /^\s*(\/\/|\*|\/\*|\{\/\*)/;
-const TRAILING_COMMENT = /\s\/\/.*$/;
-
 export function oldNameLines(files, read) {
   const found = [];
   for (const file of files) {
     read(file).split('\n').forEach((line, index) => {
-      if (COMMENT_LINE.test(line)) return;
-      const code = line.replace(TRAILING_COMMENT, '');
-      if (!code.includes('Cowrite')) return;
-      if (NOT_COPY.some((entry) => entry.file === file && code.includes(entry.text))) return;
+      if (!line.includes('Cowrite')) return;
+      if (NOT_COPY.some((entry) => entry.file === file && line.includes(entry.text))) return;
       found.push(`${file}:${index + 1}: ${line.trim()}`);
     });
   }
   return found;
 }
 
-test('no string in shipped code names the product Cowrite', () => {
-  const files = execFileSync('git', ['ls-files', ...SHIPPED_DIRS], { cwd: ROOT, encoding: 'utf8' })
+test('nothing shipped names the product Cowrite', () => {
+  const sources = execFileSync('git', ['ls-files', ...SHIPPED_DIRS], { cwd: ROOT, encoding: 'utf8' })
     .split('\n')
-    .filter((file) => /\.(ts|tsx|rs|css|html)$/.test(file));
-  assert.ok(files.length > 100, `expected the shipped source tree, found ${files.length} files`);
+    .filter((file) => /\.(ts|tsx|rs|css)$/.test(file));
+  assert.ok(sources.length > 100, `expected the shipped source tree, found ${sources.length} files`);
+  const files = [...sources, ...SHIPPED_FILES];
   assert.deepEqual(oldNameLines(files, (file) => readFileSync(join(ROOT, file), 'utf8')), []);
 });
 
-test('the guard finds the old name in strings and JSX text but not in comments', () => {
+test('the guard finds the old name on any line except an allowlisted protocol value', () => {
   const sources = {
     'a.ts': 'const message = "Cowrite couldn’t open it";\n// Cowrite in a comment\n',
-    'b.tsx': '<h1>Welcome to Cowrite</h1>\n{/* Cowrite */}\nconst x = 1; // Cowrite trailing\n',
+    'b.plist': '<string>Cowrite uses your microphone</string>\n',
     'src-tauri/src/agent/claude.rs': 'headers["X-Cowrite-Run"] = run;\n',
   };
   assert.deepEqual(oldNameLines(Object.keys(sources), (file) => sources[file]), [
     'a.ts:1: const message = "Cowrite couldn’t open it";',
-    'b.tsx:1: <h1>Welcome to Cowrite</h1>',
+    'a.ts:2: // Cowrite in a comment',
+    'b.plist:1: <string>Cowrite uses your microphone</string>',
   ]);
 });

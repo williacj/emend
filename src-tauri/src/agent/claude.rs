@@ -2,7 +2,7 @@
 // ABOUTME: auto-wires the P2a-12 loopback MCP server in, with `--resume` and version-detect support.
 
 //! Pure command-construction for the Claude Code CLI adapter. Building the invocation is kept
-//! separate from spawning/streaming it (`agent::session`) so the exact argv Cowrite would pass to
+//! separate from spawning/streaming it (`agent::session`) so the exact argv Emend would pass to
 //! `claude` is unit-testable without a `claude` binary on `PATH` (SPIKE-1 §3.1/§3.3, §7
 //! "recommended adapter differences").
 
@@ -12,7 +12,7 @@ use std::path::PathBuf;
 
 use serde_json::{json, Value};
 
-/// The default `claude` binary Cowrite spawns, resolved off `PATH`. Explicit binary
+/// The default `claude` binary Emend spawns, resolved off `PATH`. Explicit binary
 /// discovery/pinning across install methods (SPIKE-1 §6 gap #10) is a later unit's job.
 pub const BINARY: &str = "claude";
 
@@ -32,7 +32,7 @@ pub fn binary() -> String {
 /// CLI); see [`version_warning`].
 pub const MIN_SUPPORTED_VERSION: &str = "2.1.200";
 
-/// The Cowrite MCP server's name inside the injected `mcpServers` config — also the
+/// The Emend MCP server's name inside the injected `mcpServers` config — also the
 /// `mcp__cowrite__<tool>` prefix the stream carries for our own tool calls (`agent::activity`).
 pub const MCP_SERVER_NAME: &str = "cowrite";
 
@@ -68,10 +68,10 @@ pub struct SpawnRequest {
     /// The P2a-12 server to auto-wire in — no manual user configuration step (FR-X-2): the
     /// secret never touches the frontend, only this backend-built argv.
     ///
-    /// Every run Cowrite spawns now carries one (#472): `commands::agent::spawn_claude_run` takes
+    /// Every run Emend spawns now carries one (#472): `commands::agent::spawn_claude_run` takes
     /// it from the open project's bound server (TD-17), and a run with no open project to draw one
     /// from *fails* rather than spawning tool-less (D21). `None` stays representable only for a
-    /// caller building an invocation for something other than a Cowrite-hosted turn; it omits
+    /// caller building an invocation for something other than an Emend-hosted turn; it omits
     /// `--mcp-config` and `--permission-prompt-tool` together (see [`build_args`]).
     pub mcp_server: Option<McpServer>,
     /// The provider session to `--resume`, when this spawn continues an earlier one (D4
@@ -85,7 +85,7 @@ pub struct SpawnRequest {
 /// from [`MCP_SERVER_NAME`] so it can never drift from the server name we actually inject. Only
 /// meaningful when an [`McpServer`] is wired — the tool lives on that server — so [`build_args`]
 /// emits the flag alongside `--mcp-config`, never on its own (see #453: this is what makes D21
-/// protection Cowrite's enforcement rather than the provider CLI's non-interactive default).
+/// protection Emend's enforcement rather than the provider CLI's non-interactive default).
 ///
 /// The v2.1.199+ caveat (an `allow` for an MCP tool marked "requires user interaction" is
 /// converted to a deny) does not bite here so long as our own `permission_request` tool is *not*
@@ -253,9 +253,9 @@ mod tests {
         assert_eq!(permission_prompt_tool(), "mcp__cowrite__permission_request");
     }
 
-    /// J7 / FR-AGENT-3 / TD-5: when a Cowrite MCP server is wired, every tool call the spawned CLI
+    /// J7 / FR-AGENT-3 / TD-5: when an Emend MCP server is wired, every tool call the spawned CLI
     /// wants to make is delegated to our own `permission_request` tool rather than left to the
-    /// provider CLI's non-interactive default (#453) — so D21 protection is Cowrite's enforcement.
+    /// provider CLI's non-interactive default (#453) — so D21 protection is Emend's enforcement.
     #[test]
     fn build_args_delegates_permission_gating_to_the_cowrite_mcp_tool_when_a_server_is_wired() {
         let request = SpawnRequest {

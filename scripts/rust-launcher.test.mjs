@@ -1,4 +1,4 @@
-// ABOUTME: Unit tests for the ordinary Cowrite Rust/Tauri build launcher.
+// ABOUTME: Unit tests for the ordinary Emend Rust/Tauri build launcher.
 // ABOUTME: Covers cache selection, shared worktree targets, and child-process propagation.
 import test from 'node:test';
 import assert from 'node:assert/strict';

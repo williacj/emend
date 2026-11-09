@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cowrite.local/formats/sidecar/change-record.schema.json",
+  "$id": "https://emend.local/formats/sidecar/change-record.schema.json",
   "schema_version": 1,
-  "title": "Cowrite track-changes attribution record",
+  "title": "Emend track-changes attribution record",
   "description": "One attribution record in `.emend/changes/<doc-hash>.json` (TD-4), keyed by `id` in the persisted file (`{\"<change-id>\": ChangeRecord, ...}`) — this schema validates one record's value. Track-changes is single-writer by design (only the author decides changes, D19): the file holds the *current* record set, so last-write-wins per id is correct by construction; there is no cross-author causal fold like `comment-event.schema.json`'s. The record deliberately carries no range/text of its own — the CriticMarkup marker live in the document is the source of truth for *what* changed (TD-2); this schema only records *who* changed it and how it's grouped/noted.",
   "type": "object",
   "required": ["schema_version", "id", "kind", "author", "anchor", "created_at", "updated_at"],

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cowrite.local/formats/provider-contract/stream-event.copilot.schema.json",
+  "$id": "https://emend.local/formats/provider-contract/stream-event.copilot.schema.json",
   "schema_version": 1,
   "title": "GitHub Copilot CLI stream-json event",
   "description": "One event object from GitHub Copilot CLI `-p --output-format json` (JSONL: one object per line). Grammar derived from SPIKE-1 recorded transcript (docs/spikes/spike1-provider-contract.md §5.3) and §4.2. TD-1/TD-5 contract-parity fixture (test-plan §1). Copilot events are a parent-linked tree: non-`result` events carry a `data` object plus `id`/`timestamp`/`parentId`/`ephemeral`; the terminal `result` event is flat (fields at top level). Drift-tolerant: unknown `type` values validate, known ones are checked. Additional properties permitted.",
@@ -62,7 +62,7 @@
       }
     },
     {
-      "$comment": "User message (§5.3): records what Cowrite sent.",
+      "$comment": "User message (§5.3): records what Emend sent.",
       "if": {
         "required": ["type"],
         "properties": { "type": { "const": "user.message" } }

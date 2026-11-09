@@ -1,4 +1,4 @@
-// ABOUTME: Claude's native permission callback maps onto the unchanged TD-1 Cowrite service contract.
+// ABOUTME: Claude's native permission callback maps onto the unchanged TD-1 Emend service contract.
 // ABOUTME: Opaque input stays at this edge for the allow response; grants bind execution controls.
 use super::permission::{PermissionAction, PermissionBroker, PermissionOutcome};
 use serde_json::{json, Value};

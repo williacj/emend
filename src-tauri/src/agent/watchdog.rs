@@ -245,7 +245,7 @@ impl DocWatcher {
 /// paths it named, and any backend correlation tracker.
 ///
 /// Returns `None` when nothing about the event can change what a snapshot shows — every path was
-/// outside the root or inside hidden tooling structure — so a `.emend/` sidecar write Cowrite
+/// outside the root or inside hidden tooling structure — so a `.emend/` sidecar write Emend
 /// itself performs never schedules a refresh.
 ///
 /// `docs` is the caller's already-computed project-relative spelling of `event.paths`, in the same
@@ -405,7 +405,7 @@ pub enum WriteOutcome {
     /// The doc is not in the protected set — outside the watchdog's concern.
     Unprotected,
     /// The on-disk content matches the tracked baseline: no external change to act on (typically
-    /// the echo of Cowrite's own atomic write).
+    /// the echo of Emend's own atomic write).
     Unchanged,
     /// Positive attribution (finding M11): the raw write was converted to tracked changes,
     /// attributed to the agent, atomically (FR-AGENT-5, FR-AGENT-6).
@@ -458,7 +458,7 @@ impl From<SidecarError> for WatchdogError {
 
 /// One project's protection watchdog. Owns a [`SharedProtectedSet`] (shared so this watchdog's own
 /// enforcement and the MCP tool boundary's protection reporting read exactly one live union, issue
-/// #414), a per-doc *baseline* (the last content Cowrite considers canonical — what a detected write
+/// #414), a per-doc *baseline* (the last content Emend considers canonical — what a detected write
 /// is diffed against), the in-flight [`AttributionLedger`], and the sidecar store the converted
 /// changes are attributed to.
 ///
@@ -1188,7 +1188,7 @@ mod watchdog_tests {
         );
     }
 
-    /// Cowrite writes `.emend/` itself on every tracked change it lands. Scheduling a project-tree
+    /// Emend writes `.emend/` itself on every tracked change it lands. Scheduling a project-tree
     /// refresh for that would be pure churn, and no hidden path can change what a snapshot shows.
     #[test]
     fn an_event_confined_to_hidden_structure_schedules_nothing() {

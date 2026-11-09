@@ -1,4 +1,4 @@
-// ABOUTME: Renders J9 project-open progress and outcomes in Cowrite's shared one-line status region.
+// ABOUTME: Renders J9 project-open progress and outcomes in Emend's shared one-line status region.
 // ABOUTME: Owns contextual action order, retry-pending semantics, and the status controls' DOM boundary.
 import { forwardRef, useLayoutEffect, useRef } from "react";
 import { X } from "lucide-react";

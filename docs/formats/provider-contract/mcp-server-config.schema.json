@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cowrite.local/formats/provider-contract/mcp-server-config.schema.json",
+  "$id": "https://emend.local/formats/provider-contract/mcp-server-config.schema.json",
   "schema_version": 1,
   "title": "MCP server config injected into a spawned CLI",
-  "description": "The MCP configuration Cowrite auto-wires into every spawned CLI session (TD-1). Schema empirically captured in SPIKE-1 (docs/spikes/spike1-provider-contract.md §4.3) from GitHub Copilot CLI; Claude Code's `--mcp-config` accepts the same `mcpServers` shape. TD-1's loopback-HTTP + per-session bearer design maps 1:1 onto the `http` transport with an `Authorization` header.",
+  "description": "The MCP configuration Emend auto-wires into every spawned CLI session (TD-1). Schema empirically captured in SPIKE-1 (docs/spikes/spike1-provider-contract.md §4.3) from GitHub Copilot CLI; Claude Code's `--mcp-config` accepts the same `mcpServers` shape. TD-1's loopback-HTTP + per-session bearer design maps 1:1 onto the `http` transport with an `Authorization` header.",
   "type": "object",
   "required": ["mcpServers"],
   "properties": {
@@ -19,7 +19,7 @@
       "properties": {
         "type": {
           "enum": ["http", "sse", "local"],
-          "description": "`local` = stdio transport; `http`/`sse` = network transports (loopback only for Cowrite)."
+          "description": "`local` = stdio transport; `http`/`sse` = network transports (loopback only for Emend)."
         },
         "url": { "type": "string" },
         "headers": { "type": "object" },

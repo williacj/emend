@@ -1,6 +1,6 @@
-# Cowrite (v2)
+# Emend (v2)
 
-A cross-platform desktop app (macOS + Windows) providing a Word-like writing and reviewing experience for markdown files, deeply enhanced by LLM agents (Claude Code CLI, GitHub Copilot CLI). The markdown file is always the source of truth; everything Cowrite adds — comments, tracked changes, skills, workflows — lives in portable, repo-owned formats.
+A cross-platform desktop app (macOS + Windows) providing a Word-like writing and reviewing experience for markdown files, deeply enhanced by LLM agents (Claude Code CLI, GitHub Copilot CLI). The markdown file is always the source of truth; everything Emend adds — comments, tracked changes, skills, workflows — lives in portable, repo-owned formats.
 
 ## Status
 
@@ -23,11 +23,11 @@ Supporting: [`docs/journal.md`](docs/journal.md) (engineering journal) · [`docs
 
 1. **Brainstorm → Revise → Skill-based review** — a repo-grounded agent that drafts, revises as tracked changes, and reviews documents against repo-owned skills and workflows.
 2. **Comment → AI addresses** — anchored comments any provenance, addressed by you or delegated to the agent (tracked changes + explanations).
-3. **Collaborative review** — GitHub-backed, git-invisible review: reviewers use Cowrite in a git-free mode, redline and suggest; the author (or the agent) addresses.
+3. **Collaborative review** — GitHub-backed, git-invisible review: reviewers use Emend in a git-free mode, redline and suggest; the author (or the agent) addresses.
 
 ## Development
 
-Cowrite is a [Tauri 2](https://tauri.app) desktop app: a Rust backend (`src-tauri/`) with a React + TypeScript + Vite frontend (`src/`). Module homes are defined in [`docs/tech-design.md`](docs/tech-design.md) §3.1.
+Emend is a [Tauri 2](https://tauri.app) desktop app: a Rust backend (`src-tauri/`) with a React + TypeScript + Vite frontend (`src/`). Module homes are defined in [`docs/tech-design.md`](docs/tech-design.md) §3.1.
 
 **Prerequisites:** [Node.js](https://nodejs.org) 20+, the stable [Rust toolchain](https://rustup.rs), and Tauri's [platform prerequisites](https://tauri.app/start/prerequisites/) — on Windows the [WebView2 runtime](https://developer.microsoft.com/microsoft-edge/webview2/) (preinstalled on Windows 11) plus the MSVC C++ build tools; on macOS the Xcode Command Line Tools.
 
@@ -35,12 +35,12 @@ Cowrite is a [Tauri 2](https://tauri.app) desktop app: a Rust backend (`src-taur
 npm install            # install frontend dependencies
 npm run tauri dev      # run the app with hot reload
 npm run tauri build    # produce a release build
-npm run build:rust     # build only the Cowrite package (not every workspace utility)
+npm run build:rust     # build only the Emend package (not every workspace utility)
 ```
 
 Checks: `npm run build` (frontend type-check + bundle); from `src-tauri/`, `cargo fmt`, `cargo clippy`, and `cargo test`.
 
-The ordinary Windows and macOS app builds include local Whisper inference. Windows builds need CMake, the MSVC C++ build tools, and a Windows `libclang.dll` directory in `LIBCLANG_PATH`; [the CI provisioner](scripts/provision-whisper-windows.ps1) records the pinned, hash-verified CMake and libclang packages used by the exact-head build gate. Leave `WHISPER_DONT_GENERATE_BINDINGS` unset: pinned `whisper-rs-sys 0.15.0` bundles Linux bindings whose structure layouts fail on Windows. A local Windows shell may install equivalent tools and set `LIBCLANG_PATH` before `npm run tauri build`. macOS needs CMake and Xcode Command Line Tools; CI sets `LIBCLANG_PATH` to Xcode's target-native `libclang.dylib`. Set `GGML_CCACHE=OFF` for a local build when no running C/C++ sccache daemon is available; CI sets it explicitly, independently of Cowrite's Rust compiler cache. The build includes inference code but downloads no model: voice readiness still requires verified local model bytes, microphone access, and an enabled setting.
+The ordinary Windows and macOS app builds include local Whisper inference. Windows builds need CMake, the MSVC C++ build tools, and a Windows `libclang.dll` directory in `LIBCLANG_PATH`; [the CI provisioner](scripts/provision-whisper-windows.ps1) records the pinned, hash-verified CMake and libclang packages used by the exact-head build gate. Leave `WHISPER_DONT_GENERATE_BINDINGS` unset: pinned `whisper-rs-sys 0.15.0` bundles Linux bindings whose structure layouts fail on Windows. A local Windows shell may install equivalent tools and set `LIBCLANG_PATH` before `npm run tauri build`. macOS needs CMake and Xcode Command Line Tools; CI sets `LIBCLANG_PATH` to Xcode's target-native `libclang.dylib`. Set `GGML_CCACHE=OFF` for a local build when no running C/C++ sccache daemon is available; CI sets it explicitly, independently of Emend's Rust compiler cache. The build includes inference code but downloads no model: voice readiness still requires verified local model bytes, microphone access, and an enabled setting.
 
 The manual positive transcript gate uses the catalog-pinned [`base.en-q5_1` model](src-tauri/src/voice/catalog.rs) and whisper.cpp's [JFK sample](https://github.com/ggml-org/whisper.cpp/raw/60c0be6ac8fa71b1a2ae2dd938a31a34a508e774/samples/jfk.wav). The sample must be 352,078 bytes with SHA-256 `59dfb9a4acb36fe2a2affc14bacbee2920ff435cb13cc314a08c13f66ba7860e`; the model must be 59,721,011 bytes and pass the catalog's BLAKE3 check. Keep both downloads outside Git, then run:
 
@@ -52,7 +52,7 @@ cargo test --manifest-path src-tauri/Cargo.toml --locked --lib \
   -- --ignored --exact
 ```
 
-The ignored test reads verified model bytes through Cowrite's registry and exercises the production Whisper transcriber. Normal `cargo test` cannot run it without these external downloads.
+The ignored test reads verified model bytes through Emend's registry and exercises the production Whisper transcriber. Normal `cargo test` cannot run it without these external downloads.
 
 ### Cached Rust builds and worktrees
 

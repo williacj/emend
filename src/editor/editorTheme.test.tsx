@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-// ABOUTME: Verifies every shared CM6 document surface follows Cowrite's effective light/dark theme.
+// ABOUTME: Verifies every shared CM6 document surface follows Emend's effective light/dark theme.
 // ABOUTME: Covers live explicit/system changes and editors mounted after a theme is already active.
 import { EditorView } from "@codemirror/view";
 import { act, createRef, useEffect } from "react";

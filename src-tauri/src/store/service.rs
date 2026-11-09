@@ -9,7 +9,7 @@
 //!
 //! # Layout
 //!
-//! Everything lives under `<project root>/.emend/` (TD-4: "all Cowrite data under one
+//! Everything lives under `<project root>/.emend/` (TD-4: "all Emend data under one
 //! `.emend/` dir"), keyed by the per-doc UUID rather than path or a path hash — a rename never
 //! touches sidecar content, only the `docs.json` map entry (FR-ED-8):
 //!
@@ -1268,7 +1268,7 @@ mod comment_append_fold_tests {
     #[test]
     fn a_project_holding_only_dot_cowrite_opens_with_no_sidecar_state_and_leaves_it_untouched() {
         // TD-29: a clean break with no migration. Real sidecar data is written by the store, then
-        // moved to where Cowrite kept it; a fresh store must neither read, write nor delete it.
+        // moved to where Emend kept it; a fresh store must neither read, write nor delete it.
         let (dir, writer, _) = store();
         let old_id = writer.get_or_mint_for_path("a.md").unwrap();
         writer

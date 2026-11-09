@@ -10,7 +10,7 @@ import { namedStep } from './workflow-step-assertions.mjs';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (path) => readFileSync(join(root, path), 'utf8');
 
-test('the ordinary Cowrite app feature set links local Whisper', () => {
+test('the ordinary Emend app feature set links local Whisper', () => {
   const manifest = read('src-tauri/Cargo.toml');
   assert.match(manifest, /^default = \["voice-inference"\]$/m);
   assert.match(manifest, /^voice-inference = \["voice-capture", "dep:whisper-rs"\]$/m);

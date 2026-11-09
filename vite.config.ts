@@ -1,4 +1,4 @@
-// ABOUTME: Vite dev/bundle configuration for the Cowrite scaffold (P0-1).
+// ABOUTME: Vite dev/bundle configuration for the Emend scaffold (P0-1).
 // ABOUTME: Tailors Vite for Tauri (fixed dev port, HMR host shim, ignores src-tauri).
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";

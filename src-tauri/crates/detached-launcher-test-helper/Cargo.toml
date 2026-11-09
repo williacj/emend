@@ -2,7 +2,7 @@
 name = "detached-launcher-test-helper"
 version = "0.1.0"
 edition = "2021"
-description = "Minimal parent/child helper for Cowrite detached-launcher platform tests."
+description = "Minimal parent/child helper for Emend detached-launcher platform tests."
 
 [[bin]]
 name = "detached-launcher-test-helper"

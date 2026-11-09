@@ -1,5 +1,5 @@
 // ABOUTME: Display-only metadata for the two detected providers (FR-X-7) — names, install links,
-// ABOUTME: and the CLI's own sign-in command (FR-X-9: Cowrite only ever names the command, never
+// ABOUTME: and the CLI's own sign-in command (FR-X-9: Emend only ever names the command, never
 // ABOUTME: runs or intercepts it — the login flow itself stays entirely inside the provider's CLI).
 import type { ProviderId } from "./types";
 

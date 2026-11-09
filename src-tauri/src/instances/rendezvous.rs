@@ -37,7 +37,7 @@ pub enum RouteFailure {
     DeadlineExpired,
     RegistryUnavailable,
     LaunchFailed,
-    /// The recorded owner could not be positively addressed as a live Cowrite process.
+    /// The recorded owner could not be positively addressed as a live Emend process.
     OwnerUnavailable,
     /// The OS refused the requester-side foreground/activation operation.
     ActivationRefused,

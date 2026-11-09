@@ -1,4 +1,4 @@
-// ABOUTME: Integration tests for the real Cowrite-hosted MCP server (P2a-12, TD-1 §3.2 / §3.5) — drives
+// ABOUTME: Integration tests for the real Emend-hosted MCP server (P2a-12, TD-1 §3.2 / §3.5) — drives
 // ABOUTME: the loopback + bearer server end-to-end over HTTP: get_document_state/list_documents/propose_changes, auth, confinement, schema.
 
 use std::io::{Read, Write};

@@ -1,4 +1,4 @@
-// ABOUTME: Root component for Cowrite's whole-window author/reviewer boundary; author mode shows
+// ABOUTME: Root component for Emend's whole-window author/reviewer boundary; author mode shows
 // ABOUTME: the J8 welcome screen until a project is opened (P2a-22), then header chrome above an
 // ABOUTME: `.app-body` row that is either workshop
 // ABOUTME: mode (timeline centre-stage, no doc open) or the standard authoring layout (tab-aware

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cowrite.local/formats/sidecar/docs-map.schema.json",
+  "$id": "https://emend.local/formats/sidecar/docs-map.schema.json",
   "schema_version": 1,
-  "title": "Cowrite document identity map",
+  "title": "Emend document identity map",
   "description": "The whole committed `.emend/docs.json` file (TD §3.2b): maps a per-doc UUID (minted at first sidecar write) to the project-relative path that document currently lives at. A rename/move is one map update (FR-ED-8); scratch-doc adoption mints a UUID on save-in. Non-JSONL, single-writer by design (TD-4) — the file always holds the *current* map, not a history. Producer/consumer: `store::docs_map`/`store::service::SidecarStore` (P2a-10, FR-X-8).",
   "type": "object",
   "required": ["schema_version", "documents"],

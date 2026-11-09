@@ -326,7 +326,7 @@ export type AcknowledgmentRung = "queued" | "targeted" | "working";
  * **positive** membership only: a caller that cannot see the queue passes nothing and every held
  * thread reads rung 2. That direction is
  * chosen, not incidental — §2's ladder "never trades a rung down" and forbids claiming what
- * Cowrite cannot observe (Principle 7, FR-X-5), and "queued behind" asserts a run has *not*
+ * Emend cannot observe (Principle 7, FR-X-5), and "queued behind" asserts a run has *not*
  * started, which is exactly the kind of claim a stale or absent queue read would get wrong. Rung
  * 2's line stays true either way, because it says only that a run holds the comment.
  *

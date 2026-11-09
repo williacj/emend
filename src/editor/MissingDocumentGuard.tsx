@@ -28,11 +28,11 @@ export interface MissingDocumentGuardProps {
 
 /**
  * A modal choice rather than a banner, deliberately: both are moments where the user asked for
- * something Cowrite will not silently do (write to a path that is gone; drop a buffer that has no
+ * something Emend will not silently do (write to a path that is gone; drop a buffer that has no
  * file). The ordinary Missing state stays non-modal — this is only the answer to an explicit act.
  *
  * Copy follows ux-design's — `"This file is missing from disk."` for the save guard, `"This file no
- * longer exists on disk. Close and discard Cowrite’s open copy?"` for the close one — with the
+ * longer exists on disk. Close and discard Emend’s open copy?"` for the close one — with the
  * document's own name in place of "This file", the way every other guard here names its subject
  * (`DirtyCloseGuard`, FR-ED-8's delete prompt). A guard that can be raised for any of several open
  * documents has to say which one it is about.
@@ -49,7 +49,7 @@ export function MissingDocumentGuard({
   const closing = kind === "close";
   return (
     <div
-      // Drawn as the dirty-close guard is: same kind of moment (an explicit act Cowrite will not
+      // Drawn as the dirty-close guard is: same kind of moment (an explicit act Emend will not
       // silently complete), so it reads the same way rather than inventing a second dialog style.
       className="dirty-close-guard"
       role="alertdialog"

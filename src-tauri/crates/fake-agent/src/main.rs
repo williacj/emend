@@ -71,7 +71,7 @@ fn main() -> ExitCode {
     let mut out = stdout.lock();
 
     // MCP calls dispatch to the in-process stub by default (deterministic, zero network — what
-    // every playback scenario wants). When Cowrite spawns us the way it spawns a real CLI it
+    // every playback scenario wants). When Emend spawns us the way it spawns a real CLI it
     // passes `--mcp-config`, and we then talk real loopback HTTP + bearer token to the server it
     // named — the only way a test can prove the injection actually reaches the tool surface (#472).
     let mut tool_server: Box<dyn ToolServer> = match &parsed.mcp_config {
@@ -123,7 +123,7 @@ struct Parsed {
     wait_before_stdin: Option<std::path::PathBuf>,
     /// Test-support mode: consume stdin and report it as one stream-JSON event before playback.
     report_stdin: bool,
-    /// The parsed `--mcp-config` payload, when Cowrite injected one (`agent::claude::mcp_config`).
+    /// The parsed `--mcp-config` payload, when Emend injected one (`agent::claude::mcp_config`).
     mcp_config: Option<serde_json::Value>,
 }
 

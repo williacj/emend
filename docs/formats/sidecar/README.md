@@ -1,12 +1,12 @@
-<!-- ABOUTME: Catalog + provenance of the Cowrite sidecar JSON Schemas (comment events, track-changes attribution, doc identity). -->
+<!-- ABOUTME: Catalog + provenance of the Emend sidecar JSON Schemas (comment events, track-changes attribution, doc identity). -->
 <!-- ABOUTME: The FR-X-8 portability contract for `.emend/` (TD-4); validated by the `store::schema` conformance module (test-plan §3 stores). -->
 
 # Sidecar schemas
 
 The machine-readable half of TD-4's sidecar portability contract (FR-X-8: "the
-sidecar schemas … are documented public formats"). Everything Cowrite writes
+sidecar schemas … are documented public formats"). Everything Emend writes
 under a project's `.emend/` directory is plain JSON/JSONL, committed by
-default, and constrained by one of these schemas — so the data outlives Cowrite
+default, and constrained by one of these schemas — so the data outlives Emend
 itself and other tools can read it.
 
 Every schema is JSON Schema **draft 2020-12** and carries a top-level
@@ -46,7 +46,7 @@ revision of the contract that particular value was written under.
   instead may still show the original body. The append-only log retains both
   facts for readers that understand them.
 - **`change-record.schema.json` is strict** on the fields it declares — this is
-  Cowrite's own single-writer attribution format (D19), not a
+  Emend's own single-writer attribution format (D19), not a
   forward-compatibility surface, so an unrecognized `kind` is a contract
   violation. The record intentionally carries no range/text of its own: the
   CriticMarkup marker live in the document is the source of truth for *what*

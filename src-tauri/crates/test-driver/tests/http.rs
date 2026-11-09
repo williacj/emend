@@ -1226,7 +1226,7 @@ fn run_state_preserves_two_terminals_that_finish_between_http_polls_in_order() {
 /// thread like [`spawn_driver`]) with a project actually open — [`spawn_claude_run`]'s real
 /// precondition for ever reaching `claude_invocation`/`PATH` at all (`bound_server`,
 /// `src/commands/agent.rs`; #472) — and a genuine, runnable `claude` binary on that child's `PATH`.
-/// That is the exact hazard condition the issue names, held in full: "every Cowrite dev box" has a
+/// That is the exact hazard condition the issue names, held in full: "every Emend dev box" has a
 /// real `claude` on `PATH`, and an e2e script opens a project before starting a run. Before #1149's
 /// fix this would have spawned it for real, billing a provider turn; the fail-closed guard must
 /// refuse before that ever happens, regardless of what's on `PATH` or whether a project is open —

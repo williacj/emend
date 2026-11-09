@@ -396,7 +396,7 @@ describe("timeline/agentActivity — distinctFilesRead (#1391)", () => {
   // spelling variant of one already-tracked document (agent::state's own `resolved_identity`/
   // `relative_to_root`, src-tauri/src/agent/state.rs:281-297) mints a second count. Scoped to the
   // spellings this frontend module can reach without new plumbing — leading `./`, redundant
-  // separators, and case (Cowrite ships macOS + Windows only, both case-insensitive filesystems).
+  // separators, and case (Emend ships macOS + Windows only, both case-insensitive filesystems).
   it("counts a leading-./-decorated repeat as the same file as the bare spelling", () => {
     const activity: ActivityLine[] = [
       { verb: "Reading", detail: "sermon.md" },

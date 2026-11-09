@@ -142,7 +142,7 @@ fn write_document_to(
 ///
 /// When the save belongs to the open project, its watchdog is locked across the atomic write and
 /// baseline refresh. That deliberate session→watchdog hold prevents a native notification or a
-/// run's terminal reconciliation from mistaking Cowrite's own bytes for an outstanding agent write
+/// run's terminal reconciliation from mistaking Emend's own bytes for an outstanding agent write
 /// (D21, FR-AGENT-5). Without a matching open project there is no relevant watchdog, so persistence
 /// still succeeds and only the baseline refresh is skipped (FR-X-5).
 ///

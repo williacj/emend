@@ -11,11 +11,11 @@ use std::time::{Duration, Instant};
 use command_group::CommandGroup;
 use serde::{Deserialize, Serialize};
 
-/// How long a probe process gets before Cowrite gives up on it and reports a safe default rather
+/// How long a probe process gets before Emend gives up on it and reports a safe default rather
 /// than hanging the onboarding UI (FR-X-5 names "timeout" explicitly as a case to degrade from).
 const PROBE_TIMEOUT: Duration = Duration::from_secs(3);
 
-/// The two provider CLIs Cowrite detects (TD §3.4). Provider auth is owned by each CLI (FR-X-9) —
+/// The two provider CLIs Emend detects (TD §3.4). Provider auth is owned by each CLI (FR-X-9) —
 /// every probe here only ever reads presence/state, never a credential.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -28,7 +28,7 @@ impl ProviderId {
     pub const ALL: [ProviderId; 2] = [ProviderId::ClaudeCode, ProviderId::Copilot];
 
     /// Test-only override (never set in a real install): lets e2e (which runs on a machine that
-    /// may itself have `claude`/`copilot` on `PATH`, as any Cowrite dev box does) redirect provider
+    /// may itself have `claude`/`copilot` on `PATH`, as any Emend dev box does) redirect provider
     /// operations to a deterministic executable without touching the real `PATH` or mocking the
     /// process boundary. Claude spawning shares its adapter's same override (#1206), so detection
     /// and an eventual run cannot disagree about which executable they address.
@@ -97,10 +97,10 @@ fn path_dirs(path_value: &str) -> Vec<PathBuf> {
 }
 
 /// Cross-platform "is `binary` on one of `dirs`": Windows resolves bare names against `PATHEXT`-
-/// style extensions (checked explicitly here rather than reading `PATHEXT` itself — Cowrite only
+/// style extensions (checked explicitly here rather than reading `PATHEXT` itself — Emend only
 /// ever looks for its two known provider binaries, not arbitrary commands); Unix just checks the
 /// bare name (execute-bit is not checked — a non-executable file of that name is already a broken
-/// install, not Cowrite's to diagnose further here).
+/// install, not Emend's to diagnose further here).
 fn binary_exists_in(dirs: &[PathBuf], binary: &str) -> bool {
     let candidates: Vec<String> = if cfg!(windows) {
         ["", ".exe", ".cmd", ".bat"]
@@ -213,7 +213,7 @@ fn run_bounded(binary: &str, args: &[&str], timeout: Duration) -> Option<std::pr
 
     // `command_group` sets creation flags on the inner Command at spawn time, replacing any
     // flags set on Command itself. The group builder must receive CREATE_NO_WINDOW so probing a
-    // Windows `.cmd` provider shim never opens a console over Cowrite's GUI.
+    // Windows `.cmd` provider shim never opens a console over Emend's GUI.
     #[cfg(windows)]
     let mut child = command
         .group()

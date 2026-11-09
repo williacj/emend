@@ -1,9 +1,9 @@
-ABOUTME: Operate the self-hosted Windows Actions runners used by Cowrite CI.
+ABOUTME: Operate the self-hosted Windows Actions runners used by Emend CI.
 ABOUTME: Covers runner admission, service control, and the shared Rust compiler cache.
 
 # Self-hosted Windows Actions runner
 
-The [Windows workflow](../.github/workflows/windows-self-hosted.yml) runs Cowrite checks on real Windows hardware. Its job selects `[self-hosted, Windows, cowrite-required]`. Registration alone does not admit a runner: the operator adds `cowrite-required` only after qualifying its host. The workflow runs for pull requests to `main` and has a daily full-suite backstop.
+The [Windows workflow](../.github/workflows/windows-self-hosted.yml) runs Emend checks on real Windows hardware. Its job selects `[self-hosted, Windows, cowrite-required]`. Registration alone does not admit a runner: the operator adds `cowrite-required` only after qualifying its host. The workflow runs for pull requests to `main` and has a daily full-suite backstop.
 
 ## Before merging a pull request
 
@@ -36,7 +36,7 @@ Two services on one host need distinct physical `_work` roots. They share the ho
 
 ## Qualify and admit a host
 
-1. Install Node 20, Git, the pinned Rust toolchain, PowerShell and the Cowrite app's Windows C++ build prerequisites. The ordinary Cowrite app build now compiles vendored whisper.cpp through CMake; the required self-hosted workflow provisions a SHA-256-verified Kitware 3.31.12 ZIP before every normal-feature Rust compile and adds its `bin` directory to PATH. It also provisions a verified Windows `libclang.runtime.win-x64` 22.1.8 DLL and publishes `LIBCLANG_PATH` so `whisper-rs-sys 0.15.0` generates Windows-specific bindings. Hosted CI and the operator benchmark use `scripts/provision-whisper-windows.ps1` with the same pinned digests. CI sets `GGML_CCACHE=OFF` so ggml's native CMake compilation does not auto-select an ambient sccache daemon; Cowrite's separate Rust `RUSTC_WRAPPER` policy still applies. Do not set `WHISPER_DONT_GENERATE_BINDINGS`: that crate's bundled Linux bindings fail Windows layout checks. A manual Windows app build must install CMake and libclang and set `LIBCLANG_PATH`. Ensure the service account can run `npm ci`, Cargo, and the workflow's test commands in its own work root, and can download the pinned archives from Kitware's GitHub release and NuGet.
+1. Install Node 20, Git, the pinned Rust toolchain, PowerShell and the Emend app's Windows C++ build prerequisites. The ordinary Emend app build now compiles vendored whisper.cpp through CMake; the required self-hosted workflow provisions a SHA-256-verified Kitware 3.31.12 ZIP before every normal-feature Rust compile and adds its `bin` directory to PATH. It also provisions a verified Windows `libclang.runtime.win-x64` 22.1.8 DLL and publishes `LIBCLANG_PATH` so `whisper-rs-sys 0.15.0` generates Windows-specific bindings. Hosted CI and the operator benchmark use `scripts/provision-whisper-windows.ps1` with the same pinned digests. CI sets `GGML_CCACHE=OFF` so ggml's native CMake compilation does not auto-select an ambient sccache daemon; Emend's separate Rust `RUSTC_WRAPPER` policy still applies. Do not set `WHISPER_DONT_GENERATE_BINDINGS`: that crate's bundled Linux bindings fail Windows layout checks. A manual Windows app build must install CMake and libclang and set `LIBCLANG_PATH`. Ensure the service account can run `npm ci`, Cargo, and the workflow's test commands in its own work root, and can download the pinned archives from Kitware's GitHub release and NuGet.
 2. Register each Actions runner service with its own directory and `_work` root. Give both services a host-specific label for operator-only qualification. Keep `cowrite-required` absent during qualification.
 3. Install the external `sccache-server` task described below. Confirm that its process is running under the same account as the runner services. The workflow's cache preflight must pass before Rust and e2e driver builds.
 4. Use the [isolation canary](../.github/workflows/windows-runner-isolation-canary.yml) to prove distinct work roots on that host. Use the [contention benchmark](../.github/workflows/windows-runner-contention-benchmark.yml) to compare three jobs at `parallelism=one` with three jobs at `parallelism=two`. Accept concurrent service use only when aggregate throughput improves by at least 1.5× and correctness checks remain green.
@@ -47,7 +47,7 @@ To remove eligibility without deleting or unregistering a runner, remove its `co
 
 ## Compiler cache task
 
-The two runner services on one host use one externally owned `sccache` server. Install the templates [sccache-server.cmd](../scripts/sccache-server.cmd) and [windows-sccache-task.xml](../scripts/windows-sccache-task.xml) from an elevated PowerShell in a Cowrite checkout. Set all three values for that host:
+The two runner services on one host use one externally owned `sccache` server. Install the templates [sccache-server.cmd](../scripts/sccache-server.cmd) and [windows-sccache-task.xml](../scripts/windows-sccache-task.xml) from an elevated PowerShell in an Emend checkout. Set all three values for that host:
 
 | Host | `__USER__` | `__SCCACHE_EXE__` | `__SCCACHE_DIR__` |
 |---|---|---|---|

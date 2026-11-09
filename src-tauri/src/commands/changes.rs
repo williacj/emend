@@ -89,7 +89,7 @@ pub struct ChangePayload {
     pub id: String,
     /// Whether this marker joined a TD-4 `ChangeRecord` (TD-16 ruling 2). `true` — the backend
     /// vouches for this change: [`id`](Self::id) is durable and [`group`](Self::group) is its
-    /// authoritative grouping. `false` — human-typed CriticMarkup, an imported or pre-Cowrite
+    /// authoritative grouping. `false` — human-typed CriticMarkup, an imported or pre-Emend
     /// file, or a marker whose record no longer joins: identity is snapshot-scoped and grouping
     /// is the editor's to infer. The two populations are grouped by disjoint rules (ruling 4), so
     /// this flag is what keeps them from being mixed, not the id's spelling.

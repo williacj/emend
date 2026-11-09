@@ -10,10 +10,10 @@
 //! characters (e.g. `🎉`, a surrogate pair) — byte offsets are what anchors and
 //! accept/reject apply (P1-3) index into, so the parser measures in bytes.
 //!
-//! Only the three change markers Cowrite persists are recognised (functional-spec
+//! Only the three change markers Emend persists are recognised (functional-spec
 //! §"CriticMarkup in the markdown"): insertion, deletion, substitution. CriticMarkup
 //! comments (`{>> <<}`) and highlights (`{== ==}`) are intentionally **not** parsed —
-//! Cowrite carries review commentary in the `.comments/` sidecar, not inline.
+//! Emend carries review commentary in the `.comments/` sidecar, not inline.
 //!
 //! Whitespace-only markup is first-class. The v1 parser discarded any marker whose
 //! content trimmed to empty (`content.trim() === ""`), which is the root cause of the

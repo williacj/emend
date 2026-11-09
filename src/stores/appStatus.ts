@@ -1,4 +1,4 @@
-// ABOUTME: App-scoped owner for Cowrite's single shell status slot, including TD-25's
+// ABOUTME: App-scoped owner for Emend's single shell status slot, including TD-25's
 // ABOUTME: unattributed-rejection priority, message identity, dismissal memory, and subscriptions.
 
 export type AppStatusAudience = "author" | "reviewer";
