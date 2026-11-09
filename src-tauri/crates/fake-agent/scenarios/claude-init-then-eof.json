@@ -1,0 +1,14 @@
+{
+  "name": "claude-init-then-eof",
+  "description": "A fresh provider process establishes a session and exits without a terminal result.",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "session_id": "e6639704-0d4d-497d-8898-ef5a938ef849",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    }
+  ]
+}

@@ -1,0 +1,297 @@
+# ABOUTME: CI/CD pipeline matrices for shipped macOS/Windows and platform-independent Ubuntu checks.
+# ABOUTME: Runs fmt/clippy/eslint/tsc, Cargo/vitest suites, traceability, and the benchmark stub.
+# Refs: test-plan §1,6; P0-2 acceptance: green on macOS + Windows for the scaffold.
+# Third-party actions are pinned to commit SHAs (supply-chain hygiene); the trailing comment is the human-readable tag.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Feature branches get CI via their PR (not the push event) — avoids duplicate
+# runs. cancel-in-progress only for PRs: superseded PR runs are cancelled to save
+# runner minutes, but pushes to main always run to completion so every mainline
+# commit keeps its own CI signal.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+# ggml's CMake project independently auto-detects sccache for C/C++ compilation. Do not make
+# native Whisper builds depend on an ambient cache daemon; Rust's RUSTC_WRAPPER is separate.
+env:
+  GGML_CCACHE: "OFF"
+
+jobs:
+  # Rust lint/format checks (all platforms). Node/eslint lives in test-npm so a
+  # missing npm install can't fail the Rust checks.
+  lint:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    name: Lint (${{ matrix.os }})
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Rust
+        # SHA-pinned, so the toolchain channel can't be read from the ref — set it explicitly.
+        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable @ 2026-07-09
+        with:
+          toolchain: 1.97.0
+          components: rustfmt, clippy
+
+      # Tauri's -sys crates need the system webkit/gtk libs to link during clippy.
+      # macOS/Windows ship the WebView system libs; only Linux needs them installed.
+      - name: Install Linux deps
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev \
+            libayatana-appindicator3-dev librsvg2-dev libclang-dev cmake libasound2-dev
+
+      - name: Provision Windows Whisper tools
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: ./scripts/provision-whisper-windows.ps1
+
+      - name: Verify macOS Whisper tools
+        if: matrix.os == 'macos-latest'
+        run: |
+          cmake --version
+          clang_dir="$(dirname "$(dirname "$(xcrun --find clang)")")/lib"
+          test -f "$clang_dir/libclang.dylib"
+          echo "LIBCLANG_PATH=$clang_dir" >> "$GITHUB_ENV"
+
+      - name: Cache cargo build
+        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+        with:
+          workspaces: src-tauri
+
+      # rustfmt is platform-independent — run it once (Linux) rather than on every
+      # runner in the matrix.
+      - name: Rust fmt check
+        if: matrix.os == 'ubuntu-latest'
+        run: cargo fmt --manifest-path src-tauri/Cargo.toml --all -- --check
+
+      # --workspace lints every crate (incl. crates/textops), --all-targets also
+      # lints test/bench/example code, not just the default build.
+      - name: Rust clippy
+        run: cargo clippy --manifest-path src-tauri/Cargo.toml --workspace --all-targets -- -D warnings
+
+  # Cargo tests. No frontend build here by design: tauri_build tolerates a
+  # missing frontendDist, so the Rust test job stays independent of the TS build.
+  test-cargo:
+    # D23 ships macOS + Windows only. Keep both results even if one platform fails.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    name: Cargo tests (${{ matrix.os }})
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Rust
+        # SHA-pinned, so the toolchain channel can't be read from the ref — set it explicitly.
+        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable @ 2026-07-09
+        with:
+          toolchain: 1.97.0
+
+      - name: Provision Windows Whisper tools
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: ./scripts/provision-whisper-windows.ps1
+
+      - name: Verify macOS Whisper tools
+        if: matrix.os == 'macos-latest'
+        run: |
+          cmake --version
+          clang_dir="$(dirname "$(dirname "$(xcrun --find clang)")")/lib"
+          test -f "$clang_dir/libclang.dylib"
+          echo "LIBCLANG_PATH=$clang_dir" >> "$GITHUB_ENV"
+
+      - name: Cache cargo build
+        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+        with:
+          workspaces: src-tauri
+
+      # --workspace runs every crate's tests (incl. the crates/textops proptest
+      # suite), not just the root cowrite package.
+      - name: Cargo test
+        run: cargo test --manifest-path src-tauri/Cargo.toml --workspace
+
+  # A plain Tauri production build must include the default inference feature, leave a real
+  # native executable, and produce an unsigned app bundle on each shipped OS. The first
+  # --no-bundle step isolates compilation/linking from packaging; --no-sign keeps both steps
+  # independent of operator signing credentials.
+  build-app:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    name: Unsigned app build (${{ matrix.os }})
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable @ 2026-07-09
+        with:
+          toolchain: 1.97.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Provision Windows Whisper tools
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: ./scripts/provision-whisper-windows.ps1
+
+      - name: Verify macOS Whisper tools
+        if: matrix.os == 'macos-latest'
+        run: |
+          cmake --version
+          clang_dir="$(dirname "$(dirname "$(xcrun --find clang)")")/lib"
+          test -f "$clang_dir/libclang.dylib"
+          echo "LIBCLANG_PATH=$clang_dir" >> "$GITHUB_ENV"
+
+      - name: Cache cargo build
+        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build unsigned app with normal features
+        run: npm run tauri -- build --no-bundle --ci --no-sign
+
+      - name: Bundle unsigned Windows app
+        if: matrix.os == 'windows-latest'
+        run: npm run tauri -- build --ci --no-sign --bundles nsis
+
+      - name: Bundle unsigned macOS app
+        if: matrix.os == 'macos-latest'
+        run: npm run tauri -- build --ci --no-sign --bundles app
+
+      - name: Inspect Windows app executable
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          $exe = 'src-tauri/target/release/cowrite.exe'
+          if (-not (Test-Path -LiteralPath $exe)) { throw "Normal app build produced no $exe" }
+          $item = Get-Item -LiteralPath $exe
+          if ($item.Length -lt 1048576) { throw "App executable is unexpectedly small: $($item.Length) bytes" }
+          Get-FileHash -LiteralPath $exe -Algorithm SHA256
+          $installers = @(Get-ChildItem -LiteralPath 'src-tauri/target/release/bundle/nsis' -Filter '*-setup.exe' -File)
+          if ($installers.Count -ne 1) { throw "Expected one unsigned NSIS app bundle, found $($installers.Count)" }
+          if ($installers[0].Length -lt 1048576) { throw "NSIS app bundle is unexpectedly small" }
+          Get-FileHash -LiteralPath $installers[0].FullName -Algorithm SHA256
+
+      - name: Inspect macOS app executable
+        if: matrix.os == 'macos-latest'
+        run: |
+          exe=src-tauri/target/release/cowrite
+          test -s "$exe"
+          file "$exe" | grep -q 'Mach-O'
+          shasum -a 256 "$exe"
+          app=src-tauri/target/release/bundle/macos/Cowrite.app
+          test -d "$app/Contents/MacOS"
+          test -s "$app/Contents/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Print :NSMicrophoneUsageDescription' "$app/Contents/Info.plist"
+          bundle_name=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Contents/Info.plist")
+          test -n "$bundle_name"
+          case "$bundle_name" in */*|.|..) exit 1 ;; esac
+          bundle_exe="$app/Contents/MacOS/$bundle_name"
+          test -s "$bundle_exe"
+          test -x "$bundle_exe"
+          file "$bundle_exe" | grep -q 'Mach-O'
+
+  # Frontend lint + tests (eslint/vitest). Owns the Node toolchain so the Rust
+  # lint job doesn't depend on npm.
+  test-npm:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    name: npm lint + tests (${{ matrix.os }})
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # A standalone typecheck step is redundant now that `npm test`'s own `pretest` hook (issue
+      # #486, package.json) runs `tsc --noEmit` on every platform in this matrix before vitest —
+      # a type error fails the "vitest" step below without a dedicated step needed here.
+
+      # --if-present skips the step cleanly until eslint is configured, but a
+      # configured-and-failing lint run still fails the job (no error masking).
+      - name: ESLint
+        run: npm run lint --if-present
+
+      # --if-present skips until vitest is configured; a real test failure still
+      # fails the job.
+      - name: vitest
+        run: npm run test --if-present
+
+  # FR-traceability gate (test-plan §9): every FR/property has a matrix row and
+  # every row that names a test names one that exists and would run. Runs on one
+  # runner (platform-independent like rustfmt/typecheck). scripts/pretest-typecheck.test.mjs
+  # (issue #486) shells out to `npm run pretest` -> tsc, which lives in node_modules/.bin,
+  # so — unlike before that file existed — this job now needs a real `npm ci` first.
+  test-matrix:
+    runs-on: ubuntu-latest
+    name: Test-matrix traceability
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: npm ci
+        run: npm ci
+
+      # Self-test the enforcement script first (fixtures that must pass/fail),
+      # then run it against the real matrix.
+      - name: Enforcement script self-test
+        run: npm run test:scripts
+
+      # Existence-only, and the run says so out loud (#1814): this workflow has no e2e job, so it
+      # cannot assemble all four suites' results artifacts in one place. The execution half of the
+      # §9 gate runs in windows-self-hosted.yml — the required merge gate, and the only venue where
+      # every suite runs inside a single job.
+      - name: Validate docs/test-matrix.md
+        run: npm run matrix:check
+
+      - name: Validate vitest unhandled-errors invariant (test-plan §9b)
+        run: npm run check:vitest-unhandled-errors
+
+  # Benchmark stub (implemented in P2b-10). Per test-plan §6, performance budgets
+  # must run on a dedicated/consistent runner with relative regression thresholds
+  # — NOT a shared GitHub runner (wall-clock on shared runners is flaky). The stub
+  # runs on macos-latest only because it does no timing yet.
+  benchmark:
+    runs-on: macos-latest
+    name: Benchmark (stub)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Placeholder
+        run: echo "Benchmark job stub (implemented in P2b-10)"

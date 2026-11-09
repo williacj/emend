@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cowrite.local/formats/sidecar/change-record.schema.json",
+  "schema_version": 1,
+  "title": "Cowrite track-changes attribution record",
+  "description": "One attribution record in `.cowrite/changes/<doc-hash>.json` (TD-4), keyed by `id` in the persisted file (`{\"<change-id>\": ChangeRecord, ...}`) — this schema validates one record's value. Track-changes is single-writer by design (only the author decides changes, D19): the file holds the *current* record set, so last-write-wins per id is correct by construction; there is no cross-author causal fold like `comment-event.schema.json`'s. The record deliberately carries no range/text of its own — the CriticMarkup marker live in the document is the source of truth for *what* changed (TD-2); this schema only records *who* changed it and how it's grouped/noted.",
+  "type": "object",
+  "required": ["schema_version", "id", "kind", "author", "anchor", "created_at", "updated_at"],
+  "properties": {
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "kind": { "enum": ["insertion", "deletion", "substitution"] },
+    "author": { "type": "string", "minLength": 1 },
+    "anchor": { "$ref": "#/$defs/anchor" },
+    "created_at": {
+      "type": "integer",
+      "description": "Milliseconds since the Unix epoch this change was first proposed."
+    },
+    "updated_at": {
+      "type": "integer",
+      "description": "Milliseconds since the Unix epoch this record was last written — the single-writer last-write-wins tie-break (TD-4/D19)."
+    },
+    "group": {
+      "type": ["string", "null"],
+      "description": "Links this change to every other change decided together with it. Null is a singleton change."
+    },
+    "change_set": {
+      "type": ["string", "null"],
+      "description": "The atomic `propose_changes` delivery this change belongs to (its returned `change_set_id`)."
+    },
+    "note": { "type": ["string", "null"] }
+  },
+  "$defs": {
+    "anchor": {
+      "$comment": "TD-4's shared anchor shape, as persisted in sidecar files (includes base_revision). Identical definition to `comment-event.schema.json`'s `$defs.anchor` — duplicated rather than cross-file $ref'd to keep each schema file self-contained (matches `provider-contract/mcp-tool-call.schema.json`'s convention).",
+      "type": "object",
+      "required": ["offset", "length", "text_snapshot", "context_before", "context_after", "base_revision"],
+      "properties": {
+        "offset": { "type": "integer", "minimum": 0 },
+        "length": { "type": "integer", "minimum": 0 },
+        "text_snapshot": { "type": "string" },
+        "context_before": { "type": "string" },
+        "context_after": { "type": "string" },
+        "base_revision": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+:[0-9a-f]+$",
+          "description": "Content-hash revision token, `\"<algorithm>:<hex>\"` (TD-6), e.g. `blake3:9f8e...`."
+        }
+      }
+    }
+  }
+}

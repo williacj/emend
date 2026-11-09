@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Emend">
+  <rect width="16" height="16" rx="3.2" fill="#4F46E5"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3.2 4.4H12.8M3.2 9.4H6.6"/>
+    <path d="M7.8 11.6 10.2 8.3 12.6 11.6"/>
+  </g>
+</svg>

@@ -1,0 +1,71 @@
+{
+  "name": "claude-minimal-success",
+  "description": "One-turn Claude Code stream-json run that replies 'ok' and terminates success. Shapes mirror SPIKE-1 §5.2 (docs/spikes/spike1-provider-contract.md).",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "cwd": "/tmp/project",
+        "session_id": "e6639704-0d4d-497d-8898-ef5a938ef849",
+        "tools": ["Task", "Bash", "Read", "Write"],
+        "mcp_servers": [{ "name": "cowrite", "status": "connected" }],
+        "model": "claude-haiku-4-5-20251001",
+        "permissionMode": "default",
+        "apiKeySource": "none",
+        "claude_code_version": "2.1.200"
+      }
+    },
+    {
+      "emit": {
+        "type": "rate_limit_event",
+        "rate_limit_info": {
+          "status": "allowed",
+          "resetsAt": 1783309200,
+          "rateLimitType": "five_hour",
+          "overageStatus": "rejected",
+          "isUsingOverage": false
+        },
+        "session_id": "e6639704-0d4d-497d-8898-ef5a938ef849"
+      }
+    },
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "thinking_tokens",
+        "estimated_tokens": 5,
+        "estimated_tokens_delta": 5,
+        "session_id": "e6639704-0d4d-497d-8898-ef5a938ef849"
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "model": "claude-haiku-4-5-20251001",
+          "id": "msg_018mUEjspp2UoaSPNpbCQNWm",
+          "role": "assistant",
+          "content": [{ "type": "text", "text": "ok" }],
+          "usage": { "input_tokens": 10, "output_tokens": 4 }
+        },
+        "parent_tool_use_id": null,
+        "session_id": "e6639704-0d4d-497d-8898-ef5a938ef849"
+      }
+    },
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "success",
+        "is_error": false,
+        "duration_ms": 1609,
+        "num_turns": 1,
+        "result": "ok",
+        "stop_reason": "end_turn",
+        "session_id": "e6639704-0d4d-497d-8898-ef5a938ef849",
+        "total_cost_usd": 0.0172301,
+        "permission_denials": [],
+        "terminal_reason": "completed"
+      }
+    }
+  ]
+}

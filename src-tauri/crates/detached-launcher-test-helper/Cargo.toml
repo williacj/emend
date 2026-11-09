@@ -1,0 +1,13 @@
+[package]
+name = "detached-launcher-test-helper"
+version = "0.1.0"
+edition = "2021"
+description = "Minimal parent/child helper for Cowrite detached-launcher platform tests."
+
+[[bin]]
+name = "detached-launcher-test-helper"
+path = "src/main.rs"
+
+[dependencies]
+cowrite = { path = "../.." }
+uuid = "1"

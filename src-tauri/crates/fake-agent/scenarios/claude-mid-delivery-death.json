@@ -1,0 +1,34 @@
+{
+  "name": "claude-mid-delivery-death",
+  "description": "Misbehavior (test-plan §1): mid-delivery death. The agent starts delivering (a partial assistant turn reaches stdout) and then the process dies abnormally (exit code 37) *before* the terminal `result` event. Models a crash mid-delivery; the FR-AGENT-6 atomicity invariant must still hold on the doc (all-or-nothing, never a partial). `exit` is terminal: the trailing `result` step never runs. Run without --validate.",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "session_id": "0badf00d-0000-4000-8000-000000000003",
+        "model": "claude-sonnet-4-5"
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "id": "msg_death01",
+          "role": "assistant",
+          "content": [{ "type": "text", "text": "Delivering the first half of the change" }]
+        },
+        "session_id": "0badf00d-0000-4000-8000-000000000003"
+      }
+    },
+    { "exit": { "code": 37 } },
+    {
+      "emit": {
+        "type": "result",
+        "subtype": "success",
+        "is_error": false,
+        "session_id": "0badf00d-0000-4000-8000-000000000003"
+      }
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "comment": "Fixture corpus manifest (P0-4, TP-Q3). Every fixture records its source and license. Policy: public domain / CC0 preferred, CC-BY acceptable; NO NonCommercial (NC) and NO ShareAlike (SA). The loader enforces this policy as a test. See LICENSES.md for a human-readable summary and README.md at the repo-root fixtures/ for usage.",
+  "license_policy": {
+    "allow_noncommercial": false,
+    "allow_share_alike": false,
+    "preferred": ["PD-US", "CC0-1.0"],
+    "accepted": ["CC-BY-4.0", "MIT", "Apache-2.0", "BSD-2-Clause"]
+  },
+  "fixtures": [
+    {
+      "id": "authored-discourse-plain-speech",
+      "category": "prose",
+      "title": "A Discourse on Plain Speech",
+      "path": "prose/discourse-on-plain-speech.md",
+      "source": {
+        "kind": "authored",
+        "note": "Original long-form homiletic prose authored for this corpus (CC0). Sermon/essay structure — headings, blockquotes, ordered and unordered lists, emphasis — structurally matches the target writing workload (TP-Q3). Replaces the former Project Gutenberg prose (no longer reliably fetchable); per test-plan §2, the corpus tests depend on edit *patterns*, not on the specific prose."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "authored-meditation-attention",
+      "category": "prose",
+      "title": "A Meditation on Attention",
+      "path": "prose/meditation-on-attention.md",
+      "source": {
+        "kind": "authored",
+        "note": "Original long-form reflective prose authored for this corpus (CC0). Distinct register from the other prose fixture; headings, blockquotes, ordered and unordered lists. Structurally matches the target writing workload (TP-Q3)."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "authored-collected-discourses",
+      "category": "prose",
+      "title": "Collected Discourses (large-document performance fixture)",
+      "path": "prose/collected-discourses.md",
+      "source": {
+        "kind": "authored",
+        "note": "Original short addresses authored for this corpus (CC0), deterministically assembled into a large document (~240 KB) with per-book reordering and numbering. Doubles as the large-document performance fixture (FR-X-4, test-plan §6). Assembled-for-size is intentional and documented; the assembly is reproducible (seeded)."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "gutenberg-edwards-sinners",
+      "category": "prose",
+      "title": "Sinners in the Hands of an Angry God (excerpt)",
+      "path": "prose/edwards-sinners-in-the-hands.md",
+      "source": {
+        "kind": "project-gutenberg",
+        "ebook": 34632,
+        "url": "https://www.gutenberg.org/ebooks/34632",
+        "note": "Jonathan Edwards (d. 1758); Selected Sermons ed. H. N. Gardiner, 1904. Public domain in the US (author d. 1758, edition pre-1929). Excerpt only; PG header/footer, trademark boilerplate, and editorial notes removed. A markdown H1 and YAML frontmatter were added; prose body verbatim (CRLF normalized to LF per .gitattributes). Structurally matches the target sermon workload (TP-Q3, named author)."
+      },
+      "license": { "spdx": "PD-US", "name": "Public domain (US)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "gutenberg-wesley-salvation",
+      "category": "prose",
+      "title": "Salvation by Faith (excerpt)",
+      "path": "prose/wesley-salvation-by-faith.md",
+      "source": {
+        "kind": "project-gutenberg",
+        "ebook": 59743,
+        "url": "https://www.gutenberg.org/ebooks/59743",
+        "note": "John Wesley (d. 1791); The Works of the Rev. John Wesley, Vol. 1 (Sermons on Several Occasions). Public domain in the US. Excerpt only; PG boilerplate removed. A markdown H1 and YAML frontmatter were added; prose body verbatim (CRLF normalized to LF). Structurally matches the target sermon workload (TP-Q3, named author)."
+      },
+      "license": { "spdx": "PD-US", "name": "Public domain (US)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "gutenberg-spurgeon-gleanings",
+      "category": "prose",
+      "title": "Gleanings Among the Sheaves (excerpt)",
+      "path": "prose/spurgeon-gleanings.md",
+      "source": {
+        "kind": "project-gutenberg",
+        "ebook": 42657,
+        "url": "https://www.gutenberg.org/ebooks/42657",
+        "note": "Charles H. Spurgeon (d. 1892); Gleanings Among the Sheaves. Public domain in the US. Excerpt only; PG boilerplate and publisher dedication removed. A markdown H1 and YAML frontmatter were added; prose body verbatim (CRLF normalized to LF). Structurally matches the target sermon workload (TP-Q3, named author)."
+      },
+      "license": { "spdx": "PD-US", "name": "Public domain (US)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "commonmark-inline",
+      "category": "markdown",
+      "title": "CommonMark inline feature coverage",
+      "path": "markdown/commonmark-inline.md",
+      "source": {
+        "kind": "authored",
+        "note": "Original content authored for this corpus. Covers the CommonMark inline feature taxonomy (features are not copyrightable; no spec text is reproduced — the CommonMark/GFM spec itself is CC-BY-SA, excluded by the no-ShareAlike policy)."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "commonmark-blocks",
+      "category": "markdown",
+      "title": "CommonMark block feature coverage",
+      "path": "markdown/commonmark-blocks.md",
+      "source": {
+        "kind": "authored",
+        "note": "Original content authored for this corpus. Covers the CommonMark block feature taxonomy."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "gfm-extensions",
+      "category": "markdown",
+      "title": "GitHub Flavored Markdown extension coverage",
+      "path": "markdown/gfm-extensions.md",
+      "source": {
+        "kind": "authored",
+        "note": "Original content authored for this corpus. Covers GFM extensions: tables, task lists, strikethrough, autolinks, footnotes."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "frontmatter-yaml",
+      "category": "markdown",
+      "title": "YAML front matter round-trip fixture",
+      "path": "markdown/frontmatter-yaml.md",
+      "source": {
+        "kind": "authored",
+        "note": "Original content authored for this corpus. Exercises YAML front matter (structural, must round-trip byte-for-byte per TD-2)."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "technical-api-reference",
+      "category": "technical",
+      "title": "Widget API reference (technical doc)",
+      "path": "technical/api-reference.md",
+      "source": {
+        "kind": "authored",
+        "note": "Original content authored for this corpus. Technical doc with front matter, tables, multi-language code fences, blockquotes, nested lists."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "technical-changelog",
+      "category": "technical",
+      "title": "Changelog (technical doc)",
+      "path": "technical/changelog.md",
+      "source": {
+        "kind": "authored",
+        "note": "Original content authored for this corpus. Nested lists, reference links, tight/loose list mixing."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "rust-book-data-types",
+      "category": "technical",
+      "title": "The Rust Programming Language — Data Types (ch. 3.2)",
+      "path": "technical/rust-book-data-types.md",
+      "source": {
+        "kind": "external-permissive",
+        "url": "https://github.com/rust-lang/book/blob/main/src/ch03-02-data-types.md",
+        "note": "rust-lang/book src/ch03-02-data-types.md — real native markdown with alignment tables and code fences. Verbatim (CRLF normalized to LF); retains mdbook {{#include}} preprocessor directives and HTML caption spans as in the source."
+      },
+      "license": { "spdx": "MIT OR Apache-2.0", "name": "MIT OR Apache-2.0 (Rust project dual license)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "fidelity-crlf",
+      "category": "fidelity",
+      "title": "CRLF line endings",
+      "path": "fidelity/crlf.md",
+      "source": {
+        "kind": "authored",
+        "note": "Byte-level fidelity fixture (P1): every line ends CR+LF."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "fidelity-bom",
+      "category": "fidelity",
+      "title": "UTF-8 BOM prefix",
+      "path": "fidelity/bom.md",
+      "source": {
+        "kind": "authored",
+        "note": "Byte-level fidelity fixture (P1): begins with a UTF-8 byte-order mark (EF BB BF)."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "fidelity-no-final-newline",
+      "category": "fidelity",
+      "title": "No final newline",
+      "path": "fidelity/no-final-newline.md",
+      "source": {
+        "kind": "authored",
+        "note": "Byte-level fidelity fixture (P1): file ends without a trailing newline."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "fidelity-mixed-line-endings",
+      "category": "fidelity",
+      "title": "Mixed LF/CRLF line endings",
+      "path": "fidelity/mixed-line-endings.md",
+      "source": {
+        "kind": "authored",
+        "note": "Byte-level fidelity fixture (P1): mixes LF and CRLF within one file."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    },
+    {
+      "id": "fidelity-unicode",
+      "category": "fidelity",
+      "title": "Unicode & typographic fidelity",
+      "path": "fidelity/unicode.md",
+      "source": {
+        "kind": "authored",
+        "note": "Byte-level fidelity fixture (P1): smart quotes, dashes, accents, non-Latin scripts, combining marks, ZWJ emoji sequences, significant trailing whitespace."
+      },
+      "license": { "spdx": "CC0-1.0", "name": "CC0 1.0 (public domain dedication)", "share_alike": false, "noncommercial": false }
+    }
+  ]
+}

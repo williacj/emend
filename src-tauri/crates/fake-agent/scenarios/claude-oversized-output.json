@@ -1,0 +1,5 @@
+{
+  "name": "claude-oversized-output",
+  "description": "Misbehavior (test-plan §1): oversized output. The agent emits a single stream event whose line is at least 1 MiB long — a well-formed assistant/text envelope with an enormous text field, so only the line *length* is anomalous. Exercises the consumer's line-size guard (no unbounded buffering / OOM). emit_oversized generates the filler so the scenario file stays tiny; never schema-validated.",
+  "steps": [{ "emit_oversized": { "bytes": 1048576 } }]
+}

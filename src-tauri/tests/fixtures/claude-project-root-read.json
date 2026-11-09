@@ -1,0 +1,22 @@
+{
+  "name": "claude-project-root-read",
+  "description": "Issue #1820 review finding 1: emit a provider Read using the fake agent's canonical project-root placeholder so AgentSession's stored cwd must reach activity identity derivation.",
+  "steps": [
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_project_root_read",
+              "name": "Read",
+              "input": { "file_path": "${PROJECT_ROOT}/sermon.md" }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

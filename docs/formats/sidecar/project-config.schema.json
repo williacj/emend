@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cowrite.local/formats/sidecar/project-config.schema.json",
+  "schema_version": 1,
+  "title": "Cowrite project config",
+  "description": "The whole `.cowrite/config.json` file (FR-SKILL-5, tech-design §3.1): the published, repo-owned override for the `skills/` module's ratified discovery defaults — which directories are walked for `SKILL.md`, and where the workflow glob looks. Read once at project open (`skills::discover`); a missing, unreadable, or malformed file degrades to the ratified defaults rather than failing project open (FR-X-5). Every path this file names is confined to the project root before use (§3.5) — a value that escapes is rejected, not followed.",
+  "type": "object",
+  "required": ["schema_version"],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Format revision, independent of this schema document's own `schema_version` above (TD-4: every Cowrite on-disk file carries one)."
+    },
+    "skills": {
+      "type": "object",
+      "description": "Overrides FR-SKILL-5's skill-discovery default (any `SKILL.md` anywhere in the project tree, standard ignore dirs excluded).",
+      "required": [],
+      "properties": {
+        "roots": {
+          "type": "array",
+          "description": "Project-relative directories to walk for `SKILL.md` instead of the whole project tree. Each entry is still subject to the same standard-ignore-dir exclusions and §3.5 confinement as the default walk; an entry that escapes the project root is rejected (dropped), not followed — the rest of the list, if any, still applies.",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "workflows": {
+      "type": "object",
+      "description": "Overrides FR-SKILL-5's workflow-discovery default glob (`workflows/*.md`).",
+      "required": [],
+      "properties": {
+        "glob": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^*\\n]+/\\*\\.md$",
+          "description": "A `<project-relative-dir>/*.md` glob replacing the default `workflows/*.md`. Only a single top-level directory plus a literal `*.md` suffix is supported — the ratified default itself is non-recursive (see `skills` module doc), so the override widens *where* it looks, not *how deep*; a broader glob grammar (recursion, multiple extensions) is a future schema_version, not this one. The directory portion is confined to the project root (§3.5) the same way `skills.roots` entries are; an escaping value is rejected, not followed."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

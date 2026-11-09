@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cowrite.local/formats/sidecar/docs-map.schema.json",
+  "schema_version": 1,
+  "title": "Cowrite document identity map",
+  "description": "The whole committed `.cowrite/docs.json` file (TD §3.2b): maps a per-doc UUID (minted at first sidecar write) to the project-relative path that document currently lives at. A rename/move is one map update (FR-ED-8); scratch-doc adoption mints a UUID on save-in. Non-JSONL, single-writer by design (TD-4) — the file always holds the *current* map, not a history. Producer/consumer: `store::docs_map`/`store::service::SidecarStore` (P2a-10, FR-X-8).",
+  "type": "object",
+  "required": ["schema_version", "documents"],
+  "properties": {
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "documents": {
+      "type": "object",
+      "description": "Keyed by the per-doc UUID; each value is the document's current project-relative path.",
+      "propertyNames": {
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+      },
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": false
+}

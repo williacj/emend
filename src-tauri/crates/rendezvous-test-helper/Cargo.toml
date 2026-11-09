@@ -1,0 +1,12 @@
+[package]
+name = "rendezvous-test-helper"
+version = "0.1.0"
+edition = "2021"
+description = "Minimal cross-process owner for Cowrite project-routing rendezvous tests."
+
+[[bin]]
+name = "rendezvous-test-helper"
+path = "src/main.rs"
+
+[dependencies]
+cowrite = { path = "../.." }

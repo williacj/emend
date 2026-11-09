@@ -1,0 +1,27 @@
+{
+  "name": "claude-hang-before-delivery",
+  "description": "P2a-15 FR-AGENT-6 stop-safety fixture: the agent streams an opening turn then hangs before ever reaching a propose_changes call or a raw write — stopping the session here must leave every doc on disk byte-identical (TD-1/FR-AGENT-6 by architecture; this fixture exercises the observation, not the mechanism).",
+  "steps": [
+    {
+      "emit": {
+        "type": "system",
+        "subtype": "init",
+        "session_id": "hang-fr-agent-6-0001",
+        "model": "claude-sonnet-4-5",
+        "claude_code_version": "2.1.200"
+      }
+    },
+    {
+      "emit": {
+        "type": "assistant",
+        "message": {
+          "id": "msg_hang_before_delivery",
+          "role": "assistant",
+          "content": [{ "type": "text", "text": "Let me take a look at the draft." }]
+        },
+        "session_id": "hang-fr-agent-6-0001"
+      }
+    },
+    "hang"
+  ]
+}

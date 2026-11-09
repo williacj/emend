@@ -1,0 +1,47 @@
+# Throwaway spike prototypes — never merged (see docs/test-plan.md §9b);
+# executed-spike findings are preserved under docs/spikes/.
+/spikes/
+
+# Local Codex linked worktrees and review/test scratch artifacts
+/.codex/
+/.codex-artifacts/
+/.codex-worktrees/
+/.codex-test-tmp/
+/.cowrite-review/
+
+# Node / frontend (v2 scaffold)
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Rust (v2 scaffold)
+target/
+/.cowrite-cache/
+
+# Playwright e2e run artifacts (P2a-2)
+/test-results/
+/playwright-report/
+/blob-report/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+*.backup
+*-copy
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# scripts/pretest-typecheck.test.mjs's deliberate-type-error probe (issue #486, pid-suffixed) —
+# self-cleans on a normal run, but an abnormally-terminated run could leave it behind; ignored so a
+# stray copy never breaks `npm test` for everyone until removed.
+src/__pretest_typecheck_probe.*.ts
+
+# Logs & local env
+*.log
+.env
+.env.*

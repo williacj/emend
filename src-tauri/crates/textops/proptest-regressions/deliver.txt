@@ -1,0 +1,7 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc edf1ea118acefcfbe6bedd1f1bdd90a1b5e12a1171ef4d4055956e04684eb28c # shrinks to live = "     0", specs = [EditSpec { skip: 1, span: 0, replacement: "" }, EditSpec { skip: 3, span: 1, replacement: "" }]

@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cowrite.local/formats/sidecar/comment-event.schema.json",
+  "schema_version": 1,
+  "title": "Cowrite comment event",
+  "description": "One line of a `.cowrite/comments/<doc-hash>/<author>.jsonl` append-only event log (TD-4). Thread state is the causal fold of these events (test-plan P5): `create` starts a new thread whose id *is* this event's own `id`; `reply`/`revise`/`withdraw`/`resolve`/`reopen`/`re_anchor`/`address`/`link_changes`/`decide_linked_change` act on the thread named (transitively, via `parent_id`) by the event that `parent_id` references. `revise` and `withdraw` directly target the comment or reply named by `parent_id` and only apply when `author` matches that target's author (D24). `publish` directly names a root comment in `parent_id` and records that it reached an external review audience (D20/J10); the publication fact survives later withdrawal. `parent_id` is absent/null only for `create`. `address`/`address_stopped`/`address_failed`/`link_changes`/`decide_linked_change` (P2a-19, FR-CMT-2/7; `address_stopped`/`address_failed` added by issue #1381) are the \"Address with AI\" pending/conclusion/delivery/decision events: `address` starts a run (`addressed — pending review`), and — since issue #1778 — carries `started`, whether *this event itself* is genuine per-thread start evidence (`true` for the single-thread path; `false` for a batch's own per-thread dispatch, which cannot observe real per-thread progress yet) — absent on events written before this field existed, which always meant `true`; `address_stopped`/`address_failed` conclude a run that ended without delivering (stopped by the user, failed/crashed, or reconciled as failed because no live run answers to it any more) — each matched against its named pending run without clearing another, a no-op otherwise; `link_changes` lands its tracked-change delivery; `decide_linked_change` records a linked change's accept/reject outcome, which drives whether the thread auto-resolves or reopens. An unrecognized `type` value is forward-compatible by design (P5: unknown event types are skipped by the fold, not rejected) — this schema only checks the envelope fields for it, matching the drift tolerance of `docs/formats/provider-contract`'s stream-event schemas.",
+  "type": "object",
+  "required": ["schema_version", "id", "author", "timestamp", "type"],
+  "properties": {
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Globally unique, minted by the writer (UUID/ULID). For `create`, this id *is* the thread id."
+    },
+    "parent_id": {
+      "type": ["string", "null"],
+      "description": "The thread-or-reply this event acts on. Only null for `create`."
+    },
+    "author": { "type": "string", "minLength": 1 },
+    "timestamp": {
+      "type": "integer",
+      "description": "Milliseconds since the Unix epoch, stamped by the author's own clock. Cross-machine clock skew is expected — folds order by (timestamp, id) with buffer-until-parent, never by file-arrival order."
+    },
+    "type": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "create" } } },
+      "then": {
+        "required": ["body"],
+        "properties": {
+          "anchor": { "anyOf": [{ "$ref": "#/$defs/anchor" }, { "type": "null" }] },
+          "body": { "type": "string" },
+          "severity": { "type": ["string", "null"] },
+          "skill": { "type": ["string", "null"] },
+          "workflow_run": { "type": ["string", "null"] }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "reply" } } },
+      "then": {
+        "required": ["parent_id", "body", "defense"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "body": { "type": "string" },
+          "defense": { "type": "boolean" },
+          "run_id": {
+            "type": ["string", "null"],
+            "description": "The Address run whose defense this reply delivers. Older replies omit this field and remain readable; a legacy defense can clear pending state only when exactly one run is pending."
+          },
+          "published": {
+            "type": "boolean",
+            "description": "FR-CMT-4/D20: publish-to-external-reviewer flag for a defense reply. Absent on events written before P2a-19; a reader defaults it to false, matching the Rust writer's `#[serde(default)]`."
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "revise" } } },
+      "then": {
+        "required": ["parent_id", "body"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "body": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "withdraw" } } },
+      "then": {
+        "required": ["parent_id"],
+        "properties": { "parent_id": { "type": "string" } }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "publish" } } },
+      "then": {
+        "required": ["parent_id"],
+        "properties": {
+          "parent_id": {
+            "type": "string",
+            "description": "Root comment id whose publication to a review audience is recorded (D20/J10)."
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "resolve" } } },
+      "then": {
+        "required": ["parent_id"],
+        "properties": { "parent_id": { "type": "string" } }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "reopen" } } },
+      "then": {
+        "required": ["parent_id"],
+        "properties": { "parent_id": { "type": "string" } }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "re_anchor" } } },
+      "then": {
+        "required": ["parent_id", "anchor"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "anchor": { "$ref": "#/$defs/anchor" }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "address" } } },
+      "then": {
+        "required": ["parent_id", "run_id"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "run_id": { "type": "string", "minLength": 1 },
+          "guidance": {
+            "type": ["string", "null"],
+            "description": "The [Try again — add guidance…] re-delegation note; null/absent for a first address."
+          },
+          "started": {
+            "type": "boolean",
+            "description": "Issue #1778: whether this event itself is genuine per-thread start evidence, as opposed to merely targeting the thread. `true` for the single-thread path (dispatch and start are the same event); `false` for a batch's own per-thread dispatch fallback. Absent on events written before this field existed — a reader defaults it to `true`, matching the Rust writer's `#[serde(default = \"address_started_default\")]`."
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "address_stopped" } } },
+      "then": {
+        "required": ["parent_id", "run_id"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "run_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The `address` run this stop concludes — matched against the thread's current pending run; a stale id (superseded by a later re-delegation) is a no-op."
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "address_failed" } } },
+      "then": {
+        "required": ["parent_id", "run_id"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "run_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The `address` run this failure concludes (a CLI/spawn/read failure, or a load-time reconciliation of a marker with no live run) — same matching as `address_stopped`."
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "link_changes" } } },
+      "then": {
+        "required": ["parent_id", "change_ids"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "change_ids": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Tracked-change ids (`propose_changes`/P2a-13's `change_set`'s member ids) this delivery links to the thread."
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "decide_linked_change" } } },
+      "then": {
+        "required": ["parent_id", "change_id", "decision"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "change_id": { "type": "string" },
+          "decision": { "type": "string", "enum": ["accept", "reject"] }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "anchor": {
+      "$comment": "TD-4's shared anchor shape, as persisted in sidecar files (includes base_revision). The simpler agent-facing anchor an MCP tool call supplies — no base_revision, since the agent doesn't mint one — is `provider-contract/mcp-tool-call.schema.json`'s `$defs.anchor`.",
+      "type": "object",
+      "required": ["offset", "length", "text_snapshot", "context_before", "context_after", "base_revision"],
+      "properties": {
+        "offset": { "type": "integer", "minimum": 0 },
+        "length": { "type": "integer", "minimum": 0 },
+        "text_snapshot": { "type": "string" },
+        "context_before": { "type": "string" },
+        "context_after": { "type": "string" },
+        "base_revision": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+:[0-9a-f]+$",
+          "description": "Content-hash revision token, `\"<algorithm>:<hex>\"` (TD-6), e.g. `blake3:9f8e...`."
+        }
+      }
+    }
+  }
+}

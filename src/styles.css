@@ -1,0 +1,6424 @@
+/* ABOUTME: Global styles for the Cowrite app shell, including light/dark theme variables (FR-X-6). */
+/* ABOUTME: Theme variables switch on :root[data-theme]; the effective theme is set from src/theme.ts. */
+
+:root {
+  --color-bg: #ffffff;
+  --color-editor-canvas-bg: #fcfbf8;
+  --color-welcome-quiet: #8c8779;
+  --color-dictation-ghost-fg: #8c8779;
+  --color-dictation-ghost-underline: #bdb8ac;
+  --color-dictation-held-bg: #e4ebf4;
+  --color-dictation-held-underline: #a9c0dc;
+  --color-welcome-signedout: #6b665c;
+  --color-welcome-primary-fg: #fcfbf8;
+  --color-surface: #faf8f3;
+  --color-fg: #1f1d1a;
+  --color-muted: #6b665c;
+  --color-border: #e3dfd6;
+  --color-accent: #2f5d8c;
+  --color-accent-contrast: #ffffff;
+  --color-comment-resolve-hover: #f0ede6;
+  --color-app-titlebar-win-bg: #e8e4db;
+  --color-app-titlebar-mac-bg: #edeae2;
+  --color-app-titlebar-border: #dcd7cc;
+  --color-app-titlebar-title: #4a463e;
+  --color-app-titlebar-close-hover: #d9d4c9;
+  --color-warning-fg: #92400e;
+  --color-warning-bg: #fef3c7;
+  --color-timeline-permission-badge-bg: #b5871f;
+  --color-timeline-permission-badge-fg: #ffffff;
+  --color-danger-fg: #b91c1c;
+  --color-destructive-action: #a33a2e;
+  --color-destructive-action-contrast: #ffffff;
+  --color-reject-bg: #f8efed;
+  --color-reject-border: #dcc4bf;
+  --color-recovery-fg: #8a6614;
+  --color-recovery-dot: #b5871f;
+  --color-recovery-bg: #fbf3e1;
+  --color-recovery-border: #e0c98c;
+  --color-recovery-separator: #e9d8ac;
+  --color-unsupported-source-win-bg: #f0ede6;
+  --color-unsupported-source-mac-bg: #edeae2;
+  --color-unsupported-source-fg: #33302a;
+  --color-unsupported-source-detail: #4a463e;
+  --color-untitled-strip-bg: #faf8f3;
+  --color-untitled-buffer-fg: #33302a;
+  --color-untitled-placeholder: #6b665c;
+  --color-untitled-footer-fg: #8c8779;
+  --color-action-border: #d5d0c4;
+  --color-session-dialog-bg: #fcfbf8;
+  --color-session-dialog-border: #dcd7cc;
+  --color-session-list-bg: #faf8f3;
+  --color-session-default-bg: #f0ede6;
+  --color-session-focus: #2f5d8c;
+  --color-session-status-win-bg: #f5f3ed;
+  --color-session-status-mac-bg: #f1eee7;
+  --color-document-status-win-bg: #f5f3ed;
+  --color-document-status-mac-bg: #f1eee7;
+  --color-document-status-border: #e3dfd6;
+  --color-document-status-fg: #6b665c;
+  --color-document-status-unattributed: #8a6614;
+  --color-document-status-failed: #a33a2e;
+  --color-app-header-save-fg: #8c8779;
+  --color-document-status-menu-bg: #ffffff;
+  --color-document-status-menu-border: #d5d0c4;
+  --shadow-document-status-menu: 0 8px 22px rgba(31, 29, 26, 0.16);
+
+  /* J9 project-open status band (refresh 16): exact light appearance from the shared design
+     palette, exposed as one semantic surface so FR-X-6 can derive dark mode without changing it. */
+  --color-project-open-status-bg: #f7f5ef;
+  --color-project-open-status-border: #e3dfd6;
+  --color-project-open-status-mac-border: #dcd7cc;
+  --color-project-open-status-fg: #33302a;
+  --color-project-open-status-detail: #6b665c;
+  --color-project-open-status-action-border: #d5d0c4;
+  --color-project-open-status-action-bg: #fcfbf8;
+  --color-project-open-status-action-active-bg: #edeae2;
+  --color-project-open-status-action-pending-bg: #e8e4db;
+  --color-project-open-status-dismiss: #a39e92;
+  --color-project-open-status-focus: #2f5d8c;
+  --font-project-open-status: "IBM Plex Sans", system-ui, sans-serif;
+  --color-settings-dialog-bg: #fcfbf8;
+  --color-settings-nav-win-bg: #f5f3ed;
+  --color-settings-nav-mac-bg: #f1eee7;
+  --color-settings-nav-active-bg: #e4e9ef;
+  --color-settings-border: #e3dfd6;
+  --color-settings-secondary: #6b665c;
+  --color-settings-win-control-border: #d5d0c4;
+  --color-settings-mac-control-hairline: #dcd7cc;
+  --color-settings-control-bg: #ffffff;
+  --color-settings-focus: #2f5d8c;
+  --color-settings-model-track: #e3dfd6;
+  --color-settings-model-held: #a39e92;
+  --color-editor-toolbar-bg: #faf8f3;
+  --color-editor-toolbar-border: #e3dfd6;
+  --color-editor-view-win-track-bg: #ffffff;
+  --color-editor-view-track-border: #d5d0c4;
+  --color-editor-view-inactive-fg: #6b665c;
+  --color-editor-view-win-active-bg: #1f1d1a;
+  --color-editor-view-win-active-fg: #ffffff;
+  --color-editor-view-mac-track-bg: #e8e4db;
+  --color-editor-view-mac-active-bg: #ffffff;
+  --color-editor-view-mac-active-fg: #1f1d1a;
+  --shadow-editor-view-mac-active: 0 1px 2px rgba(31, 29, 26, 0.12);
+  --color-redline-insert-fg: #22522f;
+  --color-redline-insert-bg: #edf4ef;
+  --color-redline-insert-border: #2e6b44;
+  --color-redline-delete-fg: #a33a2e;
+  --color-redline-paragraph-border: #b5871f;
+  --color-selection-popover-win-bg: #ffffff;
+  --color-selection-popover-mac-bg: rgba(252, 251, 248, 0.92);
+  --color-selection-popover-border: #d5d0c4;
+  --color-selection-action-active: #f0ede6;
+  --shadow-selection-popover-win: 0 6px 18px rgba(31, 29, 26, 0.14);
+  --shadow-selection-popover-mac: 0 8px 22px rgba(31, 29, 26, 0.18), 0 0 0 1px rgba(31, 29, 26, 0.08);
+  --color-editor-accept-bg: #edf4ef;
+  --color-editor-accept-border: #a9c4b2;
+  --color-editor-accept-fg: #2e6b44;
+  --color-editor-reject-bg: #f8efed;
+  --color-editor-reject-border: #dcc4bf;
+  --color-editor-reject-fg: #a33a2e;
+  --color-editor-stepper-bg: #ffffff;
+  --color-editor-stepper-track: #e8e4db;
+  --color-editor-stepper-border: #d5d0c4;
+  --color-editor-stepper-divider: #e3dfd6;
+  --color-editor-shortcut: #6e9179;
+  --color-editor-format-bg: #ffffff;
+  --color-editor-format-border: #d5d0c4;
+  --color-editor-format-mac-border: #dcd7cc;
+  --color-editor-format-accent: #2f5d8c;
+  --color-editor-format-accent-contrast: #ffffff;
+  --color-editor-format-pending: #a39e92;
+  --shadow-settings-window-win: 0 18px 44px rgba(31, 29, 26, 0.18),
+    0 0 0 1px rgba(31, 29, 26, 0.1);
+  --shadow-settings-window-mac: 0 22px 54px rgba(31, 29, 26, 0.22),
+    0 0 0 1px rgba(31, 29, 26, 0.1);
+
+  /* The document column's own right border (`.editor-region`, #1369, `specs/authoring-shell.md`
+     §Layout: "1px #E3DFD6 right border") — the hairline default, namespaced per-surface like the
+     files-rail/tab/comments-status tokens below rather than reusing `--color-border` (#E2E4E9),
+     which is a different literal. */
+  --color-editor-region-border: #e3dfd6;
+
+  /* Files rail light contract: exact hi-fi 3a/3b values exposed through the app theme layer so
+     the component consumes semantic colors and FR-X-6 can override them as one cascade. */
+  --color-files-rail-win-bg: #f5f3ed;
+  --color-files-rail-mac-bg: #f1eee7;
+  --color-files-rail-fg: #3a362f;
+  --color-files-rail-secondary: #6b665c;
+  --color-files-rail-label: #8c8779;
+  --color-files-rail-muted: #a39e92;
+  --color-files-rail-border: #e3dfd6;
+  --color-files-rail-accent: #2f5d8c;
+  --color-files-rail-accent-contrast: #ffffff;
+  --color-files-rail-win-active-bg: #e4e9ef;
+  --color-files-rail-control-bg: #ffffff;
+  --color-files-rail-control-border: #d5d0c4;
+  --color-files-rail-mac-control-border: #dcd7cc;
+  --color-files-rail-toggle-bg: #e2ded4;
+  --color-files-rail-action-hover-bg: rgba(31, 29, 26, 0.06);
+  --color-files-rail-row-hover-bg: rgba(31, 29, 26, 0.05);
+  --color-files-rail-hover-fg: #4a463e;
+  --color-files-rail-warning: #8a6614;
+  --color-files-rail-watch: #b5871f;
+  --color-comments-column-win-bg: #f0ede6;
+  --color-comments-column-mac-bg: #edeae2;
+  --shadow-files-rail-toggle: 0 1px 2px rgba(31, 29, 26, 0.12);
+
+  /* Timeline chat cards (10aâ€“10c): dedicated surface tokens rather than coincidental reuse of
+     another component's palette. */
+  --color-timeline-chat-bg: #ffffff;
+  --color-timeline-chat-border: #e3dfd6;
+  --color-timeline-chat-author: #3a362f;
+  --color-timeline-chat-body: #33302a;
+  --color-timeline-chat-meta: #8c8779;
+  --color-timeline-chat-footer-border: #f0ede6;
+  --color-timeline-chat-user-avatar: #dcd7cc;
+  --color-timeline-chat-agent-avatar: #2f5d8c;
+  --shadow-timeline-chat-mac: 0 1px 2px rgba(31, 29, 26, 0.07);
+
+  /* Comments column active-run status line (`5a.5`/`5b.5`, `docs/design/specs/comments.md:150`) —
+     exact hi-fi values, namespaced per surface the way the files-rail tokens above are (this
+     surface isn't on tokens.md's own literal palette yet, so it doesn't reuse the files-rail
+     tokens even though two of the four hex values happen to coincide — a coincidence today is not
+     a promise the two surfaces will always share a value). */
+  --color-comments-status-bg: #faf8f3;
+  --color-comments-status-border: #e3dfd6;
+  --color-comments-status-icon: #b5871f;
+  --color-comments-status-fg: #6b665c;
+
+  /* Tab strip light contract, exposed through the app theme layer for the same reason the
+     files-rail block above is — the component consumes semantic colors and FR-X-6 overrides them as
+     one cascade. Every value below is the hi-fi 3a/3b literal, `--color-tab-active-fg` included:
+     the mocks give an active tab no color of its own, so it inherits the page ink `#1F1D1A`
+     (`specs/tokens.md`, "ink") while only inactive tabs override to `#6B665C`. The one exception is
+     `--color-tab-hover-bg` — hover is a documented gap (`specs/state.md` "Known gaps"), so it takes
+     the app's own row-hover tint rather than inventing a tab-only value. */
+  --color-tab-win-strip-bg: #f0ede6;
+  --color-tab-mac-strip-bg: #f7f5ef;
+  --color-tab-border: #e3dfd6;
+  --color-tab-win-active-bg: #fcfbf8;
+  --color-tab-mac-active-bg: #ffffff;
+  --color-tab-active-fg: #1f1d1a;
+  --color-tab-inactive-fg: #6b665c;
+  /* The unsaved-work dot, and the focus ring derived from it (`.project-rail`'s accent convention). */
+  --color-tab-accent: #2f5d8c;
+  --color-tab-close-active: #a39e92;
+  --color-tab-close-inactive: #bdb8ac;
+  --color-tab-hover-bg: rgba(31, 29, 26, 0.05);
+  --shadow-tab-mac-active: 0 1px 2px rgba(31, 29, 26, 0.05);
+
+  /* Compact YAML metadata fold (authoring shell): warm-paper binding plus the recorded 3a/3b
+     platform seam. Keep these surface-specific so dark mode can derive from the app palette. */
+  --color-frontmatter-fold-bg: #faf8f3;
+  --color-frontmatter-fold-fg: #6b665c;
+  --color-frontmatter-fold-hover-fg: #1f1d1a;
+  --color-frontmatter-fold-win-border: #d5d0c4;
+  --color-frontmatter-fold-mac-border: #dcd7cc;
+  --color-frontmatter-fold-accent: #2f5d8c;
+
+  /* J15 / turn 12 is a terminal light surface even when the failed tree had selected dark mode.
+     Keep its complete appearance contract here rather than inheriting mutable shell tokens. */
+  --color-render-failure-canvas: #edeae3;
+  --color-render-failure-titlebar-win-bg: #e8e4db;
+  --color-render-failure-titlebar-mac-bg: #edeae2;
+  --color-render-failure-titlebar-border: #dcd7cc;
+  --color-render-failure-titlebar-title: #4a463e;
+  --color-render-failure-titlebar-icon: #2f5d8c;
+  --color-render-failure-titlebar-close-hover: #d9d4c9;
+  --color-render-failure-heading: #1f1d1a;
+  --color-render-failure-body: #4a463e;
+  --color-render-failure-button-bg: var(--color-render-failure-heading);
+  --color-render-failure-button-fg: #fcfbf8;
+  --color-render-failure-button-disabled-border: #d5d0c4;
+  --color-render-failure-button-disabled-bg: #e8e4db;
+  --color-render-failure-button-disabled-fg: #6b665c;
+  --color-render-failure-status: #33302a;
+  --color-render-failure-error: #a33a2e;
+  --font-render-failure-heading: "Source Serif 4", Georgia, serif;
+  --font-render-failure-body: "IBM Plex Sans", system-ui, sans-serif;
+  --radius-render-failure-button-win: 6px;
+  --radius-render-failure-button-mac: 7px;
+  --shadow-render-failure-button-mac: 0 1px 2px rgba(31, 29, 26, 0.18);
+  --outline-render-failure-focus-win: 2px solid var(--color-render-failure-heading);
+  --outline-render-failure-focus-mac: 3px solid rgba(47, 93, 140, 0.45);
+  --outline-offset-render-failure-root: 6px;
+  --outline-offset-render-failure-button: 3px;
+
+  /* Comment-anchor highlight washes (`commentHighlights.ts`'s `commentHighlightTheme`, ux-design.md
+     §2 thread states, #1719). #1781 restores the binding light-mode open and selected/add-here
+     treatments from `docs/design/specs/comments.md:20`; the theme owns their specified box-shadow. */
+  --color-comment-highlight-open-bg: #fbf3e1;
+  --color-comment-highlight-open-border: #e0c98c;
+  --color-comment-highlight-selected-bg: #e4ebf4;
+  --color-comment-highlight-selected-border: #a9c0dc;
+  --color-comment-highlight-working-bg: #e6e0ff;
+  --color-comment-highlight-working-border: #6f52d9;
+  --color-comment-highlight-reopened-bg: #ffe0d6;
+  --color-comment-highlight-reopened-border: #cf5b22;
+  --color-comment-highlight-suggestion-bg: #d8f0dd;
+  --color-comment-highlight-suggestion-border: #1a7f37;
+  --color-comment-highlight-resolved-border: #c4c4c4;
+  --color-comment-gutter-open-border: #b5871f;
+  --color-comment-gutter-open-fg: #8a6614;
+  --color-comment-gutter-selected-border: #2f5d8c;
+  --color-comment-gutter-selected-fg: #2f5d8c;
+  --color-comment-gutter-resolved-border: #6e9179;
+  --color-comment-gutter-resolved-bg: #edf4ef;
+  --color-comment-gutter-resolved-fg: #2e6b44;
+
+  color-scheme: light;
+
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* J15 / turn 12: the shell is gone, so this app-lifetime surface owns the whole body. */
+.render-recovery-attempt {
+  display: contents;
+}
+
+.render-recovery-attempt--fallback {
+  display: block;
+  min-height: 100vh;
+  background: var(--color-render-failure-canvas);
+  --color-app-titlebar-win-bg: var(--color-render-failure-titlebar-win-bg);
+  --color-app-titlebar-mac-bg: var(--color-render-failure-titlebar-mac-bg);
+  --color-app-titlebar-border: var(--color-render-failure-titlebar-border);
+  --color-app-titlebar-title: var(--color-render-failure-titlebar-title);
+  --color-app-titlebar-close-hover: var(--color-render-failure-titlebar-close-hover);
+}
+
+.render-recovery-attempt--fallback .app-header[data-platform="mac"] {
+  border-bottom: 1px solid var(--color-app-titlebar-border);
+}
+
+.render-recovery-attempt--fallback .app-header__icon {
+  background-color: var(--color-render-failure-titlebar-icon);
+}
+
+.render-recovery-attempt[hidden] {
+  display: none;
+}
+
+.render-failure {
+  box-sizing: border-box;
+  width: min(520px, calc(100% - 48px));
+  margin: 0 auto;
+  padding-top: 96px;
+  color: var(--color-render-failure-body);
+  outline-offset: var(--outline-offset-render-failure-root);
+}
+
+.render-failure[data-platform="win"]:focus {
+  outline: var(--outline-render-failure-focus-win);
+}
+
+.render-failure[data-platform="mac"]:focus {
+  outline: var(--outline-render-failure-focus-mac);
+}
+
+.render-failure h1 {
+  margin: 0;
+  color: var(--color-render-failure-heading);
+  font-family: var(--font-render-failure-heading);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+.render-failure > p {
+  margin: 18px 0 0;
+  font-family: var(--font-render-failure-body);
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.render-failure__action {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 18px;
+}
+
+.render-failure__action button {
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-render-failure-button-win);
+  background: var(--color-render-failure-button-bg);
+  color: var(--color-render-failure-button-fg);
+  font: 500 12.5px/1.5 var(--font-render-failure-body);
+  outline-offset: var(--outline-offset-render-failure-button);
+}
+
+.render-failure[data-platform="mac"] .render-failure__action button {
+  border-radius: var(--radius-render-failure-button-mac);
+  box-shadow: var(--shadow-render-failure-button-mac);
+}
+
+.render-failure[data-platform="win"] .render-failure__action button:focus-visible {
+  outline: var(--outline-render-failure-focus-win);
+}
+
+.render-failure[data-platform="mac"] .render-failure__action button:focus-visible {
+  outline: var(--outline-render-failure-focus-mac);
+}
+
+.render-failure__action button[aria-disabled="true"] {
+  border: 1px solid var(--color-render-failure-button-disabled-border);
+  background: var(--color-render-failure-button-disabled-bg);
+  color: var(--color-render-failure-button-disabled-fg);
+}
+
+.render-failure__status {
+  margin: 10px 0 0;
+  color: var(--color-render-failure-status);
+  font: 400 12.5px/1.5 var(--font-render-failure-body);
+}
+
+.render-failure__status--error {
+  color: var(--color-render-failure-error);
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #1e1f22;
+  --color-editor-canvas-bg: var(--color-bg);
+  --color-welcome-quiet: var(--color-muted);
+  --color-dictation-ghost-fg: var(--color-muted);
+  --color-dictation-ghost-underline: var(--color-muted);
+  --color-dictation-held-bg: #26324a;
+  --color-dictation-held-underline: #5b8dff;
+  --color-welcome-signedout: var(--color-muted);
+  --color-welcome-primary-fg: var(--color-bg);
+  --color-surface: #26282c;
+  --color-fg: #e6e7ea;
+  --color-muted: #9aa0a6;
+  --color-border: #3a3d42;
+  --color-accent: #5b8dff;
+  --color-accent-contrast: #10131a;
+  --color-comment-resolve-hover: var(--color-surface);
+  --color-app-titlebar-win-bg: var(--color-surface);
+  --color-app-titlebar-mac-bg: var(--color-surface);
+  --color-app-titlebar-border: var(--color-border);
+  --color-app-titlebar-title: var(--color-fg);
+  --color-app-titlebar-close-hover: var(--color-border);
+  /* Amber lightened for dark surfaces: the light-theme #92400e sits at ~1.6:1 on --color-bg, which
+     is why a warning needs its own token per theme rather than one literal shared by both. */
+  --color-warning-fg: #fcd34d;
+  --color-warning-bg: #78350f;
+  --color-timeline-permission-badge-bg: var(--color-warning-fg);
+  --color-timeline-permission-badge-fg: var(--color-bg);
+  /* Red lightened for dark surfaces, same reason as --color-warning-fg above. */
+  --color-danger-fg: #f87171;
+  --color-destructive-action: var(--color-danger-fg);
+  --color-destructive-action-contrast: #ffffff;
+  --color-reject-bg: var(--color-surface);
+  --color-reject-border: var(--color-danger-fg);
+  --color-recovery-fg: var(--color-warning-fg);
+  --color-recovery-dot: var(--color-warning-fg);
+  --color-recovery-bg: var(--color-warning-bg);
+  --color-recovery-border: var(--color-warning-fg);
+  --color-recovery-separator: var(--color-warning-fg);
+  --color-unsupported-source-win-bg: var(--color-surface);
+  --color-unsupported-source-mac-bg: var(--color-surface);
+  --color-unsupported-source-fg: var(--color-fg);
+  --color-unsupported-source-detail: var(--color-muted);
+  --color-untitled-strip-bg: var(--color-surface);
+  --color-untitled-buffer-fg: var(--color-fg);
+  --color-untitled-placeholder: var(--color-muted);
+  --color-untitled-footer-fg: var(--color-muted);
+  --color-action-border: var(--color-border);
+  --color-session-dialog-bg: var(--color-bg);
+  --color-session-dialog-border: var(--color-border);
+  --color-session-list-bg: var(--color-surface);
+  --color-session-default-bg: var(--color-surface);
+  --color-session-focus: var(--color-accent);
+  --color-session-status-win-bg: var(--color-surface);
+  --color-session-status-mac-bg: var(--color-surface);
+  --color-document-status-win-bg: var(--color-surface);
+  --color-document-status-mac-bg: var(--color-surface);
+  --color-document-status-border: var(--color-border);
+  --color-document-status-fg: var(--color-muted);
+  --color-document-status-unattributed: var(--color-warning-fg);
+  --color-app-header-save-fg: var(--color-muted);
+  --color-document-status-menu-bg: var(--color-bg);
+  --color-document-status-menu-border: var(--color-border);
+  --shadow-document-status-menu: 0 8px 22px rgba(0, 0, 0, 0.35);
+
+  /* Dark is unspecified for the J9 band; follow #931 and derive strictly from the app palette. */
+  --color-project-open-status-bg: var(--color-surface);
+  --color-project-open-status-border: var(--color-border);
+  --color-project-open-status-mac-border: var(--color-border);
+  --color-project-open-status-fg: var(--color-fg);
+  --color-project-open-status-detail: var(--color-muted);
+  --color-project-open-status-action-border: var(--color-border);
+  --color-project-open-status-action-bg: var(--color-bg);
+  --color-project-open-status-action-active-bg: var(--color-border);
+  --color-project-open-status-action-pending-bg: var(--color-surface);
+  --color-project-open-status-dismiss: var(--color-muted);
+  --color-project-open-status-focus: var(--color-accent);
+  --color-settings-dialog-bg: var(--color-bg);
+  --color-settings-nav-win-bg: var(--color-surface);
+  --color-settings-nav-mac-bg: var(--color-surface);
+  --color-settings-nav-active-bg: var(--color-border);
+  --color-settings-border: var(--color-border);
+  --color-settings-secondary: var(--color-muted);
+  --color-settings-win-control-border: var(--color-border);
+  --color-settings-mac-control-hairline: var(--color-border);
+  --color-settings-control-bg: var(--color-surface);
+  --color-settings-focus: var(--color-accent);
+  --color-settings-model-track: var(--color-border);
+  --color-settings-model-held: var(--color-muted);
+  --color-editor-toolbar-bg: var(--color-surface);
+  --color-editor-toolbar-border: var(--color-border);
+  --color-editor-view-win-track-bg: var(--color-bg);
+  --color-editor-view-track-border: var(--color-border);
+  --color-editor-view-inactive-fg: var(--color-muted);
+  --color-editor-view-win-active-bg: var(--color-accent);
+  --color-editor-view-win-active-fg: var(--color-accent-contrast);
+  --color-editor-view-mac-track-bg: var(--color-border);
+  --color-editor-view-mac-active-bg: var(--color-bg);
+  --color-editor-view-mac-active-fg: var(--color-fg);
+  --shadow-editor-view-mac-active: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --color-redline-insert-fg: #8fc4a0;
+  --color-redline-insert-bg: #22362b;
+  --color-redline-insert-border: #74a885;
+  --color-redline-delete-fg: #e6958d;
+  --color-redline-paragraph-border: var(--color-warning-fg);
+  --color-selection-popover-win-bg: var(--color-bg);
+  --color-selection-popover-mac-bg: var(--color-bg);
+  --color-selection-popover-border: var(--color-border);
+  --color-selection-action-active: var(--color-border);
+  --shadow-selection-popover-win: 0 6px 18px rgba(0, 0, 0, 0.3);
+  --shadow-selection-popover-mac: 0 8px 22px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--color-border);
+  --color-editor-accept-bg: var(--color-surface);
+  --color-editor-accept-border: var(--color-accent);
+  --color-editor-accept-fg: var(--color-fg);
+  --color-editor-reject-bg: var(--color-surface);
+  --color-editor-reject-border: var(--color-danger-fg);
+  --color-editor-reject-fg: var(--color-danger-fg);
+  --color-editor-stepper-bg: var(--color-bg);
+  --color-editor-stepper-track: var(--color-border);
+  --color-editor-stepper-border: var(--color-border);
+  --color-editor-stepper-divider: var(--color-border);
+  --color-editor-shortcut: var(--color-muted);
+  --color-editor-format-bg: var(--color-bg);
+  --color-editor-format-border: var(--color-border);
+  --color-editor-format-mac-border: var(--color-border);
+  --color-editor-format-accent: var(--color-accent);
+  --color-editor-format-accent-contrast: var(--color-accent-contrast);
+  --color-editor-format-pending: var(--color-muted);
+
+  /* Dark is unspecified in the handoff for this surface too; derive from the existing app palette,
+     same #931 disposition as the files-rail block below. */
+  --color-editor-region-border: var(--color-border);
+
+  /* The design handoff leaves dark unspecified. CJ's #931 disposition derives it strictly from
+     the existing app palette rather than inventing a files-rail-only dark palette. */
+  --color-files-rail-win-bg: var(--color-surface);
+  --color-files-rail-mac-bg: var(--color-surface);
+  --color-comments-column-win-bg: var(--color-surface);
+  --color-comments-column-mac-bg: var(--color-surface);
+  --color-files-rail-fg: var(--color-fg);
+  --color-files-rail-secondary: var(--color-muted);
+  --color-files-rail-label: var(--color-muted);
+  --color-files-rail-muted: var(--color-muted);
+  --color-files-rail-border: var(--color-border);
+  --color-files-rail-accent: var(--color-accent);
+  --color-files-rail-accent-contrast: var(--color-accent-contrast);
+  --color-files-rail-win-active-bg: var(--color-bg);
+  --color-files-rail-control-bg: var(--color-bg);
+  --color-files-rail-control-border: var(--color-border);
+  --color-files-rail-mac-control-border: var(--color-border);
+  --color-files-rail-toggle-bg: var(--color-border);
+  --color-files-rail-action-hover-bg: var(--color-border);
+  --color-files-rail-row-hover-bg: var(--color-border);
+  --color-files-rail-hover-fg: var(--color-fg);
+  --color-files-rail-warning: var(--color-warning-fg);
+  --color-files-rail-watch: var(--color-warning-fg);
+  --shadow-files-rail-toggle: 0 1px 2px var(--color-border);
+
+  /* Dark chat-card appearance is unspecified; derive it from the existing app palette. */
+  --color-timeline-chat-bg: var(--color-surface);
+  --color-timeline-chat-border: var(--color-border);
+  --color-timeline-chat-author: var(--color-fg);
+  --color-timeline-chat-body: var(--color-fg);
+  --color-timeline-chat-meta: var(--color-muted);
+  --color-timeline-chat-footer-border: var(--color-border);
+  --color-timeline-chat-user-avatar: var(--color-border);
+  --color-timeline-chat-agent-avatar: var(--color-accent);
+  --shadow-timeline-chat-mac: 0 1px 2px rgba(0, 0, 0, 0.4);
+
+  /* Same #931 disposition as the files-rail block above: the design handoff leaves dark
+     unspecified for this surface too, so dark derives from the existing app palette rather than
+     inventing a comments-only dark palette. */
+  --color-comments-status-bg: var(--color-surface);
+  --color-comments-status-border: var(--color-border);
+  --color-comments-status-icon: var(--color-warning-fg);
+  --color-comments-status-fg: var(--color-muted);
+
+  /* Dark is unspecified for the tab strip as well; derived strictly from the existing app palette,
+     following the files-rail disposition immediately above rather than inventing a second palette. */
+  --color-tab-win-strip-bg: var(--color-surface);
+  --color-tab-mac-strip-bg: var(--color-surface);
+  --color-tab-border: var(--color-border);
+  --color-tab-win-active-bg: var(--color-bg);
+  --color-tab-mac-active-bg: var(--color-bg);
+  --color-tab-active-fg: var(--color-fg);
+  --color-tab-inactive-fg: var(--color-muted);
+  --color-tab-accent: var(--color-accent);
+  --color-tab-close-active: var(--color-fg);
+  --color-tab-close-inactive: var(--color-muted);
+  --color-tab-hover-bg: var(--color-border);
+  --shadow-tab-mac-active: 0 1px 2px rgba(0, 0, 0, 0.4);
+
+  /* Dark appearance is unspecified in the handoff; derive it from the existing app palette. */
+  --color-frontmatter-fold-bg: var(--color-surface);
+  --color-frontmatter-fold-fg: var(--color-muted);
+  --color-frontmatter-fold-hover-fg: var(--color-fg);
+  --color-frontmatter-fold-win-border: var(--color-border);
+  --color-frontmatter-fold-mac-border: var(--color-border);
+  --color-frontmatter-fold-accent: var(--color-accent);
+
+  /* #1719: the light washes above sat at 1.01-1.11:1 against dark mode's near-white --color-fg,
+     painting near-invisible text — the mocks record dark mode itself as a known gap
+     (`docs/design/specs/state.md:47`), so per the #931 disposition above these derive strictly from
+     the existing app palette rather than hand-picking new dark hues. Each state keeps a distinct hue
+     anchor (amber/blue/red) where the palette has one; `suggestion` has none (no green core token),
+     so it — like `resolved`'s already-transparent wash — leans on its underline shape (wavy) for
+     state identity, exactly as this file's own doc comment says a colour-blind reader already must.
+     Every background resolves to a token dark enough to hold >=4.5:1 against --color-fg (#e6e7ea):
+     --color-warning-bg/--color-surface/--color-border are ~7.3:1/~11.9:1/~8.8:1 respectively. */
+  --color-comment-highlight-open-bg: var(--color-warning-bg);
+  --color-comment-highlight-open-border: var(--color-warning-fg);
+  --color-comment-highlight-selected-bg: var(--color-surface);
+  --color-comment-highlight-selected-border: var(--color-accent);
+  --color-comment-highlight-working-bg: var(--color-surface);
+  --color-comment-highlight-working-border: var(--color-accent);
+  --color-comment-highlight-reopened-bg: var(--color-border);
+  --color-comment-highlight-reopened-border: var(--color-danger-fg);
+  --color-comment-highlight-suggestion-bg: var(--color-surface);
+  --color-comment-highlight-suggestion-border: var(--color-muted);
+  --color-comment-highlight-resolved-border: var(--color-border);
+  --color-comment-gutter-open-border: var(--color-warning-fg);
+  --color-comment-gutter-open-fg: var(--color-warning-fg);
+  --color-comment-gutter-selected-border: var(--color-accent);
+  --color-comment-gutter-selected-fg: var(--color-accent);
+  --color-comment-gutter-resolved-border: var(--color-accent);
+  --color-comment-gutter-resolved-bg: var(--color-surface);
+  --color-comment-gutter-resolved-fg: var(--color-accent);
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+html,
+body {
+  /* #2689: WebKit must not scroll the viewport around the fixed-height app shell. */
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
+.app-header {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  height: 38px;
+  min-width: 0;
+  padding: 0;
+  background-color: var(--color-app-titlebar-win-bg);
+  border-bottom: 1px solid var(--color-app-titlebar-border);
+  color: var(--color-app-titlebar-title);
+  user-select: none;
+}
+
+.app-header[data-platform="mac"] {
+  height: 44px;
+  border-bottom: 0;
+  background-color: var(--color-app-titlebar-mac-bg);
+}
+
+.app-header__identity {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  height: 100%;
+  padding-left: 14px;
+}
+
+.app-header[data-platform="mac"] .app-header__identity {
+  padding-left: 0;
+}
+
+.app-header__icon {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  background-color: var(--color-accent);
+}
+
+.app-header__traffic-light-space {
+  flex: none;
+  width: 72px;
+  height: 100%;
+}
+
+.app-header__title {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-app-titlebar-title);
+  font-size: 12.5px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-header[data-platform="mac"] > .app-header__title {
+  position: absolute;
+  left: 50%;
+  max-width: 24%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.app-header__status {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-header[data-platform="win"] > .app-header__status {
+  flex: 1;
+  margin: 0 12px;
+  text-align: center;
+}
+
+.app-header[data-platform="mac"] .app-header__status {
+  max-width: min(260px, 18vw);
+}
+
+.app-header__actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  padding: 0 14px;
+  white-space: nowrap;
+}
+
+.app-header__window-controls {
+  display: flex;
+  flex: none;
+  height: 100%;
+}
+
+.app-header__window-controls button {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-app-titlebar-title);
+  cursor: pointer;
+}
+
+.app-header__window-controls button:hover {
+  background-color: var(--color-app-titlebar-border);
+}
+
+.app-header__window-controls button:last-child:hover {
+  background-color: var(--color-app-titlebar-close-hover);
+}
+
+.app-header__window-controls button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.app-header__window-controls svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 1.6;
+}
+
+.document-save-status--title-bar {
+  flex: none;
+  color: var(--color-app-header-save-fg);
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+.app-header__settings,
+.settings-dialog button,
+.settings-dialog select {
+  appearance: none;
+  background: var(--color-settings-control-bg);
+  color: var(--color-fg);
+  padding: 5px 11px;
+  font: inherit;
+  font-size: 12.5px;
+}
+
+.app-header__settings[data-platform="win"], .settings-dialog[data-platform="win"] button, .settings-dialog[data-platform="win"] select {
+  border: 1px solid var(--color-settings-win-control-border);
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.app-header__settings[data-platform="mac"], .settings-dialog[data-platform="mac"] button, .settings-dialog[data-platform="mac"] select {
+  border: 0;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-settings-mac-control-hairline);
+}
+
+.app-header__settings,
+.settings-dialog button,
+.settings-dialog select,
+.settings-dialog input {
+  cursor: pointer;
+}
+
+.app-header__settings:focus-visible,
+.settings-dialog button:focus-visible,
+.settings-dialog select:focus-visible,
+.settings-dialog input:focus-visible {
+  outline: 2px solid var(--color-settings-focus);
+  outline-offset: 1px;
+}
+
+.settings-dialog button:disabled,
+.settings-dialog select:disabled,
+.settings-dialog input:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+/* Mock 1m is low-fi authority for hierarchy: a compact Settings window with a left General rail
+   and the preference rows on warm paper. Shared design tokens and the existing platform radius /
+   shadow convention supply the appearance the wireframe intentionally does not settle. */
+.settings-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(31, 29, 26, 0.28);
+}
+
+.settings-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(720px, calc(100vw - 32px));
+  height: min(460px, calc(100vh - 32px));
+  min-height: 300px;
+  overflow: hidden;
+  background: var(--color-settings-dialog-bg);
+}
+
+.settings-dialog[data-platform="win"] {
+  border: 1px solid var(--color-settings-border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-settings-window-win);
+}
+
+.settings-dialog[data-platform="mac"] {
+  border: 0;
+  border-radius: 12px;
+  box-shadow: var(--shadow-settings-window-mac);
+}
+
+.settings-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 0 14px 0 20px;
+}
+
+.settings-dialog[data-platform="win"] .settings-dialog__header {
+  border-bottom: 1px solid var(--color-settings-border);
+}
+
+.settings-dialog[data-platform="mac"] .settings-dialog__header {
+  box-shadow: 0 1px 0 var(--color-settings-border);
+}
+
+.settings-dialog__header h1 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.settings-dialog__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.settings-dialog__nav {
+  width: 180px;
+  flex: 0 0 180px;
+  padding: 14px;
+  background: var(--color-settings-nav-win-bg);
+  font-size: 13px;
+}
+
+.settings-dialog[data-platform="win"] .settings-dialog__nav {
+  border-right: 1px solid var(--color-settings-border);
+}
+
+.settings-dialog[data-platform="mac"] .settings-dialog__nav {
+  background: var(--color-settings-nav-mac-bg);
+  box-shadow: 1px 0 0 var(--color-settings-border);
+}
+
+.settings-dialog__nav [aria-current="page"] {
+  display: block;
+  padding: 7px 10px;
+  background: var(--color-settings-nav-active-bg);
+}
+
+.settings-dialog[data-platform="win"] .settings-dialog__nav [aria-current="page"] {
+  border-radius: 5px;
+}
+
+.settings-dialog[data-platform="mac"] .settings-dialog__nav [aria-current="page"] {
+  border-radius: 7px;
+}
+
+.settings-dialog__content {
+  flex: 1;
+  min-width: 0;
+  padding: 20px;
+  overflow: auto;
+  font-size: 13px;
+}
+
+.settings-dialog__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-dialog__row + .settings-dialog__row {
+  margin-top: 18px;
+}
+
+.settings-dialog__voice {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-settings-border);
+}
+
+.settings-dialog__voice h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.voice-settings__heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.voice-settings__switch-control { display: inline-flex; align-items: center; gap: 8px; }
+.voice-settings__switch-control[data-disabled="true"] { opacity: 0.55; }
+.voice-settings__switch {
+  appearance: none;
+  position: relative;
+  box-sizing: border-box;
+  width: 30px;
+  height: 18px;
+  margin: 0;
+  border: 1px solid var(--color-settings-win-control-border);
+  border-radius: 9px;
+  background: var(--color-settings-control-bg);
+  cursor: pointer;
+}
+.voice-settings__switch::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-settings-secondary);
+  transition: transform 120ms ease;
+}
+.settings-dialog[data-platform="mac"] .voice-settings__switch {
+  border-color: var(--color-settings-mac-control-hairline);
+}
+.settings-dialog[data-platform="mac"] .voice-settings__switch:checked { border-color: #2f5d8c; }
+.voice-settings__switch:checked {
+  border-color: #2f5d8c;
+  background: #2f5d8c;
+}
+.voice-settings__switch:checked::before {
+  transform: translateX(12px);
+  background: #fff;
+}
+.settings-dialog .voice-settings__switch:disabled { opacity: 1; cursor: default; }
+.settings-dialog .voice-settings__switch:focus-visible {
+  outline: 2px solid var(--color-settings-focus);
+  outline-offset: 2px;
+}
+.voice-settings__switch-state { color: var(--color-settings-secondary); }
+.voice-settings__off-note {
+  margin: 6px 0 0 160px;
+  color: var(--color-settings-secondary);
+  font-size: 12px;
+}
+.voice-settings__device-row { align-items: flex-start; }
+.voice-settings__device-row .settings-dialog__setting-label { padding-top: 6px; }
+.voice-settings__device-control { min-width: 0; flex: 1; }
+.voice-settings__device-control select {
+  box-sizing: border-box;
+  width: min(260px, 100%);
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.voice-settings__device-control select[aria-invalid="true"] { border-color: #dcc4bf; }
+.settings-dialog[data-platform="mac"] .voice-settings__device-control select[aria-invalid="true"] {
+  box-shadow: 0 0 0 1px #dcc4bf;
+}
+.settings-dialog .voice-settings__device-issue[role="status"] {
+  margin: 5px 0 0;
+  color: var(--color-settings-secondary);
+  font-size: 12.5px;
+}
+.settings-dialog .voice-settings__device-issue--reject[role="status"] { color: #a33a2e; }
+:root[data-theme="dark"] .voice-settings__switch:checked {
+  border-color: var(--color-settings-focus);
+  background: var(--color-settings-focus);
+}
+:root[data-theme="dark"] .settings-dialog[data-platform="mac"] .voice-settings__switch:checked {
+  border-color: var(--color-settings-focus);
+}
+:root[data-theme="dark"] .voice-settings__device-control select[aria-invalid="true"] { border-color: #f87171; }
+:root[data-theme="dark"] .settings-dialog[data-platform="mac"] .voice-settings__device-control select[aria-invalid="true"] {
+  box-shadow: 0 0 0 1px #f87171;
+}
+:root[data-theme="dark"] .settings-dialog .voice-settings__device-issue--reject[role="status"] { color: #f87171; }
+
+.settings-dialog__voice .settings-dialog__row {
+  margin-top: 14px;
+}
+
+.settings-dialog__model-row {
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.settings-dialog__model-row .settings-dialog__setting-label {
+  flex: 0 0 150px;
+}
+
+.settings-dialog__model-state {
+  display: flex;
+  flex: 1 1 180px;
+  min-width: 180px;
+  flex-direction: column;
+  gap: 6px;
+  line-height: 1.35;
+}
+
+.settings-dialog__model-progress {
+  width: 180px;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--color-settings-model-track);
+}
+
+.settings-dialog__model-progress > span {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+}
+
+.settings-dialog__model-progress--held > span {
+  background: var(--color-settings-model-held);
+}
+
+.settings-dialog .settings-dialog__model-action {
+  flex: 0 0 auto;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.settings-dialog .settings-dialog__model-action--primary {
+  color: var(--color-accent-contrast);
+  background: var(--color-accent);
+}
+
+.settings-dialog__model-note,
+.settings-dialog__model-path {
+  margin: 8px 0 0 160px;
+  color: var(--color-settings-secondary);
+  font-size: 12px;
+}
+
+.settings-dialog__model-message {
+  margin: 8px 0 0 160px;
+  font-size: 12.5px;
+}
+
+.settings-dialog .settings-dialog__model-error {
+  color: var(--color-destructive-action);
+}
+
+.settings-dialog__model-path {
+  max-width: min(180px, calc(100% - 160px));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+}
+
+.settings-dialog__setting-label {
+  width: 150px;
+  color: var(--color-settings-secondary);
+}
+
+.settings-dialog__secondary,
+.settings-dialog__progress,
+.settings-dialog [role="status"] {
+  color: var(--color-settings-secondary);
+}
+
+.settings-dialog__progress,
+.settings-dialog [role="status"],
+.settings-dialog__failure p {
+  margin: 14px 0 0;
+}
+
+.settings-dialog__failure {
+  color: var(--color-danger-fg);
+}
+
+.settings-dialog__failure button {
+  margin-top: 8px;
+}
+
+.settings-dialog__visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 560px) {
+  .settings-dialog__nav {
+    width: 108px;
+    flex-basis: 108px;
+  }
+
+  .settings-dialog__row {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .settings-dialog__setting-label {
+    width: 100%;
+  }
+
+  .settings-dialog__model-row .settings-dialog__setting-label {
+    flex-basis: 100%;
+  }
+
+  .settings-dialog__model-note,
+  .settings-dialog__model-path {
+    margin-left: 0;
+    max-width: min(180px, 100%);
+  }
+  .settings-dialog__model-message {
+    margin-left: 0;
+  }
+  .voice-settings__off-note { margin-left: 0; }
+  .voice-settings__device-row .settings-dialog__setting-label { padding-top: 0; }
+}
+
+.theme-switch {
+  display: inline-flex;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.settings-dialog button.theme-switch__option {
+  appearance: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  color: var(--color-muted);
+  padding: 5px 11px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.settings-dialog .theme-switch__option + .theme-switch__option {
+  border-left: 1px solid var(--color-border);
+}
+
+.settings-dialog .theme-switch__option:focus-visible {
+  outline-offset: -2px;
+}
+
+.settings-dialog .theme-switch__option:hover {
+  color: var(--color-fg);
+}
+
+.settings-dialog .theme-switch__option[aria-pressed="true"] {
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+/* App-shell document status (FR-X-5): a non-modal message above both authoring and workshop
+   layouts, so a failed action remains visible even when no editor is mounted. */
+.shell-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.shell-status__message {
+  min-width: 0;
+  margin: 0;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shell-status__dismiss {
+  flex-shrink: 0;
+  appearance: none;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.shell-status--unsupported-refusal {
+  min-height: 46px;
+  box-sizing: border-box;
+  padding: 9px 14px;
+  background: var(--color-project-open-status-bg);
+  color: var(--color-unsupported-source-fg);
+  font-family: var(--font-project-open-status);
+}
+
+.shell-status--unsupported-refusal .shell-status__message {
+  flex: 1;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.shell-status__reason { color: var(--color-muted); }
+
+.shell-status--unsupported-refusal .shell-status__dismiss {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 16px;
+}
+
+.shell-status--project-open {
+  min-height: 46px;
+  box-sizing: border-box;
+  padding: 9px 14px;
+  border-bottom-color: var(--color-project-open-status-border);
+  background: var(--color-project-open-status-bg);
+  color: var(--color-project-open-status-fg);
+  font-family: var(--font-project-open-status);
+}
+
+.shell-status--project-open[data-platform="mac"] {
+  border-bottom: 0;
+  box-shadow: 0 1px 0 var(--color-project-open-status-mac-border);
+}
+
+.shell-status--project-open .shell-status__message {
+  display: grid;
+  grid-template-columns: max-content minmax(var(--project-open-name-floor, 0px), max-content) max-content minmax(0, 1fr);
+  align-items: baseline;
+  font-size: 12.5px;
+  line-height: 1.45;
+  overflow: hidden;
+  color: var(--color-project-open-status-fg);
+}
+
+.project-open-status__fixed {
+  white-space: pre;
+}
+
+.project-open-status__queue {
+  color: var(--color-project-open-status-detail);
+  white-space: pre;
+}
+
+.project-open-status__name {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-open-status__detail {
+  min-width: 0;
+  /* The reason's leading text space collapses at its grid-item edge. */
+  margin-left: 0.3em;
+  overflow: hidden;
+  color: var(--color-project-open-status-detail);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shell-status__actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.shell-status__action {
+  flex: none;
+  padding: 5px 11px;
+  border: 1px solid var(--color-project-open-status-action-border);
+  border-radius: 5px;
+  background: var(--color-project-open-status-action-bg);
+  color: var(--color-project-open-status-fg);
+  font: 500 11.5px/1.2 var(--font-project-open-status);
+  cursor: pointer;
+}
+
+.shell-status--project-open[data-platform="mac"] .shell-status__action {
+  border: 0;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-project-open-status-mac-border);
+}
+
+.shell-status__action:hover {
+  background: var(--color-project-open-status-bg);
+}
+
+.shell-status__action:active {
+  background: var(--color-project-open-status-action-active-bg);
+}
+
+.shell-status__action:focus-visible,
+.shell-status__action[aria-disabled="true"]:focus,
+.shell-status--project-open .shell-status__dismiss:focus-visible {
+  outline: 2px solid var(--color-project-open-status-focus);
+  outline-offset: 1px;
+}
+
+.shell-status__action[aria-disabled="true"] {
+  border-color: var(--color-project-open-status-action-border);
+  background: var(--color-project-open-status-action-pending-bg);
+  color: var(--color-project-open-status-detail);
+  cursor: default;
+}
+
+.shell-status--project-open .shell-status__dismiss {
+  display: inline-grid;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--color-project-open-status-dismiss);
+}
+
+.shell-status--project-open .shell-status__dismiss:hover {
+  background: var(--color-project-open-status-action-active-bg);
+  color: var(--color-project-open-status-fg);
+}
+
+.shell-status--project-open .shell-status__dismiss svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* The app-body row (#409, P2b-6b, ux-design §4): editor centre + timeline right rail in the
+   standard authoring layout, or the timeline alone centre-stage in workshop mode
+   (`.app-body--workshop`) — one row, two layouts, driven by the `app-body--workshop` modifier
+   rather than two differently-shaped trees. `min-height: 0` lets the editor region's own
+   `overflow: auto` and the rail's internal scroller both work inside a flex row that itself never
+   grows past the shell. */
+.app-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* J2 project rail (#931), recreated from hi-fi options 3a/3b. Platform-specific geometry lives in
+   this component layer; colors come from the app theme contract above (FR-X-6). */
+.project-rail[data-platform="win"] {
+  --project-rail-bg: var(--color-files-rail-win-bg);
+  --project-rail-active-bg: var(--color-files-rail-win-active-bg);
+  --project-rail-active-fg: var(--color-files-rail-fg);
+  --project-rail-active-dot: var(--color-files-rail-accent);
+  --project-rail-active-radius: 5px;
+  --project-rail-active-shadow: inset 2px 0 0 var(--color-files-rail-accent);
+}
+
+.project-rail[data-platform="mac"] {
+  --project-rail-bg: var(--color-files-rail-mac-bg);
+  --project-rail-active-bg: var(--color-files-rail-accent);
+  --project-rail-active-fg: var(--color-files-rail-accent-contrast);
+  --project-rail-active-dot: var(--color-files-rail-accent-contrast);
+  --project-rail-active-radius: 7px;
+  --project-rail-active-shadow: none;
+}
+
+.project-rail {
+  order: -1;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 236px;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  border-right: 1px solid var(--color-files-rail-border);
+  background: var(--project-rail-bg);
+  color: var(--color-files-rail-fg);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.project-rail--collapsed[data-platform="win"] {
+  width: 44px;
+  align-items: center;
+  border-right: 0;
+}
+
+.project-rail--collapsed[data-platform="mac"] {
+  width: 0;
+  border-right: 0;
+  overflow: hidden;
+}
+
+.project-rail__header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 14px 9px;
+  color: var(--color-files-rail-hover-fg);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.project-rail__project-name {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: inherit;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-rail__section-label {
+  padding: 2px 9px 6px;
+  color: var(--color-files-rail-label);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+
+.project-rail__section-label--skills,
+.project-rail__section-label--workflows {
+  padding-top: 12px;
+}
+
+.project-rail__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.project-rail__actions button,
+.project-rail__restore,
+.project-rail__titlebar-toggle {
+  display: inline-flex;
+  appearance: none;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--color-files-rail-muted);
+  cursor: pointer;
+  padding: 0;
+}
+
+.project-rail__actions button {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.project-rail__actions svg {
+  width: 12px;
+  height: 12px;
+}
+
+.project-rail__actions button:hover,
+.project-rail__actions button:focus-visible,
+.project-rail__restore:hover,
+.project-rail__restore:focus-visible {
+  background: var(--color-files-rail-action-hover-bg);
+  color: var(--color-files-rail-hover-fg);
+}
+
+.project-rail__actions button:focus-visible,
+.project-rail__restore:focus-visible,
+.project-rail__item:focus-visible > .project-rail__row .project-rail__entry,
+.project-rail__item:focus-visible > .project-rail__row--warning,
+.project-rail__empty button:focus-visible,
+.project-rail__status button:focus-visible,
+.project-rail__titlebar-toggle:focus-visible {
+  outline: 2px solid var(--color-files-rail-accent);
+  outline-offset: 1px;
+}
+
+.project-rail__item:focus-visible > .project-rail__row .project-rail__entry,
+.project-rail__item:focus-visible > .project-rail__row--warning {
+  outline-offset: -1px;
+}
+
+.project-rail__actions button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.project-rail__restore {
+  width: 44px;
+  height: 40px;
+  margin-top: 0;
+  border-radius: 5px;
+}
+
+.project-rail__restore svg {
+  width: 14px;
+  height: 14px;
+}
+
+.project-rail__titlebar-toggle {
+  width: 28px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--color-files-rail-toggle-bg);
+}
+
+.project-rail__titlebar-toggle[aria-pressed="true"] {
+  background: var(--color-files-rail-control-bg);
+  box-shadow: var(--shadow-files-rail-toggle);
+  color: var(--color-files-rail-fg);
+}
+
+.project-rail__titlebar-toggle svg {
+  width: 14px;
+  height: 14px;
+}
+
+.project-rail__content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0 8px;
+  font-size: 13px;
+}
+
+.project-rail__tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.project-rail__item--retained {
+  opacity: 0.55;
+}
+
+.project-rail__tree .project-rail__tree {
+  padding-left: 16px;
+}
+
+.project-rail__item {
+  outline: none;
+}
+
+.project-rail__row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.project-rail__entry {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  border-radius: var(--project-rail-active-radius);
+  background: transparent;
+  color: var(--color-files-rail-secondary);
+  cursor: pointer;
+  font: inherit;
+  padding: 6px 8px;
+  text-align: left;
+}
+
+.project-rail__entry--file {
+  gap: 8px;
+  padding: 6px 9px;
+}
+
+.project-rail__entry--root-file {
+  padding-left: 17px;
+}
+
+.project-rail__entry--skill .project-rail__chevron {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+.project-rail__stack {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.project-rail__entry--skill .project-rail__label,
+.project-rail__entry--workflow .project-rail__label {
+  color: var(--color-files-rail-fg);
+}
+
+.project-rail__description {
+  color: var(--color-files-rail-label);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.project-rail__workflow-path {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-files-rail-label);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-rail__chevron {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  stroke-width: 2;
+}
+
+.project-rail__entry:hover {
+  background: var(--color-files-rail-row-hover-bg);
+}
+
+.project-rail[data-platform="win"]
+  .project-rail__item[aria-current="page"]
+  > .project-rail__row
+  .project-rail__entry {
+  background: var(--project-rail-active-bg);
+  box-shadow: var(--project-rail-active-shadow);
+  color: var(--project-rail-active-fg);
+  font-weight: 500;
+}
+
+.project-rail[data-platform="mac"]
+  .project-rail__item[aria-current="page"]
+  > .project-rail__row
+  .project-rail__entry {
+  background: var(--project-rail-active-bg);
+  box-shadow: var(--project-rail-active-shadow);
+  color: var(--project-rail-active-fg);
+  font-weight: 500;
+}
+
+.project-rail__active-dot,
+.project-rail__footer-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.project-rail__active-dot {
+  margin-left: auto;
+  background: var(--project-rail-active-dot);
+}
+
+.project-rail__entry--context {
+  color: var(--color-files-rail-muted);
+  cursor: default;
+}
+
+.project-rail__entry--context:hover {
+  background: transparent;
+}
+
+/* @anchor:project-rail-label-clipping */
+.project-rail__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-rail__row--warning {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 6px;
+  padding: 6px 9px;
+}
+
+.project-rail__label--warning,
+.project-rail__warning,
+.project-rail__status--warning {
+  color: var(--color-files-rail-warning);
+}
+
+.project-rail__warning {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-files-rail-label);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-rail__retry,
+.project-rail__empty button,
+.project-rail__status button,
+.timeline-panel__unavailable button {
+  appearance: none;
+  border: 1px solid var(--color-files-rail-control-border);
+  border-radius: 6px;
+  background: var(--color-files-rail-control-bg);
+  color: var(--color-files-rail-hover-fg);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11.5px;
+  padding: 3px 7px;
+}
+
+.project-rail[data-platform="mac"] .project-rail__retry,
+.project-rail[data-platform="mac"] .project-rail__empty button,
+.project-rail[data-platform="mac"] .project-rail__status button {
+  border: 0;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-files-rail-mac-control-border);
+}
+
+.project-rail__retry,
+.project-rail__empty button,
+.project-rail__status button {
+  padding: 4px 10px;
+}
+
+.project-rail__row--warning .project-rail__retry {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.project-rail__status,
+.project-rail__empty,
+.timeline-panel__unavailable {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 9px;
+  color: var(--color-files-rail-secondary);
+}
+
+.project-rail__status,
+.project-rail__empty {
+  padding-bottom: 8px;
+  color: var(--color-files-rail-label);
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+
+.project-rail__footer {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  padding: 11px 14px;
+  border-top: 1px solid var(--color-files-rail-border);
+  color: var(--color-files-rail-label);
+  font-size: 11.5px;
+}
+
+.project-rail__footer-dot {
+  background: var(--color-files-rail-watch);
+}
+
+/* `specs/authoring-shell.md` §Layout: the document column is `flex:1; min-width:0`, no outer
+   inset — the tab strip/toolbar/canvas each carry their own padding. The outer `padding` and
+   `align-items`/`justify-content` centering this replaced (#1369) floated the whole authoring
+   center inside a 24px gutter instead of filling the column; the 1px `#E3DFD6` right border
+   belongs to the column itself (not `.timeline-panel`'s left edge — see below), so it sits here. */
+.editor-region {
+  flex: 1;
+  display: flex;
+  overflow: auto;
+  border-right: 1px solid var(--color-editor-region-border);
+}
+
+/* `hidden` (not conditional rendering — see `App.tsx`'s comment) keeps this element structurally
+   present across the workshop/authoring transition; an author rule of equal specificity to
+   `.editor-region` itself is needed to actually win over it, since the browser's own
+   `[hidden] { display: none }` UA rule wouldn't (equal specificity, but author sheets always order
+   after the UA sheet in the cascade — that ordering only helps when *this* rule is the author one). */
+.editor-region[hidden] {
+  display: none;
+}
+
+/* Timeline panel (P2a-16, UX §4). In the standard authoring layout it's a fixed-width flex item,
+   not a shrink-to-fit one — "a real layout, not an overlay" (#409): the editor region keeps its
+   own flex:1 width behaviour untouched, and the rail claims its own lane alongside it rather than
+   displacing it. The divider between them is `.editor-region`'s own right border (#1369,
+   `specs/authoring-shell.md` — it belongs to the document column, not this rail), so this panel
+   carries none of its own. */
+.timeline-panel {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  width: 372px;
+  height: 100%;
+  min-height: 0;
+  background-color: var(--timeline-rail-bg);
+}
+
+.timeline-panel[hidden] {
+  display: none;
+}
+
+.comments-column {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  width: 400px;
+  height: 100%;
+  min-height: 0;
+  background: var(--color-comments-column-win-bg);
+}
+
+.comments-column[data-platform="mac"] {
+  background: var(--color-comments-column-mac-bg);
+}
+
+.comments-column__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-editor-region-border);
+}
+
+.comments-column__header h2 {
+  margin: 0;
+  color: var(--color-files-rail-label);
+  font: 500 10.5px/1.5 "IBM Plex Sans", system-ui, sans-serif;
+  letter-spacing: 0.1em;
+}
+
+.comments-column__sort {
+  position: relative;
+}
+
+.comments-column__sort > button {
+  padding: 4px 9px;
+  border: 1px solid var(--color-files-rail-control-border);
+  border-radius: 6px;
+  background: var(--color-files-rail-control-bg);
+  color: var(--color-files-rail-secondary);
+  font: 400 12px/1.4 "IBM Plex Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.comments-column__sort [role="menu"] {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 120px;
+  padding: 4px;
+  border: 1px solid var(--color-files-rail-control-border);
+  border-radius: 7px;
+  background: var(--color-files-rail-control-bg);
+  box-shadow: 0 8px 22px rgb(31 29 26 / 16%);
+}
+
+.comments-column__sort [role="menuitem"] {
+  display: block;
+  width: 100%;
+  padding: 6px 8px;
+  border: 0;
+  background: transparent;
+  color: var(--color-files-rail-secondary);
+  font: 400 12px/1.4 "IBM Plex Sans", system-ui, sans-serif;
+  text-align: left;
+  cursor: pointer;
+}
+
+.comments-column__sort [role="menuitem"]:hover,
+.comments-column__sort [role="menuitem"]:focus-visible {
+  background: var(--color-files-rail-action-hover-bg);
+}
+
+.comments-column__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 11px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px;
+}
+
+.comments-column__hidden {
+  align-self: center;
+  padding: 5px 12px;
+  border: 1px solid var(--color-files-rail-control-border);
+  border-radius: 12px;
+  background: var(--color-files-rail-win-bg);
+  color: var(--color-files-rail-secondary);
+  font: 400 11.5px/1.4 "IBM Plex Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.comments-column[data-platform="mac"] .comments-column__hidden {
+  background: var(--color-files-rail-mac-bg);
+}
+
+.comments-column__empty {
+  max-width: 280px;
+  align-self: center;
+  margin: 44px 14px 0;
+  color: var(--color-files-rail-secondary);
+  font: 400 13px/1.6 "IBM Plex Sans", system-ui, sans-serif;
+  text-align: center;
+}
+
+.timeline-panel[data-platform="win"] {
+  --timeline-rail-bg: #f5f3ed;
+  --timeline-hairline: #e3dfd6;
+  --timeline-facet-border: #d5d0c4;
+  --timeline-label: #8c8779;
+}
+
+.timeline-panel[data-platform="mac"] {
+  --timeline-rail-bg: #f1eee7;
+  --timeline-hairline: #e3dfd6;
+  --timeline-facet-border: #e3dfd6;
+  --timeline-label: #8c8779;
+}
+
+:root[data-theme="dark"] .timeline-panel {
+  --timeline-rail-bg: var(--color-surface);
+  --timeline-hairline: var(--color-border);
+  --timeline-facet-border: var(--color-border);
+  --timeline-label: var(--color-muted);
+}
+
+/* Workshop mode (P2b-6b, ux-design §4 "Workshop mode", J2 Phase A): with no document open the
+   conversation is centre-stage, not a fixed-width rail — it takes the row `.editor-region` would
+   otherwise claim. `.editor-region[hidden]` already drops its divider along with the rest of
+   itself, so this override needs none of its own. */
+.app-body--workshop .timeline-panel {
+  flex: 1;
+  width: auto;
+}
+
+/* 10c keeps the conversation at a readable centre-stage measure inside the full workshop lane. */
+.app-body--workshop .timeline-panel__stream,
+.app-body--workshop .message-composer {
+  box-sizing: border-box;
+  width: min(720px, 100%);
+  align-self: center;
+}
+
+/* Generated Timeline host: its label and J4 batch entry point never scroll with the stream. */
+.timeline-panel__header {
+  display: flex;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--timeline-hairline);
+}
+
+.timeline-panel__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  min-width: 0;
+}
+
+.timeline-panel__collapse {
+  display: grid;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #a39e92;
+  cursor: pointer;
+}
+
+.timeline-panel__collapse:hover {
+  background: rgba(31, 29, 26, 0.06);
+}
+
+.timeline-panel__collapse:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.timeline-host__label,
+.timeline-host__attention-action {
+  color: var(--timeline-label);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.timeline-host__label {
+  margin: 0;
+  line-height: inherit;
+}
+
+.timeline-host__attention-action,
+.timeline-host__collapsed-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 3px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.timeline-host__attention-action:hover,
+.timeline-host__collapsed-action:hover {
+  background: rgba(31, 29, 26, 0.06);
+}
+
+.timeline-host__attention-action:focus-visible,
+.timeline-host__collapsed-action:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+/* UXR-Q23's clear-time fallback is programmatic, so it must remain visible even when the browser's
+   current input-modality heuristic would not match :focus-visible. */
+.timeline-host__label--programmatic-focus:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.timeline-host__collapsed-action {
+  color: var(--color-fg);
+  font-size: 12px;
+}
+
+.timeline-host__collapsed-action > svg {
+  width: 12px;
+  height: 12px;
+  color: #a39e92;
+}
+
+/* Reserve the badge's inline space even while idle: passive permission arrival must not
+   change the fit calculation and move a focused neighbouring format action into overflow. */
+.timeline-host__permission-space {
+  display: inline-flex;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.timeline-host__permission-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-timeline-permission-badge-bg);
+  color: var(--color-timeline-permission-badge-fg);
+}
+
+.timeline-host__permission-badge svg {
+  width: 8px;
+  height: 8px;
+  stroke-width: 3;
+}
+
+.timeline-panel__stream {
+  flex: 1;
+  min-height: 0;
+}
+
+/* An empty facet's own message (issue #1727, Principle 7) — same treatment as
+   `.project-rail__empty`'s "No files yet" precedent, adapted to the timeline's muted-text token. */
+.timeline-panel__empty {
+  margin: 0;
+  padding: 12px 14px;
+  color: var(--color-muted);
+  font-size: 12.5px;
+}
+
+/* Facet filter bar (P2b-1a, ux-design §4, hi-fi 3a/3b): each button is a separate pill. */
+.timeline-panel__facets {
+  display: flex;
+  gap: 6px;
+  flex: none;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--timeline-hairline);
+}
+
+.timeline-panel__facet {
+  appearance: none;
+  flex: none;
+  min-width: 0;
+  border: 1px solid var(--timeline-facet-border);
+  border-radius: 12px;
+  background: #ffffff;
+  color: #4a463e;
+  padding: 4px 10px;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.timeline-panel__facet:hover {
+  color: #1f1d1a;
+}
+
+.timeline-panel__facet[aria-pressed="true"] {
+  border-color: #1f1d1a;
+  background-color: #1f1d1a;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+:root[data-theme="dark"] .timeline-panel__facet {
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+:root[data-theme="dark"] .timeline-panel__facet[aria-pressed="true"] {
+  border-color: var(--color-fg);
+  background: var(--color-fg);
+  color: var(--color-bg);
+}
+
+/* The `N new in <Facet> →` affordance (P2b-1c, UXR-Q2, ux-design §4) — a real layout row between
+   the stream and the composer, not an overlay, matching `.timeline-panel`'s own "real layout, not
+   an overlay" precedent (#409). Same button-family treatment as `.timeline-panel__facet`, since
+   this is a facet-jump trigger wearing a count, not a distinct control. */
+.timeline-panel__new-in-facet {
+  appearance: none;
+  flex: none;
+  border: none;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  padding: 6px 10px;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.timeline-panel__new-in-facet:hover {
+  filter: brightness(1.05);
+}
+
+.timeline-card {
+  min-width: 0;
+  margin: 6px 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-surface);
+  /* Last-resort horizontal paint boundary for an unrecognized long token (#1117). `clip` leaves
+     vertical overflow visible, which is what lets the row grow to whatever the card renders now
+     that the virtualizer measures each row rather than clamping it (#1119). */
+  overflow-x: clip;
+}
+
+/* J9's explicit [Show the run] navigation focuses the card shell, never its Stop control. This
+   programmatic destination is not in Tab order, so `:focus` (not input-modality `:focus-visible`)
+   keeps the requested move visible with the generated 13h inset ring. */
+.timeline-card--focus-target:focus {
+  outline: 2px solid var(--color-project-open-status-focus);
+  outline-offset: -1px;
+}
+
+/* 4g's submitted-turn destination uses the same focus ink outside the card border. */
+.timeline-card--submitted-turn:focus {
+  outline-offset: 2px;
+}
+
+/* P2b-1b's collapsed single-line render (`TimelineCard`'s `compact` prop): the default chrome
+   above alone (margin 12px + padding 16px + border 2px = 30px vertical) is most of the ~32px a
+   collapsed row is estimated at before it is measured (`timeline/collapse.ts`'s
+   `COLLAPSED_ITEM_HEIGHT`), leaving almost no room for the line itself (review finding, PR #481).
+   This shell drops the padding and tightens the margin so a collapsed row stays a single line —
+   it keeps the estimate honest rather than preventing an overlap, which measured rows now do; the
+   `.comment-thread-card__collapsed`/`.change-set-card__collapsed` buttons below (the only content a
+   compact card ever renders) supply their own small padding and clip to one line instead of
+   wrapping or overflowing. */
+.timeline-card--collapsed {
+  margin: 2px 10px;
+  padding: 0;
+}
+
+/* Visually hidden but still in the accessibility tree — the "Expand" prefix inside a collapsed
+   card's button (`sr-only`, not `aria-label`, so it doesn't override the summary content that
+   follows it as the accessible name: review finding, PR #481). The standard clip-based hiding
+   pattern — a general-purpose utility, free for any caller that needs screen-reader-only text. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.timeline-card__header {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted);
+  margin-bottom: 4px;
+}
+
+.timeline-card__body {
+  color: var(--color-fg);
+}
+
+/* Agent activity can contain path and command tokens with no natural break point. #1117 chose to
+   keep each such line to one truncated line, retaining the complete DOM text and a hover title,
+   rather than letting an unbreakable token paint over the editor. That remains the decided
+   treatment; it is no longer load-bearing for row sizing, which #1119 made a measurement. */
+.agent-working-card__activity li {
+  display: flex;
+  gap: 4px;
+  min-width: 0;
+}
+
+.agent-working-card__activity-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* J7 / wireframe 1d: permission requests expand the live run card in place. The amber treatment
+   uses the shared warning palette so the blocked state remains legible in both themes (FR-X-6). */
+.agent-working-card__waiting,
+.agent-working-card__permission-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-warning-fg);
+}
+
+.agent-working-card__permission {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid var(--color-warning-fg);
+  border-radius: 6px;
+  background: var(--color-warning-bg);
+  font-size: 12px;
+}
+
+.agent-working-card__permissions {
+  display: contents;
+}
+
+.agent-working-card__permission p,
+.agent-working-card__permission-heading {
+  margin: 0;
+}
+
+.agent-working-card__permission-heading {
+  font-weight: 600;
+}
+
+.agent-working-card__permission-action {
+  color: var(--color-muted);
+}
+
+.agent-working-card__permission-detail {
+  display: block;
+  padding: 7px 9px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface);
+  color: var(--color-fg);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.agent-working-card__permission-why {
+  color: var(--color-muted);
+}
+
+.agent-working-card__permission-actions,
+.agent-working-card__denial-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.agent-working-card__permission button {
+  appearance: none;
+  padding: 5px 9px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font: inherit;
+  cursor: pointer;
+}
+
+.agent-working-card__permission button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.agent-working-card__permission-actions > button:first-child {
+  border-color: var(--color-fg);
+  font-weight: 600;
+}
+
+.agent-working-card__permission-scope,
+.agent-working-card__permission-menu,
+.agent-working-card__denial,
+.agent-working-card__denial label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.agent-working-card__permission-menu {
+  margin-top: 2px;
+}
+
+.agent-working-card__permission-menu button {
+  text-align: left;
+}
+
+.agent-working-card__denial textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  padding: 6px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font: inherit;
+}
+
+.agent-working-card__permission-error {
+  color: var(--color-danger-fg);
+}
+
+/* A document path may be a single token wider than the timeline. #1117 clips this variant to one
+   accessible line rather than letting it wrap; the row itself is now measured (#1119), so this is
+   a typographic choice about how a long path reads, not a guard against overlapping the next row. */
+.document-birth-card__path {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Three browser-default paragraph margin pairs pad this otherwise three-line card out well past
+   the height a run of cards reads at. The card chrome already supplies the spacing. */
+.document-birth-card__path,
+.document-birth-card__size,
+.document-birth-card__opened {
+  margin: 0;
+}
+
+.timeline-card[data-card-kind="document-birth"] {
+  padding-block: 6px;
+}
+
+.chat-message-card__body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-timeline-chat-body);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.timeline-card[data-card-kind="chat-message"] {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 12px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-timeline-chat-border);
+  border-radius: 8px;
+  background-color: var(--color-timeline-chat-bg);
+}
+
+.timeline-card[data-card-kind="chat-message"]:has(
+    .chat-message-card__attribution[data-platform="mac"]
+  ) {
+  border-width: 0;
+  border-radius: 10px;
+  box-shadow: var(--shadow-timeline-chat-mac);
+}
+
+.timeline-card[data-card-kind="chat-message"] .timeline-card__header {
+  margin-bottom: 0;
+}
+
+/* Agent attribution in approved timeline cards 10a/10b: the tile's shape distinguishes the agent
+   from a user without introducing provider/model identity or a separate icon set (#2068). */
+.chat-message-card__attribution {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.chat-message-card__agent-tile,
+.chat-message-card__user-avatar {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+
+.chat-message-card__agent-tile {
+  background-color: var(--color-timeline-chat-agent-avatar);
+  border-radius: 5px;
+}
+
+.chat-message-card__attribution[data-platform="mac"] .chat-message-card__agent-tile {
+  border-radius: 6px;
+}
+
+.chat-message-card__user-avatar {
+  border-radius: 50%;
+  background-color: var(--color-timeline-chat-user-avatar);
+}
+
+.chat-message-card__author {
+  color: var(--color-timeline-chat-author);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.chat-message-card__timestamp {
+  margin-left: auto;
+  color: var(--color-timeline-chat-meta);
+  font-size: 11.5px;
+  font-weight: 400;
+}
+
+/* J2's grounding indicator (Principle 3, #1391; approved 10a–10c): quiet provenance in the base
+   TimelineCard footer slot, not an actionable chip. */
+.chat-message-card__refs {
+  display: block;
+  margin-left: auto;
+  padding-top: 6px;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--color-timeline-chat-footer-border);
+  font-size: 11px;
+  color: var(--color-timeline-chat-meta);
+  text-align: right;
+}
+
+.app-body--workshop .timeline-card[data-card-kind="chat-message"] {
+  padding: 14px 16px;
+}
+
+.app-body--workshop .chat-message-card__body {
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+/* Quoted excerpt (P2b-7, UX Principle 6 deep-link-back) */
+
+.chat-message-card__quote {
+  margin: 0 0 6px;
+  padding-left: 8px;
+  border-left: 2px solid var(--color-border);
+}
+
+/* One class on both a path-bearing quote's <button> and a pathless quote's <span> (J12 Phase E,
+   #2365) — mirrors `CommentThreadCard`'s identical anchor-footer convention
+   (comment-thread-card__anchor / button.comment-thread-card__anchor): the shared rule is the
+   reading both share, and only the `button.` variant below adds the affordance a pathless quote's
+   back-link cannot honor (no cursor, no hover state — it is absent, not broken). */
+.chat-message-card__quote-link {
+  display: block;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+button.chat-message-card__quote-link {
+  appearance: none;
+  border: none;
+  background: transparent;
+  /* Longhands, not the `font` shorthand — `font: inherit` also resets `font-style`, which would
+     override the shared rule above and strip the live button's italic (review round 1, Important:
+     a cascade inversion left the dead affordance italic and the live one upright). */
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+}
+
+button.chat-message-card__quote-link:hover {
+  color: var(--color-fg);
+  text-decoration: underline;
+}
+
+.message-composer {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  gap: 9px;
+  padding: 12px 14px 14px;
+  border-top: 1px solid #e3dfd6;
+  background: #f0ede6;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.timeline-panel[data-platform="mac"] .message-composer {
+  background: #edeae2;
+}
+
+:root[data-theme="dark"] .message-composer,
+:root[data-theme="dark"] .timeline-panel[data-platform="mac"] .message-composer {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+/* Composer's pending quote (P2b-7) */
+
+.quote-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 7px 10px;
+  border-left: 3px solid #b8b3a8;
+  border-radius: 0 6px 6px 0;
+  background: #e8e4db;
+}
+
+.quote-bar__text {
+  flex: 1;
+  min-width: 0;
+  color: #4a463e;
+  font: 12.5px "Source Serif 4", Georgia, serif;
+  overflow-wrap: anywhere;
+}
+
+.quote-bar__dismiss {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #8c8779;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.quote-bar__dismiss:hover {
+  color: var(--color-fg);
+}
+
+.quote-bar__dismiss:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.timeline-panel[data-platform="mac"] .quote-bar {
+  border-radius: 0 7px 7px 0;
+  background: #e3dfd6;
+}
+
+:root[data-theme="dark"] .quote-bar,
+:root[data-theme="dark"] .timeline-panel[data-platform="mac"] .quote-bar {
+  border-color: var(--color-border);
+  background: var(--color-bg);
+}
+
+:root[data-theme="dark"] .quote-bar__text,
+:root[data-theme="dark"] .quote-bar__dismiss {
+  color: var(--color-fg);
+}
+
+.message-input {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+
+.dictation-mic {
+  appearance: none;
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  box-sizing: border-box;
+  padding: 0;
+  border: 1px solid #d5d0c4;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #3a362f;
+  cursor: pointer;
+}
+
+.dictation-mic[data-platform="mac"] {
+  border-color: transparent;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px #e3dfd6;
+}
+
+.dictation-mic:focus-visible {
+  outline: 2px solid #2f5d8c;
+  outline-offset: 2px;
+}
+
+.dictation-mic:disabled { cursor: default; }
+.dictation-mic--unavailable { opacity: .45; }
+.dictation-mic--downloading { color: #6b665c; }
+.dictation-mic--download_cancelled { color: #6b665c; }
+.dictation-mic--cancelling { background: #edeae2; color: #6b665c; }
+.dictation-mic__progress {
+  position: absolute;
+  bottom: 2px;
+  left: 4px;
+  width: 18px;
+  height: 2px;
+  background: #e3dfd6;
+}
+.dictation-mic__progress > span { display: block; height: 100%; background: #2f5d8c; }
+.dictation-mic--download_cancelled .dictation-mic__progress > span { background: #a39e92; }
+.dictation-mic--recording { background: #1f1d1a; color: #fcfbf8; }
+.dictation-mic--recording .dictation-mic__glyph rect { fill: currentColor; stroke: none; }
+.dictation-mic--transcribing { background: #edeae2; }
+.dictation-mic__dots { display: inline-flex; gap: 2px; }
+.dictation-mic__dots i { width: 2px; height: 2px; border-radius: 50%; background: currentColor; }
+.dictation-mic--error { border-color: #dcc4bf; background: #f8efed; color: #a33a2e; }
+.dictation-mic--error[data-platform="mac"] { box-shadow: 0 0 0 1px #dcc4bf; }
+.message-input__field-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.message-input__field-wrap .dictation-mic {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+.comment-composer__actions { display: flex; align-items: center; gap: 8px; }
+.comment-composer__actions .dictation-mic { margin-right: auto; }
+.composer-dictation-partial {
+  display: block;
+  min-width: 0;
+  color: #8c8779;
+  text-decoration: underline dotted #bdb8ac;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.composer-dictation-partial[data-provisional="false"][data-error="false"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+.message-input__field-wrap .composer-dictation-partial { margin: 4px 12px 0; }
+:root[data-theme="dark"] .composer-dictation-partial { color: var(--color-muted); }
+.composer-dictation-partial[data-error="true"],
+:root[data-theme="dark"] .composer-dictation-partial[data-error="true"] {
+  color: var(--color-destructive-action);
+  font-size: 12px;
+  line-height: 1.5;
+  text-decoration: none;
+}
+.dictation-status-echo { font-weight: 500; color: #1f1d1a; }
+.dictation-status-echo--error { color: #a33a2e; }
+.view-mode-toolbar__dictation { display: inline-flex; flex: none; margin-left: auto; }
+.view-mode-toolbar__dictation + .view-mode-toolbar__control-slot[data-toolbar-control="timeline"] { margin-left: 0; }
+.view-mode-toolbar__dictation ~ .view-mode-toolbar__overflow-trigger { margin-left: 0; }
+
+.message-input__field {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  height: 38px;
+  min-height: 38px;
+  resize: none;
+  padding: 10px 44px 10px 12px;
+  border: 1px solid #d5d0c4;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #33302a;
+  font: 13px/16px "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.message-input__field::placeholder {
+  color: #a39e92;
+}
+
+.message-input__send {
+  appearance: none;
+  flex: none;
+  align-self: flex-start;
+  margin-top: 1px;
+  height: 36px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 8px;
+  background: #1f1d1a;
+  color: #ffffff;
+  font: 12.5px "IBM Plex Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.timeline-panel[data-platform="mac"] .message-input__field {
+  border: 0;
+  border-radius: 9px;
+  box-shadow: 0 0 0 1px #dcd7cc;
+}
+
+.timeline-panel[data-platform="mac"] .message-input__send {
+  border-radius: 9px;
+}
+
+.message-input__field:focus-visible,
+.message-input__send:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+:root[data-theme="dark"] .message-input__field,
+:root[data-theme="dark"] .dictation-mic {
+  border-color: var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+:root[data-theme="dark"] .dictation-mic:focus-visible {
+  outline-color: var(--color-accent);
+}
+:root[data-theme="dark"] .dictation-mic__progress {
+  background: var(--color-border);
+}
+:root[data-theme="dark"] .dictation-mic__progress > span {
+  background: var(--color-accent);
+}
+:root[data-theme="dark"] .dictation-mic--download_cancelled {
+  color: var(--color-muted);
+}
+:root[data-theme="dark"] .dictation-mic--download_cancelled .dictation-mic__progress > span {
+  background: var(--color-muted);
+}
+:root[data-theme="dark"] .dictation-mic--recording {
+  background: var(--color-fg);
+  color: var(--color-bg);
+}
+:root[data-theme="dark"] .dictation-mic--transcribing {
+  background: var(--color-surface);
+  color: var(--color-fg);
+}
+:root[data-theme="dark"] .dictation-mic--cancelling {
+  background: var(--color-surface);
+  color: var(--color-muted);
+}
+:root[data-theme="dark"] .dictation-mic--error {
+  border-color: var(--color-danger-fg);
+  background: var(--color-surface);
+  color: var(--color-danger-fg);
+}
+
+:root[data-theme="dark"] .timeline-panel[data-platform="mac"] .message-input__field,
+:root[data-theme="dark"] .dictation-mic[data-platform="mac"] {
+  box-shadow: 0 0 0 1px var(--color-border);
+}
+:root[data-theme="dark"] .dictation-mic--error[data-platform="mac"] {
+  box-shadow: 0 0 0 1px var(--color-danger-fg);
+}
+
+:root[data-theme="dark"] .message-input__field::placeholder {
+  color: var(--color-muted);
+}
+
+:root[data-theme="dark"] .message-input__send {
+  background: var(--color-fg);
+  color: var(--color-bg);
+}
+
+/* Comment threads (P2a-18, ux-design.md §2 thread-state visual signals) */
+
+/* The same existing thread card sits in the Timeline, comments column, or 340px editor popover. */
+.timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed) {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 5px 14px;
+  padding: 13px;
+  border: 1px solid #e3dfd6;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(31, 29, 26, 0.05);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.timeline-panel[data-platform="mac"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed),
+.comment-popover[data-platform="mac"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed),
+.comments-column[data-platform="mac"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed) {
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(31, 29, 26, 0.08);
+}
+
+:root[data-theme="dark"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed),
+:root[data-theme="dark"] .timeline-panel[data-platform="mac"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed),
+:root[data-theme="dark"] .comment-popover[data-platform="mac"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed),
+:root[data-theme="dark"] .comments-column[data-platform="mac"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed) {
+  border-color: var(--color-border);
+  background: var(--color-bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.comment-thread-card__body {
+  margin: 0;
+  color: #33302a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+:root[data-theme="dark"] .comment-thread-card__body {
+  color: var(--color-fg);
+}
+
+.comment-thread-card__header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.comment-thread-card__avatar,
+.comment-thread-card__reply-avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #d9cfc0;
+  color: #4a463e;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.comment-thread-card__reply-avatar {
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
+}
+
+.comment-thread-card__author {
+  color: #33302a;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.comment-thread-card__state {
+  color: #8c8779;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.comment-thread-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.comment-thread-card__edit,
+.comment-thread-card__menu-trigger {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  color: #6b665c;
+  background: transparent;
+  cursor: pointer;
+}
+
+.comment-thread-card__edit:hover,
+.comment-thread-card__menu-trigger:hover,
+.comment-thread-card__menu-trigger[aria-expanded="true"] {
+  background: #edeae2;
+}
+
+.comment-thread-card__edit:disabled {
+  color: #c6bfae;
+  cursor: default;
+}
+
+.comment-thread-card__edit:focus-visible,
+.comment-thread-card__menu-trigger:focus-visible,
+.comment-thread-card__menu button:focus-visible,
+.comment-thread-card__correction button:focus-visible {
+  outline: 2px solid #2f5d8c;
+  outline-offset: 2px;
+}
+
+.comment-thread-card__menu-wrap {
+  position: relative;
+}
+
+.comment-thread-card__menu {
+  position: absolute;
+  z-index: 5;
+  right: 0;
+  top: 100%;
+  width: 232px;
+  padding: 5px 0;
+  border: 1px solid #d5d0c4;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(31, 29, 26, 0.16);
+}
+
+.comment-thread-card__menu button {
+  width: 100%;
+  padding: 8px 13px;
+  border: 0;
+  background: transparent;
+  color: #a33a2e;
+  text-align: left;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.comment-thread-card__menu button:disabled {
+  color: #a39e92;
+  cursor: default;
+}
+
+.comment-thread-card__menu-reason {
+  margin: 0;
+  padding: 8px 13px 9px;
+  border-top: 1px solid #edeae2;
+  background: #faf8f3;
+  color: #6b665c;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.comment-thread-card__delete-refusal {
+  padding: 9px 11px;
+  border: 1px solid #e3dfd6;
+  border-radius: 7px;
+  background: #faf8f3;
+  color: #33302a;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.comment-thread-card__linked-refusal {
+  padding: 8px 10px;
+  border: 1px solid #edeae2;
+  border-radius: 6px;
+  background: #faf8f3;
+  color: #6b665c;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.comment-thread-card__linked-refusal p {
+  margin: 0;
+}
+
+.comment-thread-card__linked-refusal button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #2f5d8c;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.comment-thread-card__linked-refusal button:focus-visible {
+  outline: 2px solid #2f5d8c;
+  outline-offset: 2px;
+}
+
+.comment-thread-card__correction {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.comment-thread-card__correction textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 9px 11px;
+  border: 1px solid #b4ae9e;
+  border-radius: 6px;
+  color: #33302a;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.comment-thread-card__correction textarea:focus-visible {
+  border-color: #2f5d8c;
+  outline: 2px solid rgba(47, 93, 140, 0.45);
+}
+
+.comment-thread-card__correction strong {
+  font-size: 12.5px;
+}
+
+.comment-thread-card__correction p {
+  margin: 0;
+  color: #6b665c;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.comment-thread-card__correction-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.comment-thread-card__correction-actions button {
+  padding: 6px 13px;
+  border: 1px solid #d5d0c4;
+  border-radius: 6px;
+  background: #fff;
+  color: #33302a;
+  cursor: pointer;
+}
+
+.comment-thread-card__correction-actions button:first-child {
+  border-color: #1f1d1a;
+  background: #1f1d1a;
+  color: #fff;
+}
+
+.comment-thread-card__correction--delete .comment-thread-card__correction-actions button:first-child {
+  border-color: #a33a2e;
+  background: #a33a2e;
+}
+
+.comment-thread-card__correction-actions button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.comment-thread-card__cancel-hint {
+  margin-left: auto;
+  color: #a39e92;
+  font-size: 11px;
+}
+
+.timeline-panel[data-platform="mac"] .comment-thread-card__cancel-hint,
+.comment-popover[data-platform="mac"] .comment-thread-card__cancel-hint {
+  font-size: 0;
+}
+
+.timeline-panel[data-platform="mac"] .comment-thread-card__cancel-hint::after,
+.comment-popover[data-platform="mac"] .comment-thread-card__cancel-hint::after {
+  content: "⎋";
+  font-size: 11px;
+}
+
+.timeline-card[data-card-kind="comment"]:has(.comment-thread-card__correction--delete) {
+  border: 1px solid #b4ae9e;
+  box-shadow: 0 2px 8px rgba(31, 29, 26, 0.08);
+}
+
+.timeline-panel[data-platform="mac"] .timeline-card[data-card-kind="comment"]:has(.comment-thread-card__correction--delete),
+.comment-popover[data-platform="mac"] .timeline-card[data-card-kind="comment"]:has(.comment-thread-card__correction--delete) {
+  border-color: transparent;
+  box-shadow: 0 3px 12px rgba(31, 29, 26, 0.1), 0 0 0 1px #c6bfae;
+}
+
+.comment-thread-card__correction-state,
+.comment-thread-card__edited,
+.comment-thread-card__reply-withdrawn {
+  color: #8c8779;
+  font-size: 11px;
+}
+
+.comment-thread-card__published {
+  padding: 2px 7px;
+  border: 1px solid #b9cbdd;
+  border-radius: 10px;
+  background: #e4ebf4;
+  color: #2f5d8c;
+  font-size: 11px;
+}
+
+.comment-thread-card__reply-actions {
+  display: flex;
+  gap: 5px;
+  margin-left: auto;
+}
+
+.comment-thread-card__withdrawn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8c8779;
+  font-size: 12.5px;
+}
+
+.timeline-card[data-card-kind="comment"]:has(.comment-thread-card__withdrawn) {
+  border-color: #e3dfd6;
+  background: #f7f5ef;
+  box-shadow: none;
+}
+
+.comment-thread-card__reply--withdrawn {
+  color: #8c8779;
+}
+
+.comment-thread-card__resolve {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #6b665c;
+  cursor: pointer;
+}
+
+.comment-thread-card__resolve:hover {
+  background: var(--color-comment-resolve-hover);
+}
+
+.comment-thread-card__resolve:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+:root[data-theme="dark"] .comment-thread-card__author,
+:root[data-theme="dark"] .comment-thread-card__state,
+:root[data-theme="dark"] .comment-thread-card__resolve {
+  color: var(--color-fg);
+}
+
+:root[data-theme="dark"] .comment-thread-card__avatar,
+:root[data-theme="dark"] .comment-thread-card__reply-avatar {
+  background: var(--color-surface);
+  color: var(--color-fg);
+}
+
+/* Addressed — pending: pulsing/half-filled indicator. */
+.comment-thread-card--addressed-pending .comment-thread-card__state {
+  animation: comment-thread-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes comment-thread-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* The one card-level status line ux-design.md §2's acknowledgment ladder gives every rung —
+   queued (rung 1), targeted or progress-unobservable (rung 2), and started/Working (rung 3), which
+   is why the class names the slot rather than the rung: §2 says "only its words change" (#2228).
+   The treatment is `docs/design/specs/comments.md` `5a.5`'s and is deliberately never the
+   pulsing/half-filled dot Addressed — pending uses, which would read as "waiting on you" while the
+   agent is still the one working. Every rung is distinguished from every other by words, and from
+   Addressed — pending by words, not animation. */
+.comment-thread-card__status {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-comments-status-border);
+  border-radius: 6px;
+  background-color: var(--color-comments-status-bg);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--color-comments-status-fg);
+}
+
+/* `5a.5` draws the status *line* below the body, and ux-design.md §2's guidance and resolve notes
+   join it inside the same box — so the text stacks under itself beside the icon rather than
+   splitting into columns. 3px matches the gap `5a.4` gives its own stacked lines in the same
+   tinted treatment. `min-width: 0` lets a long line wrap rather than widen the card. */
+.comment-thread-card__status-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* The paragraphs' default 1em margins would otherwise set the spacing here — swamping the gap
+   above and growing the box past `5a.5`'s 8px 10px padding. */
+.comment-thread-card__status-text p {
+  margin: 0;
+}
+
+.comment-thread-card__status-icon {
+  color: var(--color-comments-status-icon);
+  line-height: 1.4;
+}
+
+/* A resolved card is collapsed by default. Once expanded, its existing body uses the muted
+   4a/4b card treatment while Reopen remains the same working action. */
+.timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed):has(.comment-thread-card--resolved) {
+  gap: 7px;
+  padding: 12px 13px;
+  border-color: #d5d0c4;
+  border-style: dashed;
+  background: #f7f5ef;
+  box-shadow: none;
+}
+
+.timeline-panel[data-platform="mac"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed):has(.comment-thread-card--resolved),
+.comment-popover[data-platform="mac"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed):has(.comment-thread-card--resolved) {
+  border: 0;
+  background: #f5f3ed;
+  box-shadow: 0 0 0 1px #e3dfd6;
+}
+
+.timeline-card[data-card-kind="comment"]:has(.comment-thread-card--resolved) .comment-thread-card__avatar {
+  width: 24px;
+  height: 24px;
+}
+
+.timeline-card[data-card-kind="comment"]:has(.comment-thread-card--resolved) .comment-thread-card__author,
+.timeline-card[data-card-kind="comment"]:has(.comment-thread-card--resolved) .comment-thread-card__body {
+  color: #8c8779;
+}
+
+.timeline-card[data-card-kind="comment"]:has(.comment-thread-card--resolved) .comment-thread-card__body {
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.timeline-card[data-card-kind="comment"]:has(.comment-thread-card--resolved) .comment-thread-card__state {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  border: 1px solid #a9c4b2;
+  border-radius: 10px;
+  background: #edf4ef;
+  color: #2e6b44;
+}
+
+:root[data-theme="dark"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed):has(.comment-thread-card--resolved),
+:root[data-theme="dark"] .timeline-panel[data-platform="mac"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed):has(.comment-thread-card--resolved),
+:root[data-theme="dark"] .comment-popover[data-platform="mac"] .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed):has(.comment-thread-card--resolved) {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  box-shadow: none;
+}
+
+:root[data-theme="dark"] .timeline-card[data-card-kind="comment"]:has(.comment-thread-card--resolved) .comment-thread-card__author,
+:root[data-theme="dark"] .timeline-card[data-card-kind="comment"]:has(.comment-thread-card--resolved) .comment-thread-card__body {
+  color: var(--color-muted);
+}
+
+/* Reopened: open + "reopened" badge. */
+.comment-thread-card__badge {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+
+/* Orphaned: warning chip ("original text changed"). */
+.comment-thread-card__chip--warning {
+  font-size: 11px;
+  color: var(--color-warning-fg);
+  background-color: var(--color-warning-bg);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.comment-thread-card__orphan-quote {
+  font-style: italic;
+  color: var(--color-muted);
+}
+
+.comment-thread-card__anchor {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+/* The anchor footer is a <button> whenever there's a passage to jump to (P2b-5b, UX Principle 6
+   deep-link) — reset to look like the plain label it replaces rather than default button chrome,
+   with just an underline to signal it's clickable. */
+button.comment-thread-card__anchor {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+button.comment-thread-card__anchor--withdrawn {
+  color: #2f5d8c;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.comment-thread-card__run-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 10px;
+  margin-top: 7px;
+  padding-top: 7px;
+  border-top: 1px solid #edeae2;
+}
+
+.comment-thread-card__run-link button {
+  padding: 2px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--color-accent);
+  font: 500 12px "IBM Plex Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.comment-thread-card__run-link button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 0;
+}
+
+.comment-thread-card__run-link span {
+  color: #6b665c;
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+:root[data-theme="dark"] .comment-thread-card__run-link {
+  border-top-color: var(--color-border);
+}
+
+:root[data-theme="dark"] .comment-thread-card__run-link span {
+  color: var(--color-muted);
+}
+
+/* Finding provenance (D6, FR-REVIEW-2, P2b-5b): severity chip + source skill name, rendered right
+   on the same header a plain human comment uses. Colour-per-level (ux-design §2: "never colour
+   alone… in margin marks, timeline dots, and report cards alike"; J3's Phase A diagram gives the
+   ratified palette — Critical/High red, Medium amber, Low gray) is keyed on the `data-severity`
+   letter `SeverityChip` already emits, the same hook the sibling P2b-4b margin mark reads for
+   consistency. Anything unrecognized (including `severity.ts`'s `"?"` fallback for an empty
+   string) falls through to the base `--color-muted` below — deliberately unclaimed, since it maps
+   to no rung of the ratified palette. */
+.comment-thread-card__severity {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.comment-thread-card__severity[data-severity="C"],
+.comment-thread-card__severity[data-severity="H"] {
+  color: var(--color-danger-fg);
+}
+
+.comment-thread-card__severity[data-severity="M"] {
+  color: var(--color-warning-fg);
+}
+
+.comment-thread-card__skill {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-muted);
+}
+
+/* P2b-1b/#1725's collapsed single-line render: the whole card is one clickable button
+   (`.timeline-card--collapsed` above supplies the tightened outer shell each shares). Fixed small
+   padding + font-size, and clipped to one line (`overflow: hidden` + `white-space: nowrap` here,
+   `text-overflow: ellipsis` on each kind's own summary span) rather than left to wrap or overflow
+   past the row `VirtualList` sized for it — the box math this closes is spelled out on
+   `.timeline-card--collapsed` above (review finding, PR #481). One rule set: `CommentThreadCard`,
+   `ChangeSetCard`, and completed `AgentWorkingCard` render the identical shape, just with different
+   content inside. */
+.comment-thread-card__collapsed,
+.change-set-card__collapsed,
+.agent-working-card__collapsed {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  padding: 3px 8px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.3;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.agent-working-card__collapsed-header {
+  flex: none;
+}
+
+.agent-working-card__disclosure {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  stroke-width: 2;
+}
+
+.agent-working-card__collapsed-summary {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-muted);
+}
+
+.agent-working-card__outbound {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 0;
+  color: #4a463e;
+  font-size: 11.5px;
+  line-height: 1.45;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.timeline-card--collapsed .agent-working-card__outbound {
+  margin: 0 8px 5px;
+}
+
+.agent-working-card__outbound-marker,
+.agent-working-card__inbound-marker {
+  flex: none;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.agent-working-card__outbound-marker { color: #2f5d8c; }
+.agent-working-card__inbound-marker { color: #8c8779; }
+
+.agent-working-card__expanded-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.comment-thread-card__collapsed-summary {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-muted);
+}
+
+/* The manual re-collapse control in the *expanded* header (a small pill, not the row-wide button
+   above) — distinct class, distinct box, shared between all three collapsible card kinds the same
+   way the row-wide button above is. */
+.comment-thread-card__collapse-toggle,
+.change-set-card__collapse-toggle,
+.agent-working-card__collapse-toggle {
+  appearance: none;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: none;
+  font-size: 11px;
+  padding: 1px 6px;
+  cursor: pointer;
+  color: inherit;
+}
+
+.comment-thread-card__reply {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  padding-left: 11px;
+  border-left: 2px solid #edeae2;
+}
+
+.comment-thread-card__reply-author {
+  color: #33302a;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.comment-thread-card__reply p {
+  flex-basis: 100%;
+  margin: 0;
+  color: #33302a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.comment-thread-card__replies summary {
+  color: var(--color-accent);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.comment-thread-card__replies ul,
+.comment-thread-card__latest-reply {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comment-thread-card__replies[open] ul {
+  margin-top: 6px;
+}
+
+.comment-composer,
+.comment-thread-card__reply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.comment-composer__target {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.comment-thread-card__reply-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 36px;
+  padding: 9px 11px;
+  border: 1px solid #d5d0c4;
+  border-radius: 7px;
+  background: #fcfbf8;
+  color: #33302a;
+  font: 400 12.5px/1.5 "IBM Plex Sans", system-ui, sans-serif;
+  resize: vertical;
+}
+
+.comment-popover[data-platform="mac"] .comment-thread-card__reply-form textarea,
+.timeline-panel[data-platform="mac"] .comment-thread-card__reply-form textarea {
+  border-color: transparent;
+  border-radius: 8px;
+  background: #faf8f3;
+  box-shadow: 0 0 0 1px #dcd7cc;
+}
+
+.comment-thread-card__reply-form textarea::placeholder {
+  color: #a39e92;
+}
+
+.comment-thread-card__reply-form textarea:focus-visible {
+  min-height: 70px;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.comment-thread-card__reply-form button {
+  display: none;
+  align-self: flex-end;
+}
+
+.comment-thread-card__reply-form:focus-within button {
+  display: block;
+}
+
+.comment-thread-card__reply-form button,
+.comment-thread-card__address {
+  padding: 6px 10px;
+  border: 1px solid #d5d0c4;
+  border-radius: 6px;
+  background: #fcfbf8;
+  color: var(--color-accent);
+  font: 500 12.5px "IBM Plex Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.comment-thread-card__reply-form button {
+  background: #1f1d1a;
+  color: #ffffff;
+}
+
+.comment-popover[data-platform="mac"] .comment-thread-card__reply-form button,
+.comment-popover[data-platform="mac"] .comment-thread-card__address,
+.timeline-panel[data-platform="mac"] .comment-thread-card__reply-form button,
+.timeline-panel[data-platform="mac"] .comment-thread-card__address {
+  border-radius: 7px;
+}
+
+.comment-thread-card__reply-form button:focus-visible,
+.comment-thread-card__address:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+:root[data-theme="dark"] .comment-thread-card__reply p,
+:root[data-theme="dark"] .comment-thread-card__reply-author {
+  color: var(--color-fg);
+}
+
+:root[data-theme="dark"] .comment-thread-card__reply-form textarea,
+:root[data-theme="dark"] .comment-popover[data-platform="mac"] .comment-thread-card__reply-form textarea,
+:root[data-theme="dark"] .timeline-panel[data-platform="mac"] .comment-thread-card__reply-form textarea {
+  border-color: var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-fg);
+  box-shadow: none;
+}
+
+:root[data-theme="dark"] .comment-thread-card__address {
+  border-color: var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-accent);
+}
+
+/* The existing revision card uses the emphasized 3a/3b shell while its triage controls and
+   virtualized collapsed row keep their original behavior. */
+.timeline-card[data-card-kind="change-set"]:not(.timeline-card--collapsed) {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 5px 14px;
+  padding: 12px;
+  border-color: #c6bfae;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(31, 29, 26, 0.07);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.timeline-panel[data-platform="mac"] .timeline-card[data-card-kind="change-set"]:not(.timeline-card--collapsed) {
+  border-color: #e3dfd6;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(31, 29, 26, 0.1), 0 0 0 1px #d8d2c4;
+}
+
+:root[data-theme="dark"] .timeline-card[data-card-kind="change-set"]:not(.timeline-card--collapsed),
+:root[data-theme="dark"] .timeline-panel[data-platform="mac"] .timeline-card[data-card-kind="change-set"]:not(.timeline-card--collapsed) {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-card[data-card-kind="change-set"] .timeline-card__header {
+  margin: 0;
+  color: #4a463e;
+  font-size: 11.5px;
+  font-weight: 400;
+}
+
+.change-set-card__attribution {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.change-set-card__badge {
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: #1f1d1a;
+  color: #ffffff;
+  font: 500 10px "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.timeline-panel[data-platform="mac"] .change-set-card__badge {
+  border-radius: 5px;
+}
+
+.change-set-card__timestamp {
+  margin-left: auto;
+  color: #a39e92;
+  font-size: 11.5px;
+}
+
+.timeline-card[data-card-kind="change-set"]:not(.timeline-card--collapsed) .timeline-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.change-set-card__summary,
+.change-set-card__counts {
+  margin: 0;
+}
+
+.timeline-card[data-card-kind="change-set"]:not(.timeline-card--collapsed) .change-set-card__summary {
+  color: #33302a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.change-set-card__counts {
+  color: #6b665c;
+  font-size: 11.5px;
+}
+
+.change-set-card__sections {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #3a362f;
+  font-size: 12px;
+}
+
+.change-set-card__section > summary {
+  cursor: pointer;
+}
+
+.change-set-card__section-count {
+  color: #8c8779;
+}
+
+.change-set-card__section > summary::marker {
+  color: #a39e92;
+  font-size: 9px;
+}
+
+.change-set-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.change-set-card__actions > button,
+.change-set-card__overflow > summary {
+  appearance: none;
+  padding: 6px 11px;
+  border: 1px solid #d5d0c4;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #3a362f;
+  font: 12px "IBM Plex Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.change-set-card__actions > button:first-of-type {
+  border-color: #2f5d8c;
+  background: #2f5d8c;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.change-set-card__actions > button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.change-set-card__overflow > summary {
+  display: list-item;
+  padding-inline: 9px;
+  list-style: none;
+}
+
+.change-set-card__overflow > summary::-webkit-details-marker {
+  display: none;
+}
+
+.timeline-panel[data-platform="mac"] .change-set-card__actions > button,
+.timeline-panel[data-platform="mac"] .change-set-card__overflow > summary {
+  border-color: #e3dfd6;
+  border-radius: 7px;
+}
+
+.timeline-panel[data-platform="mac"] .change-set-card__actions > button:first-of-type {
+  border-color: #2f5d8c;
+}
+
+:root[data-theme="dark"] .change-set-card__section-count {
+  color: var(--color-muted);
+}
+
+:root[data-theme="dark"] .change-set-card__summary,
+:root[data-theme="dark"] .change-set-card__sections,
+:root[data-theme="dark"] .timeline-card[data-card-kind="change-set"] .timeline-card__header,
+:root[data-theme="dark"] .change-set-card__actions > button,
+:root[data-theme="dark"] .change-set-card__overflow > summary {
+  color: var(--color-fg);
+}
+
+:root[data-theme="dark"] .change-set-card__counts,
+:root[data-theme="dark"] .change-set-card__timestamp {
+  color: var(--color-muted);
+}
+
+:root[data-theme="dark"] .change-set-card__actions > button,
+:root[data-theme="dark"] .change-set-card__overflow > summary {
+  border-color: var(--color-border);
+  background: var(--color-bg);
+}
+
+:root[data-theme="dark"] .change-set-card__actions > button:first-of-type {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+/* The collapsed summary retains its compact single-line typography; the expanded paragraph above
+   has its own prose treatment. */
+.change-set-card__collapsed .change-set-card__summary {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.change-set-card__collapsed-status {
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-muted);
+}
+
+/* UXR-Q4: the fail-closed affordance shown (with every triage control disabled) when a change-set
+   card's document/parse no longer matches the live editor field — names the document the changes
+   belong to so the disabled controls read as an honest degraded state, not a dead no-op. Spans the
+   full action row (the buttons wrap beneath it) rather than sitting inline with them. */
+.change-set-card__mismatch {
+  flex-basis: 100%;
+  margin: 0 0 4px;
+  color: var(--color-muted);
+  font-size: 0.85em;
+}
+
+/* UXR-Q5: post-action accounting in the expanded card body. It deliberately has no link or
+   control because a decided change has no redline destination left to navigate to (FR-X-5). */
+.change-set-card__reach-note,
+.change-set-card__provenance-note {
+  margin: 4px 0;
+  color: var(--color-muted);
+  font-size: 0.85em;
+}
+
+/* J4 Batch / turn 15: the chooser floats from the editor toolbar or standalone Timeline header. */
+.batch-address {
+  display: inline-flex;
+  flex: none;
+}
+
+.timeline-panel__header .batch-address__trigger,
+.view-mode-toolbar .batch-address__trigger {
+  padding: 4px 9px;
+  border: 1px solid #d5d0c4;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #4a463e;
+  font: 400 12px/1.5 "IBM Plex Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.batch-address__trigger[aria-expanded="true"] {
+  background: #f0ede6;
+}
+
+.batch-address__trigger:focus-visible,
+.batch-address__panel :is(select, input, button):focus-visible {
+  outline: 2px solid #2f5d8c;
+  outline-offset: 1px;
+}
+
+.timeline-panel[data-platform="mac"] .batch-address__trigger,
+.view-mode-toolbar[data-platform="mac"] .batch-address__trigger {
+  border: 0;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px #dcd7cc;
+}
+
+:root[data-theme="dark"] .timeline-panel__header .batch-address__trigger,
+:root[data-theme="dark"] .view-mode-toolbar .batch-address__trigger {
+  background: #1e1f22;
+  border-color: #3a3d42;
+  color: #e6e7ea;
+}
+
+:root[data-theme="dark"] .batch-address__trigger[aria-expanded="true"] {
+  background: #3a3d42;
+}
+
+:root[data-theme="dark"] .batch-address__trigger:focus-visible,
+:root[data-theme="dark"] .batch-address__panel :is(select, input, button):focus-visible {
+  outline-color: #5b8dff;
+}
+
+:root[data-theme="dark"] .timeline-panel[data-platform="mac"] .batch-address__trigger,
+:root[data-theme="dark"] .view-mode-toolbar[data-platform="mac"] .batch-address__trigger {
+  box-shadow: 0 0 0 1px #3a3d42;
+}
+
+.batch-address__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: max-content;
+  min-width: 220px;
+  max-width: 320px;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #e3dfd6;
+  border-radius: 7px;
+  background: #faf8f3;
+  box-shadow: 0 8px 22px rgba(31, 29, 26, 0.16);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.batch-address__panel[data-platform="mac"] {
+  border-radius: 8px;
+}
+
+.batch-address__panel--floating {
+  position: fixed;
+  z-index: 120;
+}
+
+:root[data-theme="dark"] .batch-address__panel {
+  background: #26282c;
+  border-color: #3a3d42;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.batch-address__filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #6b665c;
+  font: 400 12px/1.5 "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.batch-address__filter select {
+  min-width: 132px;
+  padding: 4px 22px 4px 9px;
+  border: 1px solid #d5d0c4;
+  border-radius: 6px;
+  appearance: none;
+  background: #fff;
+  color: #3a362f;
+  font: inherit;
+  background-image: linear-gradient(45deg, transparent 50%, #a39e92 50%),
+    linear-gradient(135deg, #a39e92 50%, transparent 50%);
+  background-position: calc(100% - 13px) 50%, calc(100% - 9px) 50%;
+  background-size: 4px 4px, 4px 4px;
+  background-repeat: no-repeat;
+}
+
+.batch-address__panel[data-platform="mac"] .batch-address__filter select {
+  border-color: transparent;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px #dcd7cc;
+}
+
+:root[data-theme="dark"] .batch-address__filter { color: #9aa0a6; }
+:root[data-theme="dark"] .batch-address__filter select {
+  background-color: #1e1f22;
+  border-color: #3a3d42;
+  color: #e6e7ea;
+}
+:root[data-theme="dark"] .batch-address__panel[data-platform="mac"] .batch-address__filter select {
+  border-color: transparent;
+  box-shadow: 0 0 0 1px #3a3d42;
+}
+
+.batch-address__scope {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  color: #6b665c;
+  font: 400 12px/1.5 "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.batch-address__include {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #3a362f;
+  cursor: pointer;
+}
+
+.batch-address__include input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  border: 1px solid #d5d0c4;
+  border-radius: 3px;
+  appearance: none;
+  background: #fff;
+  cursor: pointer;
+}
+
+.batch-address__include input:checked {
+  border-color: #2f5d8c;
+  background: #2f5d8c;
+}
+
+.batch-address__include input:checked::after {
+  content: "";
+  display: block;
+  width: 7px;
+  height: 4px;
+  margin: 2px 0 0 2px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(-45deg);
+}
+
+.batch-address__run {
+  align-self: flex-end;
+  padding: 5px 11px;
+  border: 0;
+  border-radius: 6px;
+  background: #2f5d8c;
+  color: #fff;
+  font: 500 12px/1.5 "IBM Plex Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.batch-address__panel[data-platform="mac"] .batch-address__run { border-radius: 7px; }
+.batch-address__run:disabled { opacity: 0.55; cursor: default; }
+:root[data-theme="dark"] .batch-address__scope { color: #9aa0a6; }
+:root[data-theme="dark"] .batch-address__include { color: #e6e7ea; }
+:root[data-theme="dark"] .batch-address__include input {
+  background: #1e1f22;
+  border-color: #3a3d42;
+}
+:root[data-theme="dark"] .batch-address__include input:checked {
+  background: #5b8dff;
+  border-color: #5b8dff;
+}
+:root[data-theme="dark"] .batch-address__include input:checked::after {
+  border-color: #10131a;
+}
+:root[data-theme="dark"] .batch-address__run {
+  background: #5b8dff;
+  color: #10131a;
+}
+
+/* Each run's FR-AGENT-6 accounting survives chooser and tab changes on its run card. */
+.batch-address-status {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--color-muted);
+  overflow-wrap: anywhere;
+}
+
+.batch-address-status__run {
+  font-weight: 600;
+}
+
+/* An interrupted run is a warning, not a footnote — it means comments the user asked about were
+   never looked at (FR-AGENT-6), so it must read in both themes (FR-X-6). */
+.batch-address-status__interrupted {
+  color: var(--color-warning-fg);
+  font-weight: 600;
+}
+
+/* Redline review chrome (P2a-5): the accept/reject toolbar above the editor host, and the
+   accept/reject popover. Redline text styling (green underline / red strike) rides the CM6
+   base theme in trackedChanges.ts so it stays inside the editor's own cascade. */
+.tabbed-editor {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.tabbed-editor__mutable-surface {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.tabbed-editor__session-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  color: var(--color-tab-inactive-fg);
+  background: var(--color-session-status-win-bg);
+  font-size: 11.5px;
+}
+
+.tabbed-editor__session-status[data-platform="mac"] {
+  background: var(--color-session-status-mac-bg);
+}
+
+.tabbed-editor__session-status span {
+  width: 6px;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--color-recovery-dot);
+  color: transparent;
+}
+
+/* Bound the active pane to the space below the tab bar. Without this full-height chain a wrapped
+   document makes the whole TabbedEditor grow to its own content height instead of scrolling inside
+   `.editor-region`'s `overflow: auto` (#1369 removed that region's own former centering, which had
+   also masked this by pushing an oversized child's top above the scrollable origin — the underlying
+   `min-height: 0` chain below is what actually bounds it, not that now-removed centering). */
+.tabbed-editor__panes {
+  flex: 1;
+  min-height: 0;
+}
+
+.tabbed-editor__pane {
+  height: 100%;
+  min-height: 0;
+}
+
+/* Tab strip (#1116, FR-ED-3) — the "standard tabbed authoring center" ux-design §4 names, recreated
+   from hi-fi 3a/3b. Until this block existed the strip had no rules at all, so each tab was a
+   block-level div and open documents stacked as full-width filename rows above the editor. Platform
+   shape (Windows folder tabs / macOS pills) is keyed off `data-platform`, the same seam
+   `.project-rail` uses; the geometry is `docs/design/specs/platform-variants.md` "Document tabs". */
+.tab-bar {
+  display: flex;
+  flex: none;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--color-tab-border);
+  /* One strip, never a second row of tabs: tabs shrink and their labels ellipsize (below) instead
+     of wrapping. The strip is deliberately not a scroll container — `overflow-x: auto` makes
+     `overflow-y` compute to `auto` as well (CSS Overflow §3), and the scroll container then clips
+     its descendants at the padding box, eating the exact 1px the Windows active tab is pulled past
+     that edge by. Scrolling and the folder tab's join to the canvas are mutually exclusive, and the
+     join is the specified pixel (`specs/platform-variants.md` "Document tabs"). What a strip too
+     full to hold its tabs should do is drawn nowhere in `3a`/`3b` and named nowhere in the specs
+     (`specs/state.md` "Known gaps" records no responsive behavior below 1400px at all), so it stays
+     the browser's default rather than an overflow treatment the design has not specified. */
+  flex-wrap: nowrap;
+}
+
+/* `TabbedEditor` renders the strip on every render that has a project root, the one in which the
+   last tab has just closed included, and `App` only reaches workshop mode on the render after it —
+   so an empty strip is momentarily real, and would otherwise show as a stray padded band. */
+.tab-bar:empty {
+  display: none;
+}
+
+.tab-bar[data-platform="win"] {
+  gap: 2px;
+  padding: 8px 12px 0;
+  background-color: var(--color-tab-win-strip-bg);
+}
+
+.tab-bar[data-platform="mac"] {
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background-color: var(--color-tab-mac-strip-bg);
+}
+
+.tab-bar__tab {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  /* Sized to its label and allowed to shrink, so a tab claims only the width its own name needs —
+     the block-level, full-strip row this card removes. `max-width` keeps one long filename from
+     crowding out its neighbours. */
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 220px;
+  border: 1px solid transparent;
+  font-size: 12.5px;
+  color: var(--color-tab-inactive-fg);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Hover/focus are a documented gap in the design handoff (specs/state.md "Known gaps"), so they
+   follow the app's existing conventions — the same tint and accent ring `.project-rail` uses. Only
+   an inactive tab has a hover state to gain; the active one already carries both. */
+.tab-bar__tab[aria-selected="false"]:hover {
+  background-color: var(--color-tab-hover-bg);
+  color: var(--color-tab-active-fg);
+}
+
+.tab-bar__tab:focus-visible,
+.tab-bar__close:focus-visible {
+  outline: 2px solid var(--color-tab-accent);
+  outline-offset: 1px;
+}
+
+.tab-bar[data-platform="win"] .tab-bar__tab {
+  padding: 8px 14px;
+  border-radius: 6px 6px 0 0;
+  /* The active folder tab sits *on* the strip's bottom hairline, joining the canvas below it. */
+  margin-bottom: -1px;
+}
+
+.tab-bar[data-platform="win"] .tab-bar__tab[aria-selected="true"] {
+  border-color: var(--color-tab-border);
+  border-bottom-color: var(--color-tab-win-active-bg);
+  background-color: var(--color-tab-win-active-bg);
+  color: var(--color-tab-active-fg);
+  font-weight: 500;
+}
+
+.tab-bar[data-platform="mac"] .tab-bar__tab {
+  padding: 6px 12px;
+  border-radius: 7px;
+}
+
+.tab-bar[data-platform="mac"] .tab-bar__tab[aria-selected="true"] {
+  border-color: var(--color-tab-border);
+  background-color: var(--color-tab-mac-active-bg);
+  box-shadow: var(--shadow-tab-mac-active);
+  color: var(--color-tab-active-fg);
+  font-weight: 500;
+}
+
+/* The label absorbs an over-long filename so it ellipsizes inside the tab instead of dictating the
+   strip's width; the dot and close affordance stay at their own size beside it. */
+.tab-bar__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tab-bar__dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-tab-accent);
+}
+
+.tab-bar__recovered-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.tab-bar__recovery-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-recovery-dot);
+}
+
+.tab-bar__recovered-qualifier {
+  color: var(--color-tab-inactive-fg);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.tab-bar__tab[data-recovery-content-omitted="true"] .tab-bar__recovered-qualifier,
+.tab-bar__tab[data-live-over-cap="true"] .tab-bar__recovered-qualifier {
+  color: var(--color-recovery-fg);
+}
+
+.tab-bar__recovered-path {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-style: italic;
+}
+
+.tab-bar__recovered-ordinal {
+  color: var(--color-untitled-footer-fg);
+  font-size: 10.5px;
+  font-weight: 400;
+}
+
+/* The persistent `Missing on disk` tab status (J2, #933) — it outlives the banner's [Keep editing],
+   so it carries the project's warning colour rather than the tab's own quiet chrome, and stays a
+   button because activating it is what reopens the recovery actions. */
+.tab-bar__status {
+  flex: none;
+  padding: 1px 6px;
+  border: 1px solid var(--color-warning-fg);
+  border-radius: 999px;
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning-fg);
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab-bar__close {
+  display: flex;
+  align-items: center;
+  flex: none;
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+  background: none;
+  color: var(--color-tab-close-inactive);
+  cursor: pointer;
+}
+
+.tab-bar__tab[aria-selected="true"] .tab-bar__close {
+  color: var(--color-tab-close-active);
+}
+
+.tab-bar__close svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* The untitled recovery document (9a–9c, D12/FR-ED-3/FR-ED-8): an editable, pathless buffer. */
+.untitled-document {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  container-type: inline-size;
+}
+
+.untitled-document__source-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--color-tab-border);
+  background: var(--color-unsupported-source-win-bg);
+  color: var(--color-unsupported-source-fg);
+}
+
+.untitled-document[data-platform="mac"] .untitled-document__source-notice {
+  border-bottom: 0;
+  box-shadow: 0 1px 0 var(--color-tab-border);
+  background: var(--color-unsupported-source-mac-bg);
+}
+
+.untitled-document__source-copy {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.untitled-document__source-copy p { margin: 0; }
+.untitled-document__source-title { font-size: 12.5px; font-weight: 500; line-height: 1.45; }
+.untitled-document__source-detail { color: var(--color-unsupported-source-detail); font-size: 11.5px; line-height: 1.5; }
+.untitled-document__source-dismiss {
+  flex: none;
+  padding: 4px 10px;
+  border: 1px solid var(--color-action-border);
+  border-radius: 5px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.untitled-document__source-dismiss:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+
+.untitled-document__loss-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--color-recovery-border);
+  background: var(--color-recovery-bg);
+  color: var(--color-recovery-fg);
+}
+
+.untitled-document[data-platform="mac"] .untitled-document__loss-notice {
+  border-bottom: none;
+  box-shadow: 0 1px 0 var(--color-recovery-border);
+}
+
+.untitled-document__loss-notice--collapsed {
+  align-items: center;
+  padding-block: 8px;
+}
+
+.untitled-document__loss-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--color-recovery-dot);
+}
+
+.untitled-document__loss-notice--collapsed .untitled-document__loss-dot {
+  margin-top: 0;
+}
+
+.untitled-document__loss-copy {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.untitled-document__live-copy,
+.untitled-document__historical-loss {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.untitled-document__loss-separator {
+  width: 100%;
+  margin: 5px 0 2px;
+  border: 0;
+  border-top: 1px solid var(--color-recovery-separator);
+}
+
+.untitled-document__loss-consequence,
+.untitled-document__loss-reason,
+.untitled-document__loss-summary {
+  margin: 0;
+}
+
+.untitled-document__loss-consequence {
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.untitled-document__loss-reason {
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.untitled-document__loss-summary {
+  flex: 1;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.untitled-document__loss-toggle,
+.untitled-document__save-as {
+  flex: none;
+  padding: 4px 10px;
+  border: 1px solid var(--color-action-border);
+  border-radius: 5px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.untitled-document[data-platform="mac"] .untitled-document__loss-toggle,
+.untitled-document[data-platform="mac"] .untitled-document__save-as {
+  border-color: transparent;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-border);
+}
+
+.untitled-document__conditions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  border-bottom: 1px solid var(--color-tab-border);
+  background: var(--color-untitled-strip-bg);
+  color: var(--color-tab-inactive-fg);
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+.untitled-document[data-platform="mac"] .untitled-document__conditions {
+  background: var(--color-tab-mac-strip-bg);
+  border-bottom: none;
+  box-shadow: 0 1px 0 var(--color-tab-border);
+}
+
+.untitled-document__condition + .untitled-document__condition::before {
+  display: inline-block;
+  width: 1px;
+  height: 12px;
+  margin-right: 7px;
+  background: var(--color-tab-border);
+  content: "";
+}
+
+.untitled-document__error {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--color-reject-border);
+  background-color: var(--color-reject-bg);
+  color: var(--color-destructive-action);
+}
+
+.untitled-document__buffer {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  overflow: auto;
+  border: none;
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 15px;
+  line-height: 1.7;
+  background: transparent;
+  color: var(--color-untitled-buffer-fg);
+}
+
+.untitled-document > .view-mode-toolbar {
+  order: -1;
+}
+
+.untitled-document__buffer .cm-editor {
+  height: 100%;
+}
+
+.untitled-document__buffer .cm-content {
+  padding: 18px 20px;
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.untitled-document__buffer .cm-placeholder {
+  color: var(--color-untitled-placeholder);
+  opacity: 1;
+}
+
+.untitled-document__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 10px 16px;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.untitled-document[data-platform="mac"] .untitled-document__actions {
+  border-top: none;
+  box-shadow: 0 -1px 0 var(--color-border);
+}
+
+.untitled-document__autosave {
+  margin-right: auto;
+  color: var(--color-untitled-footer-fg);
+  font-size: 11.5px;
+}
+
+.untitled-document__save-as {
+  padding: 5px 12px;
+  font-weight: 500;
+}
+
+.untitled-document__loss-short {
+  display: none;
+}
+
+@container (max-width: 660px) {
+  .untitled-document__loss-provenance,
+  .untitled-document__loss-full {
+    display: none;
+  }
+
+  .untitled-document__loss-short {
+    display: inline;
+  }
+}
+
+@container (max-width: 420px) {
+  .untitled-document__loss-notice:not(.untitled-document__loss-notice--collapsed) {
+    flex-wrap: wrap;
+  }
+
+  .untitled-document__loss-copy {
+    flex-basis: calc(100% - 16px);
+  }
+
+  .untitled-document__loss-toggle {
+    margin-left: 16px;
+  }
+
+  .untitled-document__condition--editable {
+    display: none;
+  }
+
+  .untitled-document__actions,
+  .untitled-document__autosave {
+    font-size: 10.5px;
+  }
+}
+
+@container (max-width: 330px) {
+  .untitled-document__condition--project {
+    display: none;
+  }
+
+  .untitled-document__actions {
+    flex-wrap: wrap;
+  }
+
+  .untitled-document__autosave {
+    flex-basis: 100%;
+  }
+}
+
+/* Shared three-action alertdialog; 9c.5 composes with this rather than inventing a second modal. */
+.dirty-close-guard {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(31, 29, 26, 0.22);
+}
+
+.dirty-close-guard__card {
+  display: flex;
+  width: min(468px, 100%);
+  flex-direction: column;
+  gap: 9px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-bg);
+  box-shadow: 0 4px 16px rgba(31, 29, 26, 0.1);
+}
+
+.dirty-close-guard__title {
+  margin: 0;
+  color: var(--color-fg);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.dirty-close-guard__message {
+  margin: 0;
+  color: var(--color-fg);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.dirty-close-guard__save-error {
+  margin: 0;
+  padding: 8px 11px;
+  border: 1px solid var(--color-reject-border);
+  border-radius: 6px;
+  color: var(--color-destructive-action);
+  background: var(--color-reject-bg);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.dirty-close-guard__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.dirty-close-guard__actions button {
+  padding: 5px 12px;
+  border: 1px solid var(--color-action-border);
+  border-radius: 5px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.dirty-close-guard__actions button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.dirty-close-guard__actions .dirty-close-guard__discard--destructive {
+  border-color: var(--color-destructive-action);
+  background: var(--color-destructive-action);
+  color: var(--color-destructive-action-contrast);
+  font-weight: 500;
+}
+
+.dirty-close-guard__actions .dirty-close-guard__cancel {
+  background: var(--color-surface);
+  font-weight: 500;
+}
+
+.session-write-failure {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--color-fg) 28%, transparent);
+}
+
+.session-write-failure__card {
+  display: flex;
+  width: min(520px, calc(100vw - 32px));
+  max-height: 420px;
+  overflow: hidden;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid var(--color-session-dialog-border);
+  border-radius: 8px;
+  color: var(--color-fg);
+  background: var(--color-session-dialog-bg);
+  box-shadow: 0 8px 26px rgba(31, 29, 26, 0.16);
+}
+
+.session-write-failure[data-platform="mac"] .session-write-failure__card {
+  max-height: 440px;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(31, 29, 26, 0.22),
+    0 0 0 1px rgba(31, 29, 26, 0.09);
+}
+
+.session-write-failure__card h2 {
+  margin: 0 0 10px;
+  color: var(--color-fg);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.session-write-failure__affected ul {
+  margin: 0;
+  max-height: 96px;
+  overflow-y: auto;
+  padding: 6px 8px 6px 26px;
+  border: 1px solid var(--color-tab-border);
+  border-radius: 5px;
+  background: var(--color-session-list-bg);
+}
+
+.session-write-failure[data-platform="mac"] .session-write-failure__affected ul {
+  max-height: 104px;
+  border-color: transparent;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-tab-border);
+}
+
+.session-write-failure__affected ul:focus-visible {
+  outline: 2px solid var(--color-session-focus);
+  outline-offset: 1px;
+}
+
+.session-write-failure__reason {
+  padding: 10px;
+  border: 1px solid var(--color-reject-border);
+  border-radius: 6px;
+  color: var(--color-destructive-action);
+  background: var(--color-reject-bg);
+}
+
+.session-write-failure[data-platform="mac"] .session-write-failure__reason {
+  border-radius: 7px;
+}
+
+.untitled-adoption-pending {
+  margin: 0;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--color-reject-border);
+  color: var(--color-destructive-action);
+  background: var(--color-reject-bg);
+  font-size: 12px;
+}
+
+.session-write-failure__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.session-write-failure__actions button {
+  min-height: 32px;
+  padding: 6px 12px;
+  border: 1px solid var(--color-action-border);
+  border-radius: 5px;
+  color: var(--color-fg);
+  background: #ffffff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.session-write-failure[data-platform="mac"] .session-write-failure__actions button {
+  border-color: transparent;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-session-dialog-border);
+}
+
+.session-write-failure__actions .session-write-failure__quit {
+  border-color: var(--color-reject-border);
+  color: var(--color-destructive-action);
+  background: var(--color-reject-bg);
+  font-weight: 500;
+}
+
+.session-write-failure__actions .session-write-failure__stay {
+  border-color: var(--color-action-border);
+  color: var(--color-fg);
+  background: var(--color-session-default-bg);
+  font-weight: 500;
+}
+
+.session-write-failure__actions .session-write-failure__stay:focus-visible {
+  outline: 2px solid var(--color-session-focus);
+  outline-offset: 1px;
+}
+
+.session-write-failure[data-platform="mac"]
+  .session-write-failure__actions
+  .session-write-failure__quit {
+  border-color: transparent;
+  box-shadow: 0 0 0 1px var(--color-reject-border);
+}
+
+.session-write-failure[data-platform="mac"]
+  .session-write-failure__actions
+  .session-write-failure__stay {
+  border-color: transparent;
+  box-shadow: 0 0 0 1px var(--color-action-border);
+}
+
+:root[data-theme="dark"] .session-write-failure__actions button {
+  background: var(--color-bg);
+}
+
+:root[data-theme="dark"]
+  .session-write-failure__actions
+  .session-write-failure__quit {
+  background: var(--color-reject-bg);
+}
+
+:root[data-theme="dark"]
+  .session-write-failure__actions
+  .session-write-failure__stay {
+  background: var(--color-session-default-bg);
+}
+
+.session-write-failure__actions button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+@media (max-width: 520px) {
+  .session-write-failure__actions {
+    flex-direction: column;
+  }
+  .session-write-failure__actions button {
+    width: 100%;
+  }
+}
+
+.editor-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+}
+
+.editor-shell__host {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 34px 96px 34px 72px;
+  background-color: var(--color-editor-canvas-bg);
+}
+
+@media (max-width: 1000px) {
+  .editor-shell__host {
+    padding: 8px;
+  }
+}
+
+.editor-shell__host .cm-content {
+  color: var(--color-untitled-buffer-fg);
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 15.5px;
+  line-height: 1.75;
+}
+
+.cm-dictation-ghost {
+  margin-left: 3px;
+  color: var(--color-dictation-ghost-fg);
+  text-decoration: underline dotted var(--color-dictation-ghost-underline);
+  text-underline-offset: 3px;
+  white-space: pre-wrap;
+}
+
+.cm-dictation-held-range {
+  background: var(--color-dictation-held-bg);
+  box-shadow: inset 0 -1px 0 var(--color-dictation-held-underline);
+}
+
+.editor-shell__host .cm-line,
+.untitled-document__buffer .cm-line {
+  position: relative;
+}
+
+.cm-commentGutterIcon {
+  position: absolute;
+  right: -56px;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 24px;
+  height: 20px;
+  padding: 0;
+  border: 1.5px solid var(--color-comment-gutter-open-border);
+  border-radius: 4px 4px 4px 0;
+  background: var(--color-comment-highlight-open-bg);
+  color: var(--color-comment-gutter-open-fg);
+  font: 600 10px/1 "IBM Plex Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.cm-commentGutterIcon-selected {
+  right: -58px;
+  height: 22px;
+  border-color: var(--color-comment-gutter-selected-border);
+  background: var(--color-comment-highlight-selected-bg);
+  color: var(--color-comment-gutter-selected-fg);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+[data-selection-actions-hidden="true"] .cm-commentGutterIcon-add {
+  display: none;
+}
+
+.cm-commentGutterIcon-resolved {
+  border-color: var(--color-comment-gutter-resolved-border);
+  background: var(--color-comment-gutter-resolved-bg);
+  color: var(--color-comment-gutter-resolved-fg);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.cm-commentGutterIcon:focus-visible {
+  outline: 2px solid var(--color-comment-gutter-selected-border);
+  outline-offset: 2px;
+}
+
+/* UXR-Q7.2 / authoring-shell.md "Status bar": one persistent row below the document canvas.
+   Contents arrive on #2119's later cards; this foundation owns placement, platform chrome, slot
+   composition, and the measured right-edge overflow discipline they all share. */
+.document-status-bar {
+  position: relative;
+  display: flex;
+  flex: none;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 8px 16px;
+  border-top: 1px solid var(--color-document-status-border);
+  background-color: var(--color-document-status-win-bg);
+  color: var(--color-document-status-fg);
+  font-size: 11.5px;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+.document-status-bar[data-platform="mac"] {
+  background-color: var(--color-document-status-mac-bg);
+}
+
+.document-status-bar__leading,
+.document-status-bar__trailing {
+  display: flex;
+  flex: none;
+  flex-wrap: nowrap;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.document-status-bar__leading:empty,
+.document-status-bar__trailing:empty {
+  display: none;
+}
+
+.document-status-bar__leading {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.document-status-bar__leading-item,
+.document-status-bar__trailing-item,
+.document-status-bar__overflow-item {
+  flex: none;
+  white-space: nowrap;
+}
+
+.document-status-bar__leading-item + .document-status-bar__leading-item::before {
+  margin: 0 14px;
+  content: "·";
+}
+
+.document-status-bar__trailing {
+  margin-left: auto;
+  gap: 14px;
+}
+
+.document-status-bar__overflow {
+  position: relative;
+  flex: none;
+}
+
+.document-status-bar__overflow > button,
+.document-status-bar__overflow-measure {
+  display: grid;
+  width: 28px;
+  height: 22px;
+  place-items: center;
+}
+
+.document-status-bar__overflow > button {
+  padding: 0;
+  border: 1px solid var(--color-document-status-menu-border);
+  border-radius: 5px;
+  background: var(--color-document-status-menu-bg);
+  color: var(--color-document-status-fg);
+  cursor: pointer;
+}
+
+.document-status-bar[data-platform="mac"] .document-status-bar__overflow > button {
+  border-color: transparent;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-document-status-menu-border);
+}
+
+.document-status-bar__overflow > button:focus-visible {
+  outline: 2px solid var(--color-session-focus);
+  outline-offset: 1px;
+}
+
+.document-status-bar__overflow-menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 5px);
+  z-index: 20;
+  display: flex;
+  align-items: flex-start;
+  min-width: max-content;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--color-document-status-menu-border);
+  border-radius: 8px;
+  background: var(--color-document-status-menu-bg);
+  box-shadow: var(--shadow-document-status-menu);
+}
+
+.document-status-bar__overflow-menu[aria-hidden="true"] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.document-status-bar__overflow-item {
+  cursor: pointer;
+  outline: none;
+}
+
+.document-status-bar__overflow-item[aria-disabled="true"] {
+  cursor: default;
+}
+
+.document-save-status--failed {
+  color: var(--color-document-status-failed);
+}
+
+.document-status-unattributed {
+  color: var(--color-document-status-unattributed);
+}
+
+.document-status-bar__overflow-item-measure {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.document-status-bar__overflow-item:focus-visible {
+  outline: 2px solid var(--color-session-focus);
+  outline-offset: 2px;
+}
+
+.document-status-bar[data-platform="mac"] .document-status-bar__overflow-menu {
+  border-color: transparent;
+  border-radius: 9px;
+  box-shadow:
+    var(--shadow-document-status-menu),
+    0 0 0 1px var(--color-document-status-menu-border);
+}
+
+/* Always present so the overflow button's real CSS width is measurable before it is needed. */
+.document-status-bar__overflow-measure {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.redline-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.redline-toolbar--embedded {
+  display: inline-flex;
+  flex: 0 0 auto;
+  padding: 0 0 0 10px;
+  border-bottom: 0;
+  border-left: 1px solid var(--color-editor-toolbar-border);
+  background: transparent;
+}
+
+.redline-toolbar button {
+  appearance: none;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.redline-toolbar button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.redline-toolbar__accept-shortcut {
+  display: none;
+}
+
+.redline-toolbar__stepper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.redline-toolbar--embedded button,
+.redline-toolbar--embedded .track-changes-bulk-menu > summary {
+  box-sizing: border-box;
+  height: 26px;
+  font: 500 12px/1 "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.redline-toolbar--embedded .redline-toolbar__accept {
+  border-color: var(--color-editor-accept-border);
+  border-radius: 5px;
+  background: var(--color-editor-accept-bg);
+  color: var(--color-editor-accept-fg);
+}
+
+.redline-toolbar--embedded .redline-toolbar__reject {
+  border-color: var(--color-editor-reject-border);
+  border-radius: 5px;
+  background: var(--color-editor-reject-bg);
+  color: var(--color-editor-reject-fg);
+}
+
+.redline-toolbar--embedded .redline-toolbar__stepper {
+  box-sizing: border-box;
+  height: 26px;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-editor-stepper-border);
+  border-radius: 5px;
+  background: var(--color-editor-stepper-bg);
+}
+
+.redline-toolbar--embedded .redline-toolbar__stepper button {
+  width: 25px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-editor-view-inactive-fg);
+  font-size: 17px;
+}
+
+.redline-toolbar--embedded .redline-toolbar__stepper .redline-toolbar__next {
+  border-left: 1px solid var(--color-editor-stepper-divider);
+}
+
+.redline-toolbar--embedded .redline-toolbar__count {
+  min-width: 0;
+  padding: 0 7px;
+  border-left: 1px solid var(--color-editor-stepper-divider);
+  color: var(--color-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.view-mode-toolbar[data-platform="mac"] .redline-toolbar--embedded .redline-toolbar__accept,
+.view-mode-toolbar[data-platform="mac"] .redline-toolbar--embedded .redline-toolbar__reject {
+  border: 0;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-editor-accept-border);
+}
+
+.view-mode-toolbar[data-platform="mac"] .redline-toolbar--embedded .redline-toolbar__reject {
+  box-shadow: 0 0 0 1px var(--color-editor-reject-border);
+}
+
+.view-mode-toolbar[data-platform="mac"] .redline-toolbar__accept-shortcut {
+  display: inline;
+  margin-left: 6px;
+  color: var(--color-editor-shortcut);
+  font-size: 10.5px;
+}
+
+.view-mode-toolbar[data-platform="mac"] .redline-toolbar--embedded .redline-toolbar__stepper {
+  height: 30px;
+  padding: 2px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-editor-stepper-track);
+}
+
+.view-mode-toolbar[data-platform="mac"] .redline-toolbar--embedded .redline-toolbar__stepper button {
+  height: 26px;
+  border: 0;
+  border-radius: 6px;
+}
+
+.view-mode-toolbar[data-platform="mac"] .redline-toolbar--embedded .redline-toolbar__count {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--color-editor-stepper-bg);
+  box-shadow: var(--shadow-editor-view-mac-active);
+}
+
+.redline-toolbar__count {
+  font-size: 12px;
+  color: var(--color-muted);
+  min-width: 3.5em;
+  text-align: center;
+}
+
+/* Type-filtered bulk-ops dropdown (P2b-2, J1-Q1) — rendered inside `.redline-toolbar`'s own flex
+   row (ux-design §4 track-changes cluster), so it inherits the row's spacing rather than needing
+   its own padding/border/background. */
+.track-changes-bulk-menu {
+  position: relative;
+}
+
+.track-changes-bulk-menu > summary {
+  list-style: none;
+  appearance: none;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.redline-toolbar--embedded .track-changes-bulk-menu > summary {
+  border-color: var(--color-editor-stepper-border);
+  border-radius: 5px;
+  background: var(--color-editor-stepper-bg);
+}
+
+.view-mode-toolbar[data-platform="mac"] .track-changes-bulk-menu > summary {
+  border: 0;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-editor-stepper-border);
+}
+
+.track-changes-bulk-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Absolutely positioned so opening the dropdown overlays the document rather than displacing the
+   toolbar row beneath it. */
+.track-changes-bulk-menu__options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  min-width: 12em;
+  margin-top: 4px;
+  padding: 4px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-surface);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.track-changes-bulk-menu__options button {
+  appearance: none;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  color: var(--color-fg);
+  padding: 6px 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.track-changes-bulk-menu__options button:hover:not(:disabled) {
+  background-color: var(--color-bg);
+}
+
+.track-changes-bulk-menu__options button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Rich text/Markdown segmented control (FR-ED-1). Display is in the status bar (FR-ED-4). */
+.view-mode-toolbar {
+  display: flex;
+  container: editor-toolbar / inline-size;
+  flex-wrap: nowrap;
+  align-items: center;
+  min-height: 45px;
+  gap: 10px;
+  overflow: hidden;
+  min-width: 0;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--color-editor-toolbar-border);
+  background-color: var(--color-editor-toolbar-bg);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.view-mode-toolbar[data-platform="mac"] { min-height: 47px; }
+
+.view-mode-toolbar__control-slot {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+}
+
+.view-mode-toolbar > .view-mode-toolbar__control-slot[data-toolbar-control="comment-address-all"] {
+  padding-left: 10px;
+  border-left: 1px solid #e3dfd6;
+}
+
+:root[data-theme="dark"] .view-mode-toolbar > .view-mode-toolbar__control-slot[data-toolbar-control="comment-address-all"] {
+  border-left-color: #3a3d42;
+}
+
+.view-mode-toolbar__control-slot[data-toolbar-control="timeline"] {
+  margin-left: auto;
+}
+
+.view-mode-toolbar .timeline-host__collapsed-action {
+  height: 26px;
+  padding: 0 8px;
+  border: 1px solid var(--color-action-border);
+  border-radius: 6px;
+  background: var(--color-session-dialog-bg);
+}
+
+.view-mode-toolbar[data-platform="mac"] .timeline-host__collapsed-action {
+  border-color: transparent;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-session-dialog-border);
+}
+
+/* CJ's 900px J7 ruling keeps the same compact return button inline beside the measured overflow. */
+@container editor-toolbar (max-width: 300px) {
+  .view-mode-toolbar__control-slot[data-toolbar-control="timeline"] .timeline-host__collapsed-action {
+    width: 44px;
+    justify-content: center;
+    gap: 4px;
+    padding: 0 4px;
+  }
+
+  .view-mode-toolbar__control-slot[data-toolbar-control="timeline"] .timeline-host__collapsed-action > span:first-child {
+    display: none;
+  }
+
+  .view-mode-toolbar__control-slot[data-toolbar-control="timeline"] .timeline-host__permission-space:empty {
+    display: none;
+  }
+}
+
+.view-mode-toolbar__format[data-toolbar-empty="true"],
+.redline-toolbar--embedded[data-toolbar-empty="true"] {
+  display: none;
+}
+
+.view-mode-toolbar__overflow-trigger {
+  display: grid;
+  flex: none;
+  width: 28px;
+  height: 26px;
+  margin-left: auto;
+  padding: 0;
+  place-items: center;
+  border: 1px solid var(--color-action-border);
+  border-radius: 6px;
+  background: var(--color-session-dialog-bg);
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.view-mode-toolbar[data-platform="mac"] .view-mode-toolbar__overflow-trigger {
+  border-color: transparent;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-session-dialog-border);
+}
+
+.view-mode-toolbar__overflow-trigger:focus-visible {
+  outline: 2px solid var(--color-tab-accent);
+  outline-offset: 1px;
+}
+
+.view-mode-toolbar__overflow-trigger[data-chooser-open="true"] {
+  background: #f0ede6;
+}
+
+:root[data-theme="dark"] .view-mode-toolbar__overflow-trigger[data-chooser-open="true"] {
+  background: #3a3d42;
+}
+
+.view-mode-toolbar__overflow-popover {
+  position: fixed;
+  z-index: 40;
+  display: flex;
+  min-width: 180px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+  padding: 6px;
+  border: 1px solid var(--color-action-border);
+  border-radius: 7px;
+  background: var(--color-session-dialog-bg);
+  box-shadow: var(--shadow-document-status-menu);
+}
+
+.view-mode-toolbar__overflow-popover[aria-hidden="true"] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.view-mode-toolbar__overflow-popover .view-mode-toolbar__control-slot {
+  width: 100%;
+}
+
+.view-mode-toolbar__overflow-popover [data-toolbar-control="comment-address-all"] {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.view-mode-toolbar__overflow-popover [data-toolbar-control="comment-address-all"] .batch-address,
+.view-mode-toolbar__overflow-popover [data-toolbar-control="comment-address-all"] .batch-address__trigger {
+  width: 100%;
+}
+
+.view-mode-toolbar__overflow-popover [data-toolbar-control="comment-address-all"] .batch-address__trigger {
+  text-align: left;
+}
+
+.view-mode-toolbar__overflow-popover .view-mode-toolbar__format-option,
+.view-mode-toolbar__overflow-popover .redline-toolbar__accept,
+.view-mode-toolbar__overflow-popover .redline-toolbar__reject {
+  width: 100%;
+  padding: 0 10px;
+  text-align: left;
+}
+
+.view-mode-toolbar__overflow-popover [data-toolbar-control="format-group"] .view-mode-toolbar__format {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.view-mode-toolbar__overflow-popover [data-toolbar-control="format-group"] .view-mode-toolbar__format-option {
+  width: 27px;
+  padding: 0;
+  text-align: center;
+}
+
+.view-mode-toolbar__overflow-popover [data-toolbar-control="format-group"] .view-mode-toolbar__format-option--block {
+  width: 31px;
+}
+
+.view-mode-toolbar__overflow-popover .redline-toolbar__stepper,
+.view-mode-toolbar__overflow-popover .track-changes-bulk-menu,
+.view-mode-toolbar__overflow-popover .track-changes-bulk-menu > summary {
+  width: 100%;
+}
+
+.view-mode-toolbar__editor-view {
+  display: inline-flex;
+  flex: none;
+  border: 1px solid var(--color-editor-view-track-border);
+  border-radius: 6px;
+  background: var(--color-editor-view-win-track-bg);
+  overflow: hidden;
+}
+
+.view-mode-toolbar__editor-view-option {
+  box-sizing: border-box;
+  appearance: none;
+  height: 26px;
+  border: none;
+  background: transparent;
+  color: var(--color-editor-view-inactive-fg);
+  font: inherit;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.view-mode-toolbar__editor-view-option + .view-mode-toolbar__editor-view-option {
+  border-left: 1px solid var(--color-editor-view-track-border);
+}
+
+.view-mode-toolbar__editor-view-option:hover {
+  color: var(--color-fg);
+}
+
+.view-mode-toolbar__editor-view-option[aria-pressed="true"] {
+  background: var(--color-editor-view-win-active-bg);
+  color: var(--color-editor-view-win-active-fg);
+  font-weight: 500;
+}
+
+.view-mode-toolbar[data-platform="mac"] .view-mode-toolbar__editor-view {
+  padding: 2px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-editor-view-mac-track-bg);
+}
+
+.view-mode-toolbar[data-platform="mac"] .view-mode-toolbar__editor-view-option {
+  border: 0;
+  border-radius: 6px;
+}
+
+.view-mode-toolbar[data-platform="mac"] .view-mode-toolbar__editor-view-option[aria-pressed="true"] {
+  background: var(--color-editor-view-mac-active-bg);
+  box-shadow: var(--shadow-editor-view-mac-active);
+  color: var(--color-editor-view-mac-active-fg);
+}
+
+.view-mode-toolbar__format {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 2px;
+  padding-left: 10px;
+  border-left: 1px solid var(--color-editor-toolbar-border);
+}
+
+.view-mode-toolbar__format-option {
+  box-sizing: border-box;
+  appearance: none;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--color-editor-format-border);
+  border-radius: 5px;
+  background: var(--color-editor-format-bg);
+  color: var(--color-fg);
+  font: inherit;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.view-mode-toolbar__format-option--inline {
+  width: 27px;
+}
+
+.view-mode-toolbar__format-option--block {
+  width: 31px;
+}
+
+.view-mode-toolbar__format-option[aria-label="Bold"] {
+  font-weight: 600;
+}
+
+.view-mode-toolbar__format-option[aria-label="Italic"] {
+  font-style: italic;
+}
+
+.view-mode-toolbar__format-option[aria-pressed="true"] {
+  border-color: var(--color-editor-format-accent);
+  background: var(--color-editor-format-accent);
+  color: var(--color-editor-format-accent-contrast);
+}
+
+.view-mode-toolbar__format-option[aria-disabled="true"] {
+  color: var(--color-editor-format-pending);
+  cursor: default;
+}
+
+.view-mode-toolbar__format-option:disabled:not([aria-pressed="true"]):not([aria-disabled="true"]) {
+  color: var(--color-editor-format-pending);
+  cursor: default;
+  opacity: 0.55;
+}
+
+.view-mode-toolbar__format-option:disabled[aria-pressed="true"] {
+  cursor: default;
+  opacity: 0.65;
+}
+
+.view-mode-toolbar__format-option:hover:not([aria-disabled="true"]):not(:disabled) {
+  color: var(--color-editor-format-accent);
+}
+
+.view-mode-toolbar__format-option[aria-pressed="true"]:hover:not(:disabled) {
+  color: var(--color-editor-format-accent-contrast);
+}
+
+.view-mode-toolbar__format-option:focus-visible {
+  outline: 2px solid var(--color-editor-format-accent);
+  outline-offset: 1px;
+}
+
+.view-mode-toolbar[data-platform="mac"] .view-mode-toolbar__format-option {
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px var(--color-editor-format-mac-border);
+}
+
+.view-mode-toolbar[data-platform="mac"] .view-mode-toolbar__format-option:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1px var(--color-editor-format-mac-border),
+    0 0 0 3px rgba(47, 93, 140, 0.45);
+}
+
+.display-mode-control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-muted);
+}
+
+.redline-popover {
+  position: absolute;
+  z-index: 20;
+  max-width: 22em;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-surface);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.redline-popover__diff {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  margin-bottom: 6px;
+}
+
+.redline-popover__old {
+  color: #cf222e;
+  text-decoration: line-through;
+}
+
+.redline-popover__new {
+  color: #1a7f37;
+  text-decoration: underline;
+}
+
+.redline-popover__note {
+  margin: 4px 0 8px;
+}
+
+/* The `QuoteAffordance` + `CommentTrigger` pair (#259, P2b-7) share this wrapper rather than each
+   positioning itself independently — both anchor to the same selection-end point, and two
+   identically-positioned absolute elements at equal z-index paint one directly over the other
+   (PR #495 review round 4, Important). Positioned via `EditorView.coordsAtPos` (`EditorShell`'s
+   `style` prop, mirroring `.redline-popover` above); needs the same stacked-above-the-doc
+   treatment that gets, or the CM6 content underneath intercepts the click (PR #495 review,
+   Important #1). `display: flex` lays the buttons out side by side instead of stacked. */
+.editor-shell__selection-affordances {
+  position: absolute;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--color-selection-popover-border);
+  border-radius: 8px;
+  background: var(--color-selection-popover-win-bg);
+  box-shadow: var(--shadow-selection-popover-win);
+  color: var(--color-fg);
+  font: 400 12.5px/1.2 "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.editor-shell__selection-affordances[data-platform="mac"] {
+  border: 0;
+  border-radius: 9px;
+  background: var(--color-selection-popover-mac-bg);
+  box-shadow: var(--shadow-selection-popover-mac);
+}
+
+.quote-affordance,
+.comment-trigger {
+  appearance: none;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: inherit;
+  padding: 5px 10px;
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.comment-trigger {
+  background: var(--color-selection-action-active);
+  font-weight: 500;
+}
+
+.editor-shell__selection-affordances[data-platform="mac"] .quote-affordance,
+.editor-shell__selection-affordances[data-platform="mac"] .comment-trigger {
+  border-radius: 6px;
+}
+
+.quote-affordance:focus-visible,
+.comment-trigger:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -1px;
+}
+
+.comment-popover {
+  position: absolute;
+  z-index: 20;
+  box-sizing: border-box;
+  width: 340px;
+  max-width: calc(100vw - 24px);
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-surface);
+  box-shadow: 0 6px 18px rgba(31, 29, 26, 0.14);
+}
+
+.comment-popover[data-platform="mac"] {
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 8px 22px rgba(31, 29, 26, 0.18), 0 0 0 1px rgba(31, 29, 26, 0.08);
+}
+
+.comment-popover--compose { padding: 12px 11px; }
+.comment-popover--compose[data-platform="mac"] { padding: 12px; }
+.comment-popover--compose .comment-composer { gap: 8px; }
+.comment-composer__body {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 64px;
+  padding: 9px 11px;
+  border: 1px solid #d5d0c4;
+  border-radius: 6px;
+  background: #fff;
+  color: #33302a;
+  font: 13px/16px "IBM Plex Sans", system-ui, sans-serif;
+  resize: vertical;
+}
+.comment-composer__actions { margin-top: 2px; }
+.comment-composer__cancel,
+.comment-composer__submit {
+  appearance: none;
+  box-sizing: border-box;
+  height: 26px;
+  padding: 0;
+  border-radius: 6px;
+  font: 12px/24px "IBM Plex Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+.comment-composer__cancel {
+  width: 62px;
+  border: 1px solid #d5d0c4;
+  background: var(--color-surface);
+  color: var(--color-fg);
+}
+.comment-composer__submit {
+  width: 80px;
+  border: 1px solid #1f1d1a;
+  background: #1f1d1a;
+  color: #fff;
+}
+.comment-composer__submit:disabled { opacity: 0.55; cursor: default; }
+.comment-composer__cancel:focus-visible,
+.comment-composer__submit:focus-visible,
+.comment-composer__body:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.comment-popover[data-platform="mac"] .comment-composer__cancel,
+.comment-popover[data-platform="mac"] .comment-composer__submit { border-radius: 7px; }
+:root[data-theme="dark"] .comment-composer__body {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-fg);
+}
+:root[data-theme="dark"] .comment-composer__cancel { border-color: var(--color-border); }
+:root[data-theme="dark"] .comment-composer__submit {
+  border-color: var(--color-fg);
+  background: var(--color-fg);
+  color: var(--color-surface);
+}
+
+.comment-popover .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed),
+.comments-column .timeline-card[data-card-kind="comment"]:not(.timeline-card--collapsed) {
+  margin: 0;
+}
+
+:root[data-theme="dark"] .comment-popover,
+:root[data-theme="dark"] .comment-popover[data-platform="mac"] {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.38);
+}
+
+.comment-popover__close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  appearance: none;
+  border: none;
+  background: none;
+  color: var(--color-muted);
+  font-size: 1em;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+/* J8 welcome entry; the project-open band is a sibling and pushes this column down. */
+.app-shell--welcome {
+  background: var(--color-editor-canvas-bg);
+}
+
+.welcome-screen {
+  box-sizing: border-box;
+  width: min(520px, calc(100% - 32px));
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 52px 0 40px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+}
+
+.welcome-screen h1 {
+  margin: 0;
+  color: var(--color-fg);
+  font: 600 27px/1.25 "Source Serif 4", Georgia, serif;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.welcome-screen__open-folder {
+  appearance: none;
+  align-self: center;
+  border: 0;
+  border-radius: 6px;
+  background: var(--color-fg);
+  color: var(--color-welcome-primary-fg);
+  padding: 8px 16px;
+  font: 500 12.5px/1.2 "IBM Plex Sans", system-ui, sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.welcome-screen[data-platform="mac"] .welcome-screen__open-folder {
+  border-radius: 7px;
+  box-shadow: 0 1px 2px rgba(31, 29, 26, 0.18);
+}
+
+.welcome-screen__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  min-width: 0;
+}
+
+.welcome-screen__recent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.welcome-screen__recent h2,
+.writing-partners h2 {
+  margin: 0;
+  color: var(--color-welcome-quiet);
+  font: 500 10.5px/1.25 "IBM Plex Sans", system-ui, sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.welcome-screen__recent-empty {
+  margin: 0;
+  color: var(--color-welcome-quiet);
+  font-size: 12.5px;
+}
+
+.welcome-screen__github {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-welcome-quiet);
+  font-size: 11.5px;
+}
+
+.welcome-screen__github p {
+  margin: 0;
+}
+
+.welcome-screen__github button:disabled {
+  flex: none;
+  padding: 4px 9px;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  background: var(--color-editor-canvas-bg);
+  color: var(--color-welcome-quiet);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.writing-partners {
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+}
+
+.provider-chip-list {
+  list-style: none;
+  margin: 9px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.provider-chip {
+  padding: 0;
+  border: 0;
+  color: var(--color-fg);
+  font-size: 12.5px;
+}
+
+.provider-chip__row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.provider-chip__dot {
+  color: var(--color-welcome-quiet);
+  font-size: 10px;
+}
+
+.provider-chip[data-state="signed_in"] .provider-chip__dot {
+  color: #2e6b44;
+}
+.provider-chip[data-state="installed_signed_out"] .provider-chip__label {
+  color: var(--color-welcome-signedout);
+}
+
+.provider-chip[data-state="installed_signed_out"] .provider-chip__dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #bdb8ac;
+  color: transparent;
+  font-size: 0;
+}
+
+.provider-chip__check {
+  margin-left: auto;
+  color: #6e9179;
+}
+
+.provider-chip__action {
+  appearance: none;
+  display: inline-block;
+  margin: 6px 0 0 19px;
+  padding: 3px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-editor-canvas-bg);
+  color: var(--color-fg);
+  font: 400 12px/1.3 "IBM Plex Sans", system-ui, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.provider-chip__signin-detail {
+  margin: 6px 0 0 19px;
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+.provider-chip__signin-detail code {
+  display: block;
+  margin: 4px 0;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: var(--color-editor-canvas-bg);
+}
+
+.writing-partners__zero-state {
+  margin: 8px 0 0;
+  color: var(--color-welcome-quiet);
+  font-size: 12px;
+}
+
+.editor-only-chip {
+  font-size: 12px;
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+.redline-popover__actions {
+  display: flex;
+  gap: 6px;
+}
+
+.redline-popover__actions button {
+  appearance: none;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+/* Integrity banners (P2a-21, ux-design "Document integrity & lifecycle moments"): a non-modal bar
+   across the editor top — CRLF-on-open and external-change (Reload/Keep mine/Compare). Never a
+   dialog: no overlay, no aria-modal, input to the document underneath is never blocked. */
+.integrity-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.integrity-banner__message {
+  margin: 0;
+  font-size: 13px;
+}
+
+.integrity-banner__actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.integrity-banner__action {
+  appearance: none;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+/* The Missing-on-disk banner's second line (J2, #933): the paused-autosave readout, quieter than
+   the message it sits under — a state to know about, not an action to take. */
+.integrity-banner--missing {
+  flex-wrap: wrap;
+}
+
+.integrity-banner__detail {
+  margin: 0;
+  flex-basis: 100%;
+  order: 1;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+/* The safe default (e.g. "Keep mine" when the tab has unsaved edits) — never a silent overwrite. */
+.integrity-banner__action--default {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+/* The FR-ED-7 external-change banner's own appearance (#2074, docs/design/specs/document-
+   integrity.md, mocks 11a/11b/11c). Its own modifier, not a rewrite of the shared `.integrity-
+   banner` base above — the CRLF and Missing-on-disk banners that also render through that base
+   keep their existing chrome; only this family's own instances pick these rules up. It reuses the
+   app's existing `--color-recovery-*` tokens rather than inventing new ones: they are already the
+   exact hex this spec calls for, because this is "the same treatment the 9-series over-cap notice
+   uses... the same class of thing" (document-integrity.md "Why amber"). */
+.integrity-banner--external-change {
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-recovery-border);
+  background-color: var(--color-recovery-bg);
+}
+
+.integrity-banner--external-change[data-platform="mac"] {
+  border-bottom: none;
+  box-shadow: 0 1px 0 var(--color-recovery-border);
+}
+
+.integrity-banner__dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background-color: var(--color-recovery-dot);
+}
+
+.integrity-banner__body {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.integrity-banner--external-change .integrity-banner__message {
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--color-recovery-fg);
+}
+
+.integrity-banner__consequence {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--color-recovery-fg);
+}
+
+/* The failed-Reload Reject-family inset line (11c.5; CJ-ratified action set, #1641 2026-08-28) —
+   the same treatment `.dirty-close-guard__save-error` already carries for a failed write, reused
+   rather than re-specified: identical tokens, identical shape, one vocabulary for "a write failed
+   and here is why" across both surfaces. */
+.integrity-banner__failure {
+  margin: 4px 0 0;
+  padding: 7px 10px;
+  border: 1px solid var(--color-reject-border);
+  border-radius: 5px;
+  background: var(--color-reject-bg);
+  color: var(--color-destructive-action);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.integrity-banner__busy-label {
+  flex: none;
+  align-self: center;
+  font-size: 11.5px;
+  color: var(--color-recovery-fg);
+}
+
+.integrity-banner--external-change .integrity-banner__actions {
+  align-self: center;
+}
+
+/* document-integrity.md "Buttons" (review Important 3, PR #2108): the ordinary action's fill and
+   border are exact tokens this codebase already carries under other names, reused rather than
+   invented — `--color-action-border`/`--color-session-dialog-bg`/`--color-session-dialog-border`
+   are `#D5D0C4`/`#FCFBF8`/`#DCD7CC` verbatim, and the win-border/mac-hairline-box-shadow swap is
+   the same idiom `.session-write-failure__actions button` already uses. */
+.integrity-banner--external-change .integrity-banner__action {
+  border: 1px solid var(--color-action-border);
+  border-radius: 5px;
+  padding: 5px 11px;
+  background: var(--color-session-dialog-bg);
+  font-size: 11.5px;
+}
+
+.integrity-banner--external-change[data-platform="mac"] .integrity-banner__action {
+  border-color: transparent;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--color-session-dialog-border);
+}
+
+/* Scoped to this modifier (review Minor, PR #2108) — not the shared `.integrity-banner__action`
+   base, which the CRLF and Missing-on-disk banners also render through and which this card does
+   not own restyling. `--color-tab-accent` is the app's own ratified "2px #2F5D8C" focus-ring hex,
+   reused below for the highlighted-default fill too. */
+.integrity-banner--external-change .integrity-banner__action:focus-visible {
+  outline: 2px solid var(--color-tab-accent);
+  outline-offset: 1px;
+}
+
+.integrity-banner--external-change .integrity-banner__action:disabled {
+  cursor: default;
+}
+
+/* The highlighted default (`Keep mine` while dirty, `Try again`): solid `#2F5D8C`/white/500 per
+   the same table — `--color-tab-accent` (above) is that exact hex already. `--color-accent-
+   contrast` (not a literal `#ffffff`, review Important 1, PR #2108) is the file's own paired-
+   contrast idiom, and it matters here: dark theme's own accent is a much lighter blue
+   (`--color-accent: #5b8dff`), so a hardcoded white fails AA (3.14:1) where the token itself
+   resolves dark and passes (6.01:1). Light theme is unaffected either way — the token is
+   `#ffffff` there too. */
+.integrity-banner--external-change .integrity-banner__action--default {
+  border-color: transparent;
+  box-shadow: none;
+  background: var(--color-tab-accent);
+  color: var(--color-accent-contrast);
+  font-weight: 500;
+}
+
+.integrity-banner--external-change[data-platform="mac"] .integrity-banner__action--default {
+  box-shadow: none;
+}
+
+/* Reload in progress / a Try again retry (document-integrity.md "Reload in progress"): the three
+   actions dim to 45% and stop responding but are never removed — the row must not reflow while the
+   author is looking at it. `[disabled]` above already stops them responding; this is the dimming. */
+.integrity-banner--external-change[aria-busy="true"] .integrity-banner__action {
+  opacity: 0.45;
+}
+
+/* External-change Compare (v1 side-by-side, ux-design line 417 — no three-way merge editor). */
+.external-change-compare {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+}
+
+.external-change-compare__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.external-change-compare__title {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.external-change-compare__close {
+  appearance: none;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.external-change-compare__panes {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.external-change-compare__pane {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  padding: 8px 10px;
+}
+
+.external-change-compare__pane + .external-change-compare__pane {
+  border-left: 1px solid var(--color-border);
+}
+
+.external-change-compare__pane-title {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.external-change-compare__content {
+  margin: 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

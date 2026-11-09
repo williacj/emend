@@ -1,0 +1,6 @@
+// ABOUTME: Isolated TypeScript project used to prove the production pretest rejects real type errors.
+// ABOUTME: Its invalid probe stays outside src so unrelated production typechecks cannot observe it.
+{
+  "extends": "../../../tsconfig.json",
+  "include": ["../../../src", "./src"]
+}
