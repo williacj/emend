@@ -40,10 +40,10 @@ export type ProjectOpenStatus =
     }>;
 
 export const PROJECT_OPEN_FAILURE_DETAILS: Readonly<Record<ProjectRouteFailure, string>> = {
-  project_unavailable: "That folder isn’t available to Cowrite.",
-  open_failed: "Cowrite couldn’t finish setting up that project.",
-  deadline_expired: "It took too long, so Cowrite stopped waiting.",
-  registry_unavailable: "Cowrite couldn’t keep track of its open windows.",
+  project_unavailable: "That folder isn’t available to Emend.",
+  open_failed: "Emend couldn’t finish setting up that project.",
+  deadline_expired: "It took too long, so Emend stopped waiting.",
+  registry_unavailable: "Emend couldn’t keep track of its open windows.",
   launch_failed: "The new window didn’t start.",
   owner_unavailable: "The window that has it isn’t responding.",
   activation_refused: "The system wouldn’t bring that window to the front.",
@@ -75,7 +75,7 @@ export function projectOpenStatusMessageParts(
     };
   }
   if (status.phase === "close_blocked") {
-    return { prefix: "Cowrite can’t close ", name, suffix: " while a run is in progress." };
+    return { prefix: "Emend can’t close ", name, suffix: " while a run is in progress." };
   }
   switch (status.outcome.status) {
     case "already_open_here":
@@ -86,8 +86,8 @@ export function projectOpenStatusMessageParts(
       return { prefix: "Opened ", name, suffix: " in a new window." };
     case "failed": {
       const prefix = status.outcome.failureRoute === "raise"
-        ? "Cowrite couldn’t bring "
-        : "Cowrite couldn’t open ";
+        ? "Emend couldn’t bring "
+        : "Emend couldn’t open ";
       const suffix = status.outcome.failureRoute === "launch"
         ? " in a new window."
         : status.outcome.failureRoute === "raise" ? " to the front." : ".";

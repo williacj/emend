@@ -718,7 +718,7 @@ describe("editor/TabbedEditor — session restore", () => {
     });
     openDocumentMock.mockRejectedValue({
       kind: "InvalidDocument",
-      message: "Cowrite supports only Markdown and plain-text documents",
+      message: "Emend supports only Markdown and plain-text documents",
     });
     pickSaveAsPathMock.mockReset().mockResolvedValue("/project/drafts/recovered.md");
 
@@ -790,7 +790,7 @@ describe("editor/TabbedEditor — session restore", () => {
     const notice = await screen.findByRole("region", { name: "Unsupported document recovery notice" });
     const toolbar = await screen.findByRole("toolbar", { name: "Editor view controls" });
     expect(toolbar.compareDocumentPosition(notice) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(notice).toHaveTextContent("research/survey-export.csv can’t open as a Cowrite document.");
+    expect(notice).toHaveTextContent("research/survey-export.csv can’t open as an Emend document.");
     expect(notice).toHaveTextContent("The unsaved text this tab held is here, in an untitled document you can edit.");
     expect(notice).toHaveTextContent("Save As… saves it to a supported document path in this project — not to the original file.");
     expect(screen.getByRole("textbox")).toHaveTextContent("retained rows");
@@ -903,7 +903,7 @@ describe("editor/TabbedEditor — session restore", () => {
     await waitFor(() => expect(onError).toHaveBeenCalled());
     expect(onError.mock.calls[0][0]).toBeInstanceOf(UserFacingError);
     expect(onError.mock.calls[0][0].message).toBe(
-      "oversize.rs can’t open as a Cowrite document. Its unsaved work was over the session limit and wasn’t kept.",
+      "oversize.rs can’t open as an Emend document. Its unsaved work was over the session limit and wasn’t kept.",
     );
     expect(screen.getByRole("tab", { name: "oversize.rs — earlier unsaved work was not preserved" }))
       .toBeInTheDocument();
@@ -1015,8 +1015,8 @@ describe("editor/TabbedEditor — session restore", () => {
     render(<TabbedEditor request={request("/project", "untitled:1:b.md")} />);
 
     const pane = await screen.findByRole("region", { name: /recovered from b\.md/ });
-    expect(pane).toHaveTextContent(/larger than the 2 MiB Cowrite keeps per tab/);
-    expect(pane).toHaveTextContent(/Cowrite can’t restore it/);
+    expect(pane).toHaveTextContent(/larger than the 2 MiB Emend keeps per tab/);
+    expect(pane).toHaveTextContent(/Emend can’t restore it/);
   });
 });
 
@@ -2027,7 +2027,7 @@ describe("editor/TabbedEditor — external path transitions", () => {
       path === "archive/a.html"
         ? Promise.reject({
             kind: "InvalidDocument",
-            message: "Cowrite supports only Markdown and plain-text documents",
+            message: "Emend supports only Markdown and plain-text documents",
           })
         : Promise.resolve({ content: contentFor(path), revision: "blake3:x" }),
     );
@@ -2843,7 +2843,7 @@ describe("editor/TabbedEditor — untitled document adoption (D12, FR-ED-8, #137
 
     fireEvent.click(screen.getByRole("button", { name: /Close Untitled — recovered from b\.md/ }));
     expect(await screen.findByRole("alertdialog")).toHaveTextContent(
-      "This document holds unsaved work that Cowrite can't keep in your session — it's over the 2 MiB per-tab limit.",
+      "This document holds unsaved work that Emend can't keep in your session — it's over the 2 MiB per-tab limit.",
     );
   });
 
@@ -3530,7 +3530,7 @@ describe("editor/TabbedEditor — untitled document adoption (D12, FR-ED-8, #137
       "blake3:new",
     ));
     expect(await screen.findByRole("status")).toHaveTextContent(
-      "Saved to drafts/pending.md. Cowrite hasn't yet recorded that the earlier unsaved work wasn't part of it",
+      "Saved to drafts/pending.md. Emend hasn't yet recorded that the earlier unsaved work wasn't part of it",
     );
     expect(screen.getByRole("tab", { name: "drafts/pending.md" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Save As…" })).not.toBeInTheDocument();
@@ -3612,7 +3612,7 @@ describe("editor/TabbedEditor — untitled document adoption (D12, FR-ED-8, #137
     render(<TabbedEditor request={request("/project", "drafts/pending.md")} />);
 
     expect(await screen.findByRole("status")).toHaveTextContent(
-      "Saved to drafts/pending.md. Cowrite hasn't yet recorded that the earlier unsaved work wasn't part of it",
+      "Saved to drafts/pending.md. Emend hasn't yet recorded that the earlier unsaved work wasn't part of it",
     );
   });
 
@@ -4338,7 +4338,7 @@ describe("editor/TabbedEditor — untitled document adoption (D12, FR-ED-8, #137
     act(() => closeRequestedHandler?.({ preventDefault: vi.fn() }));
 
     expect(await screen.findByRole("alertdialog")).toHaveTextContent(
-      "Cowrite couldn't verify a usable previous session",
+      "Emend couldn't verify a usable previous session",
     );
   });
 
@@ -4697,7 +4697,7 @@ describe("editor/TabbedEditor — missing on disk (#933)", () => {
     fireEvent.click(screen.getByRole("button", { name: "Close…" }));
 
     const guard = await screen.findByRole("alertdialog");
-    expect(guard).toHaveTextContent("Close and discard Cowrite’s open copy?");
+    expect(guard).toHaveTextContent("Close and discard Emend’s open copy?");
     fireEvent.click(within(guard).getByRole("button", { name: "Cancel" }));
     expect(screen.queryByRole("alertdialog")).toBeNull();
     expect(screen.getByRole("tab", { name: /notes\/a\.md/ })).toBeInTheDocument();
@@ -4722,7 +4722,7 @@ describe("editor/TabbedEditor — missing on disk (#933)", () => {
     fireEvent.click(screen.getByRole("button", { name: /^Close notes\/a\.md/ }));
 
     const guard = await screen.findByRole("alertdialog");
-    expect(guard).toHaveTextContent("Close and discard Cowrite’s open copy?");
+    expect(guard).toHaveTextContent("Close and discard Emend’s open copy?");
     // FR-ED-3's guard would offer `Save`, which for a document with no file is a write Cowrite
     // cannot perform.
     expect(within(guard).queryByRole("button", { name: "Save" })).toBeNull();

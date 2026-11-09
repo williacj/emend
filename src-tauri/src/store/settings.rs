@@ -424,7 +424,7 @@ impl SettingsService {
         let initial = match load(path) {
             Ok(settings) => Some(settings),
             Err(error) => {
-                eprintln!("Cowrite could not load settings: {error}");
+                eprintln!("Emend could not load settings: {error}");
                 None
             }
         };
@@ -459,7 +459,7 @@ impl SettingsService {
                 // Editing remains available because the frontend owns its safe pre-hydration
                 // value. Keep the invalid/newer file and the load failure honest; a later valid
                 // replacement can establish this service's first last-good snapshot.
-                eprintln!("Cowrite could not load settings: {error}");
+                eprintln!("Emend could not load settings: {error}");
                 None
             }
         };
@@ -480,7 +480,7 @@ impl SettingsService {
                     continue;
                 }
                 if let Err(error) = worker.refresh_from_disk() {
-                    eprintln!("Cowrite could not reload settings after a file change: {error}");
+                    eprintln!("Emend could not reload settings after a file change: {error}");
                 }
             }
         });

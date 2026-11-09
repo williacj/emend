@@ -223,7 +223,7 @@ describe("presentFilePaths", () => {
     expect(present.has("notes")).toBe(false);
   });
 
-  it("counts a row that exists but cannot be read, and a row Cowrite would not open", () => {
+  it("counts a row that exists but cannot be read, and a row Emend would not open", () => {
     // Presence is only "is this path still occupied by this document's file" — an unreadable file
     // has not been deleted, and a non-Markdown file the rail lists as context is still a file. Both
     // would otherwise be reported Missing on disk, sending the user recovery actions for a file

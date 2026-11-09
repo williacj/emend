@@ -82,7 +82,7 @@ function message(failure: MissingRecoveryFailure | null): string {
     return "This file is missing from its project path. Your open copy is safe.";
   }
   if (failure.kind === "confinement") {
-    return "Cowrite can’t safely recreate this file at its original path.";
+    return "Emend can’t safely recreate this file at its original path.";
   }
   // The recorded shared-status wording for a failure (FR-X-5), reused rather than invented so one
   // vocabulary covers every "we couldn't do it, here's why".

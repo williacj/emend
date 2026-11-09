@@ -832,7 +832,7 @@ async function captureIntegrity(browser, viteUrl, driverUrl, platform) {
     await editor.waitFor();
     await editor.click();
     await page.keyboard.press(platform.id === "mac" ? "Meta+A" : "Control+A");
-    await page.keyboard.type("Cowrite's unsaved local edit");
+    await page.keyboard.type("Emend's unsaved local edit");
     writeFileSync(join(root, "notes.md"), "A concurrent editor's bytes");
     await page.getByText("This file changed outside the editor").waitFor();
     await snapshot(page, `${platform.id}-11-changed-on-disk`);
@@ -979,7 +979,7 @@ function assertLegacyUnsupported(observed, platform, state) {
   const formerPath = "research/survey-export.csv";
   if (state === "retained" || state === "composed") {
     assert.equal(observed.title,
-      `${platform.id === "win" ? "Cowrite — " : ""}Untitled — from ${formerPath}`);
+      `${platform.id === "win" ? "Emend — " : ""}Untitled — from ${formerPath}`);
     assert.match(observed.activeTab, /Untitled — recovered from research\/survey-export\.csv/);
     assert.equal(observed.recoveredPath, formerPath);
     assert.equal(observed.directFormerTabCount, 0);
@@ -1000,7 +1000,7 @@ function assertLegacyUnsupported(observed, platform, state) {
       assert.equal(observed.lossText, "", "retained-only recovery must not claim an omission");
     }
   } else {
-    assert.match(observed.refusalText, /research\/survey-export\.csv can’t open as a Cowrite document/);
+    assert.match(observed.refusalText, /research\/survey-export\.csv can’t open as an Emend document/);
     assert.equal(observed.refusalHeight, 46);
     assert.equal(observed.refusalWhiteSpace, "nowrap");
     assert.ok(observed.refusalLineHeight <= 21, "D27 refusal must remain one line");
@@ -1084,7 +1084,7 @@ async function captureLegacyUnsupported(browser, viteUrl, driverUrl, platform) {
           assert.equal(readFileSync(join(root, formerPath), "utf8"), originalText);
           assert.equal(await page.getByRole("region", { name: "Unsupported document recovery notice" }).count(), 0);
           observed = await inspectLegacyUnsupported(page);
-          assert.equal(observed.title, `${platform.id === "win" ? "Cowrite — " : ""}recovered.md`);
+          assert.equal(observed.title, `${platform.id === "win" ? "Emend — " : ""}recovered.md`);
           await snapshot(page, `${platform.id}-9h-adopted-1400`, null,
             metadata({ ...observed, adoptedDestination: destination }));
         }
@@ -2252,7 +2252,7 @@ async function captureHeldProjectRouting(browser, viteUrl, driverUrl, platform) 
     const failedRequest = page.evaluate((projectRoot) =>
       window.__EMEND_E2E__?.openProjectFolder(projectRoot), missingRoot);
     failedRequest.catch(() => {});
-    const failureText = `Cowrite couldn’t open ${missingRoot.split(/[\\/]/).pop()}. That folder isn’t available to Cowrite.`;
+    const failureText = `Emend couldn’t open ${missingRoot.split(/[\\/]/).pop()}. That folder isn’t available to Emend.`;
     await captureHeldProjectOpen(page, platform, held, "13e-requesting", "requesting",
       `Opening ${missingRoot.split(/[\\/]/).pop()}…`);
     await page.getByRole("button", { name: "Dismiss" }).click();
@@ -2336,7 +2336,7 @@ async function captureFallback(browser, viteUrl, driverUrl, platform) {
       await author.page.getByRole("button", { name: "Reload window" }).click();
       await author.page.getByRole("button", { name: "Reloading window…" }).waitFor();
       await snapshot(author.page, `${platform.id}-12-reload-pending`);
-      await author.page.getByText("Cowrite couldn’t reload this window. Try again.").waitFor({ timeout: 20_000 });
+      await author.page.getByText("Emend couldn’t reload this window. Try again.").waitFor({ timeout: 20_000 });
       await snapshot(author.page, `${platform.id}-12-reload-failed`);
     } finally {
       releaseProject();

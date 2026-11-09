@@ -207,7 +207,7 @@ export function SettingsDialog({
               <div className="settings-dialog__failure" role="alert">
                 <p>
                   {failureMessage(
-                    "Cowrite couldn’t load Settings.",
+                    "Emend couldn’t load Settings.",
                     storeSnapshot.error,
                   )}
                 </p>

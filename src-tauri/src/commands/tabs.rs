@@ -903,10 +903,7 @@ mod tests {
             "commands::tabs::tests::tab_session_lease_holder_subprocess",
             &[
                 ("EMEND_TAB_SESSION_CHILD_ROOT", root.as_ref()),
-                (
-                    "EMEND_TAB_SESSION_CHILD_DATA",
-                    app_data.path().as_os_str(),
-                ),
+                ("EMEND_TAB_SESSION_CHILD_DATA", app_data.path().as_os_str()),
             ],
             "EMEND_TAB_SESSION_LEASE_READY",
         );

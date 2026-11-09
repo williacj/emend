@@ -54,7 +54,7 @@ describe("editor/MissingDocumentGuard", () => {
     );
 
     expect(
-      screen.getByText(/no longer exists on disk\. Close and discard Cowrite’s open copy\?/),
+      screen.getByText(/no longer exists on disk\. Close and discard Emend’s open copy\?/),
     ).toBeTruthy();
     expect(screen.getByRole("button", { name: "Cancel" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Save As…" })).toBeTruthy();

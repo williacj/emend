@@ -120,7 +120,7 @@ describe("listenForBackendEvent", () => {
     await vi.waitFor(() => expect(later).toHaveBeenCalledWith("second"));
     expect(sibling).toHaveBeenCalledWith("first");
     expect(error).toHaveBeenCalledWith(
-      "Cowrite backend event handler failed for event/a",
+      "Emend backend event handler failed for event/a",
       expect.any(Error),
     );
     expect(sessionStorage.getItem("cowrite.driverEvents.cursor.v1")).toBe(

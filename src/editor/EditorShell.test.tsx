@@ -1289,7 +1289,7 @@ describe("editor/EditorShell — integrity banners (P2a-21)", () => {
         ).toBeTruthy(),
       );
       expect(
-        screen.getByText("Cowrite didn’t write over it. Choose Reload, Keep mine, or Compare."),
+        screen.getByText("Emend didn’t write over it. Choose Reload, Keep mine, or Compare."),
       ).toBeTruthy();
       expect(screen.queryByText("This file changed outside the editor")).toBeNull();
     });
@@ -2568,7 +2568,7 @@ describe("editor/EditorShell — Missing on disk (#933)", () => {
       fireEvent.click(await screen.findByRole("button", { name: "Recreate" }));
 
       expect(
-        await screen.findByText("Cowrite can’t safely recreate this file at its original path."),
+        await screen.findByText("Emend can’t safely recreate this file at its original path."),
       ).toBeTruthy();
       expect(screen.getByRole("button", { name: "Save As…" })).toBeTruthy();
       expect(screen.queryByRole("button", { name: "Recreate" })).toBeNull();
@@ -2584,7 +2584,7 @@ describe("editor/EditorShell — Missing on disk (#933)", () => {
       fireEvent.click(await screen.findByRole("button", { name: "Recreate" }));
 
       expect(
-        await screen.findByText("Cowrite couldn’t complete the requested action. disk full"),
+        await screen.findByText("Emend couldn’t complete the requested action. disk full"),
       ).toBeTruthy();
       expect(onMissingResolved).not.toHaveBeenCalled();
     });
@@ -2994,7 +2994,7 @@ describe("editor/EditorShell — Missing on disk (#933)", () => {
       // unresolved. The banner rewrites both lines rather than showing the ordinary observed copy.
       expect(screen.getByText("Not saved — this file changed outside the editor")).toBeTruthy();
       expect(
-        screen.getByText("Cowrite didn’t write over it. Choose Reload, Keep mine, or Compare."),
+        screen.getByText("Emend didn’t write over it. Choose Reload, Keep mine, or Compare."),
       ).toBeTruthy();
       expect(container.querySelector(".cm-content")).toHaveTextContent(
         "typed while the file was gone",
@@ -3310,7 +3310,7 @@ describe("editor/EditorShell — Missing on disk (#933)", () => {
       return read;
     }
 
-    it("runs an edit made during that read once it proves the file came back as Cowrite knew it", async () => {
+    it("runs an edit made during that read once it proves the file came back as Emend knew it", async () => {
       const { container, rerender } = await mountMissing(paused);
       const read = await typeIntoThePause(container, rerender);
 

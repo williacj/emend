@@ -17,7 +17,7 @@ export function WelcomeScreen({
 }) {
   return (
     <div className="welcome-screen" data-platform={platform}>
-      <h1>Welcome to Cowrite</h1>
+      <h1>Welcome to Emend</h1>
       <button type="button" className="welcome-screen__open-folder" onClick={onOpenFolder}>
         Open a folder…
       </button>

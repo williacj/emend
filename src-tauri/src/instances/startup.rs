@@ -112,7 +112,7 @@ pub fn route_startup_intent(
     match intent {
         StartupIntent::Cold => StartupCompletion::Show,
         StartupIntent::Invalid { reason } => {
-            eprintln!("Cowrite ignored invalid startup arguments: {reason}");
+            eprintln!("Emend ignored invalid startup arguments: {reason}");
             StartupCompletion::Show
         }
         StartupIntent::DirectProject { root } => {
@@ -154,7 +154,7 @@ fn route_direct_project(
                 observers,
                 app_local_data_dir,
             ) {
-                eprintln!("Cowrite could not open the startup project: {error:?}");
+                eprintln!("Emend could not open the startup project: {error:?}");
             }
             StartupCompletion::Show
         }
@@ -164,7 +164,7 @@ fn route_direct_project(
             StartupCompletion::Show
         }
         Err(error) => {
-            eprintln!("Cowrite could not resolve the startup project: {error}");
+            eprintln!("Emend could not resolve the startup project: {error}");
             StartupCompletion::Show
         }
     }
@@ -206,7 +206,7 @@ fn route_routed_project_with_writer(
     let action = match resolve(root, state, registry) {
         Ok(action) => action,
         Err(error) => {
-            eprintln!("Cowrite could not resolve the routed startup project: {error}");
+            eprintln!("Emend could not resolve the routed startup project: {error}");
             return routed_non_adoption_completion();
         }
     };
@@ -242,7 +242,7 @@ fn route_routed_project_with_writer(
             AnswerStatus::AlreadyAnswered | AnswerStatus::Expired | AnswerStatus::MissingOrCorrupt,
         ) => routed_non_adoption_completion(),
         Err(error) => {
-            eprintln!("Cowrite could not complete routed startup: {error}");
+            eprintln!("Emend could not complete routed startup: {error}");
             routed_non_adoption_completion()
         }
     }

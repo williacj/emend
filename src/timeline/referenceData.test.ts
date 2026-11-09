@@ -51,7 +51,7 @@ describe("#2539 J13 batch copy", () => {
     expect(activeDocumentOutboundDisclosure({ active: { path: "notes/draft.md", dirty: true, content: "edited" }, alsoOpen: [] }))
       .toBe("carried draft.md as edited");
     expect(activeDocumentOutboundDisclosure({ active: { path: "notes/draft.md", dirty: true, content: "é".repeat(131_073) }, alsoOpen: [] }))
-      .toBe("carried draft.md by name only — over Cowrite’s size limit");
+      .toBe("carried draft.md by name only — over Emend’s size limit");
   });
 });
 

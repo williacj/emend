@@ -92,7 +92,7 @@ function deliverToHandlers(event: DriverEvent, handlers: Set<Handler>): void {
       // Match independent native listener callbacks: one consumer cannot end the shared D23 pump
       // or make the cursor skip its siblings. The event name diagnoses the channel without logging
       // a document-bearing payload.
-      console.error(`Cowrite backend event handler failed for ${event.event}`, error);
+      console.error(`Emend backend event handler failed for ${event.event}`, error);
     }
   }
 }

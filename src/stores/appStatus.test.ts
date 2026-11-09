@@ -14,7 +14,7 @@ import {
 } from "./appStatus";
 
 const AUTHOR_PREFIX =
-  "Something inside Cowrite didn’t finish. If something doesn’t look right, this may be why.";
+  "Something inside Emend didn’t finish. If something doesn’t look right, this may be why.";
 
 describe("app-scoped status seam (TD-25, #2102)", () => {
   beforeEach(() => {

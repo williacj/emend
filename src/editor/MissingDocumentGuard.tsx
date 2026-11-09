@@ -59,7 +59,7 @@ export function MissingDocumentGuard({
       <p className="dirty-close-guard__message">
         {closing ? (
           <>
-            <strong>{label}</strong> no longer exists on disk. Close and discard Cowrite’s open
+            <strong>{label}</strong> no longer exists on disk. Close and discard Emend’s open
             copy?
           </>
         ) : (

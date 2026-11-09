@@ -73,7 +73,7 @@ export function errorDetail(error: unknown, fallback = ""): string {
  * (ux-design "Status region") rather than a dangling trailing space.
  */
 export function formatActionFailure(detail: string): string {
-  return `Cowrite couldn’t complete the requested action. ${detail || "Try again."}`;
+  return `Emend couldn’t complete the requested action. ${detail || "Try again."}`;
 }
 
 /**
@@ -102,6 +102,6 @@ export function formatDocumentActionFailure(error: unknown): string {
   if (error instanceof UserFacingError) return error.message;
   const detail = errorDetail(error);
   return detail
-    ? `Cowrite couldn’t complete the document action. ${detail}`
-    : "Cowrite couldn’t complete the document action. Try again.";
+    ? `Emend couldn’t complete the document action. ${detail}`
+    : "Emend couldn’t complete the document action. Try again.";
 }

@@ -1618,7 +1618,7 @@ export const EditorShell = forwardRef<EditorShellHandle, EditorShellProps>(funct
       setRecoveryPhase(null);
       return;
     }
-    const reason = errorDetail(lastSaveErrorRef.current) || "Cowrite couldn’t finish the write.";
+    const reason = errorDetail(lastSaveErrorRef.current) || "Emend couldn’t finish the write.";
     setRecoveryPhase({ kind: "failed", reason, retrying: false, diskContent: diskSide });
   };
 

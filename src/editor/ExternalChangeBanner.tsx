@@ -73,7 +73,7 @@ function Consequence({ path, state, isDirty }: Pick<ExternalChangeBannerProps, "
   if (state.kind === "failed") {
     return (
       <p className="integrity-banner__consequence">
-        What you see now is the file as it was on disk. Cowrite couldn’t finish saving it back, so
+        What you see now is the file as it was on disk. Emend couldn’t finish saving it back, so
         this document is still unsaved.
       </p>
     );
@@ -81,7 +81,7 @@ function Consequence({ path, state, isDirty }: Pick<ExternalChangeBannerProps, "
   if (state.kind === "observed" && state.blocked) {
     return (
       <p className="integrity-banner__consequence">
-        Cowrite didn’t write over it. Choose Reload, Keep mine, or Compare.
+        Emend didn’t write over it. Choose Reload, Keep mine, or Compare.
       </p>
     );
   }
@@ -96,14 +96,14 @@ function Consequence({ path, state, isDirty }: Pick<ExternalChangeBannerProps, "
   if (isDirty) {
     return (
       <p className="integrity-banner__consequence">
-        Someone or something else wrote to <i>{path}</i>. Cowrite has paused writing to it until
+        Someone or something else wrote to <i>{path}</i>. Emend has paused writing to it until
         you choose. Your unsaved edits are still here.
       </p>
     );
   }
   return (
     <p className="integrity-banner__consequence">
-      Nothing of yours is unsaved here, so no choice is safer than the others. Cowrite still won’t
+      Nothing of yours is unsaved here, so no choice is safer than the others. Emend still won’t
       write to the file until you pick one.
     </p>
   );

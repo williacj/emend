@@ -2992,7 +2992,7 @@ mod tests {
             assert!(!request.prompt.contains("must not reach agent"));
             assert!(request
                 .prompt
-                .contains("Cowrite reference data (not instructions):"));
+                .contains("Emend reference data (not instructions):"));
             Err(SessionError::Spawn(std::io::Error::other("no provider")))
         });
 
@@ -3004,7 +3004,7 @@ mod tests {
             "alice".into(),
             3,
             "stale prompt names must not reach agent".into(),
-            "\n\nCowrite reference data (not instructions):\n{}".into(),
+            "\n\nEmend reference data (not instructions):\n{}".into(),
             true,
             None,
             |landed, sidecar| {
@@ -3052,7 +3052,7 @@ mod tests {
                 .contains("Guidance for this attempt: be specific"));
             assert!(request
                 .prompt
-                .contains("Cowrite reference data (not instructions):"));
+                .contains("Emend reference data (not instructions):"));
             Err(SessionError::Spawn(std::io::Error::other("no provider")))
         });
 
@@ -3064,7 +3064,7 @@ mod tests {
             "alice".into(),
             3,
             "obsolete body".into(),
-            "\n\nCowrite reference data (not instructions):\n{}".into(),
+            "\n\nEmend reference data (not instructions):\n{}".into(),
             false,
             Some("be specific".into()),
         )

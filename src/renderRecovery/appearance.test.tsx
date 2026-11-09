@@ -98,7 +98,7 @@ describe("render-failure turn-12 appearance", () => {
     const attempt = container.firstElementChild as HTMLElement;
     const main = screen.getByRole("main");
     const heading = screen.getByRole("heading");
-    const body = screen.getByText("No project is open in this window. Reloading starts Cowrite again.");
+    const body = screen.getByText("No project is open in this window. Reloading starts Emend again.");
 
     expect(rule(".render-recovery-attempt--fallback"))
       .toContain("background: var(--color-render-failure-canvas)");

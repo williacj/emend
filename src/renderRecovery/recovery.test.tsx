@@ -96,9 +96,9 @@ describe("render recovery contracts (TD-28 / J15)", () => {
     );
 
     const fallback = await screen.findByRole("main", {
-      name: "Cowrite can’t show this window right now.",
+      name: "Emend can’t show this window right now.",
     });
-    expect(fallback).toHaveTextContent("Reloading starts Cowrite again.");
+    expect(fallback).toHaveTextContent("Reloading starts Emend again.");
     expect(fallback, "fallback must not render caller-selected ghp_abc123")
       .not.toHaveTextContent("ghp_abc123");
     expect(fallback).not.toHaveTextContent("AcquisitionPlan");
@@ -125,18 +125,18 @@ describe("render recovery contracts (TD-28 / J15)", () => {
       );
       const main = await screen.findByRole("main");
       if (context.selector === "reviewer") {
-        expect(main).toHaveAccessibleName("Cowrite can’t show this review right now.");
+        expect(main).toHaveAccessibleName("Emend can’t show this review right now.");
         expect(main).toHaveTextContent("A comment or suggestion that was in progress may not have been sent.");
       } else if (context.selector === "author-project") {
         expect(main).toHaveTextContent("Your saved documents are still in the project folder.");
         expect(main).toHaveTextContent(
-          context.runWasActive ? "it may still be active" : "Cowrite can’t confirm from this screen",
+          context.runWasActive ? "it may still be active" : "Emend can’t confirm from this screen",
         );
         if (!context.runWasActive) expect(main).not.toHaveTextContent("it may still be active");
       } else if (context.selector === "author-no-project") {
         expect(main).toHaveTextContent("No project is open in this window.");
       } else {
-        expect(main).toHaveTextContent("Reloading starts Cowrite again.");
+        expect(main).toHaveTextContent("Reloading starts Emend again.");
         expect(main).not.toHaveTextContent("project");
       }
       mounted.unmount();
@@ -296,7 +296,7 @@ describe("render recovery contracts (TD-28 / J15)", () => {
     await waitFor(() => expect(scheduleTimeout).toHaveBeenCalledWith(expect.any(Function), 20));
     await act(async () => expire?.());
     expect(screen.getByRole("status")).toHaveTextContent(
-      "Cowrite couldn’t reload this window. Try again.",
+      "Emend couldn’t reload this window. Try again.",
     );
     act(() => lateReady?.());
     expect(screen.queryByText("hidden candidate")).not.toBeInTheDocument();
@@ -316,7 +316,7 @@ describe("render recovery contracts (TD-28 / J15)", () => {
     fireEvent.click(await screen.findByRole("button", { name: "Reload window" }));
     fireEvent.click(await screen.findByRole("button", { name: "reject candidate setup", hidden: true }));
     expect(await screen.findByRole("status")).toHaveTextContent(
-      "Cowrite couldn’t reload this window. Try again.",
+      "Emend couldn’t reload this window. Try again.",
     );
     expect(screen.queryByRole("button", { name: "reject candidate setup", hidden: true }))
       .not.toBeInTheDocument();
@@ -324,13 +324,13 @@ describe("render recovery contracts (TD-28 / J15)", () => {
 
   it("assembles every author guard subset and one reviewer refusal", () => {
     expect(assembleCloseRefusal("author", { dirty: true, untitled: false, run: false })).toBe(
-      "Cowrite can’t close this window yet. There’s unsaved work. Reload the window to get the ordinary controls back.",
+      "Emend can’t close this window yet. There’s unsaved work. Reload the window to get the ordinary controls back.",
     );
     expect(assembleCloseRefusal("author", { dirty: true, untitled: true, run: true })).toBe(
-      "Cowrite can’t close this window yet. There’s unsaved work, an untitled document is open, and an agent run may still be active. Reload the window to get the ordinary controls back.",
+      "Emend can’t close this window yet. There’s unsaved work, an untitled document is open, and an agent run may still be active. Reload the window to get the ordinary controls back.",
     );
     expect(assembleCloseRefusal("reviewer", { draft: true })).toBe(
-      "Cowrite can’t close this review yet. A comment or suggestion may not have been sent. Reload the window to get the ordinary controls back.",
+      "Emend can’t close this review yet. A comment or suggestion may not have been sent. Reload the window to get the ordinary controls back.",
     );
   });
 
@@ -338,7 +338,7 @@ describe("render recovery contracts (TD-28 / J15)", () => {
     const context = CONTEXTS[1];
     expect(decideFallbackClose(context, "unknown")).toEqual({
       action: "refuse",
-      reason: "Cowrite can’t close this window yet. An agent run may still be active. Reload the window to get the ordinary controls back.",
+      reason: "Emend can’t close this window yet. An agent run may still be active. Reload the window to get the ordinary controls back.",
     });
     expect(decideFallbackClose(context, "idle")).toEqual({ action: "destroy" });
     expect(decideFallbackClose(context, "active-or-awaiting").action).toBe("refuse");
@@ -472,7 +472,7 @@ describe("render recovery contracts (TD-28 / J15)", () => {
     expect(screen.getByRole("status")).toHaveTextContent("unsaved work");
     await act(async () => rejectRelease?.(new Error("release failed")));
     await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent(
-      "Cowrite couldn’t reload this window. Try again.",
+      "Emend couldn’t reload this window. Try again.",
     ));
     expect(screen.getByRole("button", { name: "Reload window" })).toHaveFocus();
   });
@@ -539,7 +539,7 @@ describe("render recovery contracts (TD-28 / J15)", () => {
       const projection = mask & 4 ? "active-or-awaiting" : "idle";
       expect(decideFallbackClose(context, projection)).toEqual({
         action: "refuse",
-        reason: `Cowrite can’t close this window yet. ${expected[mask - 1]}. Reload the window to get the ordinary controls back.`,
+        reason: `Emend can’t close this window yet. ${expected[mask - 1]}. Reload the window to get the ordinary controls back.`,
       });
     }
     expect(decideFallbackClose(CONTEXTS[3], "idle").action).toBe("refuse");

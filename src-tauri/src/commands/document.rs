@@ -78,7 +78,7 @@ pub(crate) fn is_supported_document_path(path: &Path) -> bool {
 
 fn unsupported_document_message(path: &Path) -> String {
     format!(
-        "Cowrite supports only Markdown and plain-text documents (.md, .markdown, .mdown, .mkd, .mkdn, .txt): {}",
+        "Emend supports only Markdown and plain-text documents (.md, .markdown, .mdown, .mkd, .mkdn, .txt): {}",
         path.display()
     )
 }

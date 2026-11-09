@@ -63,9 +63,9 @@ describe("project-open status (J9, #1752)", () => {
   });
 
   it.each([
-    ["launch", "Cowrite couldn’t open launch-plan in a new window."],
-    ["raise", "Cowrite couldn’t bring launch-plan to the front."],
-    ["undetermined", "Cowrite couldn’t open launch-plan."],
+    ["launch", "Emend couldn’t open launch-plan in a new window."],
+    ["raise", "Emend couldn’t bring launch-plan to the front."],
+    ["undetermined", "Emend couldn’t open launch-plan."],
   ] as const)("selects the %s leading sentence only from failureRoute", (failureRoute, expected) => {
     const status = reduce({
       status: "finished",
@@ -85,10 +85,10 @@ describe("project-open status (J9, #1752)", () => {
 
   it("binds all seven backend reasons to the ratified broad detail strings", () => {
     expect(PROJECT_OPEN_FAILURE_DETAILS).toEqual({
-      project_unavailable: "That folder isn’t available to Cowrite.",
-      open_failed: "Cowrite couldn’t finish setting up that project.",
-      deadline_expired: "It took too long, so Cowrite stopped waiting.",
-      registry_unavailable: "Cowrite couldn’t keep track of its open windows.",
+      project_unavailable: "That folder isn’t available to Emend.",
+      open_failed: "Emend couldn’t finish setting up that project.",
+      deadline_expired: "It took too long, so Emend stopped waiting.",
+      registry_unavailable: "Emend couldn’t keep track of its open windows.",
       launch_failed: "The new window didn’t start.",
       owner_unavailable: "The window that has it isn’t responding.",
       activation_refused: "The system wouldn’t bring that window to the front.",

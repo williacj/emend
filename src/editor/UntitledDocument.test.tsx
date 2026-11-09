@@ -666,7 +666,7 @@ describe("editor/UntitledDocument", () => {
     );
 
     expect(screen.getByRole("status")).toHaveTextContent(
-      "Cowrite couldn’t complete the requested action. That file is outside the open project.",
+      "Emend couldn’t complete the requested action. That file is outside the open project.",
     );
     expect(screen.getByRole("textbox")).toHaveTextContent("displaced work");
   });
@@ -688,7 +688,7 @@ describe("editor/UntitledDocument", () => {
     });
     expect(notice).toHaveAttribute("aria-live", "polite");
     expect(notice).toHaveTextContent("Your earlier unsaved work couldn’t be preserved.");
-    expect(notice).toHaveTextContent("larger than the 2 MiB Cowrite keeps per tab in its session");
+    expect(notice).toHaveTextContent("larger than the 2 MiB Emend keeps per tab in its session");
     expect(notice).toHaveTextContent("It doesn’t bring back what wasn’t kept.");
     expect(screen.getByText("Nothing was recovered into this document — you can start writing here.")).toHaveClass(
       "cm-placeholder",
@@ -717,7 +717,7 @@ describe("editor/UntitledDocument", () => {
     expect(reason.querySelector(".untitled-document__loss-provenance")).toHaveTextContent(
       "This untitled tab holds work from drafts/b.md.",
     );
-    expect(reason.textContent).toContain("An earlier unsaved buffer was larger than the 2 MiB Cowrite keeps per tab");
+    expect(reason.textContent).toContain("An earlier unsaved buffer was larger than the 2 MiB Emend keeps per tab");
     expect(reason.textContent?.endsWith("It doesn’t bring back what wasn’t kept.")).toBe(true);
   });
 
@@ -815,9 +815,9 @@ describe("editor/UntitledDocument", () => {
     const notice = screen.getByRole("region", {
       name: "Session durability warning, untitled document from b.md",
     });
-    expect(notice).toHaveTextContent("This work is here, but Cowrite can't keep it in your session.");
+    expect(notice).toHaveTextContent("This work is here, but Emend can't keep it in your session.");
     expect(notice).toHaveTextContent(
-      "It's larger than the 2 MiB Cowrite can hold per tab, so it won't be there after you quit. Nothing has been lost — the text is in front of you. Save As… puts it in the project, and that is the only way to keep it.",
+      "It's larger than the 2 MiB Emend can hold per tab, so it won't be there after you quit. Nothing has been lost — the text is in front of you. Save As… puts it in the project, and that is the only way to keep it.",
     );
     expect(notice).not.toHaveTextContent(/not preserved/i);
     expect(within(notice).queryByRole("button", { name: /Hide message/i })).not.toBeInTheDocument();
@@ -838,10 +838,10 @@ describe("editor/UntitledDocument", () => {
     const notice = screen.getByRole("region", {
       name: "Session durability and recovery notice, untitled document from b.md",
     });
-    expect(notice).toHaveTextContent("This work is here, but Cowrite can't keep it in your session.");
+    expect(notice).toHaveTextContent("This work is here, but Emend can't keep it in your session.");
     expect(notice).toHaveTextContent("What you have written since is larger than");
     expect(notice).toHaveTextContent(
-      "Separately: the earlier unsaved work this tab was opened to hold was not preserved, and Cowrite can't restore it. Saving now keeps what you wrote — it doesn't bring that back.",
+      "Separately: the earlier unsaved work this tab was opened to hold was not preserved, and Emend can't restore it. Saving now keeps what you wrote — it doesn't bring that back.",
     );
     expect(notice.querySelector(".untitled-document__loss-separator")).not.toBeNull();
     expect(screen.getByRole("button", { name: "Hide message" })).toBeInTheDocument();
