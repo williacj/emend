@@ -6,7 +6,7 @@ ABOUTME: Records the measured match, design ambiguity, and limits of the control
 Regenerate from the repository root:
 
 ```sh
-COWRITE_ALIGNMENT_SCENARIO='refresh23 dark' COWRITE_ALIGNMENT_OUTPUT=docs/alignment-refresh23-dark node scripts/capture-design-alignment.mjs
+EMEND_ALIGNMENT_SCENARIO='refresh23 dark' EMEND_ALIGNMENT_OUTPUT=docs/alignment-refresh23-dark node scripts/capture-design-alignment.mjs
 node --test --test-name-pattern='refresh \(23\) dark' scripts/capture-design-alignment.test.mjs
 ```
 

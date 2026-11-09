@@ -125,8 +125,8 @@ test('normalizes Windows separators but treats case-changed contract paths as un
 function prEnv(overrides = {}) {
   return {
     GITHUB_EVENT_NAME: 'pull_request',
-    COWRITE_EVENT_BASE_SHA: SHA_A,
-    COWRITE_EVENT_HEAD_SHA: SHA_B,
+    EMEND_EVENT_BASE_SHA: SHA_A,
+    EMEND_EVENT_HEAD_SHA: SHA_B,
     ...overrides,
   };
 }
@@ -219,7 +219,7 @@ test('workflow dispatch and schedule always run all without pull-request metadat
 
 test('metadata, checkout, fetch, ancestry, diff, output-overflow, and empty uncertainty all fail closed', async () => {
   const cases = [
-    { env: prEnv({ COWRITE_EVENT_BASE_SHA: 'bad' }), runGit: immutableGitFixture().runGit },
+    { env: prEnv({ EMEND_EVENT_BASE_SHA: 'bad' }), runGit: immutableGitFixture().runGit },
     { env: prEnv(), runGit: immutableGitFixture({ checkoutHead: 'c'.repeat(40) }).runGit },
     { env: prEnv(), runGit: immutableGitFixture({ basePresent: false, fetchStatus: 1 }).runGit },
     { env: prEnv(), runGit: immutableGitFixture({ ancestor: false }).runGit },
@@ -265,7 +265,7 @@ test('event movement cannot retarget the already-captured immutable diff SHAs', 
   const env = prEnv();
   const fixture = immutableGitFixture();
   const runGit = (args, options) => {
-    if (args[0] === 'diff') env.COWRITE_EVENT_HEAD_SHA = 'c'.repeat(40);
+    if (args[0] === 'diff') env.EMEND_EVENT_HEAD_SHA = 'c'.repeat(40);
     return fixture.runGit(args, options);
   };
   const result = await classifyPullRequest({ env, runGit });

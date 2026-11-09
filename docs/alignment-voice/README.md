@@ -6,7 +6,7 @@ ABOUTME: Separates a typed visual owner fixture from real microphone, native-win
 Regenerate from the repository root with:
 
 ```sh
-COWRITE_ALIGNMENT_SCENARIO=voice COWRITE_ALIGNMENT_OUTPUT=docs/alignment-voice node scripts/capture-design-alignment.mjs
+EMEND_ALIGNMENT_SCENARIO=voice EMEND_ALIGNMENT_OUTPUT=docs/alignment-voice node scripts/capture-design-alignment.mjs
 ```
 
 [`measurements.json`](./measurements.json) records the exact Git source revision, browser viewport, loaded fonts, CSS/DOM geometry, and per-image owner phase. The capture runs production Vite, React, CodeMirror, CSS, the overflow toolbar, the comment route and the D23 backend against a disposable document. D23 has **no linked voice owner**. The script supplies typed `get_voice_status`, `start_voice_dictation`, `cancel_voice_dictation`, and `voice://dictation` responses only at that absent transport boundary. The resulting images establish visual composition, not physical microphone capture, a Whisper transcript, native Windows chrome, or end-to-end voice behavior. `Win32` and `MacIntel` navigator overrides select the two browser platform styles; every frame uses light color scheme, 900px height, and device scale 1.

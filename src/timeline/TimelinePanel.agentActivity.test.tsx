@@ -545,7 +545,7 @@ describe("timeline/TimelinePanel — agent activity streaming (P2a integration #
 
   it("does not expose an in-process agent-activity producer through the D23 test harness (#1826)", () => {
     render(<TimelinePanel />);
-    expect("notifyAgentActivity" in (window.__COWRITE_E2E__ ?? {})).toBe(false);
+    expect("notifyAgentActivity" in (window.__EMEND_E2E__ ?? {})).toBe(false);
   });
 
   it("does not force-scroll a scrolled-up reader when an activity push arrives (Principle 2)", async () => {

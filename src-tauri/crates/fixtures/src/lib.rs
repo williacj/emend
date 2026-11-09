@@ -116,10 +116,10 @@ pub struct Manifest {
 /// Absolute path to the corpus root (`fixtures/corpus`).
 ///
 /// Resolution order:
-/// 1. `COWRITE_FIXTURES_DIR` env var, if set (points directly at the corpus root).
+/// 1. `EMEND_FIXTURES_DIR` env var, if set (points directly at the corpus root).
 /// 2. Otherwise, relative to this crate: `<crate>/../../../fixtures/corpus`.
 pub fn corpus_dir() -> PathBuf {
-    if let Some(dir) = std::env::var_os("COWRITE_FIXTURES_DIR") {
+    if let Some(dir) = std::env::var_os("EMEND_FIXTURES_DIR") {
         return PathBuf::from(dir);
     }
     // <repo>/src-tauri/crates/fixtures -> <repo>

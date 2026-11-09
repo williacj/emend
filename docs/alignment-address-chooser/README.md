@@ -6,7 +6,7 @@ ABOUTME: Separates rendered browser geometry and palette from native desktop win
 Regenerate from the repository root:
 
 ```sh
-COWRITE_ALIGNMENT_SCENARIO='turn 15 chooser' COWRITE_ALIGNMENT_OUTPUT=docs/alignment-address-chooser node scripts/capture-design-alignment.mjs
+EMEND_ALIGNMENT_SCENARIO='turn 15 chooser' EMEND_ALIGNMENT_OUTPUT=docs/alignment-address-chooser node scripts/capture-design-alignment.mjs
 ```
 
 | Window | Windows light | Windows dark | macOS light | macOS dark |

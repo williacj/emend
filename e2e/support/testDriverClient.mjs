@@ -1,9 +1,9 @@
 // ABOUTME: Shared HTTP client for the D23 headless test driver (crates/test-driver) — one POST +
 // ABOUTME: JSON round trip every driver-backed e2e helper (comments, document birth, ...) reuses
 // ABOUTME: rather than each carrying its own copy (CLAUDE.md: never copy-paste — extract and import).
-const TEST_DRIVER_URL = process.env.COWRITE_E2E_TEST_DRIVER_URL;
+const TEST_DRIVER_URL = process.env.EMEND_E2E_TEST_DRIVER_URL;
 if (!TEST_DRIVER_URL) {
-  throw new Error("COWRITE_E2E_TEST_DRIVER_URL must be set by playwright.config.mjs");
+  throw new Error("EMEND_E2E_TEST_DRIVER_URL must be set by playwright.config.mjs");
 }
 
 /**

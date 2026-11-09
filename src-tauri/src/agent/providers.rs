@@ -36,7 +36,7 @@ impl ProviderId {
         match self {
             ProviderId::ClaudeCode => crate::agent::claude::binary(),
             ProviderId::Copilot => {
-                env::var("COWRITE_COPILOT_BIN").unwrap_or_else(|_| "copilot".into())
+                env::var("EMEND_COPILOT_BIN").unwrap_or_else(|_| "copilot".into())
             }
         }
     }
@@ -522,14 +522,14 @@ mod tests {
     #[cfg(windows)]
     #[test]
     fn windows_cmd_probe_has_no_visible_console() {
-        if std::env::var_os("COWRITE_PROBE_CONSOLE_PARENT").is_none() {
+        if std::env::var_os("EMEND_PROBE_CONSOLE_PARENT").is_none() {
             let output = Command::new(std::env::current_exe().unwrap())
                 .args([
                     "--exact",
                     "agent::providers::tests::windows_cmd_probe_has_no_visible_console",
                     "--nocapture",
                 ])
-                .env("COWRITE_PROBE_CONSOLE_PARENT", "1")
+                .env("EMEND_PROBE_CONSOLE_PARENT", "1")
                 .output()
                 .unwrap();
             assert!(
@@ -554,7 +554,7 @@ mod tests {
         std::fs::write(
             &shim,
             format!(
-                "@echo off\r\nset COWRITE_PROBE_CONSOLE_CHILD=1\r\n\"{}\" --exact agent::providers::tests::probe_console_visibility_child --nocapture\r\n",
+                "@echo off\r\nset EMEND_PROBE_CONSOLE_CHILD=1\r\n\"{}\" --exact agent::providers::tests::probe_console_visibility_child --nocapture\r\n",
                 test_exe.display()
             ),
         )
@@ -567,7 +567,7 @@ mod tests {
             String::from_utf8_lossy(&output.stderr)
         );
         assert!(
-            String::from_utf8_lossy(&output.stdout).contains("COWRITE_PROBE_HAS_CONSOLE=false"),
+            String::from_utf8_lossy(&output.stdout).contains("EMEND_PROBE_HAS_CONSOLE=false"),
             "{}",
             String::from_utf8_lossy(&output.stdout)
         );
@@ -576,12 +576,12 @@ mod tests {
     #[cfg(windows)]
     #[test]
     fn probe_console_visibility_child() {
-        if std::env::var_os("COWRITE_PROBE_CONSOLE_CHILD").is_none() {
+        if std::env::var_os("EMEND_PROBE_CONSOLE_CHILD").is_none() {
             return;
         }
         use windows_sys::Win32::System::Console::GetConsoleWindow;
         let console = unsafe { GetConsoleWindow() };
-        println!("COWRITE_PROBE_HAS_CONSOLE={}", !console.is_null());
+        println!("EMEND_PROBE_HAS_CONSOLE={}", !console.is_null());
     }
 
     #[cfg(unix)]

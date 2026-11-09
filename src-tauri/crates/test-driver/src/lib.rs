@@ -1492,10 +1492,10 @@ struct DecideLinkedChangesByIdArgs {
 /// Escape hatch (never set by Playwright, CI, or anything else in this repo) for
 /// [`guarded_spawn_claude_run`]'s fail-closed default: anything but the exact value `1` — unset
 /// included — means "refuse", exactly the property #1149 needed ([`allow_real_spawn`] holds that
-/// reading). Deliberately its own name, not `COWRITE_CLAUDE_BIN`: this gate decides whether the
+/// reading). Deliberately its own name, not `EMEND_CLAUDE_BIN`: this gate decides whether the
 /// driver may delegate to the production spawn path at all, while the provider override selects
 /// which executable that path invokes (#1206).
-const ALLOW_REAL_CLAUDE_SPAWN_VAR: &str = "COWRITE_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN";
+const ALLOW_REAL_CLAUDE_SPAWN_VAR: &str = "EMEND_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN";
 
 /// [`spawn_claude_run`] behind a fail-closed gate: refuses — before `claude_invocation` builds an
 /// argv or anything touches `PATH` — unless `allow_real_spawn` is `true`. Split from
@@ -1547,7 +1547,7 @@ fn guarded_spawn_claude_run(
 /// and the one every non-agent test in `tests/http.rs` uses. The default guard refusal, or a
 /// permitted run whose resolved Claude binary cannot be spawned, becomes that run's own `failed`
 /// phase (never a driver-route error), exactly as it would through the real Tauri command. A D23
-/// caller that deliberately opens the guard can set `COWRITE_CLAUDE_BIN` to a deterministic fake;
+/// caller that deliberately opens the guard can set `EMEND_CLAUDE_BIN` to a deterministic fake;
 /// the production default remains `claude` on `PATH`. See [`serve_with_queue`] for why most
 /// agent-run tests use that injected seam instead.
 pub fn serve(listener: TcpListener) {

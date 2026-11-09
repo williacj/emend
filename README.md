@@ -45,8 +45,8 @@ The ordinary Windows and macOS app builds include local Whisper inference. Windo
 The manual positive transcript gate uses the catalog-pinned [`base.en-q5_1` model](src-tauri/src/voice/catalog.rs) and whisper.cpp's [JFK sample](https://github.com/ggml-org/whisper.cpp/raw/60c0be6ac8fa71b1a2ae2dd938a31a34a508e774/samples/jfk.wav). The sample must be 352,078 bytes with SHA-256 `59dfb9a4acb36fe2a2affc14bacbee2920ff435cb13cc314a08c13f66ba7860e`; the model must be 59,721,011 bytes and pass the catalog's BLAKE3 check. Keep both downloads outside Git, then run:
 
 ```sh
-COWRITE_VOICE_FIXTURE_MODEL=/absolute/path/ggml-base.en-q5_1.bin \
-COWRITE_VOICE_FIXTURE_WAV=/absolute/path/jfk.wav \
+EMEND_VOICE_FIXTURE_MODEL=/absolute/path/ggml-base.en-q5_1.bin \
+EMEND_VOICE_FIXTURE_WAV=/absolute/path/jfk.wav \
 cargo test --manifest-path src-tauri/Cargo.toml --locked --lib \
   voice::transcription::whisper_backend::tests::pinned_wav_transcribes_recognizable_jfk_phrase \
   -- --ignored --exact
@@ -58,7 +58,7 @@ The ignored test reads verified model bytes through Cowrite's registry and exerc
 
 The `tauri` and `build:rust` scripts preserve an existing `RUSTC_WRAPPER`; otherwise they
 automatically use `sccache` when it is installed. If `sccache` is absent they fall back to plain
-Cargo. Set `COWRITE_SCCACHE_DISABLE=1` to troubleshoot with the cache disabled — it suppresses that
+Cargo. Set `EMEND_SCCACHE_DISABLE=1` to troubleshoot with the cache disabled — it suppresses that
 automatic selection only, so an `RUSTC_WRAPPER` you exported yourself still wins and has to be unset
 to build with no wrapper at all. Cache activity is visible with `sccache --show-stats` (and can be
 reset before a measurement with `sccache --zero-stats`).

@@ -77,9 +77,9 @@ export function buildEnvironment({
   detectSccache = isSccacheAvailable,
 }) {
   const childEnv = { ...env };
-  // An exported RUSTC_WRAPPER outranks COWRITE_SCCACHE_DISABLE: the disable flag suppresses the
+  // An exported RUSTC_WRAPPER outranks EMEND_SCCACHE_DISABLE: the disable flag suppresses the
   // automatic selection below, and never removes a wrapper the developer configured themselves.
-  if (!Object.hasOwn(childEnv, 'RUSTC_WRAPPER') && childEnv.COWRITE_SCCACHE_DISABLE !== '1') {
+  if (!Object.hasOwn(childEnv, 'RUSTC_WRAPPER') && childEnv.EMEND_SCCACHE_DISABLE !== '1') {
     const available = sccacheAvailable ?? detectSccache();
     if (available) childEnv.RUSTC_WRAPPER = 'sccache';
   }

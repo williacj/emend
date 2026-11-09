@@ -8,7 +8,7 @@
 Run from the repository root:
 
 ```sh
-COWRITE_ALIGNMENT_SCENARIO='14b model row' COWRITE_ALIGNMENT_OUTPUT=docs/alignment-voice-model node scripts/capture-design-alignment.mjs
+EMEND_ALIGNMENT_SCENARIO='14b model row' EMEND_ALIGNMENT_OUTPUT=docs/alignment-voice-model node scripts/capture-design-alignment.mjs
 node --test --test-name-pattern='14b model row' scripts/capture-design-alignment.test.mjs
 ```
 

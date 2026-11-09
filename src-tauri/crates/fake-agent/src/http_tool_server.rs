@@ -30,7 +30,7 @@ const STREAM_TIMEOUT: Duration = Duration::from_secs(5);
 
 /// The name Cowrite registers its server under inside `mcpServers` (`agent::claude`'s
 /// `MCP_SERVER_NAME`) — the entry this reads its connection info from.
-const COWRITE_SERVER: &str = "cowrite";
+const MCP_SERVER_KEY: &str = "cowrite";
 
 /// A [`ToolServer`] that forwards every call over real loopback HTTP to the MCP server named in a
 /// `--mcp-config` payload, carrying that payload's `Authorization` header.
@@ -68,8 +68,8 @@ impl HttpToolServer {
     pub fn from_mcp_config(config: &Value) -> Result<HttpToolServer, String> {
         let server = config
             .get("mcpServers")
-            .and_then(|s| s.get(COWRITE_SERVER))
-            .ok_or_else(|| format!("--mcp-config has no `mcpServers.{COWRITE_SERVER}` entry"))?;
+            .and_then(|s| s.get(MCP_SERVER_KEY))
+            .ok_or_else(|| format!("--mcp-config has no `mcpServers.{MCP_SERVER_KEY}` entry"))?;
 
         let url = server
             .get("url")

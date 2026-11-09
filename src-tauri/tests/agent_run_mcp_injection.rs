@@ -116,14 +116,14 @@ fn spawn_claude_run_starts_the_binary_named_by_cowrite_claude_bin() {
                 "--nocapture",
             ])
             .env("PATH", "")
-            .env("COWRITE_CLAUDE_BIN", fake_agent_bin())
-            .env("COWRITE_COPILOT_BIN", "definitely-not-the-claude-provider")
+            .env("EMEND_CLAUDE_BIN", fake_agent_bin())
+            .env("EMEND_COPILOT_BIN", "definitely-not-the-claude-provider")
             .status()
             .expect("run the isolated provider-override assertion");
 
     assert!(
         status.success(),
-        "the production spawn edge must start COWRITE_CLAUDE_BIN, not a near-match override or claude on PATH"
+        "the production spawn edge must start EMEND_CLAUDE_BIN, not a near-match override or claude on PATH"
     );
 }
 
@@ -137,7 +137,7 @@ fn spawn_claude_run_override_subprocess() {
 
     assert!(
         spawn_claude_run(&session, &request(dir.path())).is_ok(),
-        "COWRITE_CLAUDE_BIN must be the executable handed to AgentSession"
+        "EMEND_CLAUDE_BIN must be the executable handed to AgentSession"
     );
 }
 

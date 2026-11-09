@@ -6,8 +6,8 @@
 import { defineConfig, devices } from "@playwright/test";
 import { allocateLoopbackPorts } from "./scripts/e2e-ports.mjs";
 
-const VITE_PORT_ENV = "COWRITE_E2E_VITE_PORT";
-const TEST_DRIVER_PORT_ENV = "COWRITE_E2E_TEST_DRIVER_PORT";
+const VITE_PORT_ENV = "EMEND_E2E_VITE_PORT";
+const TEST_DRIVER_PORT_ENV = "EMEND_E2E_TEST_DRIVER_PORT";
 
 function configuredPort(name) {
   const value = process.env[name];
@@ -36,13 +36,13 @@ if (VITE_PORT === TEST_DRIVER_PORT) {
 }
 const VITE_URL = `http://127.0.0.1:${VITE_PORT}`;
 const TEST_DRIVER_URL = `http://127.0.0.1:${TEST_DRIVER_PORT}`;
-process.env.COWRITE_E2E_TEST_DRIVER_URL = TEST_DRIVER_URL;
+process.env.EMEND_E2E_TEST_DRIVER_URL = TEST_DRIVER_URL;
 
 // #1814: when set, the run also writes a JSON results document for the test-matrix execution
 // gate (test-plan §9). Playwright 1.61 has no env var for the JSON reporter's output path, and
 // two reporters cannot share stdout, so the pair is composed here. Unset — every local run and
 // every `npm run test:e2e` — leaves `reporter` undefined and the default reporter in place.
-const E2E_RESULTS_FILE = process.env.COWRITE_E2E_RESULTS_FILE;
+const E2E_RESULTS_FILE = process.env.EMEND_E2E_RESULTS_FILE;
 
 export default defineConfig({
   testDir: "./e2e",
@@ -78,8 +78,8 @@ export default defineConfig({
         // guaranteed absent everywhere, so `detect_providers` deterministically reports zero
         // providers without touching the real PATH or mocking the detection logic (P2a-22,
         // NI-provider-detect; CLAUDE.md: never mock in e2e).
-        COWRITE_CLAUDE_BIN: "cowrite-test-no-claude-installed",
-        COWRITE_COPILOT_BIN: "cowrite-test-no-copilot-installed",
+        EMEND_CLAUDE_BIN: "cowrite-test-no-claude-installed",
+        EMEND_COPILOT_BIN: "cowrite-test-no-copilot-installed",
       },
       port: TEST_DRIVER_PORT,
       reuseExistingServer: false,

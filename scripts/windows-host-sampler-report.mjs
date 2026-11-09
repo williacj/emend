@@ -137,8 +137,8 @@ function main() {
   publishSampleSummary(markdown);
   validateSampleSet({
     ...parsed,
-    startedAt: process.env.COWRITE_SAMPLER_STARTED_AT,
-    endedAt: process.env.COWRITE_SAMPLER_ENDED_AT,
+    startedAt: process.env.EMEND_SAMPLER_STARTED_AT,
+    endedAt: process.env.EMEND_SAMPLER_ENDED_AT,
   });
 }
 

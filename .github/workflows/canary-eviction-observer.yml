@@ -47,5 +47,5 @@ jobs:
       - name: Publish the displaced-canary verdict
         env:
           GH_TOKEN: ${{ github.token }}
-          COWRITE_WORKFLOW_RUN: ${{ toJSON(github.event.workflow_run) }}
+          EMEND_WORKFLOW_RUN: ${{ toJSON(github.event.workflow_run) }}
         run: node scripts/canary-eviction-observer.mjs

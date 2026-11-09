@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 // ABOUTME: Covers `App`'s J8 welcome screen / opened-project split (P2a-22) and the D23 dev-mode
 // ABOUTME: e2e test hook: before any project is set the welcome screen shows;
-// ABOUTME: `window.__COWRITE_E2E__.openProject` mounts the real `TabbedEditor` for it (test-plan §4
+// ABOUTME: `window.__EMEND_E2E__.openProject` mounts the real `TabbedEditor` for it (test-plan §4
 // ABOUTME: e2e walking skeleton: this is what the Playwright rig drives), and the real
 // ABOUTME: "Open a folder…" button drives the same project/request state through the native picker.
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
@@ -465,7 +465,7 @@ describe("App", () => {
     await waitFor(() => expect(detectProvidersMock).toHaveBeenCalledTimes(1));
 
     await act(async () => {
-      await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     });
     const status = await screen.findByRole("region", { name: "Document status" });
     expect(within(status).getByText("Claude Code · connected")).toBeVisible();
@@ -541,11 +541,11 @@ describe("App", () => {
     });
   });
 
-  it("mounts the editor for the project/doc set via window.__COWRITE_E2E__.openProject", async () => {
+  it("mounts the editor for the project/doc set via window.__EMEND_E2E__.openProject", async () => {
     openDocumentMock.mockResolvedValueOnce({ content: "# Hi\n", revision: "blake3:abc" });
     render(<App />);
 
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
 
     await waitFor(() => {
       expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md");
@@ -569,7 +569,7 @@ describe("App", () => {
     openDocumentMock.mockResolvedValue({ content: "# Outline\n", revision: "blake3:abc" });
     render(<App platform="mac" />);
 
-    window.__COWRITE_E2E__?.openProjectFolder("/project");
+    window.__EMEND_E2E__?.openProjectFolder("/project");
 
     const titleBar = await waitFor(() => {
       const header = document.querySelector<HTMLElement>(".app-header");
@@ -598,11 +598,11 @@ describe("App", () => {
       .mockResolvedValueOnce({ content: "# Two\n", revision: "blake3:two" });
     render(<App />);
     await act(async () => {
-      await window.__COWRITE_E2E__?.openProject("/project", "notes/one.md");
+      await window.__EMEND_E2E__?.openProject("/project", "notes/one.md");
     });
     await waitFor(() => expect(openDocumentMock).toHaveBeenCalledTimes(1));
     await act(async () => {
-      await window.__COWRITE_E2E__?.openProject("/project", "notes/two.md");
+      await window.__EMEND_E2E__?.openProject("/project", "notes/two.md");
     });
     await waitFor(() => expect(openDocumentMock).toHaveBeenCalledTimes(2));
     await waitFor(() =>
@@ -654,7 +654,7 @@ describe("App", () => {
     openDocumentMock.mockResolvedValue({ content: "# Draft\n", revision: "blake3:draft" });
     render(<App />);
     await act(async () => {
-      await window.__COWRITE_E2E__?.openProject("/project", "notes/draft.md");
+      await window.__EMEND_E2E__?.openProject("/project", "notes/draft.md");
     });
     await waitFor(() => expect(openDocumentMock).toHaveBeenCalledOnce());
     act(() => publishVoiceStatus(status));
@@ -680,8 +680,8 @@ describe("App", () => {
     openDocumentMock.mockResolvedValue({ content: "# Draft\n", revision: "blake3:draft" });
     render(<App />);
     await act(async () => {
-      await window.__COWRITE_E2E__?.openProject("/project", "notes/one.md");
-      await window.__COWRITE_E2E__?.openProject("/project", "notes/two.md");
+      await window.__EMEND_E2E__?.openProject("/project", "notes/one.md");
+      await window.__EMEND_E2E__?.openProject("/project", "notes/two.md");
     });
     await waitFor(() => expect(screen.getAllByRole("tab")).toHaveLength(2));
     fireEvent.click(screen.getByRole("tab", { name: "notes/one.md" }));
@@ -705,9 +705,9 @@ describe("App", () => {
     render(<App />);
 
     await act(async () => {
-      await window.__COWRITE_E2E__?.openProject("/project", "notes/one.md");
-      await window.__COWRITE_E2E__?.openProject("/project", "notes/two.md");
-      await window.__COWRITE_E2E__?.openProject("/project", "notes/three.md");
+      await window.__EMEND_E2E__?.openProject("/project", "notes/one.md");
+      await window.__EMEND_E2E__?.openProject("/project", "notes/two.md");
+      await window.__EMEND_E2E__?.openProject("/project", "notes/three.md");
     });
 
     await waitFor(() => expect(screen.getAllByRole("tab")).toHaveLength(3));
@@ -723,20 +723,20 @@ describe("App", () => {
     );
   });
 
-  it("window.__COWRITE_E2E__.setAutosaveIntervalMs pauses autosave for the mounted editor (D23)", async () => {
+  it("window.__EMEND_E2E__.setAutosaveIntervalMs pauses autosave for the mounted editor (D23)", async () => {
     openDocumentMock.mockResolvedValueOnce({ content: "# Hi\n", revision: "blake3:abc" });
     render(<App />);
 
     // Set before opening — the editor reads the interval when it arms its scheduler at mount.
-    window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000);
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000);
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
 
     await waitFor(() => {
       expect(createAutosaveScheduler).toHaveBeenCalledWith(expect.any(Function), 3_600_000);
     });
   });
 
-  it("window.__COWRITE_E2E__.setExternalChangePollMs drives the FR-ED-7 poll for the mounted editor (D23)", async () => {
+  it("window.__EMEND_E2E__.setExternalChangePollMs drives the FR-ED-7 poll for the mounted editor (D23)", async () => {
     // The sibling of the autosave seam above: a scenario that needs the external-change banner (a
     // delivery landing on disk under a dirty tab, then Reload) drives the poll small so it resolves
     // on a condition rather than waiting out the 5 s default (test-plan §7, no sleeps).
@@ -744,8 +744,8 @@ describe("App", () => {
     openDocumentMock.mockImplementation(async () => ({ ...disk }));
     render(<App />);
 
-    window.__COWRITE_E2E__?.setExternalChangePollMs(10);
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.setExternalChangePollMs(10);
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     await waitFor(() => expect(openDocumentMock).toHaveBeenCalled());
 
     disk.content = "# Hi (edited elsewhere)\n";
@@ -758,10 +758,10 @@ describe("App", () => {
   });
 
   describe("D23 project entry for J2 (P2b-11b)", () => {
-    it("window.__COWRITE_E2E__.openProjectFolder opens a fresh project straight into workshop mode (J2 Phase A)", async () => {
+    it("window.__EMEND_E2E__.openProjectFolder opens a fresh project straight into workshop mode (J2 Phase A)", async () => {
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProjectFolder("/fresh-project");
+      window.__EMEND_E2E__?.openProjectFolder("/fresh-project");
 
       await waitFor(() => expect(screen.getByRole("region", { name: "Timeline" })).toBeInTheDocument());
       expect(screen.queryByRole("button", { name: "Open a folder…" })).not.toBeInTheDocument();
@@ -769,7 +769,7 @@ describe("App", () => {
       expect(document.querySelector(".app-body")).toHaveClass("app-body--workshop");
     });
 
-    it("window.__COWRITE_E2E__.openProjectFolder restores a project's saved active tab instead of workshop mode", async () => {
+    it("window.__EMEND_E2E__.openProjectFolder restores a project's saved active tab instead of workshop mode", async () => {
       loadTabSessionMock.mockResolvedValue({
         tabs: [{ path: "notes/outline.md", unsavedContent: null }],
         activePath: "notes/outline.md",
@@ -777,7 +777,7 @@ describe("App", () => {
       openDocumentMock.mockResolvedValue({ content: "# Hi\n", revision: "blake3:abc" });
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProjectFolder("/project");
+      window.__EMEND_E2E__?.openProjectFolder("/project");
 
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"));
       await waitFor(() =>
@@ -788,7 +788,7 @@ describe("App", () => {
     it("does not expose a document-birth producer hook", () => {
       render(<App />);
 
-      expect("notifyDocumentBirth" in (window.__COWRITE_E2E__ ?? {})).toBe(false);
+      expect("notifyDocumentBirth" in (window.__EMEND_E2E__ ?? {})).toBe(false);
       expect(screen.getByRole("button", { name: "Open a folder…" })).toBeInTheDocument();
     });
   });
@@ -796,7 +796,7 @@ describe("App", () => {
   describe("J2 project rail (#931)", () => {
     it("is the persistent third app-body child in workshop and authoring layouts", async () => {
       render(<App />);
-      window.__COWRITE_E2E__?.openProjectFolder("/project");
+      window.__EMEND_E2E__?.openProjectFolder("/project");
 
       const rail = await screen.findByRole("complementary", { name: "Project files" });
       const body = document.querySelector(".app-body");
@@ -811,7 +811,7 @@ describe("App", () => {
 
     it("wires the platform collapse control through the persistent app-shell rail", async () => {
       render(<App />);
-      window.__COWRITE_E2E__?.openProjectFolder("/project");
+      window.__EMEND_E2E__?.openProjectFolder("/project");
 
       const rail = await screen.findByRole("complementary", { name: "Project files" });
       fireEvent.click(screen.getByRole("button", { name: "Hide project files" }));
@@ -825,7 +825,7 @@ describe("App", () => {
 
     it("routes Markdown activation through the existing open-or-focus request seam", async () => {
       render(<App />);
-      window.__COWRITE_E2E__?.openProjectFolder("/project");
+      window.__EMEND_E2E__?.openProjectFolder("/project");
 
       fireEvent.click(await screen.findByRole("treeitem", { name: "notes/second.md" }));
 
@@ -842,7 +842,7 @@ describe("App", () => {
         .mockResolvedValueOnce({ content: "# Outline\n", revision: "r1" })
         .mockRejectedValueOnce(new Error("file disappeared"));
       render(<App />);
-      window.__COWRITE_E2E__?.openProjectFolder("/project");
+      window.__EMEND_E2E__?.openProjectFolder("/project");
 
       const current = await screen.findByRole("treeitem", { name: "notes/outline.md" });
       await waitFor(() => expect(current).toHaveAttribute("aria-current", "page"));
@@ -867,7 +867,7 @@ describe("App", () => {
         progress: { addressed: ["run-target"], skipped: [], untouched: [], interrupted: null },
       });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       const column = screen.getByRole("region", { name: "Comments" });
       const card = await within(column).findByText("clarify this");
@@ -907,8 +907,8 @@ describe("App", () => {
         });
       saveDocumentMock.mockResolvedValue("r2");
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
-      window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000);
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
+      window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000);
       const editor = document.querySelector(".cm-editor") as HTMLElement;
       const view = EditorView.findFromDOM(editor)!;
       await act(async () => { view.dispatch({ changes: { from: view.state.doc.length, insert: " unsaved" } }); });
@@ -921,8 +921,8 @@ describe("App", () => {
       expect(within(card).getAllByRole("button", { name: "Show the run" })).toHaveLength(1);
 
       firstOwner = failed;
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/second.md"); });
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/second.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       card = screen.getByRole("region", { name: "Comments" }).querySelector<HTMLElement>('[data-card-id="same"]')!;
       await waitFor(() => expect(within(card).getByRole("button", { name: "Try again" })).toBeInTheDocument());
       expect(within(card).getAllByRole("button", { name: "Show the run" })).toHaveLength(1);
@@ -983,8 +983,8 @@ describe("App", () => {
           progress: { addressed: ["shared"], skipped: [], untouched: [], interrupted: null },
         });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
-      window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000);
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
+      window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000);
       const view = EditorView.findFromDOM(document.querySelector(".cm-editor") as HTMLElement)!;
       await act(async () => { view.dispatch({ changes: { from: view.state.doc.length, insert: " unsaved" } }); });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
@@ -992,7 +992,7 @@ describe("App", () => {
       fireEvent.click(within(card).getByRole("button", { name: "Address with AI" }));
       await waitFor(() => expect(within(card).getByText("Unsaved text sent with this run")).toBeInTheDocument());
 
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/second.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/second.md"); });
       card = screen.getByRole("region", { name: "Comments" }).querySelector<HTMLElement>('[data-card-id="shared"]')!;
       await waitFor(() => expect(within(card).getByText("second document")).toBeInTheDocument());
       expect(within(card).queryByRole("button", { name: "Show the run" })).toBeNull();
@@ -1000,13 +1000,13 @@ describe("App", () => {
       await waitFor(() => expect(within(card).getByRole("button", { name: "Show the run" })).toBeInTheDocument());
       expect(within(card).queryByText("Unsaved text sent with this run")).toBeNull();
 
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       card = screen.getByRole("region", { name: "Comments" }).querySelector<HTMLElement>('[data-card-id="shared"]')!;
       await waitFor(() => expect(within(card).getByText("first document")).toBeInTheDocument());
       expect(within(card).getAllByRole("button", { name: "Show the run" })).toHaveLength(1);
       expect(within(card).getByText("Unsaved text sent with this run")).toBeInTheDocument();
 
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project-b", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project-b", "notes/outline.md"); });
       card = screen.getByRole("region", { name: "Comments" }).querySelector<HTMLElement>('[data-card-id="shared"]')!;
       await waitFor(() => expect(within(card).getByText("another project")).toBeInTheDocument());
       expect(within(card).queryByRole("button", { name: "Show the run" })).toBeNull();
@@ -1026,8 +1026,8 @@ describe("App", () => {
           progress: { addressed: ["same"], skipped: [], untouched: [], interrupted: null },
         });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
-      window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000);
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
+      window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000);
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       sizeContainer(document.body, 800);
       let columnCard = screen.getByRole("region", { name: "Comments" }).querySelector<HTMLElement>('[data-card-id="same"]')!;
@@ -1072,8 +1072,8 @@ describe("App", () => {
           progress: { addressed: ["same"], skipped: [], untouched: [], interrupted: null },
         });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
-      window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000);
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
+      window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000);
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       sizeContainer(document.body, 800);
       let columnCard = screen.getByRole("region", { name: "Comments" }).querySelector<HTMLElement>('[data-card-id="same"]')!;
@@ -1103,7 +1103,7 @@ describe("App", () => {
     it("keeps one mounted Timeline while the comments rail occupies its lane across tab switches", async () => {
       render(<App />);
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+        await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       });
 
       const timeline = await screen.findByRole("region", { name: "Timeline" });
@@ -1115,7 +1115,7 @@ describe("App", () => {
       expect(screen.getByRole("button", { name: "Show Timeline" })).toBeInTheDocument();
 
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/project", "notes/second.md");
+        await window.__EMEND_E2E__?.openProject("/project", "notes/second.md");
       });
       expect(screen.getByRole("region", { name: "Comments" })).toBeInTheDocument();
       expect(timeline).toHaveAttribute("hidden");
@@ -1128,7 +1128,7 @@ describe("App", () => {
     it("returns keyboard focus to the existing composer without moving an editor-focused pointer user", async () => {
       render(<App />);
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+        await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       });
       const composer = await screen.findByRole("textbox", { name: "Message" });
       const editor = document.querySelector<HTMLElement>(".cm-content[role='textbox']");
@@ -1151,7 +1151,7 @@ describe("App", () => {
       openDocumentMock.mockResolvedValue({ content: "# Hi\n", revision: "blake3:abc" });
       render(<App />);
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/project-a", "notes/a.md");
+        await window.__EMEND_E2E__?.openProject("/project-a", "notes/a.md");
       });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       const returnChip = screen.getByRole("button", { name: "Show Timeline" });
@@ -1160,11 +1160,11 @@ describe("App", () => {
       expect(screen.getByRole("textbox", { name: "Message" })).toHaveFocus();
 
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/project-b", "notes/b.md");
+        await window.__EMEND_E2E__?.openProject("/project-b", "notes/b.md");
       });
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project-b", "notes/b.md"));
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/project-a", "notes/a.md");
+        await window.__EMEND_E2E__?.openProject("/project-a", "notes/a.md");
       });
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project-a", "notes/a.md"));
       expect(screen.getByRole("textbox", { name: "Message" })).not.toHaveFocus();
@@ -1189,7 +1189,7 @@ describe("App", () => {
         : []);
       render(<App />);
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/project-a", "notes/a.md");
+        await window.__EMEND_E2E__?.openProject("/project-a", "notes/a.md");
       });
       await waitFor(() => expect(screen.getByRole("button", { name: "Hide Timeline" })).toBeInTheDocument());
       await waitFor(() => expect(loadTranscriptMock).toHaveBeenCalledWith("/project-a"));
@@ -1207,7 +1207,7 @@ describe("App", () => {
         }
       });
       observer.observe(document.body, { subtree: true, childList: true, attributes: true, characterData: true });
-      await window.__COWRITE_E2E__?.openProject("/project-b", "notes/b.md");
+      await window.__EMEND_E2E__?.openProject("/project-b", "notes/b.md");
       await screen.findByText("project-b");
       observer.disconnect();
       expect(badgedBFrame).toBe(false);
@@ -1217,7 +1217,7 @@ describe("App", () => {
     it("shows the full conversation and no right rail in workshop while retaining the window preference", async () => {
       render(<App />);
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+        await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       fireEvent.click(screen.getByRole("button", { name: "Close notes/outline.md" }));
@@ -1227,7 +1227,7 @@ describe("App", () => {
       expect(screen.queryByRole("button", { name: "Hide Timeline" })).not.toBeInTheDocument();
 
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/project", "notes/second.md");
+        await window.__EMEND_E2E__?.openProject("/project", "notes/second.md");
       });
       expect(screen.getByRole("region", { name: "Comments" })).toBeInTheDocument();
     });
@@ -1242,7 +1242,7 @@ describe("App", () => {
         id: "run-live", phase: { phase: "running" }, activity: [], elapsedSecs: 0,
       })]);
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       const trigger = within(screen.getByRole("toolbar", { name: "Editor view controls" }))
         .getByRole("button", { name: /Address all/ });
       fireEvent.click(trigger);
@@ -1253,7 +1253,7 @@ describe("App", () => {
       expect(screen.getByLabelText("Source")).toHaveValue("style");
       expect(screen.getByRole("checkbox", { name: "include them too" })).toBeChecked();
 
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/second.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/second.md"); });
       fireEvent.click(within(screen.getByRole("toolbar", { name: "Editor view controls" }))
         .getByRole("button", { name: /Address all/ }));
       expect(screen.getByLabelText("Source")).toHaveValue("");
@@ -1276,7 +1276,7 @@ describe("App", () => {
         progress: { addressed: ["a", "b"], skipped: [], untouched: [], interrupted: null },
       });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       const toolbar = screen.getByRole("toolbar", { name: "Editor view controls" });
       expect(screen.getAllByRole("button", { name: /Address all/ })).toHaveLength(1);
@@ -1304,7 +1304,7 @@ describe("App", () => {
         progress: { addressed: ["a", "b"], skipped: [], untouched: [], interrupted: null },
       });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       expect(screen.getByRole("region", { name: "Timeline" })).toBeVisible();
       fireEvent.click(within(screen.getByRole("toolbar", { name: "Editor view controls" }))
         .getByRole("button", { name: /Address all/ }));
@@ -1323,7 +1323,7 @@ describe("App", () => {
       let completeAdmission!: (result: unknown) => void;
       startAddressRunMock.mockImplementation(() => new Promise((resolve) => { completeAdmission = resolve; }));
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       fireEvent.click(within(screen.getByRole("toolbar", { name: "Editor view controls" }))
         .getByRole("button", { name: /Address all/ }));
       fireEvent.click(screen.getByRole("button", { name: "Address 2 comments" }));
@@ -1351,7 +1351,7 @@ describe("App", () => {
       loadCommentThreadsMock.mockResolvedValue([thread("a"), thread("b")]);
       startAddressRunMock.mockRejectedValue(new Error("Batch admission refused"));
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       const trigger = within(screen.getByRole("toolbar", { name: "Editor view controls" }))
         .getByRole("button", { name: /Address all/ });
       fireEvent.click(trigger);
@@ -1366,7 +1366,7 @@ describe("App", () => {
       loadCommentThreadsMock.mockResolvedValue([thread("a"), thread("b")]);
       startAddressRunMock.mockRejectedValue(new Error("Batch admission refused"));
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       fireEvent.click(within(screen.getByRole("toolbar", { name: "Editor view controls" })).getByRole("button", { name: /Address all/ }));
       fireEvent.click(screen.getByRole("button", { name: "Address 2 comments" }));
@@ -1386,7 +1386,7 @@ describe("App", () => {
         progress: { addressed: ["a", "b"], skipped: [], untouched: [], interrupted: null },
       });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       fireEvent.click(screen.getByRole("button", { name: "Chat" }));
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       fireEvent.click(within(screen.getByRole("toolbar", { name: "Editor view controls" })).getByRole("button", { name: /Address all/ }));
@@ -1413,7 +1413,7 @@ describe("App", () => {
         progress: { addressed: ["a", "b"], skipped: [], untouched: [], interrupted: null },
       });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProjectFolder("/project"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProjectFolder("/project"); });
       await waitFor(() => expect(screen.getByRole("tab", { name: /notes\/outline\.md/ })).toHaveAttribute("data-dirty", "true"));
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       fireEvent.click(within(screen.getByRole("toolbar", { name: "Editor view controls" })).getByRole("button", { name: /Address all/ }));
@@ -1433,8 +1433,8 @@ describe("App", () => {
       loadCommentThreadsMock.mockResolvedValue([thread("stable")]);
       saveDocumentMock.mockResolvedValue("r2");
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
-      window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000);
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
+      window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000);
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       const column = screen.getByRole("region", { name: "Comments" });
       await waitFor(() => expect(within(column).getByText("finding stable")).toBeInTheDocument());
@@ -1465,20 +1465,20 @@ describe("App", () => {
         return Promise.resolve([]);
       });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "a.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "a.md"); });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       const column = screen.getByRole("region", { name: "Comments" });
       await waitFor(() => expect(within(column).getByText("finding a")).toBeInTheDocument());
       expect(within(column).queryByText("No comments in this document")).not.toBeInTheDocument();
 
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "b.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "b.md"); });
       await waitFor(() => expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project", "b.md"));
       expect(within(column).queryByText("finding a")).not.toBeInTheDocument();
       expect(within(column).queryByText("No comments in this document")).not.toBeInTheDocument();
       await act(async () => { rejectB(new Error("read failed")); });
       expect(within(column).queryByText("No comments in this document")).not.toBeInTheDocument();
 
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "c.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "c.md"); });
       await waitFor(() => expect(within(column).getByText("No comments in this document")).toBeInTheDocument());
       expect(document.querySelector(".timeline-panel")).toHaveAttribute("hidden");
     });
@@ -1496,7 +1496,7 @@ describe("App", () => {
       const finishResolve: Array<(range: { from: number; to: number } | null) => void> = [];
       resolveAnchorMock.mockImplementation(() => new Promise((resolve) => { finishResolve.push(resolve); }));
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "a.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "a.md"); });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       const column = screen.getByRole("region", { name: "Comments" });
       fireEvent.click(await within(column).findByRole("button", { name: "1 hidden threads" }));
@@ -1532,13 +1532,13 @@ describe("App", () => {
       let finishResolve!: (range: null) => void;
       resolveAnchorMock.mockImplementationOnce(() => new Promise((resolve) => { finishResolve = resolve; }));
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "a.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "a.md"); });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       const column = screen.getByRole("region", { name: "Comments" });
       fireEvent.click(await within(column).findByRole("button", { name: "1 hidden threads" }));
       fireEvent.click(within(column).getByRole("button", { name: "→ Go to passage" }));
       await waitFor(() => expect(finishResolve).toBeTypeOf("function"));
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "b.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "b.md"); });
       await waitFor(() => expect(screen.getByRole("tab", { name: /b\.md/ })).toHaveAttribute("aria-selected", "true"));
       fireEvent.click(screen.getByRole("tab", { name: /a\.md/ }));
       await waitFor(() => expect(screen.getByRole("tab", { name: /a\.md/ })).toHaveAttribute("aria-selected", "true"));
@@ -1559,7 +1559,7 @@ describe("App", () => {
         thread("early", { anchor: anchor(5), last_activity_at: 20 }),
       ]);
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       const column = screen.getByRole("region", { name: "Comments" });
       await waitFor(() => expect(within(column).getByRole("button", { name: "Position" })).toBeInTheDocument());
@@ -1597,7 +1597,7 @@ describe("App", () => {
         return Promise.resolve([]);
       });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProjectFolder("/project"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProjectFolder("/project"); });
       await screen.findByRole("tab", { name: /recovered from notes\/missing\.md/ });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       const column = screen.getByRole("region", { name: "Comments" });
@@ -1622,7 +1622,7 @@ describe("App", () => {
         thread("withdrawn", { withdrawn_at: 40, visible_when_withdrawn: true, body: "" }),
       ]);
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       const column = screen.getByRole("region", { name: "Comments" });
       await waitFor(() => expect(within(column).getByText("COMMENTS · 1 OPEN")).toBeInTheDocument());
@@ -1651,7 +1651,7 @@ describe("App", () => {
         published: false, edited_at: null, withdrawn_at: null,
       }] }]);
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       fireEvent.click(screen.getByRole("button", { name: "Hide Timeline" }));
       const column = screen.getByRole("region", { name: "Comments" });
       const cardOrder = () => [...column.querySelectorAll<HTMLElement>(".comments-column__body [data-card-kind='comment']")]
@@ -1690,7 +1690,7 @@ describe("App", () => {
       });
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
 
       await waitFor(() => expect(discoverGroundingMock).toHaveBeenCalledWith("/project"));
       const card = await screen.findByText("Found 1 skill, 1 workflow, CLAUDE.md");
@@ -1704,7 +1704,7 @@ describe("App", () => {
       // still lands rather than being silently omitted for a project with nothing to find.
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
 
       expect(await screen.findByText("Found 0 skills, 0 workflows")).toBeInTheDocument();
     });
@@ -1712,7 +1712,7 @@ describe("App", () => {
     it("is one-time per project open — reopening the same project does not raise a second card", async () => {
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await screen.findByText("Found 0 skills, 0 workflows");
       // Safe to clear here, and measured rather than assumed (#2338): the awaited text above is
       // rendered from this call's own result (`App.tsx`'s `discoverGrounding(...).then(...)`), so the
@@ -1723,7 +1723,7 @@ describe("App", () => {
 
       // Same project, a different document — the J8 acceptance's "one-time per project open", not
       // per document opened within it.
-      window.__COWRITE_E2E__?.openProject("/project", "notes/second.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/second.md");
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/second.md"));
 
       expect(discoverGroundingMock).not.toHaveBeenCalled();
@@ -1734,7 +1734,7 @@ describe("App", () => {
       discoverGroundingMock.mockReset().mockRejectedValueOnce(new Error("disk unavailable"));
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
 
       await waitFor(() => expect(discoverGroundingMock).toHaveBeenCalledWith("/project"));
       // Nothing else to await on a rejected promise; give the microtask queue a turn before
@@ -2073,7 +2073,7 @@ describe("App", () => {
       async () => {
         render(<App />);
         await act(async () => {
-          await window.__COWRITE_E2E__?.openProject("/project-a", "notes/a.md");
+          await window.__EMEND_E2E__?.openProject("/project-a", "notes/a.md");
         });
         await waitFor(() =>
           expect(openDocumentMock).toHaveBeenCalledWith("/project-a", "notes/a.md"),
@@ -2084,7 +2084,7 @@ describe("App", () => {
         });
 
         await act(async () => {
-          await window.__COWRITE_E2E__?.openProjectFolder("/project-b");
+          await window.__EMEND_E2E__?.openProjectFolder("/project-b");
         });
 
         expect(routeProjectOpenMock).toHaveBeenLastCalledWith("/project-b");
@@ -2099,7 +2099,7 @@ describe("App", () => {
       render(<App />);
 
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/target", "notes/target.md");
+        await window.__EMEND_E2E__?.openProject("/target", "notes/target.md");
       });
 
       const message = screen.getByText(
@@ -2116,13 +2116,13 @@ describe("App", () => {
       async () => {
         render(<App />);
         await act(async () => {
-          await window.__COWRITE_E2E__?.openProject("/project-a", "notes/a.md");
+          await window.__EMEND_E2E__?.openProject("/project-a", "notes/a.md");
         });
         await waitFor(() =>
           expect(openDocumentMock).toHaveBeenCalledWith("/project-a", "notes/a.md"),
         );
         await act(async () => {
-          await window.__COWRITE_E2E__?.openProject("/project-b", "notes/b.md");
+          await window.__EMEND_E2E__?.openProject("/project-b", "notes/b.md");
         });
 
         expect(openProjectMock).toHaveBeenLastCalledWith("/project-b");
@@ -2136,14 +2136,14 @@ describe("App", () => {
     it("the D23 null project fixture clears the previous editor into the bound replacement workshop", async () => {
       render(<App />);
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/project-a", "notes/a.md");
+        await window.__EMEND_E2E__?.openProject("/project-a", "notes/a.md");
       });
       await waitFor(() =>
         expect(screen.getByRole("tab", { name: /notes\/a\.md/ })).toBeInTheDocument(),
       );
 
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/project-b", null);
+        await window.__EMEND_E2E__?.openProject("/project-b", null);
       });
 
       expect(openProjectMock).toHaveBeenLastCalledWith("/project-b");
@@ -2161,7 +2161,7 @@ describe("App", () => {
       render(<App />);
 
       await act(async () => {
-        await window.__COWRITE_E2E__?.openProject("/e2e-project", "notes/outline.md");
+        await window.__EMEND_E2E__?.openProject("/e2e-project", "notes/outline.md");
       });
 
       expect(openProjectMock).toHaveBeenCalledWith("/e2e-project");
@@ -2187,7 +2187,7 @@ describe("App", () => {
       openDocumentMock.mockResolvedValueOnce({ content: "# Hi\n", revision: "blake3:abc" });
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
 
       await waitFor(() => {
         expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md");
@@ -2219,7 +2219,7 @@ describe("App", () => {
       openDocumentMock.mockResolvedValue({ content: "# Hi\n", revision: "blake3:abc" });
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project-a", "notes/a.md");
+      window.__EMEND_E2E__?.openProject("/project-a", "notes/a.md");
       await waitFor(() => {
         expect(openDocumentMock).toHaveBeenCalledWith("/project-a", "notes/a.md");
       });
@@ -2228,7 +2228,7 @@ describe("App", () => {
       fireEvent.click(screen.getByRole("button", { name: "Send" }));
       expect(screen.getByText("hello from project A")).toBeInTheDocument();
 
-      window.__COWRITE_E2E__?.openProject("/project-b", "notes/b.md");
+      window.__EMEND_E2E__?.openProject("/project-b", "notes/b.md");
       await waitFor(() => {
         expect(openDocumentMock).toHaveBeenCalledWith("/project-b", "notes/b.md");
       });
@@ -2245,7 +2245,7 @@ describe("App", () => {
       });
       render(<App />);
 
-      await window.__COWRITE_E2E__?.openProjectFolder("/project-a");
+      await window.__EMEND_E2E__?.openProjectFolder("/project-a");
       await waitFor(() => expect(loadTranscriptMock).toHaveBeenCalledWith("/project-a"));
       await waitFor(() => expect(announceBirth).toBeDefined());
 
@@ -2258,7 +2258,7 @@ describe("App", () => {
         ),
       );
 
-      await window.__COWRITE_E2E__?.openProjectFolder("/project-b");
+      await window.__EMEND_E2E__?.openProjectFolder("/project-b");
       await waitFor(() => expect(loadTranscriptMock).toHaveBeenCalledWith("/project-b"));
 
       await waitFor(() =>
@@ -2298,7 +2298,7 @@ describe("App", () => {
 
       // The document opens as a tab (J2 Phase B) — same project, so the same `TimelinePanel`
       // instance (`key={project}` unchanged) should relocate to the rail, not remount.
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
 
       await waitFor(() => expect(screen.getByRole("main", { name: "Editor" })).toBeInTheDocument());
       expect(document.querySelector(".app-body")).not.toHaveClass("app-body--workshop");
@@ -2314,7 +2314,7 @@ describe("App", () => {
       openDocumentMock.mockResolvedValueOnce({ content: "# Hi\n", revision: "blake3:abc" });
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitFor(() => expect(screen.getByRole("tab", { name: /notes\/outline\.md/ })).toBeInTheDocument());
       expect(document.querySelector(".app-body")).not.toHaveClass("app-body--workshop");
 
@@ -2352,7 +2352,7 @@ describe("App", () => {
       ]);
       const { container } = render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"));
       await screen.findByText("Tightened hook");
       // The redline seed (`parseChanges`) lands async — wait for the editor's own toolbar to report
@@ -2396,7 +2396,7 @@ describe("App", () => {
       ]);
       const { container } = render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await screen.findByText("Tightened hook");
       await waitFor(() => expect(screen.getByText("1 of 1")).toBeTruthy());
       await waitFor(() =>
@@ -2464,7 +2464,7 @@ describe("App", () => {
       ]);
       const { container } = render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await screen.findByText("Tightened hook");
       await waitFor(() => expect(screen.getByText("1 of 1")).toBeTruthy());
       await waitFor(() =>
@@ -2540,7 +2540,7 @@ describe("App", () => {
       ]);
       const { container } = render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await screen.findByText("Renamed the author");
       await waitFor(() => expect(screen.getByText("1 of 2")).toBeTruthy());
       await waitFor(() =>
@@ -2600,7 +2600,7 @@ describe("App", () => {
       loadTranscriptMock.mockResolvedValueOnce([legacyCard]);
       const { container } = render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitFor(() =>
         expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"),
       );
@@ -2651,7 +2651,7 @@ describe("App", () => {
       ]);
       const { container } = render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"));
       await screen.findByText("Renamed the author");
       await waitFor(() => expect(screen.getByText("1 of 2")).toBeTruthy());
@@ -2697,7 +2697,7 @@ describe("App", () => {
       ]);
       const { container } = render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"));
       await screen.findByText("Tightened hook");
       await waitFor(() => expect(screen.getByText("1 of 1")).toBeTruthy());
@@ -2755,7 +2755,7 @@ describe("App", () => {
       ]);
       const { container } = render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"));
       await screen.findByText("Tightened the opening");
       await screen.findByText("Softened the closing");
@@ -2835,7 +2835,7 @@ describe("App", () => {
       ]);
       const { container } = render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"));
       await screen.findByText("Proposed a replacement name");
       await screen.findByText("Flagged the outdated name");
@@ -2982,7 +2982,7 @@ describe("App", () => {
       openDocumentMock.mockResolvedValueOnce({ content: "# Hi\n", revision: "blake3:abc" });
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
 
       await waitForAsyncRender(() => {
         expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project", "notes/outline.md");
@@ -3008,7 +3008,7 @@ describe("App", () => {
         path === "a.md" ? [linkedThread] : []);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "b.md");
+      window.__EMEND_E2E__?.openProject("/project", "b.md");
       const card = await waitForAsyncRender(() => {
         const element = document.querySelector('[data-card-id="linked"]') as HTMLElement | null;
         expect(element).not.toBeNull();
@@ -3041,7 +3041,7 @@ describe("App", () => {
         path === "a.md" ? [retained] : []);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "b.md");
+      window.__EMEND_E2E__?.openProject("/project", "b.md");
       const card = await waitForAsyncRender(() => {
         const element = document.querySelector('[data-card-id="c1"]') as HTMLElement | null;
         expect(element).not.toBeNull();
@@ -3075,7 +3075,7 @@ describe("App", () => {
       parseChangesMock.mockResolvedValueOnce([parsed]);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitForAsyncRender(() =>
         expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project", "notes/outline.md"),
       );
@@ -3115,7 +3115,7 @@ describe("App", () => {
       resolveCommentMock.mockResolvedValueOnce([{ ...threads[0], resolved: true }, threads[1]]);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitForAsyncRender(() =>
         expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"),
       );
@@ -3152,18 +3152,18 @@ describe("App", () => {
         .mockResolvedValueOnce([thread("a"), thread("b"), thread("fresh-after-return")]);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "a.md");
+      window.__EMEND_E2E__?.openProject("/project", "a.md");
       await waitForAsyncRender(() => expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project", "a.md"));
       await waitForAsyncRender(() => expect(screen.getByRole("button", { name: /Address all/ })).toBeTruthy());
 
-      window.__COWRITE_E2E__?.openProject("/project", "b.md");
+      window.__EMEND_E2E__?.openProject("/project", "b.md");
       await waitForAsyncRender(() => expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project", "b.md"));
 
       await waitForAsyncRender(() => expect(screen.queryByRole("button", { name: /Address all/ })).toBeNull());
 
       // A late batch result for a.md can be left on disk while b.md is active. Returning to a.md
       // re-reads its sidecar instead of relying on a stale in-memory copy from the first visit.
-      window.__COWRITE_E2E__?.openProject("/project", "a.md");
+      window.__EMEND_E2E__?.openProject("/project", "a.md");
       await waitForAsyncRender(() => expect(loadCommentThreadsMock).toHaveBeenCalledTimes(3));
       await waitForAsyncRender(() => expect(screen.getByRole("button", { name: /Address all/ })).toBeTruthy());
       fireEvent.click(screen.getByRole("button", { name: /Address all/ }));
@@ -3184,11 +3184,11 @@ describe("App", () => {
       loadCommentThreadsMock.mockReturnValueOnce(bLoad);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "a.md");
+      window.__EMEND_E2E__?.openProject("/project", "a.md");
       await waitForAsyncRender(() => expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project", "a.md"));
       await waitForAsyncRender(() => expect(screen.getByRole("button", { name: /Address all/ })).toBeTruthy());
 
-      window.__COWRITE_E2E__?.openProject("/project", "b.md");
+      window.__EMEND_E2E__?.openProject("/project", "b.md");
       await waitForAsyncRender(() => expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project", "b.md"));
 
       // b.md's own load hasn't resolved yet — the header must already have dropped a.md's threads,
@@ -3207,7 +3207,7 @@ describe("App", () => {
       loadCommentThreadsMock.mockResolvedValueOnce([thread("a"), thread("b")]);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
 
       // Synchronize on the App-owned document/thread boundary before asserting its projection.
       // Waiting only for the button made this test's single 1s wait absorb tab restoration,
@@ -3241,7 +3241,7 @@ describe("App", () => {
       createCommentMock.mockResolvedValueOnce([thread("a"), created]);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitForAsyncRender(() =>
         expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project", "notes/outline.md"),
       );
@@ -3279,7 +3279,7 @@ describe("App", () => {
       createCommentMock.mockResolvedValueOnce([thread("c1", { body: "nice word" })]);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitForAsyncRender(() =>
         expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project", "notes/outline.md"),
       );
@@ -3301,14 +3301,14 @@ describe("App", () => {
     // (test-plan §7 — no racing the browser's own `Date.now()` against a Node process's for
     // `store::comments`'s causal `(timestamp, id)` fold ordering), the same reason
     // `setAutosaveIntervalMs`/`setExternalChangePollMs` exist above.
-    it("window.__COWRITE_E2E__.setCommentNowMs pins the timestamp for the mounted editor's comment actions (D23)", async () => {
+    it("window.__EMEND_E2E__.setCommentNowMs pins the timestamp for the mounted editor's comment actions (D23)", async () => {
       openDocumentMock.mockResolvedValueOnce({ content: "hello world\n", revision: "r0" });
       loadCommentThreadsMock.mockResolvedValueOnce([]);
       createCommentMock.mockResolvedValueOnce([thread("c1")]);
       render(<App />);
 
-      window.__COWRITE_E2E__?.setCommentNowMs(1234);
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.setCommentNowMs(1234);
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitForAsyncRender(() =>
         expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project", "notes/outline.md"),
       );
@@ -3360,7 +3360,7 @@ describe("App", () => {
       });
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitForAsyncRender(() =>
         expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project", "notes/outline.md"),
       );
@@ -3401,7 +3401,7 @@ describe("App", () => {
         progress: { addressed: [open.id], skipped: [], untouched: [], interrupted: null },
       });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       sizeContainer(document.body, 800);
       const timelineCard = await waitForAsyncRender(() => {
         const card = document.querySelector<HTMLElement>('.timeline-panel [data-card-kind="comment"][data-card-id="queued-comment"]');
@@ -3441,7 +3441,7 @@ describe("App", () => {
         progress: { addressed: [open.id], skipped: [], untouched: [], interrupted: null },
       });
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project", "notes/outline.md"); });
       sizeContainer(document.body, 800);
       const highlight = await waitForAsyncRender(() => {
         const found = document.querySelector<HTMLElement>('[data-comment-thread="popover-comment"]');
@@ -3496,7 +3496,7 @@ describe("App", () => {
       openDocumentMock.mockResolvedValue({ content: "hello world\n", revision: "r0" });
       loadCommentThreadsMock.mockImplementation(async (root: string) => root === "/project-a" ? [anchored] : []);
       render(<App />);
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project-a", "notes/shared.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project-a", "notes/shared.md"); });
       const highlight = await waitForAsyncRender(() => {
         const found = document.querySelector<HTMLElement>('[data-comment-thread="project-a-comment"]');
         expect(found).not.toBeNull();
@@ -3507,7 +3507,7 @@ describe("App", () => {
         .getByRole("button", { name: "Address with AI" }));
       await waitForAsyncRender(() => expect(startAddressRunMock.mock.calls[0].slice(0, 3))
         .toEqual(["/project-a", "notes/shared.md", ["project-a-comment"]]));
-      await act(async () => { await window.__COWRITE_E2E__?.openProject("/project-b", "notes/shared.md"); });
+      await act(async () => { await window.__EMEND_E2E__?.openProject("/project-b", "notes/shared.md"); });
       await waitForAsyncRender(() => expect(loadCommentThreadsMock).toHaveBeenCalledWith("/project-b", "notes/shared.md"));
       await act(async () => { completeAdmission(); });
       expect(document.querySelector('[data-card-kind="agent-working"][data-card-id="project-a-run"]')).toBeNull();
@@ -3543,7 +3543,7 @@ describe("App", () => {
       captureAnchorMock.mockResolvedValueOnce(ANCHOR);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"));
       await waitFor(() => expect(capturedOnSelectionChange).not.toBeNull());
 
@@ -3586,7 +3586,7 @@ describe("App", () => {
       captureAnchorMock.mockResolvedValueOnce(anchor);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/a.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/a.md");
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/a.md"));
       await waitFor(() => expect(capturedOnSelectionChange).not.toBeNull());
       act(() =>
@@ -3595,7 +3595,7 @@ describe("App", () => {
       fireEvent.click(screen.getByRole("button", { name: "Quote to chat" }));
       await waitFor(() => expect(screen.getByLabelText("Quoted selection")).toBeInTheDocument());
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/b.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/b.md");
       await waitFor(() =>
         expect(screen.getByRole("tab", { name: /notes\/b\.md/ })).toHaveAttribute(
           "aria-selected",
@@ -3621,7 +3621,7 @@ describe("App", () => {
       resolveAnchorMock.mockResolvedValueOnce({ from: 6, to: 11 });
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"));
       await waitFor(() => expect(capturedOnSelectionChange).not.toBeNull());
 
@@ -3644,7 +3644,7 @@ describe("App", () => {
       resolveAnchorMock.mockResolvedValueOnce(null);
       render(<App />);
 
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"));
       await waitFor(() => expect(capturedOnSelectionChange).not.toBeNull());
 
@@ -3707,7 +3707,7 @@ describe("App", () => {
     it("tells the agent which document the user is looking at — the defect #1724 reported", async () => {
       openDocumentMock.mockResolvedValue({ content: "# A Commandment Old and New\n", revision: "r0" });
       render(<App />);
-      window.__COWRITE_E2E__?.openProject("/project", "drafts/a-commandment.md");
+      window.__EMEND_E2E__?.openProject("/project", "drafts/a-commandment.md");
       await waitFor(() =>
         expect(openDocumentMock).toHaveBeenCalledWith("/project", "drafts/a-commandment.md"),
       );
@@ -3741,7 +3741,7 @@ describe("App", () => {
         activePath: "notes/outline.md",
       });
       render(<App />);
-      window.__COWRITE_E2E__?.openProjectFolder("/project");
+      window.__EMEND_E2E__?.openProjectFolder("/project");
       await screen.findByRole("tab", { name: /notes\/appendix\.md/ });
 
       sendMessage("what am I working on?");
@@ -3769,7 +3769,7 @@ describe("App", () => {
         activePath: "untitled:1:notes/sermon-seed.md",
       });
       render(<App />);
-      window.__COWRITE_E2E__?.openProjectFolder("/project");
+      window.__EMEND_E2E__?.openProjectFolder("/project");
       await screen.findByRole("tab", { name: /recovered from notes\/sermon-seed\.md/ });
 
       sendMessage("proofread this");
@@ -3796,7 +3796,7 @@ describe("App", () => {
 
     it("still supplies an explicit empty set with nothing open rather than nothing at all", async () => {
       render(<App />);
-      window.__COWRITE_E2E__?.openProjectFolder("/fresh-project");
+      window.__EMEND_E2E__?.openProjectFolder("/fresh-project");
       await waitFor(() => expect(screen.getByLabelText("Message")).toBeInTheDocument());
 
       sendMessage("what is this project about?");
@@ -3817,7 +3817,7 @@ describe("App", () => {
       openDocumentMock.mockResolvedValue({ content: "hello world\n", revision: "r0" });
       captureAnchorMock.mockResolvedValueOnce(anchor);
       render(<App />);
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"));
       await waitFor(() => expect(capturedOnSelectionChange).not.toBeNull());
 
@@ -3842,7 +3842,7 @@ describe("App", () => {
         createCommentCard("/project", "notes/outline.md", target, { id: "card-c1" }),
       ]);
       render(<App />);
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       const card = await waitFor(() => {
         const el = document.querySelector('[data-card-id="c1"]');
         expect(el).not.toBeNull();
@@ -3870,7 +3870,7 @@ describe("App", () => {
       openDocumentMock.mockResolvedValue({ content: "hello world\n", revision: "r0" });
       loadCommentThreadsMock.mockResolvedValue([anchored]);
       render(<App />);
-      window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+      window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
       const highlight = await waitFor(() => {
         const el = document.querySelector('[data-comment-thread="c1"]');
         expect(el).not.toBeNull();
@@ -4028,7 +4028,7 @@ describe("App — File > Save As… uses the active saved document's existing Sa
       return Promise.resolve(() => {});
     });
     const { container } = render(<App />);
-    await window.__COWRITE_E2E__?.openProject("/project", "notes/original.md");
+    await window.__EMEND_E2E__?.openProject("/project", "notes/original.md");
     await screen.findByRole("tab", { name: /notes\/original\.md/ });
     await waitFor(() => expect(emitSaveAs).toBeDefined());
     // A tab exists before its asynchronous document load has mounted CodeMirror. The menu action
@@ -4037,7 +4037,7 @@ describe("App — File > Save As… uses the active saved document's existing Sa
     await waitFor(() =>
       expect(container.querySelector(".cm-content")).toHaveTextContent("original"),
     );
-    window.__COWRITE_E2E__?.setNextSaveAsDialogResult("/project/archive/copy.md");
+    window.__EMEND_E2E__?.setNextSaveAsDialogResult("/project/archive/copy.md");
 
     act(() => emitSaveAs?.());
 
@@ -4146,7 +4146,7 @@ describe("App — an agent delivery reaches both surfaces (#346, J1 Phase B)", (
     openDocumentMock.mockResolvedValue({ content: "# Outline\n", revision: "r1" });
 
     const rendered = render(<App />);
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"));
     await waitFor(() => expect(emit).toBeDefined());
     return { ...rendered, emit: emit! };
@@ -4200,7 +4200,7 @@ describe("App — an agent delivery reaches both surfaces (#346, J1 Phase B)", (
     openDocumentMock.mockResolvedValue({ content: "# Outline\n", revision: "r1" });
 
     const { unmount } = render(<App />);
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     await waitFor(() => expect(listenForDeliveriesMock).toHaveBeenCalled());
 
     unmount();
@@ -4212,7 +4212,7 @@ describe("App — an agent delivery reaches both surfaces (#346, J1 Phase B)", (
     it("does not expose a delivery producer hook", () => {
       render(<App />);
 
-      expect("notifyDelivery" in (window.__COWRITE_E2E__ ?? {})).toBe(false);
+      expect("notifyDelivery" in (window.__EMEND_E2E__ ?? {})).toBe(false);
       expect(screen.getByRole("button", { name: "Open a folder…" })).toBeInTheDocument();
     });
   });
@@ -4226,7 +4226,7 @@ describe("App — an agent delivery reaches both surfaces (#346, J1 Phase B)", (
     const { emit } = await openedProject(); // notes/outline.md open + active
     parseChangesMock.mockResolvedValue(deliveredParse());
     // Open a second document; it becomes the active tab, pushing outline.md to the background.
-    window.__COWRITE_E2E__?.openProject("/project", "notes/second.md");
+    window.__EMEND_E2E__?.openProject("/project", "notes/second.md");
     await waitFor(() => expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/second.md"));
 
     emit(deliveryNotice()); // delivered to the now-background notes/outline.md
@@ -4267,7 +4267,7 @@ describe("App — an agent delivery reaches both surfaces (#346, J1 Phase B)", (
     parseChangesMock.mockResolvedValue(deliveredParse());
 
     const { container } = render(<App />);
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     await waitFor(() => expect(emit).toBeDefined());
     await waitFor(() =>
       expect(container.querySelector(".cm-content")).toHaveTextContent("in-flight edit"),
@@ -4310,8 +4310,8 @@ describe("App — an agent delivery reaches both surfaces (#346, J1 Phase B)", (
     const { container } = render(<App />);
     // Injectable clock, not a sleep (test-plan §7): drive the FR-ED-7 poll small so the banner
     // arrives on a condition instead of waiting out the 5 s default.
-    window.__COWRITE_E2E__?.setExternalChangePollMs(10);
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.setExternalChangePollMs(10);
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     await waitFor(() => expect(emit).toBeDefined());
     await waitFor(() =>
       expect(container.querySelector(".cm-content")).toHaveTextContent("in-flight edit"),
@@ -4425,7 +4425,7 @@ describe("App — a document birth reaches both surfaces (#420, J2 Phase B)", ()
     openDocumentMock.mockResolvedValue({ content: "# Outline\n", revision: "r1" });
 
     render(<App />);
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     await waitFor(() =>
       expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"),
     );
@@ -4749,7 +4749,7 @@ describe("App — a birth notice and a delivery notice landing in the same task 
     parseChangesMock.mockResolvedValue(deliveredParse());
 
     const { container } = render(<App />);
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     await waitFor(() => expect(deliveryEmit).toBeDefined());
     await waitFor(() => expect(birthEmit).toBeDefined());
 
@@ -4875,7 +4875,7 @@ describe("App — live project path transitions and Missing on disk (#932/#933)"
     });
     const { container } = render(<App />);
 
-    const opening = window.__COWRITE_E2E__!.openProjectFolder("/project");
+    const opening = window.__EMEND_E2E__!.openProjectFolder("/project");
     // The visible row proves the rail completed and applied generation 1 while the outer session
     // read still held `request` null, so no `TabbedEditor` existed to receive it directly.
     fireEvent.click(await screen.findByRole("treeitem", { name: "notes" }));
@@ -4931,7 +4931,7 @@ describe("App — live project path transitions and Missing on disk (#932/#933)"
     });
     const { container } = render(<App />);
 
-    const opening = window.__COWRITE_E2E__!.openProjectFolder("/project");
+    const opening = window.__EMEND_E2E__!.openProjectFolder("/project");
     expect(await screen.findByRole("treeitem", { name: "readme.md" })).toBeInTheDocument();
 
     await act(async () => {
@@ -4984,7 +4984,7 @@ describe("App — live project path transitions and Missing on disk (#932/#933)"
     });
     render(<App />);
 
-    const opening = window.__COWRITE_E2E__!.openProjectFolder("/project");
+    const opening = window.__EMEND_E2E__!.openProjectFolder("/project");
     expect(await screen.findByRole("treeitem", { name: "middle.md" })).toBeInTheDocument();
     await waitFor(() => expect(announce).toBeDefined());
     act(() => {
@@ -5042,7 +5042,7 @@ describe("App — live project path transitions and Missing on disk (#932/#933)"
     render(<App />);
 
     await act(async () => {
-      await window.__COWRITE_E2E__?.openProject("/project", "source.md");
+      await window.__EMEND_E2E__?.openProject("/project", "source.md");
     });
     expect(await screen.findByRole("tab", { name: /source\.md/ })).toBeInTheDocument();
     await waitFor(() => expect(announce).toBeDefined());
@@ -5120,7 +5120,7 @@ describe("App — live project path transitions and Missing on disk (#932/#933)"
     });
     render(<App />);
 
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     await waitFor(() =>
       expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"),
     );
@@ -5207,7 +5207,7 @@ describe("App — live project path transitions and Missing on disk (#932/#933)"
     });
     render(<App />);
 
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     await waitFor(() =>
       expect(setOpenTabsMock).toHaveBeenLastCalledWith(
         "/project",
@@ -5288,7 +5288,7 @@ describe("App — live project path transitions and Missing on disk (#932/#933)"
     });
     render(<App />);
 
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     await waitFor(() =>
       expect(openDocumentMock).toHaveBeenCalledWith("/project", "notes/outline.md"),
     );
@@ -5336,7 +5336,7 @@ describe("App — live project path transitions and Missing on disk (#932/#933)"
     });
     const { container } = render(<App />);
 
-    window.__COWRITE_E2E__?.openProject("/project", "notes/outline.md");
+    window.__EMEND_E2E__?.openProject("/project", "notes/outline.md");
     const rail = await screen.findByRole("complementary", { name: "Project files" });
     await waitFor(() =>
       expect(within(rail).getByRole("treeitem", { name: "notes/outline.md" })).toHaveAttribute(

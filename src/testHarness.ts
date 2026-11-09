@@ -15,7 +15,7 @@ export interface OpenRequest {
 }
 
 /**
- * `App` registers its setters here on mount; the dev-only `window.__COWRITE_E2E__` global below
+ * `App` registers its setters here on mount; the dev-only `window.__EMEND_E2E__` global below
  * calls through them. Indirection (rather than reading `window` from `App` directly) keeps this
  * module the single place that knows about the global, and keeps `App` test-hook-agnostic.
  *
@@ -87,7 +87,7 @@ export const testHarness: {
 
 declare global {
   interface Window {
-    __COWRITE_E2E__?: {
+    __EMEND_E2E__?: {
       openProject: (root: string, path: string | null) => Promise<void>;
       openProjectFolder: (root: string) => Promise<void>;
       setAutosaveIntervalMs: (ms: number) => void;
@@ -103,7 +103,7 @@ declare global {
 }
 
 if (import.meta.env.DEV) {
-  window.__COWRITE_E2E__ = {
+  window.__EMEND_E2E__ = {
     // Both project-open hooks resolve only once the backend has bound the project's MCP server
     // (TD-17, #472) — `page.evaluate` awaits the returned promise, so a script that starts a run
     // straight after opening cannot race the bind.

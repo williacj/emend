@@ -56,7 +56,7 @@ fixtures = { path = "../fixtures" }
 ```
 
 Path resolution is relative to the `fixtures` crate by default; set
-`COWRITE_FIXTURES_DIR` to point at the corpus root from another context (e.g. a
+`EMEND_FIXTURES_DIR` to point at the corpus root from another context (e.g. a
 frontend/e2e harness with a different working directory).
 
 ## Adding a fixture

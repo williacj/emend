@@ -33,9 +33,9 @@ const probe = `
     listen(Number(new URL(vite.url).port)),
     listen(driver.port),
   ]);
-  delete process.env.COWRITE_E2E_VITE_PORT;
-  delete process.env.COWRITE_E2E_TEST_DRIVER_PORT;
-  delete process.env.COWRITE_E2E_TEST_DRIVER_URL;
+  delete process.env.EMEND_E2E_VITE_PORT;
+  delete process.env.EMEND_E2E_TEST_DRIVER_PORT;
+  delete process.env.EMEND_E2E_TEST_DRIVER_URL;
   const independent = (await import("./playwright.config.mjs?independent-run")).default;
   const [independentVite, independentDriver] = independent.webServer;
   await Promise.all(occupied.map(close));

@@ -232,9 +232,9 @@ function runConveneStep(shell, script, scenario) {
       GITHUB_RUN_ID: '1',
       GITHUB_OUTPUT: outputFile,
       GH_TOKEN: 'x',
-      COWRITE_SLOT: 'base',
-      COWRITE_OTHER_SLOT: 'head',
-      COWRITE_VERDICT_SHA: 'deadbeef',
+      EMEND_SLOT: 'base',
+      EMEND_OTHER_SLOT: 'head',
+      EMEND_VERDICT_SHA: 'deadbeef',
     },
   });
   const raw = `${result.stdout}${result.stderr}`;
@@ -351,7 +351,7 @@ test('the readiness barrier requires a live peer, not a durable artifact from a 
   assert.match(yaml, /actions\/runs\/\$env:GITHUB_RUN_ID\/jobs/);
   // Derived from the slot, never hardcoded: a literal peer name silently stops matching for one of
   // the two slots and that slot would then convene with nothing.
-  assert.match(yaml, /\$peerJobName = "Isolation canary \(" \+ \$env:COWRITE_OTHER_SLOT \+ "\)"/);
+  assert.match(yaml, /\$peerJobName = "Isolation canary \(" \+ \$env:EMEND_OTHER_SLOT \+ "\)"/);
   // Liveness AND both markers — a live peer that has not yet published is not yet convened, and a
   // published marker from a peer that has exited is not a peer at all. Pinned as the NESTING, so the
   // marker count can never authorise convening outside the liveness guard.
@@ -382,7 +382,7 @@ test('a canary that convened nothing says so, distinctly from both pass and fail
   const yaml = readWorkflow();
   assert.match(yaml, /checks:\s*write/);
   assert.match(yaml, /conclusion\s*=\s*'neutral'/);
-  assert.match(yaml, /name\s*=\s*"Isolation canary \(not measured: \$env:COWRITE_SLOT\)"/);
+  assert.match(yaml, /name\s*=\s*"Isolation canary \(not measured: \$env:EMEND_SLOT\)"/);
   // The two not-measured causes are different operational facts and must not collapse into one
   // another: a peer that never got a runner (#1231) vs. a peer that ran and exited before this slot
   // started (the stale-artifact false green above).
@@ -483,8 +483,8 @@ function runColocationStep(shell, script, hostnames) {
       GITHUB_REPOSITORY: 'williacj/cowrite',
       GITHUB_OUTPUT: outputFile,
       GH_TOKEN: 'x',
-      COWRITE_SLOT: 'base',
-      COWRITE_VERDICT_SHA: 'deadbeef',
+      EMEND_SLOT: 'base',
+      EMEND_VERDICT_SHA: 'deadbeef',
     },
   });
   const raw = `${result.stdout}${result.stderr}`;
@@ -738,7 +738,7 @@ test('the dispatch contract supplies both revisions and the verdict binding, wit
   assert.match(inputs[1], hasDefault('ref_b'));
   assert.match(executable, /checkout_ref:\s*\$\{\{\s*inputs\.ref_a\s*\}\}/);
   assert.match(executable, /checkout_ref:\s*\$\{\{\s*inputs\.ref_b\s*\}\}/);
-  assert.match(executable, /COWRITE_VERDICT_SHA:\s*\$\{\{\s*github\.sha\s*\}\}/);
+  assert.match(executable, /EMEND_VERDICT_SHA:\s*\$\{\{\s*github\.sha\s*\}\}/);
   // The point of the whole card: a pull_request expression can only ever be empty now, and one that
   // is permanently empty while a test asserts its presence is worse than either removing it or
   // keeping it on purpose.

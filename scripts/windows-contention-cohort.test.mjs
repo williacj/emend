@@ -206,9 +206,9 @@ test('inspectCohort uses actions-readable run/job APIs and waits boundedly for b
   const second = job(2, 'Full suite contention (peer, two)', 24, 'cowrite-windows-2');
   const result = await inspectCohort({
     env: {
-      COWRITE_TARGET_SHA: 'a'.repeat(40),
-      COWRITE_PARALLELISM: 'two',
-      COWRITE_CARGO_BUILD_JOBS: '8',
+      EMEND_TARGET_SHA: 'a'.repeat(40),
+      EMEND_PARALLELISM: 'two',
+      EMEND_CARGO_BUILD_JOBS: '8',
       GITHUB_RUN_ID: '42',
       GITHUB_REPOSITORY: 'owner/repo',
       GH_TOKEN: 'secret',
@@ -237,9 +237,9 @@ test('inspectWindow delegates the complete measured interval to durable job vali
   const current = job(1, 'Full suite contention (base, one)', 22, 'cowrite-windows');
   const result = await inspectWindow({
     env: {
-      COWRITE_PARALLELISM: 'one',
-      COWRITE_BENCHMARK_STARTED_AT: '2026-07-31T19:00:00Z',
-      COWRITE_BENCHMARK_ENDED_AT: '2026-07-31T19:10:00Z',
+      EMEND_PARALLELISM: 'one',
+      EMEND_BENCHMARK_STARTED_AT: '2026-07-31T19:00:00Z',
+      EMEND_BENCHMARK_ENDED_AT: '2026-07-31T19:10:00Z',
       GITHUB_RUN_ID: '42',
       GITHUB_REPOSITORY: 'owner/repo',
       GH_TOKEN: 'secret',
@@ -267,9 +267,9 @@ test('inspectWindow paginates every run in its immutable timestamp range', async
   const current = job(1, 'Full suite contention (base, one)', 22, 'cowrite-windows');
   const result = await inspectWindow({
     env: {
-      COWRITE_PARALLELISM: 'one',
-      COWRITE_BENCHMARK_STARTED_AT: '2026-07-31T19:00:00Z',
-      COWRITE_BENCHMARK_ENDED_AT: '2026-07-31T19:10:00Z',
+      EMEND_PARALLELISM: 'one',
+      EMEND_BENCHMARK_STARTED_AT: '2026-07-31T19:00:00Z',
+      EMEND_BENCHMARK_ENDED_AT: '2026-07-31T19:10:00Z',
       GITHUB_RUN_ID: '42',
       GITHUB_REPOSITORY: 'owner/repo',
       GH_TOKEN: 'secret',
@@ -303,9 +303,9 @@ test("inspectWindow fails closed at GitHub's 1,000-result search cap", async () 
   await assert.rejects(
     () => inspectWindow({
       env: {
-        COWRITE_PARALLELISM: 'one',
-        COWRITE_BENCHMARK_STARTED_AT: '2026-07-31T19:00:00Z',
-        COWRITE_BENCHMARK_ENDED_AT: '2026-07-31T19:10:00Z',
+        EMEND_PARALLELISM: 'one',
+        EMEND_BENCHMARK_STARTED_AT: '2026-07-31T19:00:00Z',
+        EMEND_BENCHMARK_ENDED_AT: '2026-07-31T19:10:00Z',
         GITHUB_RUN_ID: '42',
         GITHUB_REPOSITORY: 'owner/repo',
         GH_TOKEN: 'secret',

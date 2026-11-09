@@ -6,7 +6,7 @@ ABOUTME: Browser platform styles and typed voice status do not prove physical de
 Regenerate from the repository root with:
 
 ```sh
-COWRITE_ALIGNMENT_SCENARIO='14b settings controls' COWRITE_ALIGNMENT_OUTPUT=docs/alignment-voice-settings-controls node scripts/capture-design-alignment.mjs
+EMEND_ALIGNMENT_SCENARIO='14b settings controls' EMEND_ALIGNMENT_OUTPUT=docs/alignment-voice-settings-controls node scripts/capture-design-alignment.mjs
 ```
 
 The script runs the production Vite/React/CSS tree against D23. D23 has no linked voice owner, so the capture substitutes `get_voice_status` at that absent transport boundary. It opens a real document, then the production Settings dialog. The measured manifest records the exact source commit, geometry, computed colors, loaded fonts, and capture failures. `Win32` and `MacIntel` navigator overrides choose the two browser platform styles; these are not native Windows/macOS title-control captures.

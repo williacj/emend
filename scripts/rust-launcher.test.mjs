@@ -25,13 +25,13 @@ test('falls back cleanly when sccache is unavailable', () => {
   assert.deepEqual(buildEnvironment({ env: {}, sccacheAvailable: false }), {});
 });
 
-test('COWRITE_SCCACHE_DISABLE=1 disables automatic sccache selection', () => {
+test('EMEND_SCCACHE_DISABLE=1 disables automatic sccache selection', () => {
   assert.deepEqual(
     buildEnvironment({
-      env: { COWRITE_SCCACHE_DISABLE: '1' },
+      env: { EMEND_SCCACHE_DISABLE: '1' },
       sccacheAvailable: true,
     }),
-    { COWRITE_SCCACHE_DISABLE: '1' },
+    { EMEND_SCCACHE_DISABLE: '1' },
   );
 });
 
@@ -60,14 +60,14 @@ test('an explicitly empty RUSTC_WRAPPER is still preserved', () => {
 
 // The two escape hatches can be set at once, so their precedence has to be a fact rather than an
 // accident: a wrapper the developer exported themselves is never overridden or removed, which means
-// COWRITE_SCCACHE_DISABLE=1 suppresses only the automatic selection. README states this.
-test('an exported RUSTC_WRAPPER outranks COWRITE_SCCACHE_DISABLE', () => {
+// EMEND_SCCACHE_DISABLE=1 suppresses only the automatic selection. README states this.
+test('an exported RUSTC_WRAPPER outranks EMEND_SCCACHE_DISABLE', () => {
   assert.deepEqual(
     buildEnvironment({
-      env: { RUSTC_WRAPPER: 'sccache', COWRITE_SCCACHE_DISABLE: '1' },
+      env: { RUSTC_WRAPPER: 'sccache', EMEND_SCCACHE_DISABLE: '1' },
       sccacheAvailable: true,
     }),
-    { RUSTC_WRAPPER: 'sccache', COWRITE_SCCACHE_DISABLE: '1' },
+    { RUSTC_WRAPPER: 'sccache', EMEND_SCCACHE_DISABLE: '1' },
   );
 });
 

@@ -20,7 +20,7 @@ export async function detectProviders(): Promise<ProviderStatusEntry[]> {
 /**
  * Opens the native OS folder picker and resolves the chosen path, or `null` if the user cancelled.
  * Tauri-only (D12: any folder is a project) — outside a webview (dev-mode e2e, D23) there is no
- * native dialog to drive, so this resolves `null`; e2e opens projects via `window.__COWRITE_E2E__`
+ * native dialog to drive, so this resolves `null`; e2e opens projects via `window.__EMEND_E2E__`
  * directly instead, as the rest of the walking skeleton already does.
  */
 // @anchor:test-plan-pick-project-folder

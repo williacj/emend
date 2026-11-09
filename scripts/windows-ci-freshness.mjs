@@ -51,16 +51,16 @@ export async function checkFreshness({
   }
 
   try {
-    if (!/^\d+$/.test(env.COWRITE_PR_NUMBER ?? '')) throw new Error('pull-request number is missing or malformed');
+    if (!/^\d+$/.test(env.EMEND_PR_NUMBER ?? '')) throw new Error('pull-request number is missing or malformed');
     if (!/^[^/]+\/[^/]+$/.test(env.GITHUB_REPOSITORY ?? '')) throw new Error('repository is missing or malformed');
     if (!env.GH_TOKEN) throw new Error('GH_TOKEN is missing');
     const response = await requestJson(
-      `/repos/${env.GITHUB_REPOSITORY}/pulls/${env.COWRITE_PR_NUMBER}`,
+      `/repos/${env.GITHUB_REPOSITORY}/pulls/${env.EMEND_PR_NUMBER}`,
       env,
     );
     return evaluateFreshness({
       eventName: env.GITHUB_EVENT_NAME,
-      eventHead: env.COWRITE_EVENT_HEAD_SHA,
+      eventHead: env.EMEND_EVENT_HEAD_SHA,
       currentHead: response.head?.sha,
     });
   } catch (error) {

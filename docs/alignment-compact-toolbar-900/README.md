@@ -6,7 +6,7 @@ ABOUTME: Separates browser platform styling and bundled-font evidence from nativ
 Regenerate from the repository root:
 
 ```sh
-COWRITE_ALIGNMENT_SCENARIO='compact toolbar' COWRITE_ALIGNMENT_OUTPUT=docs/alignment-compact-toolbar-900 node scripts/capture-design-alignment.mjs
+EMEND_ALIGNMENT_SCENARIO='compact toolbar' EMEND_ALIGNMENT_OUTPUT=docs/alignment-compact-toolbar-900 node scripts/capture-design-alignment.mjs
 ```
 
 | State | Win32 browser style | MacIntel browser style |

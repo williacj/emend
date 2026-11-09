@@ -875,10 +875,10 @@ mod tests {
     #[test]
     #[ignore = "subprocess helper invoked by the parent lease test"]
     fn tab_session_lease_holder_subprocess() {
-        let Ok(root) = std::env::var("COWRITE_TAB_SESSION_CHILD_ROOT") else {
+        let Ok(root) = std::env::var("EMEND_TAB_SESSION_CHILD_ROOT") else {
             return;
         };
-        let app_local_data_dir = std::env::var("COWRITE_TAB_SESSION_CHILD_DATA")
+        let app_local_data_dir = std::env::var("EMEND_TAB_SESSION_CHILD_DATA")
             .expect("the parent supplies an isolated app-local data directory");
         let coordinator = TabSessionCoordinator::new(app_local_data_dir.into());
         begin_tab_session_on(
@@ -888,7 +888,7 @@ mod tests {
             "child-attachment".into(),
         )
         .unwrap();
-        println!("COWRITE_TAB_SESSION_LEASE_READY");
+        println!("EMEND_TAB_SESSION_LEASE_READY");
         std::io::stdout().flush().unwrap();
         let mut release = [0_u8; 1];
         let _ = std::io::stdin().read_exact(&mut release);
@@ -902,13 +902,13 @@ mod tests {
         let mut child = spawn_ignored_test(
             "commands::tabs::tests::tab_session_lease_holder_subprocess",
             &[
-                ("COWRITE_TAB_SESSION_CHILD_ROOT", root.as_ref()),
+                ("EMEND_TAB_SESSION_CHILD_ROOT", root.as_ref()),
                 (
-                    "COWRITE_TAB_SESSION_CHILD_DATA",
+                    "EMEND_TAB_SESSION_CHILD_DATA",
                     app_data.path().as_os_str(),
                 ),
             ],
-            "COWRITE_TAB_SESSION_LEASE_READY",
+            "EMEND_TAB_SESSION_LEASE_READY",
         );
 
         let second_process = TabSessionCoordinator::new(app_data.path().to_path_buf());
