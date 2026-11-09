@@ -547,7 +547,7 @@ function parseCrateManifestNames(text) {
  * replaced by `_` regardless of whether the table gives an explicit override or the package-name
  * default applies (a hyphenated name is legal in Cargo.toml but never in a linked artifact's file
  * name) — verified against a real `cargo test --workspace 2>&1` transcript on this repo, not
- * assumed (#2308): the root crate's `[lib] name = "cowrite_lib"` override and every other crate's
+ * assumed (#2308): the root crate's `[lib] name = "emend_lib"` override and every other crate's
  * un-overridden default both show up on cargo's own `Running` header exactly this way.
  */
 export function findRustCrateManifests({ repoRoot, readSourceFile }) {

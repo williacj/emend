@@ -9,5 +9,5 @@ name = "detached-launcher-test-helper"
 path = "src/main.rs"
 
 [dependencies]
-cowrite = { path = "../.." }
+emend = { path = "../.." }
 uuid = "1"

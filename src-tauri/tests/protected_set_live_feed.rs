@@ -23,11 +23,11 @@ use std::sync::{Arc, Mutex};
 
 use serde_json::json;
 
-use cowrite_lib::agent::mcp::ProjectMcpServer;
-use cowrite_lib::agent::session::AgentSession;
-use cowrite_lib::agent::watchdog::{ProtectedSet, Watchdog, WriteOutcome};
-use cowrite_lib::store::changes;
-use cowrite_lib::store::service::SidecarStore;
+use emend_lib::agent::mcp::ProjectMcpServer;
+use emend_lib::agent::session::AgentSession;
+use emend_lib::agent::watchdog::{ProtectedSet, Watchdog, WriteOutcome};
+use emend_lib::store::changes;
+use emend_lib::store::service::SidecarStore;
 
 mod common;
 use common::{fake_agent_bin, fake_agent_scenario, mcp_call_ok, workdir};

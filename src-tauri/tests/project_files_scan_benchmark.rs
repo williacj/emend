@@ -3,7 +3,7 @@
 
 use std::fs;
 
-use cowrite_lib::project_files::{
+use emend_lib::project_files::{
     EntryKind, FilesystemScanner, ProjectFileEntry, ProjectFilesScanner,
 };
 

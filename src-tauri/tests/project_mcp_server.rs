@@ -9,8 +9,8 @@ use std::time::Duration;
 use serde_json::json;
 use tempfile::TempDir;
 
-use cowrite_lib::agent::claude::{self, McpServer};
-use cowrite_lib::agent::mcp::ProjectMcpServer;
+use emend_lib::agent::claude::{self, McpServer};
+use emend_lib::agent::mcp::ProjectMcpServer;
 
 mod common;
 use common::mcp_call;

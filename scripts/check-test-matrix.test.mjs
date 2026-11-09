@@ -1826,12 +1826,12 @@ test("every results parser files each executed name under the file it ran in", (
 
   const cargoWithCrate = parseCargoTestOutput(
     cargoArtifactWithTargets([
-      { targetSource: "unittests src\\lib.rs", binary: "cowrite_lib", entries: [{ path: "editor::tests::round_trips" }] },
+      { targetSource: "unittests src\\lib.rs", binary: "emend_lib", entries: [{ path: "editor::tests::round_trips" }] },
     ]),
   );
   assert.deepEqual(
     [...cargoWithCrate.crateOf.get("editor::tests::round_trips")],
-    ["cowrite_lib"],
+    ["emend_lib"],
     "cargo's own Running header names the crate binary a path's test ran in (#2308)",
   );
 });
@@ -1974,9 +1974,9 @@ test("closing (f-1)'s second residual: two crates deriving the identical module 
     },
   });
   writeFileSync(join(root, "src-tauri/src/foo.rs"), `#[test]\nfn ${shared}() {}\n`);
-  // The root crate's own manifest — needed so `foo.rs`'s expected crate binary ("cowrite", the
+  // The root crate's own manifest — needed so `foo.rs`'s expected crate binary ("emend", the
   // package-name default with no `[lib]` override) resolves at all, distinct from `fake_agent`.
-  writeCrateManifest(root, "src-tauri", { name: "cowrite" });
+  writeCrateManifest(root, "src-tauri", { name: "emend" });
   mkdirSync(join(root, "src-tauri/crates/fake-agent/src"), { recursive: true });
   writeCrateManifest(root, "src-tauri/crates/fake-agent", { name: "fake-agent", lib: { name: "fake_agent", path: "src/lib.rs" } });
   writeFileSync(join(root, "src-tauri/crates/fake-agent/src/foo.rs"), `#[test]\nfn ${shared}() {}\n`);
@@ -2024,17 +2024,17 @@ test("rustModuleSegments resolves all six of its own outcomes, not just the src/
 
 test("rustExpectedCrateBinary derives the crate a Running header would name, for each rustModuleSegments shape (#2308)", () => {
   const manifests = [
-    { crateDir: "src-tauri", libBinary: "cowrite_lib", binBinary: "cowrite" },
+    { crateDir: "src-tauri", libBinary: "emend_lib", binBinary: "emend" },
     { crateDir: "src-tauri/crates/provider-contract", libBinary: "provider_contract", binBinary: "provider_contract" },
   ];
   assert.equal(
     rustExpectedCrateBinary("src-tauri/src/store/settings.rs", manifests),
-    "cowrite_lib",
+    "emend_lib",
     "an ordinary src/ file compiles into its crate's lib target",
   );
   assert.equal(
     rustExpectedCrateBinary("src-tauri/src/main.rs", manifests),
-    "cowrite",
+    "emend",
     "main.rs is the crate's bin target, not its lib",
   );
   assert.equal(
@@ -2061,10 +2061,10 @@ test("rustExpectedCrateBinary derives the crate a Running header would name, for
 
 test("findRustCrateManifests reads a real Cargo.toml's [package]/[lib]/[[bin]] names, hyphens underscored (#2308)", () => {
   // Verified against this repo's real manifests (not assumed): the root crate's `[lib] name =
-  // "cowrite_lib"` override, and `fake-agent`'s package-default lib/bin names, both show up on
+  // "emend_lib"` override, and `fake-agent`'s package-default lib/bin names, both show up on
   // cargo's own `Running` header exactly this way (a real `cargo test --workspace 2>&1` capture).
   const root = mkdtempSync(join(tmpdir(), "cowrite-matrix-crate-"));
-  writeCrateManifest(root, "src-tauri", { name: "cowrite", lib: { name: "cowrite_lib" } });
+  writeCrateManifest(root, "src-tauri", { name: "emend", lib: { name: "emend_lib" } });
   writeCrateManifest(root, "src-tauri/crates/fake-agent", {
     name: "fake-agent",
     lib: { name: "fake_agent", path: "src/lib.rs" },
@@ -2073,7 +2073,7 @@ test("findRustCrateManifests reads a real Cargo.toml's [package]/[lib]/[[bin]] n
   const manifests = findRustCrateManifests({ repoRoot: root, readSourceFile: readFileSync });
   assert.deepEqual(
     manifests.find((m) => m.crateDir === "src-tauri"),
-    { crateDir: "src-tauri", libBinary: "cowrite_lib", binBinary: "cowrite" },
+    { crateDir: "src-tauri", libBinary: "emend_lib", binBinary: "emend" },
     "the root crate has no [[bin]] table, so its bin binary falls back to the package name default",
   );
   assert.deepEqual(

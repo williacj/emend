@@ -29,7 +29,7 @@ impl crate::agent::permission::PermissionObserver for TauriPermissionEmitter {
             .0
             .notification()
             .builder()
-            .title("Cowrite")
+            .title("Emend")
             .body("The agent is waiting for your permission.")
             .show()
         {

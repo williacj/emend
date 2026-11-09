@@ -5,13 +5,13 @@ use std::path::Path;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 
-use cowrite_lib::agent::project::{OpenProjectRunObserver, ProjectObservers};
-use cowrite_lib::agent::run_queue::{NoopEmitter, RunObserver, RunPhase, RunQueue, RunRequest};
-use cowrite_lib::agent::session::{AgentSession, SessionError};
-use cowrite_lib::commands::project::{new_session, open_project_on};
-use cowrite_lib::commands::tabs::set_open_tabs_on;
-use cowrite_lib::store::changes;
-use cowrite_lib::store::service::SidecarStore;
+use emend_lib::agent::project::{OpenProjectRunObserver, ProjectObservers};
+use emend_lib::agent::run_queue::{NoopEmitter, RunObserver, RunPhase, RunQueue, RunRequest};
+use emend_lib::agent::session::{AgentSession, SessionError};
+use emend_lib::commands::project::{new_session, open_project_on};
+use emend_lib::commands::tabs::set_open_tabs_on;
+use emend_lib::store::changes;
+use emend_lib::store::service::SidecarStore;
 
 mod common;
 use common::{fake_agent_bin, fake_agent_scenario, workdir};
@@ -39,7 +39,7 @@ fn wait_until(timeout: Duration, description: &str, predicate: impl Fn() -> bool
 
 fn open_production_project(
     root: &Path,
-) -> (cowrite_lib::agent::project::SharedOpenProject, RunQueue) {
+) -> (emend_lib::agent::project::SharedOpenProject, RunQueue) {
     let session = new_session();
     open_project_on(
         &session,

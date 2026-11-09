@@ -1,7 +1,7 @@
 // ABOUTME: Real-repository tests for D12's optional Git capability and explicit initialization.
 // ABOUTME: Checks Git state through the backend service without relying on a system Git binary.
 
-use cowrite_lib::gitops::repository::{initialize, inspect, RepositoryError, RepositoryState};
+use emend_lib::gitops::repository::{initialize, inspect, RepositoryError, RepositoryState};
 use std::fs;
 
 #[test]

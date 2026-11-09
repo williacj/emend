@@ -8,10 +8,10 @@ use std::thread;
 use serde_json::{json, Value};
 use tempfile::TempDir;
 
-use cowrite_lib::agent::mcp::LoopbackMcpServer;
-use cowrite_lib::agent::state::McpContext;
-use cowrite_lib::store::comments::{self, CommentEvent, EventKind};
-use cowrite_lib::store::service::SidecarStore;
+use emend_lib::agent::mcp::LoopbackMcpServer;
+use emend_lib::agent::state::McpContext;
+use emend_lib::store::comments::{self, CommentEvent, EventKind};
+use emend_lib::store::service::SidecarStore;
 
 /// A project root with two docs and a sidecar on `draft.md`, plus a running loopback server whose
 /// protected set is `["draft.md"]` (the single open tab). Returns the bound address, the session
@@ -799,7 +799,7 @@ fn parameterless_tools_accept_omitted_arguments_and_ping_is_supported() {
 
 #[test]
 fn real_mcp_handshake_discovers_and_waits_for_a_provider_permission_callback() {
-    use cowrite_lib::agent::permission::{PermissionBroker, PermissionDecision, PermissionState};
+    use emend_lib::agent::permission::{PermissionBroker, PermissionDecision, PermissionState};
     use std::sync::{mpsc, Arc};
     use std::time::Duration;
     let (tx, rx) = mpsc::channel();
@@ -871,7 +871,7 @@ fn real_mcp_handshake_discovers_and_waits_for_a_provider_permission_callback() {
 
 #[test]
 fn mcp_cancellation_denies_only_the_bound_pending_callback() {
-    use cowrite_lib::agent::permission::{PermissionBroker, PermissionState};
+    use emend_lib::agent::permission::{PermissionBroker, PermissionState};
     use std::sync::{mpsc, Arc};
     use std::time::Duration;
     let (tx, rx) = mpsc::channel();
@@ -923,8 +923,8 @@ fn mcp_cancellation_denies_only_the_bound_pending_callback() {
 
 #[test]
 fn project_mcp_script_grants_reuse_changed_arguments_and_revoke_on_content_controls_and_run() {
-    use cowrite_lib::agent::mcp::ProjectMcpServer;
-    use cowrite_lib::agent::permission::{PermissionDecision, PermissionState};
+    use emend_lib::agent::mcp::ProjectMcpServer;
+    use emend_lib::agent::permission::{PermissionDecision, PermissionState};
     use std::sync::{mpsc, Arc};
     use std::time::Duration;
     let dir = TempDir::new().unwrap();
@@ -1056,8 +1056,8 @@ fn project_mcp_script_grants_reuse_changed_arguments_and_revoke_on_content_contr
 
 #[test]
 fn script_changed_while_waiting_cannot_be_approved_from_stale_display() {
-    use cowrite_lib::agent::mcp::ProjectMcpServer;
-    use cowrite_lib::agent::permission::{PermissionDecision, PermissionState};
+    use emend_lib::agent::mcp::ProjectMcpServer;
+    use emend_lib::agent::permission::{PermissionDecision, PermissionState};
     use std::sync::{mpsc, Arc};
     use std::time::Duration;
     let dir = TempDir::new().unwrap();

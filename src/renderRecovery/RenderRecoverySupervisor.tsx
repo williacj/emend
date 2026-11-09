@@ -136,7 +136,7 @@ function Attempt({
         onCaught={(context, error) => onCaught(model.token, context, error)}
         renderFallback={(context) => (
           <>
-            <WindowChrome platform={platform} title={platform === "win" ? "Cowrite" : ""} />
+            <WindowChrome platform={platform} title={platform === "win" ? "Emend" : ""} />
             <RenderFailureFallback
               context={context}
               requestState={model.requestState}

@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Cowrite",
+  "productName": "Emend",
   "version": "0.1.0",
-  "identifier": "com.cowrite.desktop",
+  "identifier": "com.emend.desktop",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Cowrite",
+        "title": "Emend",
         "width": 1200,
         "height": 800,
         "minWidth": 720,

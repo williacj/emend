@@ -9,10 +9,10 @@ resolver = "2"
 debug = 1
 
 [package]
-name = "cowrite"
+name = "emend"
 version = "0.1.0"
-description = "Cowrite — a desktop app for writing and reviewing markdown."
-authors = ["Cowrite"]
+description = "Emend — a desktop app for writing and reviewing markdown."
+authors = ["Emend"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -21,7 +21,7 @@ edition = "2021"
 # The `_lib` suffix may seem redundant but it is necessary
 # to make the lib name unique and wouldn't conflict with the bin name.
 # This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
-name = "cowrite_lib"
+name = "emend_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

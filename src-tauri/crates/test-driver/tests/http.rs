@@ -10,15 +10,15 @@ use std::sync::{mpsc, Arc, Mutex, OnceLock};
 use std::thread;
 use std::time::{Duration, Instant};
 
-use cowrite_lib::agent::run_queue::{RunQueue, RunRequest};
-use cowrite_lib::agent::session::{AgentSession, SessionError};
-use cowrite_lib::commands::agent::{DELIVERY_EVENT, DOCUMENT_BIRTH_EVENT};
-use cowrite_lib::commands::project::PROJECT_FILES_EVENT;
-use cowrite_lib::voice::model_download::{
+use emend_lib::agent::run_queue::{RunQueue, RunRequest};
+use emend_lib::agent::session::{AgentSession, SessionError};
+use emend_lib::commands::agent::{DELIVERY_EVENT, DOCUMENT_BIRTH_EVENT};
+use emend_lib::commands::project::PROJECT_FILES_EVENT;
+use emend_lib::voice::model_download::{
     DownloadFailure, DownloadResponse, DownloadTransport, ResponseRange,
 };
-use cowrite_lib::voice::settings::VoiceError;
-use cowrite_lib::{OPEN_DOCUMENT_EVENT, SAVE_DOCUMENT_AS_EVENT};
+use emend_lib::voice::settings::VoiceError;
+use emend_lib::{OPEN_DOCUMENT_EVENT, SAVE_DOCUMENT_AS_EVENT};
 use tempfile::TempDir;
 
 /// Binds an ephemeral loopback port, serves it on a background thread, and returns the bound
@@ -1235,7 +1235,7 @@ fn run_state_preserves_two_terminals_that_finish_between_http_polls_in_order() {
 /// failing to open a project first (#1149 PR review, round 2: the original version of this test
 /// held neither half, so the plant never influenced its outcome).
 ///
-/// [`spawn_claude_run`]: cowrite_lib::commands::agent::spawn_claude_run
+/// [`spawn_claude_run`]: emend_lib::commands::agent::spawn_claude_run
 #[test]
 fn start_run_through_serve_never_spawns_the_real_claude_cli_even_when_one_is_genuinely_on_path() {
     let dir = TempDir::new().expect("project dir");
@@ -2067,7 +2067,7 @@ enum VoiceStall {
 
 struct CancelledBodyReader {
     entered: mpsc::SyncSender<()>,
-    cancel: cowrite_lib::voice::model_download::DownloadCancellation,
+    cancel: emend_lib::voice::model_download::DownloadCancellation,
     sent_first: bool,
 }
 
@@ -2092,7 +2092,7 @@ impl DownloadTransport for CancelledVoiceTransport {
         &self,
         _url: &str,
         offset: u64,
-        cancel: &cowrite_lib::voice::model_download::DownloadCancellation,
+        cancel: &emend_lib::voice::model_download::DownloadCancellation,
     ) -> Result<DownloadResponse, DownloadFailure> {
         match self.stall {
             VoiceStall::Connect => {
@@ -2167,7 +2167,7 @@ fn stalled_voice_download_cancel_publishes_revisioned_cancelling_and_cancelled_w
             .as_array()
             .unwrap()
             .iter()
-            .filter(|event| event["event"] == cowrite_lib::commands::voice::VOICE_DOWNLOAD_EVENT)
+            .filter(|event| event["event"] == emend_lib::commands::voice::VOICE_DOWNLOAD_EVENT)
             .map(|event| &event["payload"])
             .collect();
         let phases: Vec<&str> = notices
@@ -2204,7 +2204,7 @@ impl DownloadTransport for HeldVoiceTransport {
         &self,
         _url: &str,
         offset: u64,
-        _cancel: &cowrite_lib::voice::model_download::DownloadCancellation,
+        _cancel: &emend_lib::voice::model_download::DownloadCancellation,
     ) -> Result<DownloadResponse, DownloadFailure> {
         self.opened.send(()).unwrap();
         self.release.lock().unwrap().recv().unwrap();

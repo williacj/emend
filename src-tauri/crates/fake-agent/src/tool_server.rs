@@ -1,12 +1,12 @@
 // ABOUTME: Stub MCP tool server — the in-process stand-in the fake agent calls (test-plan §1, P0-7).
-// ABOUTME: The real loopback server landed in P2a-12 (`cowrite_lib::agent::mcp`, TD-1 §3.2); this stub stays the fake-agent's deterministic in-process seam for scenario round-trips.
+// ABOUTME: The real loopback server landed in P2a-12 (`emend_lib::agent::mcp`, TD-1 §3.2); this stub stays the fake-agent's deterministic in-process seam for scenario round-trips.
 
 use serde_json::{json, Value};
 
 /// A server that answers Cowrite MCP tool calls (TD-1 §3.2 surface).
 ///
 /// This is the seam the fake agent calls through when replaying an `McpCall`
-/// step. In production the calls land on the loopback MCP server (`cowrite_lib::
+/// step. In production the calls land on the loopback MCP server (`emend_lib::
 /// agent::mcp`, P2a-12); in tests they land on [`StubToolServer`]. Keeping it a trait means a
 /// test can inject a scripted server (P0-8 uses this for stale-revision
 /// rejections) without the playback engine knowing which side answered.

@@ -11,7 +11,7 @@ use std::process::Command;
 use std::sync::{Arc, Barrier, Mutex};
 use std::thread;
 
-use cowrite_lib::project_files::{
+use emend_lib::project_files::{
     ProjectFiles, RecreateAdapter, RecreateCapabilityStatus, RecreateOutcome,
     WindowsRecreateAdapter,
 };

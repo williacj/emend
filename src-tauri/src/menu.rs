@@ -28,7 +28,7 @@ pub fn build<R: Runtime>(app: &AppHandle<R>) -> tauri::Result<Menu<R>> {
 
     #[cfg(target_os = "macos")]
     {
-        let app_menu = SubmenuBuilder::new(app, "Cowrite")
+        let app_menu = SubmenuBuilder::new(app, "Emend")
             .about(None)
             .separator()
             .services()

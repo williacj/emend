@@ -10,59 +10,59 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Condvar, Mutex};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
-use cowrite_lib::agent::birth::{DocumentBirthNotice, DocumentBirthObserver};
-use cowrite_lib::agent::delivery::{DeliveryNotice, DeliveryObserver};
-use cowrite_lib::agent::project::{
+use emend_lib::agent::birth::{DocumentBirthNotice, DocumentBirthObserver};
+use emend_lib::agent::delivery::{DeliveryNotice, DeliveryObserver};
+use emend_lib::agent::project::{
     canonical_root, OpenProjectRunObserver, ProjectObservers, SharedOpenProject,
 };
-use cowrite_lib::agent::run_queue::{
+use emend_lib::agent::run_queue::{
     NoopEmitter, RunQueue, RunQueueState, RunRequest, StopOutcome,
 };
-use cowrite_lib::agent::session::{AgentSession, SessionError};
-use cowrite_lib::commands::adoption::{
+use emend_lib::agent::session::{AgentSession, SessionError};
+use emend_lib::commands::adoption::{
     cancel_adoption_on, commit_adoption_on, land_adoption_on, mint_untitled_doc_id_on,
     prepare_adoption_on, reconcile_adoptions_on, AdoptionCoordinator,
 };
-use cowrite_lib::commands::agent::{
+use emend_lib::commands::agent::{
     create_document_direct_observing, propose_changes_direct_observing, spawn_claude_run,
     start_run_on, CommandError as AgentCommandError, DELIVERY_EVENT, DOCUMENT_BIRTH_EVENT,
 };
-use cowrite_lib::commands::changes::{parse_changes, parse_changes_by_id, DocRef};
-use cowrite_lib::commands::comments::{self, AnchorRange as CommentAnchorRange};
-use cowrite_lib::commands::diagnostics::{report_render_failure_on, RenderFailureDiagnosticInput};
-use cowrite_lib::commands::document::{
+use emend_lib::commands::changes::{parse_changes, parse_changes_by_id, DocRef};
+use emend_lib::commands::comments::{self, AnchorRange as CommentAnchorRange};
+use emend_lib::commands::diagnostics::{report_render_failure_on, RenderFailureDiagnosticInput};
+use emend_lib::commands::document::{
     capture_anchor, open_document, recreate_missing_document_capability_on,
     recreate_missing_document_on, resolve_anchor, save_document_as_on, save_document_on,
     AnchorPosition, CommandError,
 };
-use cowrite_lib::commands::project::{
+use emend_lib::commands::project::{
     close_project_on, current_project_on, new_session, open_project_on,
     project_path_is_enumerable_on, refresh_project_files_on, PROJECT_FILES_EVENT,
     PROJECT_ROUTING_EVENT,
 };
-use cowrite_lib::commands::providers::{detect_provider_payloads, ProviderStatusPayload};
-use cowrite_lib::commands::settings::{get_settings_on, patch_settings_on, SETTINGS_CHANGED_EVENT};
-use cowrite_lib::commands::skills::discover_grounding_payload;
-use cowrite_lib::commands::tabs::{
+use emend_lib::commands::providers::{detect_provider_payloads, ProviderStatusPayload};
+use emend_lib::commands::settings::{get_settings_on, patch_settings_on, SETTINGS_CHANGED_EVENT};
+use emend_lib::commands::skills::discover_grounding_payload;
+use emend_lib::commands::tabs::{
     begin_tab_session_on, end_tab_session_on, load_tab_session, prove_tab_session_on,
     save_tab_session_on, set_open_tabs_on, SessionPayload, SessionSavePolicy,
     TabSessionCoordinator,
 };
-use cowrite_lib::commands::transcript::CommandError as TranscriptCommandError;
-use cowrite_lib::instances::{ProjectRouteOutcome, RouteFailure};
-use cowrite_lib::project_files::{
+use emend_lib::commands::transcript::CommandError as TranscriptCommandError;
+use emend_lib::instances::{ProjectRouteOutcome, RouteFailure};
+use emend_lib::project_files::{
     ProjectFilesError, ProjectFilesObserver, ProjectFilesRefreshNotice, ProjectFilesSnapshot,
 };
-use cowrite_lib::store::comments::{LinkedChangeDecision, RunConclusion};
-use cowrite_lib::store::settings::{
+use emend_lib::store::comments::{LinkedChangeDecision, RunConclusion};
+use emend_lib::store::settings::{
     self as settings_store, Settings, SettingsObserver, SettingsPatch, SettingsService,
 };
-use cowrite_lib::store::transcript::{self as transcript_store, TranscriptEvent};
-use cowrite_lib::voice::model_download::{
+use emend_lib::store::transcript::{self as transcript_store, TranscriptEvent};
+use emend_lib::voice::model_download::{
     DownloadFailure, DownloadResponse, DownloadTransport, HttpTransport,
 };
-use cowrite_lib::voice::settings::{production_runtime, ProductionVoiceRuntime, VoiceError};
-use cowrite_lib::{OPEN_DOCUMENT_EVENT, SAVE_DOCUMENT_AS_EVENT};
+use emend_lib::voice::settings::{production_runtime, ProductionVoiceRuntime, VoiceError};
+use emend_lib::{OPEN_DOCUMENT_EVENT, SAVE_DOCUMENT_AS_EVENT};
 use serde::{Deserialize, Serialize};
 use tempfile::TempDir;
 
@@ -846,9 +846,9 @@ impl DeliveryObserver for DriverProjectObserver {
     }
 }
 
-impl cowrite_lib::agent::permission::PermissionObserver for DriverProjectObserver {
-    fn changed(&self, state: &cowrite_lib::agent::permission::PermissionState) {
-        self.announce(cowrite_lib::commands::agent::PERMISSION_EVENT, state);
+impl emend_lib::agent::permission::PermissionObserver for DriverProjectObserver {
+    fn changed(&self, state: &emend_lib::agent::permission::PermissionState) {
+        self.announce(emend_lib::commands::agent::PERMISSION_EVENT, state);
     }
 }
 
@@ -861,13 +861,13 @@ impl DocumentBirthObserver for DriverProjectObserver {
 #[cfg(test)]
 mod driver_voice_event_tests {
     use super::*;
-    use cowrite_lib::voice::settings::VoiceDictationEvent;
+    use emend_lib::voice::settings::VoiceDictationEvent;
 
     #[test]
     fn dictation_partial_keeps_generation_through_driver_poll() {
         let events = DriverEventLog::default();
         events.append(
-            cowrite_lib::commands::voice::VOICE_DICTATION_EVENT,
+            emend_lib::commands::voice::VOICE_DICTATION_EVENT,
             &VoiceDictationEvent::Partial {
                 generation: 37,
                 text: "provisional words".into(),
@@ -1580,7 +1580,7 @@ pub fn serve(listener: TcpListener) {
 /// Holds one `queue` for the lifetime of the server (mirrors `lib.rs`'s own app-instance-scoped
 /// queue, M7/tech-design §3.5: one project runs per app instance, so one global queue is correct
 /// by construction here too). Exposed as its own function (rather than folded into [`serve`]) so
-/// `tests/http.rs`'s agent-run coverage can inject a scenario/always-fails [`Spawn`](cowrite_lib::agent::run_queue::Spawn)
+/// `tests/http.rs`'s agent-run coverage can inject a scenario/always-fails [`Spawn`](emend_lib::agent::run_queue::Spawn)
 /// double instead of the real `spawn_claude_run` [`serve`] always uses — spawning the *real* CLI
 /// from `cargo test` would fire a real `claude` process, costing real provider tokens (and
 /// non-deterministic output) on any machine that happens to have `claude` on `PATH`, this harness's
@@ -1619,7 +1619,7 @@ impl DownloadTransport for VoiceTransport {
         &self,
         url: &str,
         offset: u64,
-        cancel: &cowrite_lib::voice::model_download::DownloadCancellation,
+        cancel: &emend_lib::voice::model_download::DownloadCancellation,
     ) -> Result<DownloadResponse, DownloadFailure> {
         self.0.open(url, offset, cancel)
     }
@@ -1752,7 +1752,7 @@ fn handle(mut stream: TcpStream, state: &Arc<DriverState>) {
 struct DecidePermissionArgs {
     run_id: String,
     request_id: String,
-    decision: cowrite_lib::agent::permission::PermissionDecision,
+    decision: emend_lib::agent::permission::PermissionDecision,
 }
 
 fn dispatch(path: &str, body: &str, state: &DriverState) -> (u16, String) {
@@ -1769,10 +1769,10 @@ fn dispatch(path: &str, body: &str, state: &DriverState) -> (u16, String) {
     let adoptions = &state.adoptions;
     match path {
         "/permission_state" => run(body, |_: NoArgs| {
-            Ok::<_, String>(cowrite_lib::commands::agent::permission_state_on(session))
+            Ok::<_, String>(emend_lib::commands::agent::permission_state_on(session))
         }),
         "/decide_permission" => run(body, |a: DecidePermissionArgs| {
-            cowrite_lib::commands::agent::decide_permission_on(
+            emend_lib::commands::agent::decide_permission_on(
                 session,
                 a.run_id,
                 a.request_id,
@@ -1797,7 +1797,7 @@ fn dispatch(path: &str, body: &str, state: &DriverState) -> (u16, String) {
                 a.root.clone(),
                 ProjectObservers {
                     permissions: Some(Arc::clone(&observer)
-                        as Arc<dyn cowrite_lib::agent::permission::PermissionObserver>),
+                        as Arc<dyn emend_lib::agent::permission::PermissionObserver>),
                     delivery: Some(Arc::clone(&observer) as Arc<dyn DeliveryObserver>),
                     births: Some(Arc::clone(&observer) as Arc<dyn DocumentBirthObserver>),
                     project_files: Some(Arc::clone(&observer) as Arc<dyn ProjectFilesObserver>),
@@ -1823,7 +1823,7 @@ fn dispatch(path: &str, body: &str, state: &DriverState) -> (u16, String) {
         "/route_project_open" => run(body, |a: OpenProjectArgs| {
             let sequence = ROUTE_REQUEST_SEQUENCE.fetch_add(1, Ordering::Relaxed);
             let request_id = format!("00000000-0000-0000-0000-{sequence:012x}");
-            let canonical = match cowrite_lib::store::project_identity::require_canonical_root(
+            let canonical = match emend_lib::store::project_identity::require_canonical_root(
                 Path::new(&a.root),
             ) {
                 Ok(root) => root,
@@ -1874,7 +1874,7 @@ fn dispatch(path: &str, body: &str, state: &DriverState) -> (u16, String) {
                         root.clone(),
                         ProjectObservers {
                             permissions: Some(Arc::clone(&observer)
-                                as Arc<dyn cowrite_lib::agent::permission::PermissionObserver>),
+                                as Arc<dyn emend_lib::agent::permission::PermissionObserver>),
                             delivery: Some(Arc::clone(&observer) as Arc<dyn DeliveryObserver>),
                             births: Some(Arc::clone(&observer) as Arc<dyn DocumentBirthObserver>),
                             project_files: Some(
@@ -2053,12 +2053,12 @@ fn dispatch(path: &str, body: &str, state: &DriverState) -> (u16, String) {
         "/download_voice_model" => run(body, |_: NoArgs| {
             let transport = voice_transport()?;
             voice.download_model_with_notice(VoiceTransport(transport), |notice| {
-                events.append(cowrite_lib::commands::voice::VOICE_DOWNLOAD_EVENT, &notice);
+                events.append(emend_lib::commands::voice::VOICE_DOWNLOAD_EVENT, &notice);
             })
         }),
         "/cancel_voice_download" => run(body, |_: NoArgs| {
             voice.cancel_model_download_with_event(|notice| {
-                events.append(cowrite_lib::commands::voice::VOICE_DOWNLOAD_EVENT, &notice);
+                events.append(emend_lib::commands::voice::VOICE_DOWNLOAD_EVENT, &notice);
             })
         }),
         "/remove_voice_model" => run(body, |_: NoArgs| {
@@ -2067,17 +2067,17 @@ fn dispatch(path: &str, body: &str, state: &DriverState) -> (u16, String) {
         }),
         "/start_voice_dictation" => run(body, |_: NoArgs| {
             voice.start_dictation(settings, |phase| {
-                events.append(cowrite_lib::commands::voice::VOICE_DICTATION_EVENT, &phase);
+                events.append(emend_lib::commands::voice::VOICE_DICTATION_EVENT, &phase);
             })
         }),
         "/stop_voice_dictation" => run(body, |_: NoArgs| {
             voice.stop_dictation(settings, |phase| {
-                events.append(cowrite_lib::commands::voice::VOICE_DICTATION_EVENT, &phase);
+                events.append(emend_lib::commands::voice::VOICE_DICTATION_EVENT, &phase);
             })
         }),
         "/cancel_voice_dictation" => run(body, |a: CancelVoiceDictationArgs| {
             voice.cancel_dictation(settings, a.expected_generation, |phase| {
-                events.append(cowrite_lib::commands::voice::VOICE_DICTATION_EVENT, &phase);
+                events.append(emend_lib::commands::voice::VOICE_DICTATION_EVENT, &phase);
             })
         }),
         "/append_transcript_event" => run(body, |a: AppendTranscriptEventArgs| {

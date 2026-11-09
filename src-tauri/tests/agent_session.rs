@@ -3,8 +3,8 @@
 
 use std::path::{Path, PathBuf};
 
-use cowrite_lib::agent::claude::{self, McpServer, SpawnRequest};
-use cowrite_lib::agent::session::AgentSession;
+use emend_lib::agent::claude::{self, McpServer, SpawnRequest};
+use emend_lib::agent::session::AgentSession;
 
 mod common;
 use common::{fake_agent_bin, fake_agent_scenario, workdir};

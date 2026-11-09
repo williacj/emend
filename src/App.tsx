@@ -1280,7 +1280,7 @@ function AuthorWorkspace({
   if (project === null) {
     return (
       <div className="app-shell app-shell--welcome">
-        <WindowChrome platform={platform} title="Cowrite" />
+        <WindowChrome platform={platform} title="Emend" />
         {statusRegion}
         <WelcomeScreen onOpenFolder={handleOpenFolder} providerStatuses={providerStatuses} platform={platform} />
       </div>
@@ -1293,7 +1293,7 @@ function AuthorWorkspace({
     <div className="app-shell">
       <WindowChrome
         platform={platform}
-        title={`${platform === "win" ? "Cowrite — " : ""}${activeUnsupportedRecoveryTitle ?? (activeDocumentPath ?? project).split(/[\\/]/).filter(Boolean).pop() ?? "Cowrite"}`}
+        title={`${platform === "win" ? "Emend — " : ""}${activeUnsupportedRecoveryTitle ?? (activeDocumentPath ?? project).split(/[\\/]/).filter(Boolean).pop() ?? "Emend"}`}
         leading={platform === "mac" ? (
           <ProjectRailToggle
             collapsed={filesRailCollapsed}

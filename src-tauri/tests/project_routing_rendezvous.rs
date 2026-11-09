@@ -12,8 +12,8 @@ use std::fs;
 #[cfg(windows)]
 use std::os::windows::ffi::OsStrExt;
 
-use cowrite_lib::instances::{request_and_wait, Clock, SystemClock, TerminalDisposition};
-use cowrite_lib::store::lock;
+use emend_lib::instances::{request_and_wait, Clock, SystemClock, TerminalDisposition};
+use emend_lib::store::lock;
 use wait_timeout::ChildExt;
 
 fn helper_bin() -> &'static Path {

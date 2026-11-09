@@ -21,11 +21,11 @@ describe("WindowChrome", () => {
   });
 
   it("routes Windows title controls to minimize, maximize, and the guarded close request", () => {
-    render(<WindowChrome platform="win" title="Cowrite — notes.md" />);
+    render(<WindowChrome platform="win" title="Emend — notes.md" />);
     const header = screen.getByRole("banner");
     expect(header).toHaveAttribute("data-platform", "win");
     expect(header).toHaveAttribute("data-tauri-drag-region");
-    expect(screen.getByText("Cowrite — notes.md")).toBeVisible();
+    expect(screen.getByText("Emend — notes.md")).toBeVisible();
     fireEvent.click(screen.getByRole("button", { name: "Minimize window" }));
     fireEvent.click(screen.getByRole("button", { name: "Maximize or restore window" }));
     fireEvent.click(screen.getByRole("button", { name: "Close window" }));
@@ -35,7 +35,7 @@ describe("WindowChrome", () => {
   });
 
   it("lets Tauri own double-click maximize and makes the full noninteractive title row draggable", () => {
-    render(<WindowChrome platform="win" title="Cowrite — notes.md" status={<span>Connected</span>} />);
+    render(<WindowChrome platform="win" title="Emend — notes.md" status={<span>Connected</span>} />);
     const header = screen.getByRole("banner");
     expect(header).toHaveAttribute("data-tauri-drag-region", "deep");
     expect(screen.getByText("Connected").closest(".app-header__status")).toBeInTheDocument();

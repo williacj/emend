@@ -601,7 +601,7 @@ jobs:
 
       - name: Inspect unsigned NSIS and app executable
         run: |
-          $exe = 'src-tauri/target/release/cowrite.exe'
+          $exe = 'src-tauri/target/release/emend.exe'
           if (-not (Test-Path -LiteralPath $exe)) { throw "Normal app build produced no $exe" }
           $app = Get-Item -LiteralPath $exe
           if ($app.Length -lt 1048576) { throw "App executable is unexpectedly small: $($app.Length) bytes" }

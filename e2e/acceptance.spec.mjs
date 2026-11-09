@@ -278,7 +278,7 @@ test.describe("A2 approved window chrome", () => {
       const header = page.locator(".app-header");
       await expect(header).toBeVisible();
       await expect(header).toHaveAttribute("data-platform", platform);
-      await expect(header).toContainText("Cowrite");
+      await expect(header).toContainText("Emend");
       await expect.poll(() => header.evaluate((element) => element.getBoundingClientRect().height)).toBe(height);
       const welcomeTop = await page.locator(".welcome-screen").evaluate((element) => element.getBoundingClientRect().top);
       const headerBottom = await header.evaluate((element) => element.getBoundingClientRect().bottom);
@@ -333,7 +333,7 @@ test.describe("A2 approved window chrome", () => {
     await expect(page.locator(".app-body, .project-rail, .timeline-panel")).toHaveCount(0);
     if (platform === "win") {
       await expect(header.getByRole("button", { name: "Close window" })).toBeVisible();
-      await expect(header.locator(".app-header__title")).toHaveText("Cowrite");
+      await expect(header.locator(".app-header__title")).toHaveText("Emend");
     } else {
       await expect(header.getByRole("button", { name: "Close window" })).toHaveCount(0);
       await expect(header.locator(".app-header__traffic-light-space")).toHaveCSS("width", "72px");
@@ -2519,7 +2519,7 @@ test.describe("D27 retained legacy unsupported-tab recovery", () => {
 
     await expect(page.getByRole("tab", { name: /Untitled — recovered from draft\.rs, editable/ })).toBeVisible();
     await expect(page.locator(".app-header__title")).toHaveText(
-      `${process.platform === "darwin" ? "" : "Cowrite — "}Untitled — from draft.rs`,
+      `${process.platform === "darwin" ? "" : "Emend — "}Untitled — from draft.rs`,
     );
     const sourceNotice = page.getByRole("region", { name: "Unsupported document recovery notice" });
     await expect(sourceNotice).toContainText("The unsaved text this tab held is here, in an untitled document you can edit.");
@@ -2555,7 +2555,7 @@ test.describe("D27 retained legacy unsupported-tab recovery", () => {
     await page.getByRole("button", { name: "Save As…" }).click();
     await expect(page.getByRole("tab", { name: "recovered.md" })).toBeVisible();
     await expect(page.locator(".app-header__title")).toHaveText(
-      `${process.platform === "darwin" ? "" : "Cowrite — "}recovered.md`,
+      `${process.platform === "darwin" ? "" : "Emend — "}recovered.md`,
     );
     await expect(page.getByRole("region", { name: "Unsupported document recovery notice" })).toHaveCount(0);
     await expect.poll(() => project.readSaved("recovered.md")).toBe(retained);

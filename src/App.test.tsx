@@ -3978,7 +3978,7 @@ describe("App", () => {
       .toHaveAttribute("data-dirty", "false");
     expect(screen.getByRole("region", { name: /Untitled document, recovered from draft\.rs/ }))
       .toHaveTextContent("Saved nowhere yet");
-    await waitFor(() => expect(screen.getByText("Cowrite — Untitled — from draft.rs")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText("Emend — Untitled — from draft.rs")).toBeInTheDocument());
     await waitFor(() =>
       expect(saveTabSessionMock.mock.calls.some(([, payload]) =>
         payload.tabs.some((tab: { path: string; unsavedContent: string | null; recoveredFrom: string | null }) =>

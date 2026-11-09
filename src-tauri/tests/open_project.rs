@@ -15,11 +15,11 @@ use std::time::{Duration, Instant};
 use serde_json::json;
 use tempfile::TempDir;
 
-use cowrite_lib::agent::birth::{DocumentBirthNotice, DocumentBirthObserver};
-use cowrite_lib::agent::delivery::{DeliveryNotice, DeliveryObserver};
-use cowrite_lib::agent::project::{OpenProject, ProjectObservers};
-use cowrite_lib::agent::watchdog::WriteOutcome;
-use cowrite_lib::project_files::{ProjectFilesError, ProjectFilesObserver, ProjectFilesSnapshot};
+use emend_lib::agent::birth::{DocumentBirthNotice, DocumentBirthObserver};
+use emend_lib::agent::delivery::{DeliveryNotice, DeliveryObserver};
+use emend_lib::agent::project::{OpenProject, ProjectObservers};
+use emend_lib::agent::watchdog::WriteOutcome;
+use emend_lib::project_files::{ProjectFilesError, ProjectFilesObserver, ProjectFilesSnapshot};
 
 mod common;
 use common::{mcp_call, mcp_call_ok};
