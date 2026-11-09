@@ -340,7 +340,7 @@ impl OpenProject {
     /// `--fork-session` is not passed.
     fn record_resume_session_id(&self, session_id: &str) -> io::Result<()> {
         if Uuid::parse_str(session_id).is_err() {
-            eprintln!("Cowrite ignored a provider session id with an unrecognized shape");
+            eprintln!("Emend ignored a provider session id with an unrecognized shape");
             return Ok(());
         }
         if let Some(path) = &self.provider_session_file {
@@ -479,7 +479,7 @@ impl RunObserver for OpenProjectRunObserver {
                     // discarded.
                     for doc in watchdog.watched_paths() {
                         if let Err(error) = watchdog.on_write(&doc) {
-                            eprintln!("Cowrite document watchdog could not inspect {doc}: {error}");
+                            eprintln!("Emend document watchdog could not inspect {doc}: {error}");
                         }
                     }
                     watchdog.end_run(run_id);
@@ -769,7 +769,7 @@ mod tests {
                 .doc_id_for_path("a.md")
                 .unwrap(),
             None,
-            "the open adopted Cowrite's document id {old_id}"
+            "the open adopted the .cowrite/ document id {old_id}"
         );
         assert_eq!(tree_with_contents(&project.path().join(".cowrite")), before);
         assert_eq!(

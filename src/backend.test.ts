@@ -131,12 +131,12 @@ describe("errorDetail — the one reader of a rejected call's human-readable hal
 describe("formatDocumentActionFailure", () => {
   it("names the document action for an ordinary backend rejection", () => {
     expect(formatDocumentActionFailure({ kind: "Io", message: "The document could not be read" }))
-      .toBe("Cowrite couldn’t complete the document action. The document could not be read");
+      .toBe("Emend couldn’t complete the document action. The document could not be read");
   });
 
   it("falls back rather than trailing a dangling prefix", () => {
     expect(formatDocumentActionFailure({})).toBe(
-      "Cowrite couldn’t complete the document action. Try again.",
+      "Emend couldn’t complete the document action. Try again.",
     );
   });
 
@@ -150,7 +150,7 @@ describe("formatDocumentActionFailure", () => {
 
   it("keeps the document wording for an ordinary Error, which claims nothing about its framing", () => {
     expect(formatDocumentActionFailure(new Error("permission denied"))).toBe(
-      "Cowrite couldn’t complete the document action. permission denied",
+      "Emend couldn’t complete the document action. permission denied",
     );
   });
 });

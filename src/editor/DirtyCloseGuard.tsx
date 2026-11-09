@@ -94,7 +94,7 @@ export function DirtyCloseGuard({
             <>This untitled document is empty and isn't saved anywhere. Closing it discards no content.</>
           ) : recoveryVariant === "live-over-cap" ? (
             <>
-              This document holds unsaved work that Cowrite can't keep in your session — it's over
+              This document holds unsaved work that Emend can't keep in your session — it's over
               the 2 MiB per-tab limit. Closing it without saving discards that work permanently.
             </>
           ) : recoveryVariant === "omitted-with-edits" ? (

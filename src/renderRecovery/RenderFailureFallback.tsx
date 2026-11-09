@@ -8,8 +8,8 @@ export type FallbackRequestState = "rest" | "pending" | "failed";
 export function fallbackCopy(context: FailureContext): { heading: string; body: string } {
   if (context.selector === "reviewer") {
     return {
-      heading: "Cowrite can’t show this review right now.",
-      body: "A comment or suggestion that was in progress may not have been sent. Reloading starts this window again from the last review state Cowrite can restore.",
+      heading: "Emend can’t show this review right now.",
+      body: "A comment or suggestion that was in progress may not have been sent. Reloading starts this window again from the last review state Emend can restore.",
     };
   }
   if (context.selector === "author-project") {
@@ -17,19 +17,19 @@ export function fallbackCopy(context: FailureContext): { heading: string; body: 
       ? " If an agent run was working or waiting for permission, it may still be active; reloading does not stop it or decide the permission request."
       : "";
     return {
-      heading: "Cowrite can’t show this window right now.",
-      body: `Your saved documents are still in the project folder. Cowrite can’t confirm from this screen whether every unsaved edit was kept.${activity} Reloading starts this window again from the last state Cowrite can restore.`,
+      heading: "Emend can’t show this window right now.",
+      body: `Your saved documents are still in the project folder. Emend can’t confirm from this screen whether every unsaved edit was kept.${activity} Reloading starts this window again from the last state Emend can restore.`,
     };
   }
   if (context.selector === "author-no-project") {
     return {
-      heading: "Cowrite can’t show this window right now.",
-      body: "No project is open in this window. Reloading starts Cowrite again.",
+      heading: "Emend can’t show this window right now.",
+      body: "No project is open in this window. Reloading starts Emend again.",
     };
   }
   return {
-    heading: "Cowrite can’t show this window right now.",
-    body: "Reloading starts Cowrite again.",
+    heading: "Emend can’t show this window right now.",
+    body: "Reloading starts Emend again.",
   };
 }
 
@@ -50,14 +50,14 @@ export function assembleCloseRefusal(
   guards: { dirty?: boolean; untitled?: boolean; run?: boolean; draft?: boolean },
 ): string {
   if (mode === "reviewer") {
-    return "Cowrite can’t close this review yet. A comment or suggestion may not have been sent. Reload the window to get the ordinary controls back.";
+    return "Emend can’t close this review yet. A comment or suggestion may not have been sent. Reload the window to get the ordinary controls back.";
   }
   const clauses = [
     guards.dirty ? "There’s unsaved work" : null,
     guards.untitled ? "an untitled document is open" : null,
     guards.run ? "an agent run may still be active" : null,
   ].filter((clause): clause is string => clause !== null);
-  return `Cowrite can’t close this window yet. ${ordinaryList(clauses)}. Reload the window to get the ordinary controls back.`;
+  return `Emend can’t close this window yet. ${ordinaryList(clauses)}. Reload the window to get the ordinary controls back.`;
 }
 
 export type FallbackCloseDecision =
@@ -114,7 +114,7 @@ export function RenderFailureFallback({
     mainRef.current?.focus();
   }, [visible]);
   const status = closeRefusal ?? (requestState === "failed"
-    ? "Cowrite couldn’t reload this window. Try again."
+    ? "Emend couldn’t reload this window. Try again."
     : null);
 
   return (

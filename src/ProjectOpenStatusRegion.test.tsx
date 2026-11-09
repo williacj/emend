@@ -73,7 +73,7 @@ describe("ProjectOpenStatusRegion (J9, #1752)", () => {
 
     const region = screen.getByRole("status");
     expect(region).toHaveTextContent(
-      "Cowrite couldn’t open launch-plan in a new window. The new window didn’t start.",
+      "Emend couldn’t open launch-plan in a new window. The new window didn’t start.",
     );
     expect(within(region).getAllByRole("button").map((button) => button.getAttribute("aria-label") ?? button.textContent))
       .toEqual(["Try again", "Dismiss"]);

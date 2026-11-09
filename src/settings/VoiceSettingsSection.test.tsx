@@ -216,9 +216,9 @@ describe("settings/VoiceSettingsSection", () => {
 
   it("#2647 maps typed download failures to approved plain-language copy", async () => {
     const cases = [
-      ["transport", "Model download failed: Cowrite couldn’t complete the download over the network."],
-      ["storage", "Model download failed: Cowrite couldn’t save the model on this device."],
-      ["registry", "Model download failed: Cowrite couldn’t finish setting up the model."],
+      ["transport", "Model download failed: Emend couldn’t complete the download over the network."],
+      ["storage", "Model download failed: Emend couldn’t save the model on this device."],
+      ["registry", "Model download failed: Emend couldn’t finish setting up the model."],
       ["protocol", "Model download failed: The file received wasn’t the expected voice model."],
       ["truncated", "Model download failed: The file received wasn’t the expected voice model."],
       ["oversized", "Model download failed: The file received wasn’t the expected voice model."],
@@ -453,7 +453,7 @@ describe("settings/VoiceSettingsSection", () => {
         expect(await screen.findByText(`Model file ${model}`)).toBeInTheDocument();
         expect(screen.getByRole("button", { name: "Download model" })).toBeEnabled();
         expect(screen.queryByRole("button", { name: /Remove local model|Stop using this file/ })).not.toBeInTheDocument();
-        expect(screen.queryByText("External file — Cowrite won’t delete it")).not.toBeInTheDocument();
+        expect(screen.queryByText("External file — Emend won’t delete it")).not.toBeInTheDocument();
         mounted.unmount();
       }
     }
@@ -497,7 +497,7 @@ describe("settings/VoiceSettingsSection", () => {
 
     expect(await screen.findByText("Model ready")).toBeInTheDocument();
     expect(screen.getByText("/Users/writer/Models/voice.bin")).toBeInTheDocument();
-    expect(screen.getByText("External file — Cowrite won’t delete it")).toBeInTheDocument();
+    expect(screen.getByText("External file — Emend won’t delete it")).toBeInTheDocument();
     const forget = screen.getByRole("button", { name: "Stop using this file" });
     fireEvent.click(forget);
     await waitFor(() => expect(removeVoiceModel).toHaveBeenCalledOnce());
@@ -515,7 +515,7 @@ describe("settings/VoiceSettingsSection", () => {
     const first = render(<VoiceSettingsSection />);
     const stop = await screen.findByRole("button", { name: "Stop using this file" });
     expect(screen.getByText("Model ready")).toBeInTheDocument();
-    expect(screen.getByText("External file — Cowrite won’t delete it")).toBeInTheDocument();
+    expect(screen.getByText("External file — Emend won’t delete it")).toBeInTheDocument();
     expect(screen.getByText("/Users/writer/Models/voice.bin")).toHaveAttribute("title", "/Users/writer/Models/voice.bin");
     fireEvent.click(stop);
     await waitFor(() => expect(removeVoiceModel).toHaveBeenCalledOnce());
@@ -528,7 +528,7 @@ describe("settings/VoiceSettingsSection", () => {
     getVoiceStatus.mockResolvedValueOnce({ ...READY, model_origin: null, external_model_path: null });
     render(<VoiceSettingsSection />);
     expect(await screen.findByRole("button", { name: "Stop using this model" })).toBeEnabled();
-    expect(screen.queryByText(/Cowrite will delete|External file/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Emend will delete|External file/)).not.toBeInTheDocument();
   });
 
   it("holds model removal during transcription with accurate status", async () => {

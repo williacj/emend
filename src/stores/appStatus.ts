@@ -20,7 +20,7 @@ export type OwnedUserAppStatus = Readonly<{
 }>;
 
 const UNATTRIBUTED_FAILURE_COPY =
-  "Something inside Cowrite didn’t finish. If something doesn’t look right, this may be why.";
+  "Something inside Emend didn’t finish. If something doesn’t look right, this may be why.";
 
 let snapshot: AppStatusSnapshot = null;
 let audience: AppStatusAudience = "author";

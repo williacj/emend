@@ -33,7 +33,7 @@ impl crate::agent::permission::PermissionObserver for TauriPermissionEmitter {
             .body("The agent is waiting for your permission.")
             .show()
         {
-            eprintln!("Cowrite could not send the permission notification: {error}");
+            eprintln!("Emend could not send the permission notification: {error}");
         }
     }
 

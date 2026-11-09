@@ -44,7 +44,7 @@ pub fn run() {
             )
             .unwrap_or_else(|error| {
                 eprintln!(
-                    "Cowrite could not watch settings; continuing without live settings updates: {error}"
+                    "Emend could not watch settings; continuing without live settings updates: {error}"
                 );
                 store::settings::SettingsService::degraded(&settings_path, settings_observer)
             });
@@ -111,7 +111,7 @@ pub fn run() {
                         // The current owner stays usable; a requester receives the normal bounded
                         // rendezvous failure rather than an invented focused result.
                         eprintln!(
-                            "Cowrite could not start the project activation listener: {error:?}"
+                            "Emend could not start the project activation listener: {error:?}"
                         );
                     }
                 }

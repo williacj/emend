@@ -188,7 +188,7 @@ impl RefreshScheduler for QuietWindowScheduler {
             // why. The user still has `[Refresh]`.
             if requests.send(task).is_err() {
                 eprintln!(
-                    "Cowrite project-files refresh scheduler is no longer running; this project's \
+                    "Emend project-files refresh scheduler is no longer running; this project's \
                      tree will only update when refreshed explicitly"
                 );
             }

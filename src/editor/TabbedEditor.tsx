@@ -590,7 +590,7 @@ export const TabbedEditor = forwardRef<TabbedEditorHandle, TabbedEditorProps>(fu
     setProvenancePendingPaths(new Set(result.pendingDestinations));
     for (const collision of result.collisions ?? []) {
       onError?.(new UserFacingError(
-        `Cowrite kept the existing comment and change history for ${collision.destination}. `
+        `Emend kept the existing comment and change history for ${collision.destination}. `
         + "The untitled document’s separate history is still preserved, and adoption will remain pending.",
       ));
     }
@@ -1449,7 +1449,7 @@ export const TabbedEditor = forwardRef<TabbedEditorHandle, TabbedEditorProps>(fu
       const proofExact = recoveryOutcomes.length === recoveryPaths.size
         && recoveryOutcomes.every((outcome) => outcome.status === "persisted_exact");
       if (!proofExact) {
-        throw { kind: "SessionProofUnusable", message: "Cowrite could not confirm every untitled buffer was stored exactly" };
+        throw { kind: "SessionProofUnusable", message: "Emend could not confirm every untitled buffer was stored exactly" };
       }
       lastPersistedSession.current = receipt.session;
       stagedDecisions.current.clear();
@@ -2214,17 +2214,17 @@ export const TabbedEditor = forwardRef<TabbedEditorHandle, TabbedEditorProps>(fu
                   ) closeTabNow(tab.path);
                   if (recoveredIdentity !== null) {
                     recoveryStatuses.current.set(recoveredIdentity, setOwnedUserAppStatus(
-                      `${tab.path} can’t open as a Cowrite document. Its retained text is editable in an untitled tab; use Save As to save it to a supported document path.`,
+                      `${tab.path} can’t open as an Emend document. Its retained text is editable in an untitled tab; use Save As to save it to a supported document path.`,
                     ));
                   } else if (unsupportedDocument && tab.recoveryContentOmitted) {
                     onError?.(new UnsupportedRestoreRefusalError(
-                      `${tab.path} can’t open as a Cowrite document. Its unsaved work was over the session limit and wasn’t kept.`,
+                      `${tab.path} can’t open as an Emend document. Its unsaved work was over the session limit and wasn’t kept.`,
                       tab.path,
                       "omitted",
                     ));
                   } else if (cleanUnsupportedRestore) {
                     onError?.(new UnsupportedRestoreRefusalError(
-                      `${tab.path} can’t open as a Cowrite document. Its tab was closed.`,
+                      `${tab.path} can’t open as an Emend document. Its tab was closed.`,
                       tab.path,
                       "closed",
                     ));
@@ -2264,7 +2264,7 @@ export const TabbedEditor = forwardRef<TabbedEditorHandle, TabbedEditorProps>(fu
               />
               {provenancePendingPaths.has(tab.path) && (
                 <div className="untitled-adoption-pending" role="status">
-                  Saved to {tab.path}. Cowrite hasn't yet recorded that the earlier unsaved work
+                  Saved to {tab.path}. Emend hasn't yet recorded that the earlier unsaved work
                   wasn't part of it — it will finish next time it can.
                 </div>
               )}

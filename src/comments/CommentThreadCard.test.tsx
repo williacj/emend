@@ -384,7 +384,7 @@ describe("comments/CommentThreadCard — J10 child-first Delete", () => {
     fireEvent.click(screen.getByRole("button", { name: "Comment actions" }));
     fireEvent.click(screen.getByRole("button", { name: "Delete comment" }));
     expect(screen.getByText("Others may already have seen this comment. The thread will keep a note that you deleted it.")).toBeTruthy();
-    expect(screen.getByText("Cowrite keeps the original text in this document's history. Deleting removes it from view, not from the record. This can't be undone.")).toBeTruthy();
+    expect(screen.getByText("Emend keeps the original text in this document's history. Deleting removes it from view, not from the record. This can't be undone.")).toBeTruthy();
   });
 
   it("hides ordinary reply and Address controls during root Delete confirmation", () => {
@@ -405,7 +405,7 @@ describe("comments/CommentThreadCard — J10 child-first Delete", () => {
     expect(screen.getByText("Deleting")).toBeTruthy();
     expect(screen.getByText("Delete this comment?")).toBeTruthy();
     expect(screen.getByText(/Others may already have seen this comment/)).toBeTruthy();
-    expect(screen.getByText(/Cowrite keeps the original text in this document's history/)).toBeTruthy();
+    expect(screen.getByText(/Emend keeps the original text in this document's history/)).toBeTruthy();
     expect(screen.getByText(/bob deleted a reply/)).toBeTruthy();
     expect(screen.getByRole("button", { name: "Delete" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Cancel" })).toBeTruthy();

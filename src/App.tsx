@@ -122,7 +122,7 @@ function MessageStatusRegion({ status, audience }: {
     <div className={`shell-status${refusal ? " shell-status--unsupported-refusal" : ""}`} role="status">
       <p className="shell-status__message">
         {refusal ? (
-          <><em>{refusal.path}</em> can’t open as a Cowrite document.{" "}
+          <><em>{refusal.path}</em> can’t open as an Emend document.{" "}
             {refusal.outcome === "closed"
               ? "Its tab was closed."
               : <span className="shell-status__reason">Its unsaved work was over the session limit and wasn’t kept.</span>}
@@ -740,7 +740,7 @@ function AuthorWorkspace({
       const path = relativeToProjectRoot(root, absolutePath);
       if (path === null) {
         setUserAppStatus(
-          "That file is outside the open project. Open its folder as a project to edit it in Cowrite.",
+          "That file is outside the open project. Open its folder as a project to edit it in Emend.",
         );
         return;
       }

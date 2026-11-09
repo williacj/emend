@@ -622,7 +622,7 @@ export const UntitledDocument = forwardRef<EditorShellHandle, UntitledDocumentPr
     }
     setRecoveryPhase({
       kind: "failed",
-      reason: errorDetail(lastSaveErrorRef.current) || "Cowrite couldn’t finish the write.",
+      reason: errorDetail(lastSaveErrorRef.current) || "Emend couldn’t finish the write.",
       retrying: false,
       diskContent: diskSide,
     });
@@ -699,8 +699,8 @@ export const UntitledDocument = forwardRef<EditorShellHandle, UntitledDocumentPr
         <section className="untitled-document__source-notice" role="region"
           aria-label="Unsupported document recovery notice" aria-live="polite">
           <div className="untitled-document__source-copy">
-            <p className="untitled-document__source-title"><em>{displacedPath}</em> can’t open as a Cowrite document.</p>
-            <p className="untitled-document__source-detail">Cowrite won’t open or write that file. The unsaved text this tab held is here, in an untitled document you can edit. <code>Save As…</code> saves it to a supported document path in this project — not to the original file.</p>
+            <p className="untitled-document__source-title"><em>{displacedPath}</em> can’t open as an Emend document.</p>
+            <p className="untitled-document__source-detail">Emend won’t open or write that file. The unsaved text this tab held is here, in an untitled document you can edit. <code>Save As…</code> saves it to a supported document path in this project — not to the original file.</p>
           </div>
           <button type="button" className="untitled-document__source-dismiss"
             onClick={() => setUnsupportedNoticeHidden(true)}>Hide message</button>
@@ -734,11 +734,11 @@ export const UntitledDocument = forwardRef<EditorShellHandle, UntitledDocumentPr
             {liveOverCap && (
               <div className="untitled-document__live-copy">
                 <p className="untitled-document__loss-consequence">
-                  This work is here, but Cowrite can't keep it in your session.
+                  This work is here, but Emend can't keep it in your session.
                 </p>
                 <p className="untitled-document__loss-reason">
                   {recoveryContentOmitted ? "What you have written since is" : "It's"} larger than
-                  the 2 MiB Cowrite can hold per tab, so it won't be there after you quit. Nothing
+                  the 2 MiB Emend can hold per tab, so it won't be there after you quit. Nothing
                   has been lost — the text is in front of you. <code>Save As…</code> puts it in the
                   project, and that is the only way to keep it.
                 </p>
@@ -756,7 +756,7 @@ export const UntitledDocument = forwardRef<EditorShellHandle, UntitledDocumentPr
                 ) : liveOverCap ? (
                   <p className="untitled-document__loss-reason">
                     <strong>Separately:</strong> the earlier unsaved work this tab was opened to
-                    hold was not preserved, and Cowrite can't restore it. Saving now keeps what you
+                    hold was not preserved, and Emend can't restore it. Saving now keeps what you
                     wrote — it doesn't bring that back.
                   </p>
                 ) : (
@@ -774,8 +774,8 @@ export const UntitledDocument = forwardRef<EditorShellHandle, UntitledDocumentPr
                       <span className="untitled-document__loss-provenance">
                         This untitled tab holds work from <em>{displacedPath}</em>.{' '}
                       </span>
-                      An earlier unsaved buffer was larger than the 2 MiB Cowrite
-                      keeps per tab in its session, so it wasn’t kept, and Cowrite can’t restore it.
+                      An earlier unsaved buffer was larger than the 2 MiB Emend
+                      keeps per tab in its session, so it wasn’t kept, and Emend can’t restore it.
                       <span className="untitled-document__loss-full">
                         {' '}You can edit this untitled document, and <code>Save As…</code> adds its
                         current text to the project.
@@ -942,7 +942,7 @@ export const UntitledDocument = forwardRef<EditorShellHandle, UntitledDocumentPr
           </div>
         ) : provenancePending ? (
           <div className="untitled-adoption-pending" role="status">
-            Saved to {adoptedPath}. Cowrite hasn't yet recorded that the earlier unsaved work
+            Saved to {adoptedPath}. Emend hasn't yet recorded that the earlier unsaved work
             wasn't part of it — it will finish next time it can.
           </div>
         ) : undefined}

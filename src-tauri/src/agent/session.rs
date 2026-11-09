@@ -800,7 +800,7 @@ fn check_cowrite_binding(event: &Value) -> std::io::Result<()> {
         return Ok(());
     };
     let failure =
-        || std::io::Error::other("The agent could not connect to Cowrite's document tools.");
+        || std::io::Error::other("The agent could not connect to Emend's document tools.");
     let servers = inventory.as_array().ok_or_else(failure)?;
     let mut found = false;
     for server in servers {
@@ -978,7 +978,7 @@ mod tests {
                     &json!({"type": "system", "subtype": "init", "mcp_servers": inventory})
                 )
                 .is_err(),
-                "advertised inventory did not establish Cowrite: {inventory}"
+                "advertised inventory did not establish Emend: {inventory}"
             );
         }
     }
@@ -994,7 +994,7 @@ mod tests {
             let event = json!({"type": "system", "subtype": "init", "mcp_servers": [unrelated, {"name": "cowrite", "status": "connected"}]});
             assert!(
                 check_cowrite_binding(&event).is_ok(),
-                "an unrelated server rejected a connected Cowrite binding"
+                "an unrelated server rejected a connected Emend binding"
             );
         }
     }
@@ -1019,7 +1019,7 @@ mod tests {
         let event = json!({"type": "system", "subtype": "init", "mcp_servers": [{"name": "cowrite", "status": "Bearer secret-provider-inventory", "url": "https://credential@example.invalid"}]});
         let error = check_cowrite_binding(&event).unwrap_err().to_string();
         assert_eq!(
-            error, "The agent could not connect to Cowrite's document tools.",
+            error, "The agent could not connect to Emend's document tools.",
             "provider-controlled inventory leaked into the run diagnostic"
         );
     }

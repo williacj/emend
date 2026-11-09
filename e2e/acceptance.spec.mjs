@@ -315,7 +315,7 @@ test.describe("A2 approved window chrome", () => {
     const runtimeError = page.waitForEvent("pageerror");
     await page.evaluate(() => window.__EMEND_E2E__?.triggerRenderFailure());
     await runtimeError;
-    const fallback = page.getByRole("main", { name: "Cowrite can’t show this window right now." });
+    const fallback = page.getByRole("main", { name: "Emend can’t show this window right now." });
     await expect(fallback).toBeVisible();
     const button = fallback.getByRole("button", { name: "Reload window" });
     const restingHeight = await button.evaluate((element) => element.getBoundingClientRect().height);
@@ -570,7 +570,7 @@ test.describe("D5 existing welcome composition", () => {
     const welcome = page.locator(".welcome-screen");
     await expect(welcome).toBeVisible();
     await expect(welcome).toHaveCSS("max-width", "520px");
-    const heading = welcome.getByRole("heading", { name: "Welcome to Cowrite" });
+    const heading = welcome.getByRole("heading", { name: "Welcome to Emend" });
     await expect(heading).toHaveCSS("font-family", /Source Serif 4/);
     await expect(heading).toHaveCSS("font-size", "27px");
     const open = welcome.getByRole("button", { name: "Open a folder…" });
@@ -1817,7 +1817,7 @@ test.describe("P2a-2 walking skeleton", () => {
     expect(error.message).toContain("native dialog failed");
     const status = page.locator(".shell-status");
     await expect(status).toHaveText(
-      "Something inside Cowrite didn’t finish. If something doesn’t look right, this may be why. native dialog failedDismiss",
+      "Something inside Emend didn’t finish. If something doesn’t look right, this may be why. native dialog failedDismiss",
     );
     await status.getByRole("button", { name: "Dismiss message" }).click();
     await expect(status).toHaveCount(0);
@@ -1833,10 +1833,10 @@ test.describe("P2a-2 walking skeleton", () => {
     const error = await runtimeError;
     expect(error.message).toContain("D23 render-failure acceptance probe");
     const fallback = page.getByRole("main", {
-      name: "Cowrite can’t show this window right now.",
+      name: "Emend can’t show this window right now.",
     });
     await expect(fallback).toBeFocused();
-    await expect(fallback).toContainText("Reloading starts Cowrite again.");
+    await expect(fallback).toContainText("Reloading starts Emend again.");
     await expect(fallback).not.toContainText("D23 render-failure acceptance probe");
 
     const reload = fallback.getByRole("button", { name: "Reload window" });
@@ -5090,8 +5090,8 @@ test.describe("J9 project-open status clipping (13g)", () => {
     await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), missingRoot);
 
     const band = page.locator(".shell-status--project-open");
-    await expect(band).toContainText("That folder isn’t available to Cowrite.");
-    for (const width of [700, 520, 430]) {
+    await expect(band).toContainText("That folder isn’t available to Emend.");
+    for (const width of [700, 520, 420]) {
       await page.setViewportSize({ width, height: 900 });
       const geometry = await band.evaluate((element) => {
         const rect = element.getBoundingClientRect();
@@ -5137,7 +5137,7 @@ test.describe("J9 project-open status clipping (13g)", () => {
       });
       expect(geometry.height).toBe(46);
       expect(geometry.nameText).toBe("missing-long-name-for-clipping-2026-q1-partner-launch-messaging");
-      expect(geometry.reasonText).toBe(" That folder isn’t available to Cowrite.");
+      expect(geometry.reasonText).toBe(" That folder isn’t available to Emend.");
       expect(geometry.suffixText).toBe(".");
       expect(geometry.prefixRight).toBeLessThanOrEqual(geometry.messageRight);
       expect(geometry.actionsRight).toBeLessThanOrEqual(geometry.right - 13);
@@ -5154,7 +5154,9 @@ test.describe("J9 project-open status clipping (13g)", () => {
         expect(geometry.reasonWidth).toBe(0);
         expect(geometry.nameWidth).toBeGreaterThan(160);
       }
-      if (width === 430) {
+      // The narrowest step sits below the floor for this copy: with the shorter "Emend couldn’t open "
+      // prefix, 430px still leaves the name 160.6px, so the floor case is measured at 420px.
+      if (width === 420) {
         expect(geometry.prefixTextToNameGap).toBeGreaterThan(2);
         expect(geometry.prefixTextToNameGap).toBeLessThan(7);
         // CJ chose the written 160px floor for 13g; the period clips only after that floor.
@@ -5688,7 +5690,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     await expect(response.json()).resolves.toMatchObject({ kind: "Io" });
 
     await expect(page.locator(".shell-status")).toContainText(
-      "Cowrite couldn’t complete the document action",
+      "Emend couldn’t complete the document action",
     );
     await expect(page.locator(".app-body")).toHaveClass(/app-body--workshop/);
     await expect(page.getByRole("tab")).toHaveCount(0);
@@ -5794,7 +5796,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     // [Close…] asks before discarding the only copy of that work; Cancel keeps it.
     await page.getByRole("button", { name: "Close…" }).click();
     const guard = page.getByRole("alertdialog");
-    await expect(guard).toContainText("Close and discard Cowrite’s open copy?");
+    await expect(guard).toContainText("Close and discard Emend’s open copy?");
     await guard.getByRole("button", { name: "Cancel" }).click();
     await expect(page.locator(".cm-content:visible")).toContainText("still editable while missing.");
 
@@ -5820,7 +5822,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     // was gone is still pending when the path comes back (2s debounce against a transition that
     // takes tens of ms), and nothing but the transition itself can read the file (a 60s poll), so
     // whether the disk side survives is decided here and only here.
-    const buffer = "Cowrite's retained buffer";
+    const buffer = "Emend's retained buffer";
     const external = "A concurrent creator's bytes";
     const { rail, editor } = await openMissingDocument(page, buffer, {
       autosaveMs: 2_000,
@@ -5874,7 +5876,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     // an unresolved external change, so nothing but the recovery write below can move the disk side.
     await editor.click();
     await page.keyboard.press("Control+a");
-    const unsavedBuffer = "Cowrite's unsaved local edit";
+    const unsavedBuffer = "Emend's unsaved local edit";
     await page.keyboard.type(unsavedBuffer);
     await expect(editor).toHaveText(unsavedBuffer);
 
@@ -5986,7 +5988,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     page,
   }) => {
     test.skip(process.platform !== "win32", "TD-18 confinement is available only on Windows");
-    const buffer = "Cowrite's retained buffer";
+    const buffer = "Emend's retained buffer";
     const external = "A concurrent creator's bytes";
     const { editor } = await openMissingDocument(page, buffer);
 
@@ -6066,7 +6068,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     await chooseNextSaveAsDestination(page, blocked);
     await saveAs.click();
     await expect(page.locator(".shell-status")).toContainText(
-      "Cowrite couldn’t complete the document action.",
+      "Emend couldn’t complete the document action.",
     );
     await expect(page.getByRole("tab", { name: /notes\.md/ })).toBeVisible();
     await expect(page.getByRole("button", { name: /Missing on disk: notes\.md/ })).toBeVisible();
@@ -6232,7 +6234,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     await expect(page.getByRole("button", { name: "Save As…" })).toBeVisible();
     await page.getByRole("button", { name: "Close…" }).click();
     await expect(page.getByRole("alertdialog")).toContainText(
-      "Close and discard Cowrite’s open copy?",
+      "Close and discard Emend’s open copy?",
     );
 
     await page.evaluate(() => window.__EMEND_E2E__?.showReviewerWorkspace());

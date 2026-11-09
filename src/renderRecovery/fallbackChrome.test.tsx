@@ -63,7 +63,7 @@ describe("fallback window chrome", () => {
       />,
     );
 
-    const fallback = await screen.findByRole("main", { name: "Cowrite can’t show this window right now." });
+    const fallback = await screen.findByRole("main", { name: "Emend can’t show this window right now." });
     const close = await screen.findByRole("button", { name: "Close window" });
     fireEvent.click(close);
     await waitFor(() => expect(native.close).toHaveBeenCalledOnce());

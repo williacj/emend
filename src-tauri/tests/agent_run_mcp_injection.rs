@@ -602,7 +602,7 @@ fn a_failed_real_mcp_handshake_fails_its_run_and_advances_to_a_connected_run() {
     );
     assert_eq!(state.finished[0].id, first.id);
     assert!(
-        matches!(&state.finished[0].phase, RunPhase::Failed { message } if message.contains("Cowrite") && message.contains("tools")),
+        matches!(&state.finished[0].phase, RunPhase::Failed { message } if message.contains("Emend") && message.contains("tools")),
         "failed Cowrite binding did not produce its attributed Failed state: {:?}",
         state.finished[0].phase
     );

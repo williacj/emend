@@ -5,6 +5,6 @@
 <plist version="1.0">
 <dict>
   <key>NSMicrophoneUsageDescription</key>
-  <string>Cowrite uses your microphone to dictate text locally.</string>
+  <string>Emend uses your microphone to dictate text locally.</string>
 </dict>
 </plist>

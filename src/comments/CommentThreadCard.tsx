@@ -598,7 +598,7 @@ export function CommentThreadCard({
           <p>{reply.published || hasHistoricalOtherReply(reply.id, reply.author)
             ? "Others may already have seen it. The reply keeps a note that you deleted it."
             : "It hasn't been shared and no one else has replied to it, so its text will disappear from view."}</p>
-          <p>Cowrite keeps the original text in this document's history. Deleting removes it from view, not from the record. This can't be undone.</p>
+          <p>Emend keeps the original text in this document's history. Deleting removes it from view, not from the record. This can't be undone.</p>
           {correctionError && <p role="alert">{correctionError}</p>}
           <div className="comment-thread-card__correction-actions">
             <button type="button" autoFocus onClick={() => void submitWithdrawal(reply.id)} disabled={correctionBusy || Boolean(deleteBlock(reply.id))}>Delete</button>
@@ -785,7 +785,7 @@ export function CommentThreadCard({
           <p>{thread.published || thread.replies.some((reply) => reply.author !== thread.author)
             ? "Others may already have seen this comment. The thread will keep a note that you deleted it."
             : "This comment hasn't been shared and no one else has replied, so it will disappear from the document."}</p>
-          <p>Cowrite keeps the original text in this document's history. Deleting removes it from view, not from the record. This can't be undone.</p>
+          <p>Emend keeps the original text in this document's history. Deleting removes it from view, not from the record. This can't be undone.</p>
           {correctionError && <p role="alert">{correctionError}</p>}
           <div className="comment-thread-card__correction-actions">
             <button type="button" autoFocus onClick={() => void submitWithdrawal(thread.id)} disabled={correctionBusy || Boolean(deleteBlock(thread.id))}>Delete</button>

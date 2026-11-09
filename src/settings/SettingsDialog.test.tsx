@@ -169,7 +169,7 @@ describe("settings/SettingsDialog", () => {
     render(<SettingsDialog {...themeProps} onClose={vi.fn()} />);
 
     expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Cowrite couldn’t load Settings. settings unavailable",
+      "Emend couldn’t load Settings. settings unavailable",
     );
     expect(
       screen.queryByRole("checkbox", { name: "Autosave" }),

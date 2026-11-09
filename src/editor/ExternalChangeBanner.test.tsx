@@ -96,7 +96,7 @@ describe("editor/ExternalChangeBanner", () => {
         <ExternalChangeBanner path="notes.md" state={observed()} isDirty {...handlers()} />,
       );
       expect(
-        screen.getByText((_, node) => node?.textContent === "Someone or something else wrote to notes.md. Cowrite has paused writing to it until you choose. Your unsaved edits are still here."),
+        screen.getByText((_, node) => node?.textContent === "Someone or something else wrote to notes.md. Emend has paused writing to it until you choose. Your unsaved edits are still here."),
       ).toBeTruthy();
       const italic = screen.getByText("notes.md", { selector: "i" });
       expect(italic).toBeTruthy();
@@ -108,7 +108,7 @@ describe("editor/ExternalChangeBanner", () => {
       );
       expect(
         screen.getByText(
-          "Nothing of yours is unsaved here, so no choice is safer than the others. Cowrite still won’t write to the file until you pick one.",
+          "Nothing of yours is unsaved here, so no choice is safer than the others. Emend still won’t write to the file until you pick one.",
         ),
       ).toBeTruthy();
       expect(screen.queryByText("notes.md", { selector: "i" })).toBeNull();
@@ -125,7 +125,7 @@ describe("editor/ExternalChangeBanner", () => {
       );
       expect(screen.getByText("Not saved — this file changed outside the editor")).toBeTruthy();
       expect(
-        screen.getByText("Cowrite didn’t write over it. Choose Reload, Keep mine, or Compare."),
+        screen.getByText("Emend didn’t write over it. Choose Reload, Keep mine, or Compare."),
       ).toBeTruthy();
       // The ratified sentence never appears twice in the same bar.
       expect(screen.queryByText("This file changed outside the editor")).toBeNull();
@@ -180,7 +180,7 @@ describe("editor/ExternalChangeBanner", () => {
       expect(screen.getByText("The version from disk is here, but it isn’t saved")).toBeTruthy();
       expect(
         screen.getByText(
-          "What you see now is the file as it was on disk. Cowrite couldn’t finish saving it back, so this document is still unsaved.",
+          "What you see now is the file as it was on disk. Emend couldn’t finish saving it back, so this document is still unsaved.",
         ),
       ).toBeTruthy();
       expect(screen.queryByText("This file changed outside the editor")).toBeNull();

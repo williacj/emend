@@ -267,7 +267,7 @@ mod tests {
         let idx = args
             .iter()
             .position(|a| a == "--permission-prompt-tool")
-            .expect("a wired run delegates permission to the Cowrite MCP tool");
+            .expect("a wired run delegates permission to the Emend MCP tool");
         assert_eq!(args[idx + 1], "mcp__cowrite__permission_request");
     }
 

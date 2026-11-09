@@ -33,7 +33,7 @@ describe("timeline/AgentWorkingCard", () => {
   it("#2539 retains outbound direction beneath the completed summary", () => {
     const card = {
       ...createAgentWorkingCard(statusWith({ phase: { phase: "completed", reply: null }, activity: [], elapsedSecs: 17 })),
-      outboundContext: "carried draft.md by name only — over Cowrite’s size limit",
+      outboundContext: "carried draft.md by name only — over Emend’s size limit",
     };
     render(<AgentWorkingCard card={card} />);
     expect(screen.getByText("↓ IN")).toBeInTheDocument();

@@ -28,14 +28,14 @@ const DEVICE_ISSUES: Record<NonNullable<VoiceStatus["device_issue"]>, string> = 
 };
 
 const DOWNLOAD_FAILURES: Record<VoiceDownloadIssue, string> = {
-  transport: "Model download failed: Cowrite couldn’t complete the download over the network.",
-  storage: "Model download failed: Cowrite couldn’t save the model on this device.",
-  registry: "Model download failed: Cowrite couldn’t finish setting up the model.",
+  transport: "Model download failed: Emend couldn’t complete the download over the network.",
+  storage: "Model download failed: Emend couldn’t save the model on this device.",
+  registry: "Model download failed: Emend couldn’t finish setting up the model.",
   protocol: "Model download failed: The file received wasn’t the expected voice model.",
   truncated: "Model download failed: The file received wasn’t the expected voice model.",
   oversized: "Model download failed: The file received wasn’t the expected voice model.",
   corrupt: "Model download failed: The file received wasn’t the expected voice model.",
-  cancelled: "Model download failed: Cowrite stopped the download.",
+  cancelled: "Model download failed: Emend stopped the download.",
 };
 
 function downloadPercent(downloaded: number, total: number): number {
@@ -290,11 +290,11 @@ export function VoiceSettingsSection() {
               : status.model_origin === "managed" ? "Remove local model" : "Stop using this model"}</button>}
         </div>
         {showReady && externalModel && <>
-          <p className="settings-dialog__model-note">External file — Cowrite won’t delete it</p>
+          <p className="settings-dialog__model-note">External file — Emend won’t delete it</p>
           {status.external_model_path && <p className="settings-dialog__model-path" title={status.external_model_path}>{status.external_model_path}</p>}
         </>}
         {showReady && status.model_origin === null &&
-          <p className="settings-dialog__model-note">Cowrite can’t verify this model’s location.</p>}
+          <p className="settings-dialog__model-note">Emend can’t verify this model’s location.</p>}
         {currentPhase?.kind === "cancelled" && <p role="status" className="settings-dialog__model-message">Model download cancelled. The partial download can resume.</p>}
         {currentPhase?.kind === "failed" && <p role="alert" className="settings-dialog__model-message settings-dialog__model-error">{DOWNLOAD_FAILURES[currentPhase.reason]}</p>}
       </>}

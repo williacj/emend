@@ -51,7 +51,7 @@ describe("editor/MissingOnDiskBanner", () => {
     render(<MissingOnDiskBanner recreatable failure={{ kind: "confinement" }} {...handlers()} />);
 
     expect(
-      screen.getByText("Cowrite can’t safely recreate this file at its original path."),
+      screen.getByText("Emend can’t safely recreate this file at its original path."),
     ).toBeTruthy();
     expect(screen.getByRole("button", { name: "Save As…" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Keep editing" })).toBeTruthy();
@@ -70,7 +70,7 @@ describe("editor/MissingOnDiskBanner", () => {
     );
 
     expect(
-      screen.getByText("Cowrite couldn’t complete the requested action. permission denied"),
+      screen.getByText("Emend couldn’t complete the requested action. permission denied"),
     ).toBeTruthy();
     expect(screen.getByRole("button", { name: "Save As…" })).toBeTruthy();
   });

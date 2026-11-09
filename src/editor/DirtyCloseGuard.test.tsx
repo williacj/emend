@@ -52,7 +52,7 @@ describe("editor/DirtyCloseGuard", () => {
       ],
       [
         "live-over-cap",
-        "This document holds unsaved work that Cowrite can't keep in your session — it's over the 2 MiB per-tab limit. Closing it without saving discards that work permanently.",
+        "This document holds unsaved work that Emend can't keep in your session — it's over the 2 MiB per-tab limit. Closing it without saving discards that work permanently.",
         true,
       ],
       [

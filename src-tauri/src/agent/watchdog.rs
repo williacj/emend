@@ -199,7 +199,7 @@ impl DocWatcher {
                 let event = match result {
                     Ok(event) => event,
                     Err(error) => {
-                        eprintln!("Cowrite document watchdog notification failed: {error}");
+                        eprintln!("Emend document watchdog notification failed: {error}");
                         continue;
                     }
                 };
@@ -224,7 +224,7 @@ impl DocWatcher {
                         continue;
                     }
                     if let Err(error) = watchdog.on_native_write(doc) {
-                        eprintln!("Cowrite document watchdog could not inspect {doc}: {error}");
+                        eprintln!("Emend document watchdog could not inspect {doc}: {error}");
                     }
                 }
                 if let Some(normalized) = normalized_event(&event, docs) {

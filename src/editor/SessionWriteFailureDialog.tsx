@@ -37,7 +37,7 @@ export function SessionWriteFailureDialog({
     ? "Your previous saved session is still intact — if you quit anyway, that older session is what reopens, and it may bring back tabs you closed or earlier versions of what's open now."
     : baseline === "none"
       ? "There is no previous saved session to restore — if you quit anyway, this window reopens empty."
-      : "Cowrite couldn't verify a usable previous session — if you quit anyway, what reopens may be incomplete.";
+      : "Emend couldn't verify a usable previous session — if you quit anyway, what reopens may be incomplete.";
 
   return (
     <div
@@ -74,7 +74,7 @@ export function SessionWriteFailureDialog({
       <div className="session-write-failure__card">
         <h2 id="session-write-failure-title">Couldn't save your latest session changes</h2>
         <p>
-          Cowrite couldn't save your latest session changes. {affectedLabels.length === 0
+          Emend couldn't save your latest session changes. {affectedLabels.length === 0
             ? "Your latest tab layout and session state may not return if you quit now."
             : affectedLabels.length === 1
               ? <>Changes to <strong>{affectedLabels[0]}</strong> may not return if you quit now.</>
@@ -89,7 +89,7 @@ export function SessionWriteFailureDialog({
           </div>
         )}
         <p className="session-write-failure__reason">
-          {detail || "Cowrite couldn't verify why the session write failed"}. No new session was committed. {baselineDetail}
+          {detail || "Emend couldn't verify why the session write failed"}. No new session was committed. {baselineDetail}
         </p>
         <div className="session-write-failure__actions">
           <button type="button" className="session-write-failure__quit" disabled={retrying} onClick={onQuitAnyway}>Quit anyway</button>
