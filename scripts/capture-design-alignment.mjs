@@ -12,7 +12,7 @@ import { allocateLoopbackPorts } from "./e2e-ports.mjs";
 import { assertProjectOpenCapture } from "./capture-design-alignment-state.mjs";
 
 const repository = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const output = resolve(process.env.COWRITE_ALIGNMENT_OUTPUT ?? join(repository, "docs/alignment-after"));
+const output = resolve(process.env.EMEND_ALIGNMENT_OUTPUT ?? join(repository, "docs/alignment-after"));
 const fixtureParent = mkdtempSync(join(tmpdir(), "cowrite-alignment-after-"));
 const platformNames = [
   { id: "win", navigatorPlatform: "Win32" },
@@ -100,13 +100,13 @@ async function startServers() {
   const [vitePort, driverPort] = await allocateLoopbackPorts(2);
   const viteUrl = `http://127.0.0.1:${vitePort}`;
   const driverUrl = `http://127.0.0.1:${driverPort}`;
-  const permissionProvider = process.env.COWRITE_ALIGNMENT_SCENARIO?.includes("refresh23 dark")
+  const permissionProvider = process.env.EMEND_ALIGNMENT_SCENARIO?.includes("refresh23 dark")
     ? await buildPermissionProvider() : null;
   const env = {
     ...process.env,
-    COWRITE_CLAUDE_BIN: permissionProvider ?? "cowrite-test-no-claude-installed",
-    COWRITE_COPILOT_BIN: "cowrite-test-no-copilot-installed",
-    ...(permissionProvider ? { COWRITE_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN: "1" } : {}),
+    EMEND_CLAUDE_BIN: permissionProvider ?? "cowrite-test-no-claude-installed",
+    EMEND_COPILOT_BIN: "cowrite-test-no-copilot-installed",
+    ...(permissionProvider ? { EMEND_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN: "1" } : {}),
   };
   const vite = spawn("npm", ["run", "dev", "--", "--host", "127.0.0.1", "--port", String(vitePort), "--strictPort"], {
     cwd: repository,
@@ -194,7 +194,7 @@ async function snapshot(page, name, target = null, metadata = {}) {
 }
 
 async function runScenario(name, run) {
-  if (process.env.COWRITE_ALIGNMENT_SCENARIO && !name.includes(process.env.COWRITE_ALIGNMENT_SCENARIO)) return;
+  if (process.env.EMEND_ALIGNMENT_SCENARIO && !name.includes(process.env.EMEND_ALIGNMENT_SCENARIO)) return;
   selectedScenarios += 1;
   console.log(`Capturing ${name}`);
   try {
@@ -382,18 +382,18 @@ async function captureCore(browser, viteUrl, driverUrl, platform) {
   try {
     await page.getByRole("button", { name: "Open a folder…" }).waitFor();
     await snapshot(page, `${platform.id}-welcome`);
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, null), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, null), root);
     await page.locator(".app-body--workshop").waitFor();
     await page.locator('[data-card-kind="chat-message"]').last().waitFor();
     await snapshot(page, `${platform.id}-workshop`);
     await snapshot(page, `${platform.id}-cards`, ".timeline-panel__stream");
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-content:visible").waitFor();
     await snapshot(page, `${platform.id}-authoring`);
     assert.equal(await page.locator(".cm-redlineInsert, .cm-redlineDelete").count(), 0, "authoring capture must show a document without pending changes");
     await page.getByRole("button", { name: "Close notes.md" }).click();
     writeFileSync(join(root, "notes.md"), redlineContent);
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.getByRole("group", { name: "Review changes" }).waitFor();
     await page.locator(".cm-redlineInsert").waitFor();
     await snapshot(page, `${platform.id}-redline`);
@@ -421,7 +421,7 @@ async function captureQuote(browser, viteUrl, driverUrl, platform) {
   await post(driverUrl, "close_project");
   const { context, page } = await newPage(browser, viteUrl, platform);
   try {
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-content:visible").waitFor();
     await page.keyboard.press(platform.id === "mac" ? "Meta+Home" : "Control+Home");
     for (let index = 0; index < 5; index += 1) await page.keyboard.press("Shift+ArrowRight");
@@ -452,7 +452,7 @@ async function captureComment(browser, viteUrl, driverUrl, platform) {
   await post(driverUrl, "close_project");
   const { context, page } = await newPage(browser, viteUrl, platform);
   try {
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-commentHighlight").click();
     const popover = page.getByRole("dialog", { name: "Comment thread" });
     await popover.waitFor();
@@ -490,7 +490,7 @@ async function j10Page(browser, viteUrl, driverUrl, platform, root) {
   await post(driverUrl, "close_project");
   const opened = await newPage(browser, viteUrl, platform);
   try {
-    await opened.page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await opened.page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     const fontFaces = await opened.page.evaluate(async () => {
       const required = [...document.fonts].filter((face) => /IBM Plex Sans|IBM Plex Mono|Source Serif 4/.test(face.family));
       await Promise.all(required.map((face) => face.load()));
@@ -763,7 +763,7 @@ async function captureRail(browser, viteUrl, driverUrl, platform) {
       await route.continue();
     };
     await page.route(`${driverUrl}/refresh_project_files`, holdScan);
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.getByText("Loading documents…").waitFor();
     await snapshot(page, `${platform.id}-rail-loading`);
     hold = false;
@@ -809,7 +809,7 @@ async function captureRailUnavailable(browser, viteUrl, driverUrl, platform) {
         body: JSON.stringify({ kind: "ProjectUnavailable", message: "Alignment fixture scan failure" }),
       });
     });
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.getByText("Project files unavailable").waitFor();
     await snapshot(page, `${platform.id}-rail-unavailable`);
   } finally {
@@ -824,10 +824,10 @@ async function captureIntegrity(browser, viteUrl, driverUrl, platform) {
   const { context, page } = await newPage(browser, viteUrl, platform);
   try {
     await page.evaluate(() => {
-      window.__COWRITE_E2E__?.setAutosaveIntervalMs(5_000);
-      window.__COWRITE_E2E__?.setExternalChangePollMs(1_000);
+      window.__EMEND_E2E__?.setAutosaveIntervalMs(5_000);
+      window.__EMEND_E2E__?.setExternalChangePollMs(1_000);
     });
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     const editor = page.locator(".cm-content:visible");
     await editor.waitFor();
     await editor.click();
@@ -891,7 +891,7 @@ async function captureRecovery(browser, viteUrl, driverUrl, platform) {
   await post(driverUrl, "close_project");
   const { context, page } = await newPage(browser, viteUrl, platform);
   try {
-    await page.evaluate((value) => window.__COWRITE_E2E__?.openProject(value.root, value.path), { root, path: recoveryPath });
+    await page.evaluate((value) => window.__EMEND_E2E__?.openProject(value.root, value.path), { root, path: recoveryPath });
     await page.locator(".untitled-document__loss-notice").waitFor();
     // The 9-series tiles specify document-column widths; the browser viewport keeps the real
     // project rail and timeline alongside the pane, as the acceptance fixture does.
@@ -918,7 +918,7 @@ async function captureRecovery(browser, viteUrl, driverUrl, platform) {
     await page.getByRole("button", { name: "Cancel" }).click();
     const blockedDestination = join(root, "blocked.md");
     mkdirSync(blockedDestination);
-    await page.evaluate((path) => window.__COWRITE_E2E__?.setNextSaveAsDialogResult(path), blockedDestination);
+    await page.evaluate((path) => window.__EMEND_E2E__?.setNextSaveAsDialogResult(path), blockedDestination);
     await page.getByRole("button", { name: "Save As…" }).click();
     await page.locator(".untitled-document__error").waitFor();
     await snapshot(page, `${platform.id}-9c6-save-as-failed`, ".untitled-document");
@@ -1046,7 +1046,7 @@ async function captureLegacyUnsupported(browser, viteUrl, driverUrl, platform) {
     await post(driverUrl, "close_project");
     const { context, page } = await newPage(browser, viteUrl, platform);
     try {
-      await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProjectFolder(projectRoot), root);
+      await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProjectFolder(projectRoot), root);
       if (state === "retained" || state === "composed") {
         await page.getByRole("region", { name: "Unsupported document recovery notice" }).waitFor();
       } else {
@@ -1077,7 +1077,7 @@ async function captureLegacyUnsupported(browser, viteUrl, driverUrl, platform) {
         if (state === "retained") {
           await page.setViewportSize({ width: 1400, height: 900 });
           const destination = join(root, "recovered.md");
-          await page.evaluate((path) => window.__COWRITE_E2E__?.setNextSaveAsDialogResult(path), destination);
+          await page.evaluate((path) => window.__EMEND_E2E__?.setNextSaveAsDialogResult(path), destination);
           await page.getByRole("button", { name: "Save As…" }).click();
           await page.getByRole("tab", { name: "recovered.md" }).waitFor();
           assert.equal(readFileSync(destination, "utf8"), retainedText);
@@ -1115,7 +1115,7 @@ async function capturePathless(browser, viteUrl, driverUrl, platform) {
   await post(driverUrl, "close_project");
   const { context, page } = await newPage(browser, viteUrl, platform);
   try {
-    await page.evaluate(({ projectRoot, path }) => window.__COWRITE_E2E__?.openProject(projectRoot, path), {
+    await page.evaluate(({ projectRoot, path }) => window.__EMEND_E2E__?.openProject(projectRoot, path), {
       projectRoot: root, path: recoveryPath,
     });
     const editor = page.getByRole("textbox", { name: "Untitled document text" });
@@ -1201,7 +1201,7 @@ async function capturePathless(browser, viteUrl, driverUrl, platform) {
     assert.equal(await page.evaluate(() => getSelection()?.toString()), "Alpha");
     await page.evaluate(() => { window.__pathlessCaptureEditor = document.querySelector(".cm-editor"); });
     const destination = join(root, "adopted.md");
-    await page.evaluate((path) => window.__COWRITE_E2E__?.setNextSaveAsDialogResult(path), destination);
+    await page.evaluate((path) => window.__EMEND_E2E__?.setNextSaveAsDialogResult(path), destination);
     await page.getByRole("button", { name: "Save As…" }).click();
     await page.getByRole("tab", { name: "adopted.md" }).waitFor();
     assert.equal(await page.evaluate(() => window.__pathlessCaptureEditor === document.querySelector(".cm-editor")), true);
@@ -1258,7 +1258,7 @@ async function captureToolbar(browser, viteUrl, driverUrl, platform) {
   await post(driverUrl, "close_project");
   const { context, page } = await newPage(browser, viteUrl, platform);
   try {
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-content:visible").waitFor();
     const sideWidth = await page.evaluate(() =>
       document.querySelector(".project-rail").getBoundingClientRect().width
@@ -1269,7 +1269,7 @@ async function captureToolbar(browser, viteUrl, driverUrl, platform) {
     await page.setViewportSize({ width: 1400, height: 900 });
     await page.getByRole("button", { name: "Close notes.md" }).click();
     writeFileSync(join(root, "notes.md"), marked);
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.getByRole("group", { name: "Review changes" }).waitFor();
     const toolbar = await captureToolbarWidths(page, platform, "redline", sideWidth);
     const more = toolbar.getByRole("button", { name: "More editor controls" });
@@ -1319,7 +1319,7 @@ async function captureToolbar(browser, viteUrl, driverUrl, platform) {
   }));
   const next = await newPage(browser, viteUrl, platform);
   try {
-    await next.page.evaluate((value) => window.__COWRITE_E2E__?.openProject(value.root, value.path), {
+    await next.page.evaluate((value) => window.__EMEND_E2E__?.openProject(value.root, value.path), {
       root: pathlessRoot, path: pathless,
     });
     await next.page.locator(".untitled-document .view-mode-toolbar").waitFor();
@@ -1456,7 +1456,7 @@ async function captureVoiceModelSettings(browser, viteUrl, driverUrl, platform, 
     await snapshot(page, `${platform.id}-14b-model-${theme}-${state}`, ".settings-dialog", { modelVisual });
   };
   try {
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-content:visible").waitFor();
     await page.getByRole("button", { name: "Settings", exact: true }).click();
     await page.getByRole("dialog", { name: "Settings" }).waitFor();
@@ -1609,7 +1609,7 @@ async function captureEditorGhost(browser, viteUrl, driverUrl, platform, theme) 
     await page.waitForFunction((selector) => document.querySelector(selector)?.getAttribute("aria-label") === "Dictate", editorMic);
   };
   try {
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-content:visible").waitFor();
     await placeCaret(40);
     await capture("collapsed");
@@ -1637,7 +1637,7 @@ async function captureDarkMic(browser, viteUrl, driverUrl, platform) {
     ["comment", ".comment-composer .dictation-mic", ".comment-popover"],
   ];
   try {
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-content:visible").waitFor();
     await page.locator(".cm-content:visible").click();
     await page.keyboard.press(platform.id === "mac" ? "Meta+Home" : "Control+Home");
@@ -1708,7 +1708,7 @@ async function captureComposerVoiceError(browser, viteUrl, driverUrl, platform) 
       const { context, page, setup: owner } = await newPage(browser, viteUrl, platform, 1400, 900,
         (tab) => installVoiceCaptureFixture(tab, driverUrl), theme);
       try {
-        await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+        await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
         await page.locator(".cm-content:visible").waitFor();
         if (surface === "comment") {
           await page.locator(".cm-content:visible").click();
@@ -1782,7 +1782,7 @@ async function captureVoice(browser, viteUrl, driverUrl, platform, theme = "ligh
     (tab) => installVoiceCaptureFixture(tab, driverUrl), theme);
   let releaseProof = () => {};
   try {
-    await page.evaluate(({ projectRoot, path }) => window.__COWRITE_E2E__?.openProject(projectRoot, path),
+    await page.evaluate(({ projectRoot, path }) => window.__EMEND_E2E__?.openProject(projectRoot, path),
       { projectRoot: root, path: documentPath });
     await page.locator(".cm-content:visible").waitFor();
     if (frozenOnly) {
@@ -1892,7 +1892,7 @@ async function captureVoice(browser, viteUrl, driverUrl, platform, theme = "ligh
     const proofRequested = page.waitForRequest((request) =>
       request.url() === proofUrl || (request.url() === saveUrl && request.postDataJSON()?.policy === "require_untitled_lossless"),
     { timeout: 10_000 });
-    await page.evaluate(() => window.__COWRITE_E2E__?.requestCoordinatedClose());
+    await page.evaluate(() => window.__EMEND_E2E__?.requestCoordinatedClose());
     if (frozenOnly) {
       const guard = page.getByRole("alertdialog", { name: /Unsaved work in Untitled/ });
       await guard.getByRole("button", { name: "Discard this untitled document" }).click();
@@ -1927,7 +1927,7 @@ async function captureCompactToolbar900(browser, viteUrl, driverUrl, platform, t
   const { context, page } = await newPage(browser, viteUrl, platform, 1400, 900,
     (tab) => installVoiceCaptureFixture(tab, driverUrl), theme);
   try {
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     const editorMic = ".view-mode-toolbar__dictation .dictation-mic";
     await page.locator(".cm-content:visible .cm-line").last().click();
     await page.waitForFunction((selector) => document.querySelector(selector)?.getAttribute("aria-label") === "Dictate", editorMic);
@@ -1996,7 +1996,7 @@ async function captureAddressChooser(browser, viteUrl, driverUrl, platform, them
   await post(driverUrl, "close_project");
   const { context, page } = await newPage(browser, viteUrl, platform, 1280, 900, null, theme);
   try {
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.getByRole("button", { name: "Hide Timeline" }).click();
     await page.evaluate(async () => {
       const faces = [...document.fonts].filter((face) => /IBM Plex Sans/.test(face.family));
@@ -2097,7 +2097,7 @@ async function captureHeldAddressChooser(browser, viteUrl, driverUrl, platform, 
   await post(driverUrl, "close_project");
   const { context, page } = await newPage(browser, viteUrl, platform, width, 900, null, theme);
   try {
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.getByRole("button", { name: "Hide Timeline" }).click();
     await page.evaluate(async () => {
       const faces = [...document.fonts].filter((face) => /IBM Plex Sans/.test(face.family));
@@ -2148,7 +2148,7 @@ async function captureVoiceSettingsControls(browser, viteUrl, driverUrl, platfor
     await page.getByRole("button", { name: "Refresh voice status" }).isEnabled();
   };
   try {
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-content:visible").waitFor();
     await page.getByRole("button", { name: "Settings", exact: true }).click();
     await page.getByRole("switch", { name: "Enable voice" }).waitFor();
@@ -2190,16 +2190,16 @@ async function captureProjectOpen(browser, viteUrl, driverUrl, platform) {
   await post(driverUrl, "close_project");
   const { context, page } = await newPage(browser, viteUrl, platform);
   try {
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-content:visible").waitFor();
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProjectFolder(projectRoot), root);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProjectFolder(projectRoot), root);
     await page.locator(".shell-status--project-open").waitFor();
     for (const width of [700, 520, 430]) {
       await page.setViewportSize({ width, height: 900 });
       await snapshot(page, `${platform.id}-13g-already-here-${width}`, ".shell-status--project-open");
     }
     const missing = join(root, "missing-long-name-for-clipping-2026-q1-partner-launch-messaging");
-    await page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProjectFolder(projectRoot), missing);
+    await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProjectFolder(projectRoot), missing);
     await page.locator(".shell-status--project-open").filter({ hasText: "couldn’t" }).waitFor();
     for (const width of [700, 520, 430]) {
       await page.setViewportSize({ width, height: 900 });
@@ -2223,7 +2223,7 @@ async function captureHeldProjectRouting(browser, viteUrl, driverUrl, platform) 
   try {
     held = routing.arm(root);
     const opening = page.evaluate((projectRoot) =>
-      window.__COWRITE_E2E__?.openProjectFolder(projectRoot), root);
+      window.__EMEND_E2E__?.openProjectFolder(projectRoot), root);
     opening.catch(() => {});
     await captureHeldProjectOpen(page, platform, held, "13a-requesting", "requesting",
       `Opening ${platform.id}-j9-held…`);
@@ -2245,12 +2245,12 @@ async function captureHeldProjectRouting(browser, viteUrl, driverUrl, platform) 
     // The direct D23 fixture entry opens a document; the requests below still take the product
     // folder-choice route, now against a window already authoring in its adopted project.
     await page.evaluate((projectRoot) =>
-      window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+      window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-content:visible").waitFor();
 
     held = routing.arm(missingRoot);
     const failedRequest = page.evaluate((projectRoot) =>
-      window.__COWRITE_E2E__?.openProjectFolder(projectRoot), missingRoot);
+      window.__EMEND_E2E__?.openProjectFolder(projectRoot), missingRoot);
     failedRequest.catch(() => {});
     const failureText = `Cowrite couldn’t open ${missingRoot.split(/[\\/]/).pop()}. That folder isn’t available to Cowrite.`;
     await captureHeldProjectOpen(page, platform, held, "13e-requesting", "requesting",
@@ -2305,7 +2305,7 @@ async function captureFallback(browser, viteUrl, driverUrl, platform) {
   const { context, page } = await newPage(browser, viteUrl, platform);
   try {
     const thrown = page.waitForEvent("pageerror");
-    await page.evaluate(() => window.__COWRITE_E2E__?.triggerRenderFailure());
+    await page.evaluate(() => window.__EMEND_E2E__?.triggerRenderFailure());
     await thrown;
     await page.locator(".render-failure").waitFor();
     await snapshot(page, `${platform.id}-12-author-no-project`);
@@ -2316,10 +2316,10 @@ async function captureFallback(browser, viteUrl, driverUrl, platform) {
   const root = fixture(`${platform.id}-fallback`);
   const author = await newPage(browser, viteUrl, platform);
   try {
-    await author.page.evaluate((projectRoot) => window.__COWRITE_E2E__?.openProject(projectRoot, "notes.md"), root);
+    await author.page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await author.page.locator(".cm-content:visible").waitFor();
     const thrown = author.page.waitForEvent("pageerror");
-    await author.page.evaluate(() => window.__COWRITE_E2E__?.triggerRenderFailure());
+    await author.page.evaluate(() => window.__EMEND_E2E__?.triggerRenderFailure());
     await thrown;
     await author.page.locator(".render-failure").waitFor();
     await snapshot(author.page, `${platform.id}-12-author-project`);
@@ -2372,7 +2372,7 @@ async function captureUnestablishedFallback(browser, viteUrl, driverUrl, platfor
     const thrown = page.waitForEvent("pageerror");
     await page.evaluate(async () => {
       await new Promise((resolvePaint) => requestAnimationFrame(() => requestAnimationFrame(resolvePaint)));
-      window.__COWRITE_E2E__?.triggerRenderFailure();
+      window.__EMEND_E2E__?.triggerRenderFailure();
     });
     await thrown;
     await page.locator(".render-failure").waitFor();
@@ -2415,24 +2415,24 @@ async function main() {
       await runScenario(`${platform.id} pathless`, () => capturePathless(browser, viteUrl, driverUrl, platform));
       await runScenario(`${platform.id} toolbar`, () => captureToolbar(browser, viteUrl, driverUrl, platform));
       await runScenario(`${platform.id} voice`, () => captureVoice(browser, viteUrl, driverUrl, platform));
-      if (process.env.COWRITE_ALIGNMENT_SCENARIO?.includes("refresh23 dark")) {
+      if (process.env.EMEND_ALIGNMENT_SCENARIO?.includes("refresh23 dark")) {
         await runScenario(`${platform.id} refresh23 dark J12 freeze`,
           () => captureVoice(browser, viteUrl, driverUrl, platform, "dark", true));
       }
-      if (process.env.COWRITE_ALIGNMENT_SCENARIO?.includes("14b model row")) {
+      if (process.env.EMEND_ALIGNMENT_SCENARIO?.includes("14b model row")) {
         for (const theme of ["light", "dark"]) {
           await runScenario(`${platform.id} 14b model row ${theme}`,
             () => captureVoiceModelSettings(browser, viteUrl, driverUrl, platform, theme));
         }
       }
-      if (process.env.COWRITE_ALIGNMENT_SCENARIO?.includes("14d editor ghost")) {
+      if (process.env.EMEND_ALIGNMENT_SCENARIO?.includes("14d editor ghost")) {
         for (const theme of ["light", "dark"]) {
           await runScenario(`${platform.id} 14d editor ghost ${theme}`,
             () => captureEditorGhost(browser, viteUrl, driverUrl, platform, theme));
         }
       }
       await runScenario(`${platform.id} compact toolbar`, () => captureCompactToolbar900(browser, viteUrl, driverUrl, platform));
-      if (process.env.COWRITE_ALIGNMENT_SCENARIO?.includes("turn 15 chooser")) {
+      if (process.env.EMEND_ALIGNMENT_SCENARIO?.includes("turn 15 chooser")) {
         for (const theme of ["light", "dark"]) {
           await runScenario(`${platform.id} turn 15 chooser ${theme}`,
             () => captureAddressChooser(browser, viteUrl, driverUrl, platform, theme));
@@ -2445,11 +2445,11 @@ async function main() {
             () => captureHeldAddressChooser(browser, viteUrl, driverUrl, platform, "dark", 900));
         }
       }
-      if (process.env.COWRITE_ALIGNMENT_SCENARIO?.includes("refresh23 dark")) {
+      if (process.env.EMEND_ALIGNMENT_SCENARIO?.includes("refresh23 dark")) {
         await runScenario(`${platform.id} refresh23 dark compact toolbar`,
           () => captureCompactToolbar900(browser, viteUrl, driverUrl, platform, "dark"));
       }
-      if (process.env.COWRITE_ALIGNMENT_SCENARIO?.includes("dark voice")) {
+      if (process.env.EMEND_ALIGNMENT_SCENARIO?.includes("dark voice")) {
         await runScenario(`${platform.id} dark voice`, () => captureDarkMic(browser, viteUrl, driverUrl, platform));
       }
       await runScenario(`${platform.id} composer voice error`, () => captureComposerVoiceError(browser, viteUrl, driverUrl, platform));
@@ -2467,8 +2467,8 @@ async function main() {
   if (evidence.failures.length) {
     throw new Error(`${evidence.failures.length} capture scenarios failed; see ${join(output, "measurements.json")}`);
   }
-  if (process.env.COWRITE_ALIGNMENT_SCENARIO && selectedScenarios === 0) {
-    throw new Error(`No capture scenario matched ${process.env.COWRITE_ALIGNMENT_SCENARIO}`);
+  if (process.env.EMEND_ALIGNMENT_SCENARIO && selectedScenarios === 0) {
+    throw new Error(`No capture scenario matched ${process.env.EMEND_ALIGNMENT_SCENARIO}`);
   }
   console.log(`Captured ${Object.keys(evidence.captures).length} states at ${evidence.sourceRevision}`);
 }

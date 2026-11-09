@@ -344,7 +344,7 @@ test('registered focused dispatch validates an immutable target and runs every i
   assert.ok(focused, 'expected the operator-only focused-repeat job');
 
   assert.match(focused[0], /name:\s*E2E focused repeat \(Windows, self-hosted\)/);
-  assert.match(focused[0], /COWRITE_TARGET_SHA:\s*\$\{\{\s*inputs\.target_sha\s*\}\}/);
+  assert.match(focused[0], /EMEND_TARGET_SHA:\s*\$\{\{\s*inputs\.target_sha\s*\}\}/);
   assert.match(focused[0], /\^\[0-9a-fA-F\]\{40\}\$/);
   assert.match(focused[0], /\^\(\[1-9\]\|1\[0-9\]\|2\[0-5\]\)\$/);
   assert.match(focused[0], /ref:\s*\$\{\{\s*inputs\.target_sha\s*\}\}/);
@@ -353,7 +353,7 @@ test('registered focused dispatch validates an immutable target and runs every i
   assert.match(focused[0], /if \(\$status -ne 0\) \{ \$failed \+= \$i \}/);
   assert.match(focused[0], /if \(\$failed\.Count -gt 0\)/);
   assert.match(focused[0], /name:\s*playwright-report-focused-repeat/);
-  assert.doesNotMatch(focused[0], /COWRITE_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN/);
+  assert.doesNotMatch(focused[0], /EMEND_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN/);
 });
 
 // Detecting the outage is not preventing it. `!cancelled()` stays true after a failed step, so
@@ -519,12 +519,12 @@ test('sccache diagnostics are dispatch-only and always reject themselves as merg
   const yaml = readWorkflow();
   assert.match(
     yaml,
-    /COWRITE_SCCACHE_DIAGNOSTIC:\s*\$\{\{\s*github\.event_name == 'workflow_dispatch' && inputs\.sccache_diagnostic \|\| 'none'\s*\}\}/,
+    /EMEND_SCCACHE_DIAGNOSTIC:\s*\$\{\{\s*github\.event_name == 'workflow_dispatch' && inputs\.sccache_diagnostic \|\| 'none'\s*\}\}/,
   );
 
   const reject = namedStep(yaml, 'Reject sccache diagnostic as merge evidence');
   assert.ok(reject, 'expected a terminal diagnostic rejection step');
-  assert.match(reject[0], /if:\s*\$\{\{\s*always\(\) && env\.COWRITE_SCCACHE_DIAGNOSTIC != 'none'\s*\}\}/);
+  assert.match(reject[0], /if:\s*\$\{\{\s*always\(\) && env\.EMEND_SCCACHE_DIAGNOSTIC != 'none'\s*\}\}/);
   assert.match(reject[0], /throw\s+"Sccache diagnostic runs cannot satisfy the Windows PR check/);
 
   for (const name of [
@@ -537,7 +537,7 @@ test('sccache diagnostics are dispatch-only and always reject themselves as merg
     assert.ok(step, `expected a ${name} step`);
     assert.doesNotMatch(
       step[0],
-      /COWRITE_SCCACHE_DIAGNOSTIC/,
+      /EMEND_SCCACHE_DIAGNOSTIC/,
       `${name} must preserve the ratified full workflow_dispatch suite`,
     );
   }
@@ -599,8 +599,8 @@ test('checks live PR-head freshness and gates every expensive Windows step fail-
   const freshness = yaml.match(/- name: Check revision freshness\n([\s\S]*?)(?=\n\s+- name:|$)/);
   assert.ok(freshness, 'expected a revision-freshness step');
   assert.match(freshness[0], /GH_TOKEN:\s*\$\{\{\s*github\.token\s*\}\}/);
-  assert.match(freshness[0], /COWRITE_PR_NUMBER:\s*\$\{\{\s*github\.event\.pull_request\.number\s*\}\}/);
-  assert.match(freshness[0], /COWRITE_EVENT_HEAD_SHA:\s*\$\{\{\s*github\.event\.pull_request\.head\.sha\s*\}\}/);
+  assert.match(freshness[0], /EMEND_PR_NUMBER:\s*\$\{\{\s*github\.event\.pull_request\.number\s*\}\}/);
+  assert.match(freshness[0], /EMEND_EVENT_HEAD_SHA:\s*\$\{\{\s*github\.event\.pull_request\.head\.sha\s*\}\}/);
   assert.match(freshness[0], /node scripts\/windows-ci-freshness\.mjs/);
 
   for (const name of [
@@ -628,8 +628,8 @@ test('classifies suites inside the stable job and gates each suite unit independ
   assert.ok(classifier, 'expected a classifier step inside the one required job');
   assert.match(classifier[0], /id:\s*classifier/);
   assert.match(classifier[0], /steps\.freshness\.outputs\.run_expensive\s*!=\s*'false'/);
-  assert.match(classifier[0], /COWRITE_EVENT_BASE_SHA:\s*\$\{\{\s*github\.event\.pull_request\.base\.sha \|\| github\.sha\s*\}\}/);
-  assert.match(classifier[0], /COWRITE_EVENT_HEAD_SHA:\s*\$\{\{\s*github\.event\.pull_request\.head\.sha \|\| github\.sha\s*\}\}/);
+  assert.match(classifier[0], /EMEND_EVENT_BASE_SHA:\s*\$\{\{\s*github\.event\.pull_request\.base\.sha \|\| github\.sha\s*\}\}/);
+  assert.match(classifier[0], /EMEND_EVENT_HEAD_SHA:\s*\$\{\{\s*github\.event\.pull_request\.head\.sha \|\| github\.sha\s*\}\}/);
   assert.match(classifier[0], /node scripts\/windows-ci-classifier\.mjs/);
   assert.doesNotMatch(classifier[0], /continue-on-error:\s*true/);
 
@@ -705,7 +705,7 @@ test('folds E into the one stable required Windows job after burn-in (#1403)', (
   assert.ok(report, 'expected the failure-artifact step inside the required job');
   assert.match(report[0], /if:\s*\$\{\{\s*failure\(\)[^}]*steps\.classifier\.outputs\.run_e2e\s*==\s*'true'/);
   assert.match(report[0], /playwright-report-windows/);
-  assert.doesNotMatch(requiredJob[0], /COWRITE_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN/);
+  assert.doesNotMatch(requiredJob[0], /EMEND_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN/);
 });
 
 test('an obsolete revision cannot publish successful merge evidence (#980 review)', () => {
@@ -750,7 +750,7 @@ test('test:scripts does not depend on shell-expanded glob syntax — cmd.exe (th
 // this very file, so a live check that shells out to `npm run test:scripts` would spawn a Windows
 // `node:test` run that re-executes this same test, which would shell out again, forever. Set in the
 // child's environment before the live check spawns anything; a nested run skips it.
-const NESTED_ENV = 'COWRITE_WORKFLOW_LIVE_CHECK_NESTED';
+const NESTED_ENV = 'EMEND_WORKFLOW_LIVE_CHECK_NESTED';
 const DISCOVERY_SENTINEL = 'cowrite-windows-cmd-discovery-sentinel';
 // Node 20's TAP reporter describes every name-filtered test. The suite crossed spawnSync's
 // implicit ~1 MiB stdout cap at 3,735 tests (#1573), killing a healthy child with ENOBUFS. Keep a
@@ -980,25 +980,25 @@ test('every suite writes its execution evidence into one per-run results directo
   // workflow file — run 33694188051 failed in 0s with "workflow file issue" for exactly that.
   assert.doesNotMatch(yaml, /runner\.temp/, 'the runner context is unavailable in jobs.<id>.env');
   assert.match(yaml, /\$dir = "\$env:RUNNER_TEMP\\matrix-results-\$env:GITHUB_RUN_ID-\$env:GITHUB_RUN_ATTEMPT"/);
-  assert.match(yaml, /"COWRITE_MATRIX_ARTIFACTS=\$dir" \| Out-File -FilePath \$env:GITHUB_ENV -Append/);
+  assert.match(yaml, /"EMEND_MATRIX_ARTIFACTS=\$dir" \| Out-File -FilePath \$env:GITHUB_ENV -Append/);
   // Keyed by run id AND attempt, and cleared: RUNNER_TEMP survives between jobs on the persistent
   // service, and a re-run reading the previous attempt's artifacts would credit tests this
   // attempt never executed.
   assert.match(yaml, /- name: Prepare test-matrix results directory[\s\S]*?Remove-Item -LiteralPath \$dir -Recurse -Force/);
 
   // One artifact per kind, named so check-test-matrix.mjs can pick the parser from the filename.
-  assert.match(yaml, /Tee-Object -FilePath "\$env:COWRITE_MATRIX_ARTIFACTS\\rust-windows\.txt"/);
-  assert.match(yaml, /--outputFile\.json="\$env:COWRITE_MATRIX_ARTIFACTS\\vitest-windows\.json"/);
-  assert.match(yaml, /\$env:COWRITE_TEST_RESULTS_FILE = "\$env:COWRITE_MATRIX_ARTIFACTS\\node-scripts\.jsonl"/);
-  assert.match(yaml, /\$env:COWRITE_E2E_RESULTS_FILE = "\$env:COWRITE_MATRIX_ARTIFACTS\\e2e-windows\.json"/);
+  assert.match(yaml, /Tee-Object -FilePath "\$env:EMEND_MATRIX_ARTIFACTS\\rust-windows\.txt"/);
+  assert.match(yaml, /--outputFile\.json="\$env:EMEND_MATRIX_ARTIFACTS\\vitest-windows\.json"/);
+  assert.match(yaml, /\$env:EMEND_TEST_RESULTS_FILE = "\$env:EMEND_MATRIX_ARTIFACTS\\node-scripts\.jsonl"/);
+  assert.match(yaml, /\$env:EMEND_E2E_RESULTS_FILE = "\$env:EMEND_MATRIX_ARTIFACTS\\e2e-windows\.json"/);
 });
 
 test('every step that composes an artifact path refuses to run with the directory unset (#1814)', () => {
-  // An unset variable would make `"$env:COWRITE_MATRIX_ARTIFACTS\rust-windows.txt"` resolve to the
+  // An unset variable would make `"$env:EMEND_MATRIX_ARTIFACTS\rust-windows.txt"` resolve to the
   // drive root — a silent write outside the results directory, and evidence the gate would then
   // fail to find. Seven writers, seven guards; the count is asserted so a new writer added without
   // one is visible here rather than at 2am on the runner.
-  const guards = readWorkflow().match(/if \(-not \$env:COWRITE_MATRIX_ARTIFACTS\) \{ throw /g) ?? [];
+  const guards = readWorkflow().match(/if \(-not \$env:EMEND_MATRIX_ARTIFACTS\) \{ throw /g) ?? [];
   assert.equal(guards.length, 5, 'cargo, tooling, vitest, playwright, and the validation step');
 });
 
@@ -1021,7 +1021,7 @@ test('feature-gated voice capture runs in the Windows Rust execution artifact (#
     cargo[0],
     /cmd \/c 'cargo test --manifest-path src-tauri\/Cargo\.toml --workspace 2>&1'/,
   );
-  assert.match(cargo[0], /Tee-Object -FilePath "\$env:COWRITE_MATRIX_ARTIFACTS\\rust-windows\.txt"/);
+  assert.match(cargo[0], /Tee-Object -FilePath "\$env:EMEND_MATRIX_ARTIFACTS\\rust-windows\.txt"/);
   assert.match(cargo[0], /if \(\$LASTEXITCODE -ne 0\) \{ throw "cargo test failed/);
 });
 
@@ -1029,7 +1029,7 @@ test('native Whisper inference tests run in the Windows Rust artifact (#2544)', 
   const cargo = namedStep(readWorkflow(), 'Cargo test');
   assert.ok(cargo);
   assert.match(cargo[0], /cmd \/c 'cargo test --manifest-path src-tauri\/Cargo\.toml --workspace 2>&1'/);
-  assert.match(cargo[0], /Tee-Object -FilePath "\$env:COWRITE_MATRIX_ARTIFACTS\\rust-windows\.txt"/);
+  assert.match(cargo[0], /Tee-Object -FilePath "\$env:EMEND_MATRIX_ARTIFACTS\\rust-windows\.txt"/);
   assert.match(cargo[0], /if \(\$LASTEXITCODE -ne 0\) \{ throw "cargo test failed/);
 });
 
@@ -1095,15 +1095,15 @@ test('the execution check blocks on the kinds this venue can prove, and only whe
   assert.match(body, /if: \$\{\{ success\(\) && steps\.freshness\.outputs\.run_expensive != 'false' \}\}/);
   // One invocation built as an argument array — the artifacts path is written once, so it cannot
   // be changed in one branch and forgotten in the other.
-  assert.match(body, /\$argv = @\('scripts\/check-test-matrix\.mjs', '--artifacts', \$env:COWRITE_MATRIX_ARTIFACTS\)/);
+  assert.match(body, /\$argv = @\('scripts\/check-test-matrix\.mjs', '--artifacts', \$env:EMEND_MATRIX_ARTIFACTS\)/);
   assert.match(body, /if \(\$kinds\.Count -gt 0\) \{ \$argv \+= @\('--require-kinds', \(\$kinds -join ','\)\) \}/);
   assert.match(body, /\n\s+node \$argv\n/);
   assert.match(body, /if \(\$LASTEXITCODE -ne 0\) \{ throw "test-matrix execution check failed/);
 
   // Enforced: exactly `vitest` and `e2e`, each only when its own suite was selected. Requiring a
   // kind whose suite this revision skipped would fail a PR that never claimed to run it.
-  assert.match(body, /if \(\$env:COWRITE_RUN_FRONTEND -eq 'true'\) \{ \$kinds \+= 'vitest' \}/);
-  assert.match(body, /if \(\$env:COWRITE_RUN_E2E -eq 'true'\) \{ \$kinds \+= 'e2e' \}/);
+  assert.match(body, /if \(\$env:EMEND_RUN_FRONTEND -eq 'true'\) \{ \$kinds \+= 'vitest' \}/);
+  assert.match(body, /if \(\$env:EMEND_RUN_E2E -eq 'true'\) \{ \$kinds \+= 'e2e' \}/);
 
   // NOT enforced: `rust` and `node`. Both credit tests this Windows venue cannot execute at all
   // (`#[cfg(unix)]` / `#[cfg(target_os = "macos")]` cases, and node tests gated on a specific

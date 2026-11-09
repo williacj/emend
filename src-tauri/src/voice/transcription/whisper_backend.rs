@@ -220,10 +220,10 @@ mod tests {
     #[test]
     #[ignore = "requires pinned model and WAV paths; see #2626 fixture instructions"]
     fn pinned_wav_transcribes_recognizable_jfk_phrase() {
-        let model = std::env::var_os("COWRITE_VOICE_FIXTURE_MODEL")
-            .expect("set COWRITE_VOICE_FIXTURE_MODEL to the catalog-pinned model file");
-        let wav = std::env::var_os("COWRITE_VOICE_FIXTURE_WAV")
-            .expect("set COWRITE_VOICE_FIXTURE_WAV to the pinned JFK sample");
+        let model = std::env::var_os("EMEND_VOICE_FIXTURE_MODEL")
+            .expect("set EMEND_VOICE_FIXTURE_MODEL to the catalog-pinned model file");
+        let wav = std::env::var_os("EMEND_VOICE_FIXTURE_WAV")
+            .expect("set EMEND_VOICE_FIXTURE_WAV to the pinned JFK sample");
         let wav = fs::read(wav).unwrap();
         assert_eq!(wav.len(), 352_078, "fixture WAV bytes changed");
         assert_eq!(

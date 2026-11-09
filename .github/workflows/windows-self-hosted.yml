@@ -86,7 +86,7 @@ jobs:
       # Only an operator dispatch can select a diagnostic. Pull requests and the daily schedule
       # resolve to `none`, and the terminal rejection below keeps every diagnostic run red so it can
       # never report a successful Windows PR check by accident (#1185).
-      COWRITE_SCCACHE_DIAGNOSTIC: ${{ github.event_name == 'workflow_dispatch' && inputs.sccache_diagnostic || 'none' }}
+      EMEND_SCCACHE_DIAGNOSTIC: ${{ github.event_name == 'workflow_dispatch' && inputs.sccache_diagnostic || 'none' }}
     # The runner service cannot execute a Microsoft Store/App Installer `pwsh.exe` alias under
     # WindowsApps (Access is denied), and this host's machine policy disables .ps1 files. Use inbox
     # Windows PowerShell 5.1 with a process-scoped policy bypass for Actions' generated temp script;
@@ -121,8 +121,8 @@ jobs:
         id: freshness
         env:
           GH_TOKEN: ${{ github.token }}
-          COWRITE_PR_NUMBER: ${{ github.event.pull_request.number }}
-          COWRITE_EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          EMEND_PR_NUMBER: ${{ github.event.pull_request.number }}
+          EMEND_EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: node scripts/windows-ci-freshness.mjs
 
       # The classifier uses pinned Node 20 and must not run after a failed setup.
@@ -130,8 +130,8 @@ jobs:
         id: classifier
         if: ${{ !cancelled() && steps.freshness.outputs.run_expensive != 'false' && steps.node.outcome == 'success' }}
         env:
-          COWRITE_EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
-          COWRITE_EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          EMEND_EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          EMEND_EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: node scripts/windows-ci-classifier.mjs
 
       # #1814: one directory per run for every suite's own results artifact, so the test-matrix
@@ -150,7 +150,7 @@ jobs:
           $dir = "$env:RUNNER_TEMP\matrix-results-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
           if (Test-Path -LiteralPath $dir) { Remove-Item -LiteralPath $dir -Recurse -Force }
           New-Item -ItemType Directory -Path $dir | Out-Null
-          "COWRITE_MATRIX_ARTIFACTS=$dir" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "EMEND_MATRIX_ARTIFACTS=$dir" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
           Write-Output "matrix results directory: $dir"
 
       # Its `id` is load-bearing (#2275): every step that actually invokes the pinned rustc/cargo
@@ -190,7 +190,7 @@ jobs:
         id: sccache
         if: ${{ !cancelled() && steps.freshness.outputs.run_expensive != 'false' && (steps.classifier.outputs.run_rust == 'true' || steps.classifier.outputs.run_e2e == 'true') }}
         run: |
-          if ($env:COWRITE_SCCACHE_DIAGNOSTIC -eq 'preflight-failure') {
+          if ($env:EMEND_SCCACHE_DIAGNOSTIC -eq 'preflight-failure') {
             throw "Forced sccache preflight failure for issue #1185; no cache process was inspected or started."
           }
           sccache --version
@@ -201,7 +201,7 @@ jobs:
             throw "No sccache server is running: the host Task Scheduler task that owns it is down (docs/ci-windows-runner.md). A job must never start its own - a job-owned daemon dies with the job and breaks the concurrent job's build (#1178)."
           }
           Write-Output "sccache server pid=$($server.Id) started=$($server.StartTime.ToString('o'))"
-          if ($env:COWRITE_SCCACHE_DIAGNOSTIC -eq 'boot-trigger') {
+          if ($env:EMEND_SCCACHE_DIAGNOSTIC -eq 'boot-trigger') {
             $bootedAt = (Get-CimInstance Win32_OperatingSystem).LastBootUpTime
             $task = Get-ScheduledTask -TaskName 'sccache-server'
             $bootTriggers = @($task.Triggers | Where-Object { $_.CimClass.CimClassName -eq 'MSFT_TaskBootTrigger' })
@@ -333,11 +333,11 @@ jobs:
       - name: Cargo test
         if: ${{ !cancelled() && steps.freshness.outputs.run_expensive != 'false' && steps.classifier.outputs.run_rust == 'true' && steps.rust.outcome == 'success' && steps.sccache.outcome == 'success' && steps.cmake.outcome == 'success' && steps.libclang.outcome == 'success' }}
         run: |
-          if (-not $env:COWRITE_MATRIX_ARTIFACTS) { throw "COWRITE_MATRIX_ARTIFACTS is unset: the results-directory step did not run" }
+          if (-not $env:EMEND_MATRIX_ARTIFACTS) { throw "EMEND_MATRIX_ARTIFACTS is unset: the results-directory step did not run" }
           if (-not $env:LIBCLANG_PATH -or -not (Test-Path -LiteralPath (Join-Path $env:LIBCLANG_PATH 'libclang.dll'))) { throw "Verified Windows libclang was not published to Cargo" }
           Remove-Item Env:WHISPER_DONT_GENERATE_BINDINGS -ErrorAction SilentlyContinue
           cmd /c 'cargo test --manifest-path src-tauri/Cargo.toml --workspace 2>&1' |
-            Tee-Object -FilePath "$env:COWRITE_MATRIX_ARTIFACTS\rust-windows.txt"
+            Tee-Object -FilePath "$env:EMEND_MATRIX_ARTIFACTS\rust-windows.txt"
           if ($LASTEXITCODE -ne 0) { throw "cargo test failed with exit code $LASTEXITCODE" }
 
       # TD-18's filesystem timing is operator evidence outside normal PR verification (test-plan §6). Keeping it
@@ -362,8 +362,8 @@ jobs:
       - name: tooling self-test
         if: ${{ !cancelled() && steps.freshness.outputs.run_expensive != 'false' && steps.classifier.outputs.run_tooling == 'true' && steps.node.outcome == 'success' }}
         run: |
-          if (-not $env:COWRITE_MATRIX_ARTIFACTS) { throw "COWRITE_MATRIX_ARTIFACTS is unset: the results-directory step did not run" }
-          $env:COWRITE_TEST_RESULTS_FILE = "$env:COWRITE_MATRIX_ARTIFACTS\node-scripts.jsonl"
+          if (-not $env:EMEND_MATRIX_ARTIFACTS) { throw "EMEND_MATRIX_ARTIFACTS is unset: the results-directory step did not run" }
+          $env:EMEND_TEST_RESULTS_FILE = "$env:EMEND_MATRIX_ARTIFACTS\node-scripts.jsonl"
           npm run test:scripts:ci
 
       # Existence-only, and deliberately early: a mistyped test name should fail in seconds rather
@@ -384,8 +384,8 @@ jobs:
       - name: vitest
         if: ${{ !cancelled() && steps.freshness.outputs.run_expensive != 'false' && steps.classifier.outputs.run_frontend == 'true' && steps.node.outcome == 'success' }}
         run: |
-          if (-not $env:COWRITE_MATRIX_ARTIFACTS) { throw "COWRITE_MATRIX_ARTIFACTS is unset: the results-directory step did not run" }
-          npm run test --if-present -- --reporter=default --reporter=json --outputFile.json="$env:COWRITE_MATRIX_ARTIFACTS\vitest-windows.json"
+          if (-not $env:EMEND_MATRIX_ARTIFACTS) { throw "EMEND_MATRIX_ARTIFACTS is unset: the results-directory step did not run" }
+          npm run test --if-present -- --reporter=default --reporter=json --outputFile.json="$env:EMEND_MATRIX_ARTIFACTS\vitest-windows.json"
 
       # Chromium is the sole project in playwright.config.mjs. `--with-deps` only adds OS packages
       # on Linux, so the self-hosted Windows runner needs the browser install alone.
@@ -411,12 +411,12 @@ jobs:
         if: ${{ !cancelled() && steps.freshness.outputs.run_expensive != 'false' && steps.classifier.outputs.run_e2e == 'true' && steps.node.outcome == 'success' && steps.sccache.outcome == 'success' && steps.playwright.outcome == 'success' && steps.e2e-driver.outcome == 'success' }}
         # The shared config retries generic CI twice. The Windows PR check should report the first
         # acceptance failure, so override retries at this command edge (#1403/#1595).
-        # COWRITE_E2E_RESULTS_FILE adds the JSON reporter beside `list` (playwright.config.mjs) —
+        # EMEND_E2E_RESULTS_FILE adds the JSON reporter beside `list` (playwright.config.mjs) —
         # this command keeps `--grep-invert @quarantine`, so a quarantined case is absent from the
         # document and correctly reads as "did not execute in this run" (#1814).
         run: |
-          if (-not $env:COWRITE_MATRIX_ARTIFACTS) { throw "COWRITE_MATRIX_ARTIFACTS is unset: the results-directory step did not run" }
-          $env:COWRITE_E2E_RESULTS_FILE = "$env:COWRITE_MATRIX_ARTIFACTS\e2e-windows.json"
+          if (-not $env:EMEND_MATRIX_ARTIFACTS) { throw "EMEND_MATRIX_ARTIFACTS is unset: the results-directory step did not run" }
+          $env:EMEND_E2E_RESULTS_FILE = "$env:EMEND_MATRIX_ARTIFACTS\e2e-windows.json"
           npm run test:e2e:ci -- --retries=0
 
       # The strong half of the test-plan §9 gate (#1814): every matrix row's named test must appear
@@ -432,17 +432,17 @@ jobs:
       - name: Validate test-matrix execution evidence
         if: ${{ success() && steps.freshness.outputs.run_expensive != 'false' }}
         env:
-          COWRITE_RUN_FRONTEND: ${{ steps.classifier.outputs.run_frontend }}
-          COWRITE_RUN_E2E: ${{ steps.classifier.outputs.run_e2e }}
+          EMEND_RUN_FRONTEND: ${{ steps.classifier.outputs.run_frontend }}
+          EMEND_RUN_E2E: ${{ steps.classifier.outputs.run_e2e }}
         run: |
-          if (-not $env:COWRITE_MATRIX_ARTIFACTS) { throw "COWRITE_MATRIX_ARTIFACTS is unset: the results-directory step did not run" }
+          if (-not $env:EMEND_MATRIX_ARTIFACTS) { throw "EMEND_MATRIX_ARTIFACTS is unset: the results-directory step did not run" }
           $kinds = @()
-          if ($env:COWRITE_RUN_FRONTEND -eq 'true') { $kinds += 'vitest' }
-          if ($env:COWRITE_RUN_E2E -eq 'true') { $kinds += 'e2e' }
+          if ($env:EMEND_RUN_FRONTEND -eq 'true') { $kinds += 'vitest' }
+          if ($env:EMEND_RUN_E2E -eq 'true') { $kinds += 'e2e' }
           # One invocation, built as an argument array: the checker rejects an empty
           # --require-kinds value on purpose, and appending the pair only when there is one keeps
           # that strictness without writing the command out twice.
-          $argv = @('scripts/check-test-matrix.mjs', '--artifacts', $env:COWRITE_MATRIX_ARTIFACTS)
+          $argv = @('scripts/check-test-matrix.mjs', '--artifacts', $env:EMEND_MATRIX_ARTIFACTS)
           if ($kinds.Count -gt 0) { $argv += @('--require-kinds', ($kinds -join ',')) }
           node $argv
           if ($LASTEXITCODE -ne 0) { throw "test-matrix execution check failed with exit code $LASTEXITCODE" }
@@ -467,7 +467,7 @@ jobs:
         continue-on-error: true
         run: |
           $server = Get-Process sccache -ErrorAction SilentlyContinue
-          if ($env:COWRITE_SCCACHE_DIAGNOSTIC -eq 'report-no-server') { $server = $null }
+          if ($env:EMEND_SCCACHE_DIAGNOSTIC -eq 'report-no-server') { $server = $null }
           if (-not $server) {
             Write-Output "No sccache server is running; skipping statistics rather than starting a job-owned daemon (#1178)."
             return
@@ -491,7 +491,7 @@ jobs:
           if (Test-Path $baselinePath) { $baseline = Get-Content $baselinePath }
           $before = Read-Counters $baseline
           $after = Read-Counters $current
-          if ($env:COWRITE_SCCACHE_DIAGNOSTIC -eq 'report-replaced') {
+          if ($env:EMEND_SCCACHE_DIAGNOSTIC -eq 'report-replaced') {
             foreach ($name in $names) { $before[$name] = $after[$name] + 1 }
           }
           $replaced = $false
@@ -517,7 +517,7 @@ jobs:
       # handling, not normal PR verification. This remains terminal and `always()` so the report-only
       # diagnostics cannot turn green after their injected branch returns successfully (#1185).
       - name: Reject sccache diagnostic as merge evidence
-        if: ${{ always() && env.COWRITE_SCCACHE_DIAGNOSTIC != 'none' }}
+        if: ${{ always() && env.EMEND_SCCACHE_DIAGNOSTIC != 'none' }}
         run: throw "Sccache diagnostic runs cannot satisfy the Windows PR check (#1185)."
 
       # A short-circuited run must not report success if the PR is later force-pushed
@@ -543,9 +543,9 @@ jobs:
     steps:
       - name: Validate unsigned NSIS target SHA
         env:
-          COWRITE_TARGET_SHA: ${{ inputs.target_sha }}
+          EMEND_TARGET_SHA: ${{ inputs.target_sha }}
         run: |
-          if ($env:COWRITE_TARGET_SHA -notmatch '^[0-9a-fA-F]{40}$') {
+          if ($env:EMEND_TARGET_SHA -notmatch '^[0-9a-fA-F]{40}$') {
             throw 'target_sha must be an immutable 40-character commit SHA'
           }
 
@@ -555,10 +555,10 @@ jobs:
 
       - name: Verify unsigned NSIS checkout
         env:
-          COWRITE_TARGET_SHA: ${{ inputs.target_sha }}
+          EMEND_TARGET_SHA: ${{ inputs.target_sha }}
         run: |
           $actual = (git rev-parse HEAD).Trim()
-          if ($LASTEXITCODE -ne 0 -or $actual -ne $env:COWRITE_TARGET_SHA) {
+          if ($LASTEXITCODE -ne 0 -or $actual -ne $env:EMEND_TARGET_SHA) {
             throw "Checkout is not the requested exact head: $actual"
           }
           Write-Output "Building unsigned NSIS for $actual"
@@ -641,17 +641,17 @@ jobs:
     steps:
       - name: Validate focused dispatch inputs
         env:
-          COWRITE_TARGET_SHA: ${{ inputs.target_sha }}
-          COWRITE_ITERATIONS: ${{ inputs.iterations }}
-          COWRITE_TEST_GREP: ${{ inputs.test_grep }}
+          EMEND_TARGET_SHA: ${{ inputs.target_sha }}
+          EMEND_ITERATIONS: ${{ inputs.iterations }}
+          EMEND_TEST_GREP: ${{ inputs.test_grep }}
         run: |
-          if ($env:COWRITE_TARGET_SHA -notmatch '^[0-9a-fA-F]{40}$') {
+          if ($env:EMEND_TARGET_SHA -notmatch '^[0-9a-fA-F]{40}$') {
             throw 'target_sha must be an immutable 40-character commit SHA'
           }
-          if ($env:COWRITE_ITERATIONS -notmatch '^([1-9]|1[0-9]|2[0-5])$') {
+          if ($env:EMEND_ITERATIONS -notmatch '^([1-9]|1[0-9]|2[0-5])$') {
             throw 'iterations must be a canonical integer from 1 to 25'
           }
-          if ([string]::IsNullOrWhiteSpace($env:COWRITE_TEST_GREP)) {
+          if ([string]::IsNullOrWhiteSpace($env:EMEND_TEST_GREP)) {
             throw 'test_grep must select a case; an empty pattern would run the whole suite'
           }
 
@@ -699,16 +699,16 @@ jobs:
       # Aggregate passing would be the retry-masking this operator mode exists to prevent.
       - name: Repeat the focused case with retries disabled
         env:
-          COWRITE_ITERATIONS: ${{ inputs.iterations }}
-          COWRITE_TEST_GREP: ${{ inputs.test_grep }}
+          EMEND_ITERATIONS: ${{ inputs.iterations }}
+          EMEND_TEST_GREP: ${{ inputs.test_grep }}
         run: |
-          $iterations = [int]$env:COWRITE_ITERATIONS
+          $iterations = [int]$env:EMEND_ITERATIONS
           $failed = @()
           for ($i = 1; $i -le $iterations; $i++) {
             Write-Output "::group::iteration $i of $iterations"
             # No `--grep-invert @quarantine` here, unlike the normal PR job's `test:e2e:ci`: an operator
             # asking about one named case may well be asking about a quarantined one.
-            npx playwright test --retries=0 --reporter=list --grep "$env:COWRITE_TEST_GREP"
+            npx playwright test --retries=0 --reporter=list --grep "$env:EMEND_TEST_GREP"
             $status = $LASTEXITCODE
             Write-Output "::endgroup::"
             Write-Output "iteration $i exit=$status"

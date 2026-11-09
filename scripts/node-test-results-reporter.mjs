@@ -7,7 +7,7 @@ import { appendFileSync } from 'node:fs';
  * Where to append. Unset means "not collecting", so an ordinary local tooling
  * run can carry this reporter without writing anything.
  */
-export const RESULTS_PATH_ENV = 'COWRITE_TEST_RESULTS_FILE';
+export const RESULTS_PATH_ENV = 'EMEND_TEST_RESULTS_FILE';
 
 /**
  * One JSONL line per finished test or suite: `pass`/`fail` mean the body ran, `skip` means it

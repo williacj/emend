@@ -871,7 +871,7 @@ mod tests {
                 "agent::session::tests::stderr_pipe_writer_fixture",
                 "--nocapture",
             ])
-            .env("COWRITE_STDERR_FIXTURE_PAYLOAD", payload)
+            .env("EMEND_STDERR_FIXTURE_PAYLOAD", payload)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::piped())
@@ -944,7 +944,7 @@ mod tests {
     #[test]
     #[ignore = "subprocess fixture for real stderr pipe boundary tests"]
     fn stderr_pipe_writer_fixture() {
-        let payload = std::env::var("COWRITE_STDERR_FIXTURE_PAYLOAD").unwrap();
+        let payload = std::env::var("EMEND_STDERR_FIXTURE_PAYLOAD").unwrap();
         std::io::stderr().write_all(payload.as_bytes()).unwrap();
         std::io::stderr().flush().unwrap();
         println!("\nSTDERR_WRITER_READY");

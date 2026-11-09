@@ -18,7 +18,7 @@ pub const BINARY: &str = "claude";
 
 /// Test-only override shared by provider detection and the production spawn path. D23 e2e runs use
 /// it to select a deterministic fake provider without risking a real, billable CLI invocation.
-pub const BINARY_OVERRIDE_VAR: &str = "COWRITE_CLAUDE_BIN";
+pub const BINARY_OVERRIDE_VAR: &str = "EMEND_CLAUDE_BIN";
 
 /// Resolves the executable for every Claude operation. Keeping the override here in the adapter
 /// makes detection and spawning observe the same binary.

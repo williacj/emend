@@ -3,7 +3,7 @@ ABOUTME: Separates measured existing behavior from the collapsed-Timeline and di
 
 # Refresh (20): pathless `9g` capture
 
-Run `COWRITE_ALIGNMENT_SCENARIO=pathless COWRITE_ALIGNMENT_OUTPUT=docs/alignment-refresh20-pathless node scripts/capture-design-alignment.mjs` from the repository root to regenerate [the measurements](./measurements.json) and 16 PNGs. The capture starts the production Vite app with the D23 test driver, restores a real untitled session, creates two anchored comments through the live editor, opens a real thread, and uses the native-picker test seam for Save As. Its only substitutions are `navigator.platform` for Cowrite's Win32/MacIntel styling and the native picker result. The fixture uses one disposable project and a 1400×900 browser viewport adjusted to produce exact document-column widths. The JSON records the full source revision and scenario failures.
+Run `EMEND_ALIGNMENT_SCENARIO=pathless EMEND_ALIGNMENT_OUTPUT=docs/alignment-refresh20-pathless node scripts/capture-design-alignment.mjs` from the repository root to regenerate [the measurements](./measurements.json) and 16 PNGs. The capture starts the production Vite app with the D23 test driver, restores a real untitled session, creates two anchored comments through the live editor, opens a real thread, and uses the native-picker test seam for Save As. Its only substitutions are `navigator.platform` for Cowrite's Win32/MacIntel styling and the native picker result. The fixture uses one disposable project and a 1400×900 browser viewport adjusted to produce exact document-column widths. The JSON records the full source revision and scenario failures.
 
 | State | Windows | macOS |
 |---|---|---|

@@ -222,16 +222,16 @@ export async function classifyPullRequest({
   const eventName = env.GITHUB_EVENT_NAME;
   if (eventName !== 'pull_request') {
     return runAll(`${eventName || 'non-pull-request'} full-suite mode`, {
-      baseSha: SHA_PATTERN.test(env.COWRITE_EVENT_BASE_SHA ?? '') ? env.COWRITE_EVENT_BASE_SHA : null,
-      headSha: SHA_PATTERN.test(env.COWRITE_EVENT_HEAD_SHA ?? '') ? env.COWRITE_EVENT_HEAD_SHA : null,
+      baseSha: SHA_PATTERN.test(env.EMEND_EVENT_BASE_SHA ?? '') ? env.EMEND_EVENT_BASE_SHA : null,
+      headSha: SHA_PATTERN.test(env.EMEND_EVENT_HEAD_SHA ?? '') ? env.EMEND_EVENT_HEAD_SHA : null,
     });
   }
 
   let baseSha = null;
   let headSha = null;
   try {
-    baseSha = requireSha(env.COWRITE_EVENT_BASE_SHA, 'event base SHA');
-    headSha = requireSha(env.COWRITE_EVENT_HEAD_SHA, 'event head SHA');
+    baseSha = requireSha(env.EMEND_EVENT_BASE_SHA, 'event base SHA');
+    headSha = requireSha(env.EMEND_EVENT_HEAD_SHA, 'event head SHA');
     const deadline = now() + timeoutMs;
     const invoke = (args) => {
       const remaining = deadline - now();

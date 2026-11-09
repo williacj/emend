@@ -674,9 +674,9 @@ mod tests {
     /// The env vars the ownership-release subprocess reads. The child is a second *process*, not a
     /// second thread: releasing on process exit is the one session-end path no in-process test can
     /// honestly assert.
-    const CHILD_ROOT_ENV: &str = "COWRITE_OWNERSHIP_CHILD_ROOT";
-    const CHILD_REGISTRY_ENV: &str = "COWRITE_OWNERSHIP_CHILD_REGISTRY";
-    const CHILD_HELD_MARKER: &str = "COWRITE_OWNERSHIP_HELD";
+    const CHILD_ROOT_ENV: &str = "EMEND_OWNERSHIP_CHILD_ROOT";
+    const CHILD_REGISTRY_ENV: &str = "EMEND_OWNERSHIP_CHILD_REGISTRY";
+    const CHILD_HELD_MARKER: &str = "EMEND_OWNERSHIP_HELD";
 
     /// Takes ownership of a root, holds it inside a live [`OpenProject`], and blocks — so the
     /// parent can kill this process and observe what an abrupt exit leaves behind.

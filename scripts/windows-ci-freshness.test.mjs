@@ -50,8 +50,8 @@ test('checkFreshness fails closed into the full suite when the API read fails', 
   const result = await checkFreshness({
     env: {
       GITHUB_EVENT_NAME: 'pull_request',
-      COWRITE_EVENT_HEAD_SHA: 'a'.repeat(40),
-      COWRITE_PR_NUMBER: '42',
+      EMEND_EVENT_HEAD_SHA: 'a'.repeat(40),
+      EMEND_PR_NUMBER: '42',
       GITHUB_REPOSITORY: 'owner/repo',
       GH_TOKEN: 'secret',
     },

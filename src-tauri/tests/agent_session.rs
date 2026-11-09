@@ -446,7 +446,7 @@ fn reap_finishes_when_stderr_outlives_the_process_group() {
 )]
 fn stderr_inheritor_fixture() {
     use std::os::unix::process::CommandExt;
-    if std::env::var_os("COWRITE_STDERR_DESCENDANT").is_some() {
+    if std::env::var_os("EMEND_STDERR_DESCENDANT").is_some() {
         let _ = std::fs::File::open("release").unwrap();
         return;
     }
@@ -457,7 +457,7 @@ fn stderr_inheritor_fixture() {
             "stderr_inheritor_fixture",
             "--nocapture",
         ])
-        .env("COWRITE_STDERR_DESCENDANT", "1")
+        .env("EMEND_STDERR_DESCENDANT", "1")
         .process_group(0)
         .stdout(std::process::Stdio::null())
         .spawn()

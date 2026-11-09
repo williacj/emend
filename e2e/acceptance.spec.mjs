@@ -51,7 +51,7 @@ async function reportPlatform(page, navigatorPlatform) {
 
 async function openDocument(page, project, path = project.path) {
   await page.evaluate(
-    ({ root, documentPath }) => window.__COWRITE_E2E__?.openProject(root, documentPath),
+    ({ root, documentPath }) => window.__EMEND_E2E__?.openProject(root, documentPath),
     { root: project.root, documentPath: path },
   );
   await expect(page.locator(".cm-content:visible")).toBeVisible();
@@ -313,7 +313,7 @@ test.describe("A2 approved window chrome", () => {
     await page.setViewportSize({ width: 1400, height: 900 });
     await page.goto("/");
     const runtimeError = page.waitForEvent("pageerror");
-    await page.evaluate(() => window.__COWRITE_E2E__?.triggerRenderFailure());
+    await page.evaluate(() => window.__EMEND_E2E__?.triggerRenderFailure());
     await runtimeError;
     const fallback = page.getByRole("main", { name: "Cowrite can’t show this window right now." });
     await expect(fallback).toBeVisible();
@@ -837,7 +837,7 @@ async function checkWorkshopMeasure(page, navigatorPlatform) {
     await reportPlatform(page, navigatorPlatform);
     await page.setViewportSize({ width: 1400, height: 900 });
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
     await expect(page.locator(".app-body")).toHaveClass(/app-body--workshop/);
     const measure = async () => page.locator(".timeline-panel").evaluate((panel) => {
       const lane = panel.getBoundingClientRect();
@@ -1304,7 +1304,7 @@ test.describe("#2537 reciprocal comments navigation", () => {
         active_path: recoveryPath,
       }));
       await page.goto("/");
-      await page.evaluate(({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path), {
+      await page.evaluate(({ root, path }) => window.__EMEND_E2E__?.openProject(root, path), {
         root: project.root, path: recoveryPath,
       });
       const editor = page.getByRole("textbox", { name: "Untitled document text" });
@@ -1828,7 +1828,7 @@ test.describe("P2a-2 walking skeleton", () => {
     await expect(page.getByRole("button", { name: "Open a folder…" })).toBeVisible();
     const runtimeError = page.waitForEvent("pageerror");
 
-    await page.evaluate(() => window.__COWRITE_E2E__?.triggerRenderFailure());
+    await page.evaluate(() => window.__EMEND_E2E__?.triggerRenderFailure());
 
     const error = await runtimeError;
     expect(error.message).toContain("D23 render-failure acceptance probe");
@@ -1855,7 +1855,7 @@ test.describe("P2a-2 walking skeleton", () => {
     // drive — the dev-only e2e test hook (D23) opens the fixture project/doc directly instead,
     // through the same real `open_document` command the picker's restored tab ultimately calls.
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: project.path },
     );
 
@@ -1981,7 +1981,7 @@ test.describe("P2a-2 walking skeleton", () => {
     await page.goto("/");
     await openDocument(page, project);
     await page.evaluate(
-      (path) => window.__COWRITE_E2E__?.setNextOpenDocumentDialogResult(path),
+      (path) => window.__EMEND_E2E__?.setNextOpenDocumentDialogResult(path),
       absolute,
     );
 
@@ -1998,7 +1998,7 @@ test.describe("P2a-2 walking skeleton", () => {
     await page.goto("/");
     await openDocument(page, project);
     await page.evaluate(
-      (path) => window.__COWRITE_E2E__?.setNextSaveAsDialogResult(path),
+      (path) => window.__EMEND_E2E__?.setNextSaveAsDialogResult(path),
       destination,
     );
 
@@ -2019,7 +2019,7 @@ test.describe("P2a-2 walking skeleton", () => {
 
     await page.goto("/");
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: project.path },
     );
 
@@ -2061,7 +2061,7 @@ test.describe("P2a-2 walking skeleton", () => {
     await page.setViewportSize({ width: 1400, height: 900 });
     await page.goto("/");
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: project.path },
     );
     await expect(page.locator(".cm-content")).toBeVisible();
@@ -2239,7 +2239,7 @@ test.describe("P2a-2 walking skeleton", () => {
 
     writeFileSync(join(project.root, "second.md"), "# Mounted after dark\n", "utf8");
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: "second.md" },
     );
     await expect(page.locator(".cm-content:visible")).toContainText("Mounted after dark");
@@ -2253,7 +2253,7 @@ test.describe("P2a-2 walking skeleton", () => {
     await page.setViewportSize({ width: 1400, height: 900 });
     await page.goto("/");
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: project.path },
     );
     await expect(page.locator(".cm-content")).toBeVisible();
@@ -2515,7 +2515,7 @@ test.describe("D27 retained legacy unsupported-tab recovery", () => {
     }));
 
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     await expect(page.getByRole("tab", { name: /Untitled — recovered from draft\.rs, editable/ })).toBeVisible();
     await expect(page.locator(".app-header__title")).toHaveText(
@@ -2549,7 +2549,7 @@ test.describe("D27 retained legacy unsupported-tab recovery", () => {
       ? boundRoot.replace(/^\\\\\?\\UNC\\/i, "\\\\").replace(/^\\\\\?\\/, "").toLowerCase()
       : boundRoot;
     await page.evaluate(
-      (destination) => window.__COWRITE_E2E__?.setNextSaveAsDialogResult(destination),
+      (destination) => window.__EMEND_E2E__?.setNextSaveAsDialogResult(destination),
       join(pickedRoot, "recovered.md"),
     );
     await page.getByRole("button", { name: "Save As…" }).click();
@@ -2575,7 +2575,7 @@ test.describe("D27 retained legacy unsupported-tab recovery", () => {
     }));
 
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const tab = page.getByRole("tab", {
       name: `${formerPath} — earlier unsaved work was not preserved`,
@@ -2622,7 +2622,7 @@ test.describe("J2 recovered document over-cap state (#1421)", () => {
     await page.setViewportSize({ width: 1400, height: 900 });
     await page.goto("/");
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: recoveryPath },
     );
     const pane = page.locator(".untitled-document");
@@ -2687,7 +2687,7 @@ test.describe("J2 recovered document over-cap state (#1421)", () => {
 
     await page.goto("/");
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: recoveryPath },
     );
 
@@ -2715,7 +2715,7 @@ test.describe("J2 recovered document over-cap state (#1421)", () => {
 
     await page.reload();
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: recoveryPath },
     );
     await expect(
@@ -2778,7 +2778,7 @@ test.describe("D12 untitled comment adoption (#1803)", () => {
 
     await page.goto("/");
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: recoveryPath },
     );
     const editor = page.getByRole("textbox", { name: "Untitled document text" });
@@ -2806,7 +2806,7 @@ test.describe("D12 untitled comment adoption (#1803)", () => {
     await page.keyboard.press("Escape");
 
     await page.evaluate(
-      (path) => window.__COWRITE_E2E__?.setNextSaveAsDialogResult(path),
+      (path) => window.__EMEND_E2E__?.setNextSaveAsDialogResult(path),
       join(project.root, destination),
     );
     await page.getByRole("button", { name: "Save As…" }).click();
@@ -2821,7 +2821,7 @@ test.describe("D12 untitled comment adoption (#1803)", () => {
 
     await page.reload();
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: destination },
     );
     const restoredHighlight = page.locator(".cm-commentHighlight", { hasText: "Hello" });
@@ -2985,7 +2985,7 @@ test.describe("D23 representative long-form authoring baseline", () => {
 
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000));
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000));
     await openDocument(page, project);
 
     const editor = visibleEditor(page);
@@ -3063,7 +3063,7 @@ test.describe("D23 representative long-form authoring baseline", () => {
     await page.setViewportSize({ width: 1100, height: 760 });
     await page.goto("/");
     await page.evaluate(() =>
-      window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000),
+      window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000),
     );
     await openDocument(page, project);
 
@@ -3158,7 +3158,7 @@ test.describe("P2a-6 tabs, session restore, dirty-close guard", () => {
 
   async function openTab(page, path) {
     await page.evaluate(
-      ({ root, path: p }) => window.__COWRITE_E2E__?.openProject(root, p),
+      ({ root, path: p }) => window.__EMEND_E2E__?.openProject(root, p),
       { root: project.root, path },
     );
   }
@@ -3170,7 +3170,7 @@ test.describe("P2a-6 tabs, session restore, dirty-close guard", () => {
   // dirty window deterministic; it must be re-set after any reload, which rebuilds the page global.
   // Set it *before* opening a tab, since the editor reads the interval when it arms its scheduler.
   async function pauseAutosave(page) {
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000));
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000));
   }
 
   test("open two tabs -> switch preserves each tab's state -> reload restores the session incl. unsaved content -> dirty-close guard (cancel then save)", async ({
@@ -3467,7 +3467,7 @@ test.describe("P2a-5 redline decorations + accept/reject triage", () => {
 
   async function openDoc(page, root, path) {
     await page.evaluate(
-      ({ root: r, path: p }) => window.__COWRITE_E2E__?.openProject(r, p),
+      ({ root: r, path: p }) => window.__EMEND_E2E__?.openProject(r, p),
       { root, path },
     );
   }
@@ -3480,7 +3480,7 @@ test.describe("P2a-5 redline decorations + accept/reject triage", () => {
     project = createFixtureProject("Hello {++brave ++}world\n");
     await page.goto("/");
     // Pause autosave so the post-decision disk assertion isn't raced by the 1 s debounce.
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000));
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000));
     await openDoc(page, project.root, project.path);
 
     // Redline: the inserted text is decorated (green underline), its `{++`/`++}` braces hidden.
@@ -3514,7 +3514,7 @@ test.describe("P2a-5 redline decorations + accept/reject triage", () => {
     // Two pending changes, each at a line start so the caret lands on them by keyboard alone.
     project = createFixtureProject("{++Accept me ++}stays\n{--Reject me --}also stays\n");
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000));
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000));
     await openDoc(page, project.root, project.path);
     await expect(page.getByRole("group", { name: "Review changes" })).toContainText("1 of 2");
 
@@ -3584,7 +3584,7 @@ test.describe("P2a-22 J8 zero-provider editor-only mode", () => {
     // No folder-picker UI can be driven headlessly (native OS dialog) — the dev-only e2e test hook
     // (D23) opens the project/doc directly, same as every other journey in this file.
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: project.path },
     );
 
@@ -3612,7 +3612,7 @@ test.describe("P2a-8 editor-view control + display-mode UI", () => {
 
   async function openDoc(page, root, path) {
     await page.evaluate(
-      ({ root: r, path: p }) => window.__COWRITE_E2E__?.openProject(r, p),
+      ({ root: r, path: p }) => window.__EMEND_E2E__?.openProject(r, p),
       { root, path },
     );
   }
@@ -3625,7 +3625,7 @@ test.describe("P2a-8 editor-view control + display-mode UI", () => {
     // Windows presents the completed save in Document status on every host.
     await reportPlatform(page, "Win32");
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000));
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000));
     await openDoc(page, project.root, path);
 
     const toolbar = page.getByRole("toolbar", { name: "Editor view controls" });
@@ -3883,7 +3883,7 @@ test.describe("P2a-8 editor-view control + display-mode UI", () => {
     const raw = "{++pending++}\n\nword\n";
     project = createFixtureProject(raw);
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000));
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000));
     await openDoc(page, project.root, project.path);
     await page.getByRole("button", { name: "Markdown" }).click();
 
@@ -4075,7 +4075,7 @@ test.describe("P2a-8 editor-view control + display-mode UI", () => {
     project = createFixtureProject(raw);
     await page.setViewportSize({ width: 760, height: 700 });
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000));
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000));
     await openDoc(page, project.root, project.path);
 
     // #2389 makes cursor reveal opt-in. This scenario exercises the revealed marker's geometry,
@@ -4153,7 +4153,7 @@ test.describe("P2a-8 editor-view control + display-mode UI", () => {
     ].join("\n");
     project = createFixtureProject(raw);
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000));
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000));
     await openDoc(page, project.root, project.path);
 
     const lines = page.locator(".cm-content .cm-line");
@@ -4220,7 +4220,7 @@ test.describe("P2a-8 editor-view control + display-mode UI", () => {
     project = createFixtureProject(raw);
     await page.goto("/");
     // Pause autosave: every disk assertion below is a deliberate manual save, not a race with it.
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000));
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000));
     await openDoc(page, project.root, project.path);
 
     const editor = page.locator(".cm-content");
@@ -4332,10 +4332,10 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
   async function openDoc(page, { pauseAutosave = false } = {}) {
     await page.goto("/");
     if (pauseAutosave) {
-      await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000));
+      await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000));
     }
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: project.path },
     );
     await expect(page.locator(".cm-content")).toBeVisible();
@@ -4384,7 +4384,7 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
     return {
       async advance() {
         ms += 1000;
-        await page.evaluate((value) => window.__COWRITE_E2E__?.setCommentNowMs(value), ms);
+        await page.evaluate((value) => window.__EMEND_E2E__?.setCommentNowMs(value), ms);
         return ms;
       },
     };
@@ -5063,8 +5063,8 @@ test.describe("J9 project-open status clipping (13g)", () => {
     writeFileSync(join(shortRoot, "notes.md"), "# Notes\n");
     await reportPlatform(page, "Win32");
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), shortRoot);
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), shortRoot);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), shortRoot);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), shortRoot);
 
     const band = page.locator(".shell-status--project-open");
     await expect(band).toContainText("plan is already open in this window.");
@@ -5085,9 +5085,9 @@ test.describe("J9 project-open status clipping (13g)", () => {
     project = createFixtureProject("# Existing notes\n");
     await reportPlatform(page, "Win32");
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
     const missingRoot = join(project.root, "missing-long-name-for-clipping-2026-q1-partner-launch-messaging");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), missingRoot);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), missingRoot);
 
     const band = page.locator(".shell-status--project-open");
     await expect(band).toContainText("That folder isn’t available to Cowrite.");
@@ -5222,12 +5222,12 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     await page.goto("/");
     await page.evaluate(
       ({ autosave, poll }) => {
-        window.__COWRITE_E2E__?.setAutosaveIntervalMs(autosave);
-        window.__COWRITE_E2E__?.setExternalChangePollMs(poll);
+        window.__EMEND_E2E__?.setAutosaveIntervalMs(autosave);
+        window.__EMEND_E2E__?.setExternalChangePollMs(poll);
       },
       { autosave: autosaveMs, poll: pollMs },
     );
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     const row = rail.getByRole("treeitem", { name: "notes.md" });
@@ -5256,7 +5256,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
    */
   async function chooseNextSaveAsDestination(page, path) {
     await page.evaluate(
-      (destination) => window.__COWRITE_E2E__?.setNextSaveAsDialogResult(destination),
+      (destination) => window.__EMEND_E2E__?.setNextSaveAsDialogResult(destination),
       path,
     );
   }
@@ -5291,7 +5291,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     );
     writeFileSync(join(project.root, "workflows/polish.md"), "# Polish workflow\n");
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     await expect(rail.getByRole("tree")).toHaveCount(1);
@@ -5349,7 +5349,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     await reportPlatform(page, platform.navigatorPlatform);
     await page.setViewportSize({ width: 1400, height: 900 });
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     await expect(rail.locator(".project-rail__project-name"))
@@ -5414,7 +5414,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     project.addFile("second.md", "# Second document\n");
     project.addFile("source.txt", "context only\n");
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     await expect(rail).toBeVisible();
@@ -5450,7 +5450,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
   }) => {
     project = createFixtureProject("# Existing notes\n");
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     await expect(rail.getByRole("treeitem", { name: "notes.md" })).toBeVisible();
@@ -5465,8 +5465,8 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
   }) => {
     project = createFixtureProject("# Draft notes\n");
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(60_000));
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(60_000));
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     const oldRow = rail.getByRole("treeitem", { name: "notes.md" });
@@ -5497,7 +5497,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
   }) => {
     project = createFixtureProject("# Before the move\n");
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     await rail.getByRole("treeitem", { name: "notes.md" }).click();
@@ -5530,7 +5530,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     mkdirSync(join(project.root, "drafts"), { recursive: true });
     project.addFile("drafts/outline.md", "# Nested outline\n");
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     const drafts = rail.getByRole("treeitem", { name: "drafts", exact: true });
@@ -5578,8 +5578,8 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     mkdirSync(join(project.root, "drafts"), { recursive: true });
     project.addFile("drafts/outline.md", "# Original identity\n");
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(60_000));
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(60_000));
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     await rail.getByRole("treeitem", { name: "drafts", exact: true }).click();
@@ -5621,7 +5621,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     project.addFile("drafts/first.md", "# First draft\n");
     project.addFile("drafts/second.md", "# Second draft\n");
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     const tree = rail.getByRole("tree");
@@ -5670,7 +5670,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
       await route.continue();
     });
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     const file = rail.getByRole("treeitem", { name: "notes.md" });
@@ -5707,9 +5707,9 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     mkdirSync(join(project.root, "node_modules/pkg"), { recursive: true });
     writeFileSync(join(project.root, hiddenPath), "# Tool documentation\n");
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(50));
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(50));
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: hiddenPath },
     );
 
@@ -5733,8 +5733,8 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     project = createFixtureProject("# Disappearing notes\n");
     project.addFile("second.md", "# Second document\n");
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(50));
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(50));
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     const row = rail.getByRole("treeitem", { name: "notes.md" });
@@ -5857,10 +5857,10 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
       // Autosave stays well clear of the whole scenario. The poll interval is generous (not raced)
       // — the point below is to hold it off deterministically once the divergence it needs to find
       // has been found, not to outrun it.
-      window.__COWRITE_E2E__?.setAutosaveIntervalMs(5_000);
-      window.__COWRITE_E2E__?.setExternalChangePollMs(1_000);
+      window.__EMEND_E2E__?.setAutosaveIntervalMs(5_000);
+      window.__EMEND_E2E__?.setExternalChangePollMs(1_000);
     });
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     const row = rail.getByRole("treeitem", { name: "notes.md" });
@@ -6022,8 +6022,8 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     // `openMissingDocument` owns fixture creation, so reproduce its assembled transition here for
     // this fixture whose history was created before the move.
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(50));
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(50));
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
     const rail = page.getByRole("complementary", { name: "Project files" });
     const originalRow = rail.getByRole("treeitem", { name: "notes.md" });
     await originalRow.click();
@@ -6104,7 +6104,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
   }) => {
     project = createFixtureProject("# Existing notes\n");
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     // Workshop mode (J2 Phase A): the conversation is centre-stage, no document tab is open yet.
     await expect(page.getByRole("region", { name: "Timeline" })).toBeVisible();
@@ -6148,7 +6148,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
       project = createFixtureProject("# Transcript persistence\n");
       await page.goto("/");
       await page.evaluate(
-        ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+        ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
         { root: project.root, path: project.path },
       );
       await expect(page.locator(".cm-content")).toBeVisible();
@@ -6176,7 +6176,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     project = createFixtureProject(original);
     await page.goto("/");
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: project.path },
     );
     await expect(page.locator(".cm-content")).toContainText("Existing outline");
@@ -6218,7 +6218,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     project = createFixtureProject("# Reviewer boundary\n");
     await reportPlatform(page, navigatorPlatform);
     await page.goto("/");
-    await page.evaluate((root) => window.__COWRITE_E2E__?.openProjectFolder(root), project.root);
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
 
     const rail = page.getByRole("complementary", { name: "Project files" });
     await rail.getByRole("treeitem", { name: "notes.md" }).click();
@@ -6235,7 +6235,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
       "Close and discard Cowrite’s open copy?",
     );
 
-    await page.evaluate(() => window.__COWRITE_E2E__?.showReviewerWorkspace());
+    await page.evaluate(() => window.__EMEND_E2E__?.showReviewerWorkspace());
 
     await expect(page.locator('[data-workspace-mode="reviewer"]')).toBeVisible();
     await expect(page.getByRole("complementary", { name: "Project files" })).toHaveCount(0);
@@ -6262,9 +6262,9 @@ test.describe("P2b-11a J1 — revision-review complete: activity polling, delive
 
   async function openDoc(page) {
     await page.goto("/");
-    await page.evaluate(() => window.__COWRITE_E2E__?.setAutosaveIntervalMs(3_600_000));
+    await page.evaluate(() => window.__EMEND_E2E__?.setAutosaveIntervalMs(3_600_000));
     await page.evaluate(
-      ({ root, path }) => window.__COWRITE_E2E__?.openProject(root, path),
+      ({ root, path }) => window.__EMEND_E2E__?.openProject(root, path),
       { root: project.root, path: project.path },
     );
     await expect(page.locator(".cm-content")).toBeVisible();
@@ -6342,7 +6342,7 @@ test.describe("P2b-11a J1 — revision-review complete: activity polling, delive
     await expect(page.getByText("Please revise the opening.")).toBeVisible();
     await expect(workingCard(page).last()).toContainText("Agent stopped unexpectedly");
     await expect(workingCard(page).last()).toContainText("#1149");
-    expect(await page.evaluate(() => "notifyAgentActivity" in (window.__COWRITE_E2E__ ?? {}))).toBe(false);
+    expect(await page.evaluate(() => "notifyAgentActivity" in (window.__EMEND_E2E__ ?? {}))).toBe(false);
   });
 
   test("two UI-submitted runs completed between polls each render their own terminal card (#1826)", async ({
@@ -6843,7 +6843,7 @@ test("J7 keeps a real pending permission discoverable when Changes filters out i
       // D23 directly constructs a replacement project here because TD-20 product routing must
       // leave an already-bound choosing window on its current project. This test is about J7's
       // focus restoration across a real shell replacement, not J9's separate-window route.
-      (root) => window.__COWRITE_E2E__?.openProject(root, null),
+      (root) => window.__EMEND_E2E__?.openProject(root, null),
       replacementProject.root,
     );
     const boundRoot = await driver.post("current_project");

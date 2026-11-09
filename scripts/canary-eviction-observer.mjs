@@ -101,7 +101,7 @@ export async function reportCancelledRun({
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const run = JSON.parse(process.env.COWRITE_WORKFLOW_RUN ?? '{}');
+  const run = JSON.parse(process.env.EMEND_WORKFLOW_RUN ?? '{}');
   const result = await reportCancelledRun({ run });
   console.log(`displaced-canary observer: cause=${result.cause} published=${result.published}`);
 }

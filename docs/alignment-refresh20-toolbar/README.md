@@ -3,7 +3,7 @@ ABOUTME: Limits the comparison to reachable clean, redline, and pathless rows be
 
 # Refresh (20): reachable `3d` toolbar capture
 
-Run `COWRITE_ALIGNMENT_SCENARIO=toolbar COWRITE_ALIGNMENT_OUTPUT=docs/alignment-refresh20-toolbar node scripts/capture-design-alignment.mjs` from the repository root to regenerate [the measurements](./measurements.json) and 30 PNGs. The harness starts production Vite and the D23 backend, opens a disposable document, reopens it with a tracked insertion, then restores an untitled tab. It changes the real document-column width inside the shell after `document.fonts.ready`. `Win32` and `MacIntel` browser platform overrides select Cowrite's platform styles. The JSON names the full source revision, loaded font faces, computed font family, and any failed scenario.
+Run `EMEND_ALIGNMENT_SCENARIO=toolbar EMEND_ALIGNMENT_OUTPUT=docs/alignment-refresh20-toolbar node scripts/capture-design-alignment.mjs` from the repository root to regenerate [the measurements](./measurements.json) and 30 PNGs. The harness starts production Vite and the D23 backend, opens a disposable document, reopens it with a tracked insertion, then restores an untitled tab. It changes the real document-column width inside the shell after `document.fonts.ready`. `Win32` and `MacIntel` browser platform overrides select Cowrite's platform styles. The JSON names the full source revision, loaded font faces, computed font family, and any failed scenario.
 
 | State | Windows | macOS |
 |---|---|---|

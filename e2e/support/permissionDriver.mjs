@@ -11,9 +11,9 @@ export async function permissionDriver(page) {
   const child = spawn(binary("test-driver"), ["0"], {
     env: {
       ...process.env,
-      COWRITE_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN: "1",
-      COWRITE_CLAUDE_BIN: binary("permission-provider"),
-      COWRITE_COPILOT_BIN: "cowrite-test-no-copilot-installed",
+      EMEND_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN: "1",
+      EMEND_CLAUDE_BIN: binary("permission-provider"),
+      EMEND_COPILOT_BIN: "cowrite-test-no-copilot-installed",
     },
     stdio: ["ignore", "ignore", "pipe"],
   });
@@ -42,8 +42,8 @@ export async function permissionDriver(page) {
       if (!response.ok) throw new Error(`${command}: ${JSON.stringify(body)}`);
       return body;
     };
-    const configuredDriver = process.env.COWRITE_E2E_TEST_DRIVER_URL;
-    if (!configuredDriver) throw new Error("COWRITE_E2E_TEST_DRIVER_URL is not configured");
+    const configuredDriver = process.env.EMEND_E2E_TEST_DRIVER_URL;
+    if (!configuredDriver) throw new Error("EMEND_E2E_TEST_DRIVER_URL is not configured");
     await page.route(`${configuredDriver}/**`, (route) =>
       route.continue({ url: `${url}${new URL(route.request().url()).pathname}` }),
     );

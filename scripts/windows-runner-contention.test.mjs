@@ -29,7 +29,7 @@ test('dispatches an explicit one-or-two runner matrix without production seriali
   );
   assert.doesNotMatch(yaml, /^concurrency:/m);
   assert.match(yaml, /timeout-minutes:\s*15/);
-  assert.match(yaml, /COWRITE_TARGET_SHA/);
+  assert.match(yaml, /EMEND_TARGET_SHA/);
   assert.match(yaml, /\^\[0-9a-fA-F\]\{40\}\$/);
   assert.match(yaml, /ref:\s*\$\{\{\s*inputs\.target_sha\s*\}\}/);
   assert.match(yaml, /windows-contention-cohort\.mjs/);
@@ -39,10 +39,10 @@ test('dispatches an explicit one-or-two runner matrix without production seriali
   assert.match(yaml, /actions\/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c/);
   assert.match(yaml, /scripts\/windows-host-cohort\.mjs/);
   assert.match(yaml, /& node @arguments/);
-  assert.match(yaml, /COWRITE_BENCHMARK_ENDED_AT/);
+  assert.match(yaml, /EMEND_BENCHMARK_ENDED_AT/);
   assert.match(
     yaml,
-    /- name: Stop and report host sampler\n\s+if:.*always\(\).*\n\s+env:\n\s+GH_TOKEN:\s*\$\{\{\s*github\.token\s*\}\}\n\s+COWRITE_PARALLELISM:\s*\$\{\{\s*inputs\.parallelism\s*\}\}/,
+    /- name: Stop and report host sampler\n\s+if:.*always\(\).*\n\s+env:\n\s+GH_TOKEN:\s*\$\{\{\s*github\.token\s*\}\}\n\s+EMEND_PARALLELISM:\s*\$\{\{\s*inputs\.parallelism\s*\}\}/,
   );
 });
 
@@ -50,10 +50,10 @@ test('validates and applies an explicit cargo build-job cap only when capped (#1
   const yaml = read(workflowUrl);
   assert.match(yaml, /cargo_build_jobs:/);
   assert.match(yaml, /default:\s*uncapped/);
-  assert.match(yaml, /COWRITE_CARGO_BUILD_JOBS:\s*\$\{\{\s*inputs\.cargo_build_jobs\s*\}\}/);
+  assert.match(yaml, /EMEND_CARGO_BUILD_JOBS:\s*\$\{\{\s*inputs\.cargo_build_jobs\s*\}\}/);
   assert.match(yaml, /\^\[1-9\]\[0-9\]\*\$/);
-  assert.match(yaml, /CARGO_BUILD_JOBS=\$env:COWRITE_CARGO_BUILD_JOBS/);
-  assert.match(yaml, /if \(\$env:COWRITE_CARGO_BUILD_JOBS -ne 'uncapped'\)/);
+  assert.match(yaml, /CARGO_BUILD_JOBS=\$env:EMEND_CARGO_BUILD_JOBS/);
+  assert.match(yaml, /if \(\$env:EMEND_CARGO_BUILD_JOBS -ne 'uncapped'\)/);
   assert.doesNotMatch(yaml, /CARGO_BUILD_JOBS='/);
   assert.equal(
     yaml.match(/Remove-Item Env:CARGO_BUILD_JOBS -ErrorAction SilentlyContinue/g)?.length,
@@ -130,9 +130,9 @@ test('samples CPU and disk pressure and always stops only its own sampler (#981)
   const yaml = read(workflowUrl);
   const sampler = read(samplerUrl);
   assert.match(yaml, /windows-host-sampler\.ps1/);
-  assert.match(yaml, /COWRITE_SAMPLER_PID/);
-  assert.match(yaml, /COWRITE_SAMPLER_STARTED_TICKS/);
-  assert.match(yaml, /COWRITE_SAMPLER_STARTED_AT/);
+  assert.match(yaml, /EMEND_SAMPLER_PID/);
+  assert.match(yaml, /EMEND_SAMPLER_STARTED_TICKS/);
+  assert.match(yaml, /EMEND_SAMPLER_STARTED_AT/);
   assert.match(yaml, /\.StartTime\.ToUniversalTime\(\)\.Ticks/);
   assert.match(yaml, /sampler process identity changed; refusing to stop reused PID/);
   assert.match(yaml, /Host sampler exited before cleanup/);

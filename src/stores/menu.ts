@@ -40,7 +40,7 @@ export async function listenForSaveDocumentAsRequests(
  * rule livable rather than a trap for a directory the app never suggested). Resolves the chosen
  * absolute path, or `null` if the user cancelled. Tauri-only, mirroring `pickProjectFolder`'s
  * identical reasoning: outside a webview (dev-mode e2e, D23) there is no native dialog to drive,
- * so this resolves `null` there too — e2e drives `window.__COWRITE_E2E__.openProject` directly
+ * so this resolves `null` there too — e2e drives `window.__EMEND_E2E__.openProject` directly
  * instead.
  */
 // @anchor:test-plan-pick-document-file

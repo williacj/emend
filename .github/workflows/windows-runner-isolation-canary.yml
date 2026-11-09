@@ -125,8 +125,8 @@ jobs:
         id: convene
         env:
           GH_TOKEN: ${{ github.token }}
-          COWRITE_SLOT: ${{ matrix.slot }}
-          COWRITE_OTHER_SLOT: ${{ matrix.other_slot }}
+          EMEND_SLOT: ${{ matrix.slot }}
+          EMEND_OTHER_SLOT: ${{ matrix.other_slot }}
           # The tip of the branch this run was dispatched on — a real commit an operator can see on
           # that branch. It led with `github.event.pull_request.head.sha ||` because under a
           # `pull_request:` trigger `github.sha` is the ephemeral `refs/pull/N/merge` commit, which
@@ -137,7 +137,7 @@ jobs:
           # unconditionally, because there is only one source left for either to read. It is
           # deliberately NOT `ref_a`/`ref_b`: the verdict is about this run, and the run belongs to
           # the branch it was dispatched from, not to the revisions it happened to check out (#1266).
-          COWRITE_VERDICT_SHA: ${{ github.sha }}
+          EMEND_VERDICT_SHA: ${{ github.sha }}
         run: |
           $headers = @{
             Authorization = "Bearer $env:GH_TOKEN"
@@ -146,7 +146,7 @@ jobs:
           }
           $uri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID/artifacts?per_page=100"
           $jobsUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID/jobs?per_page=100"
-          $peerJobName = "Isolation canary (" + $env:COWRITE_OTHER_SLOT + ")"
+          $peerJobName = "Isolation canary (" + $env:EMEND_OTHER_SLOT + ")"
           $convened = $false
           $peerStatus = 'queued'
           # How many polls saw the peer alive. "Live but no marker" only means the barrier is broken
@@ -220,8 +220,8 @@ jobs:
             # assumption that we did (#1229/#1231).
             try {
               $body = @{
-                name = "Isolation canary (not measured: $env:COWRITE_SLOT)"
-                head_sha = $env:COWRITE_VERDICT_SHA
+                name = "Isolation canary (not measured: $env:EMEND_SLOT)"
+                head_sha = $env:EMEND_VERDICT_SHA
                 status = 'completed'
                 conclusion = 'neutral'
                 output = @{
@@ -261,8 +261,8 @@ jobs:
         if: steps.convene.outputs.convened == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-          COWRITE_SLOT: ${{ matrix.slot }}
-          COWRITE_VERDICT_SHA: ${{ github.sha }}
+          EMEND_SLOT: ${{ matrix.slot }}
+          EMEND_VERDICT_SHA: ${{ github.sha }}
         run: |
           $evidenceRoot = Join-Path $env:RUNNER_TEMP 'cowrite-isolation-host-evidence'
           $hostFiles = @(Get-ChildItem -LiteralPath $evidenceRoot -Filter 'cowrite-isolation-host-*.txt' -File)
@@ -303,8 +303,8 @@ jobs:
           }
           try {
             $body = @{
-              name = "Isolation canary (not measured: $env:COWRITE_SLOT)"
-              head_sha = $env:COWRITE_VERDICT_SHA
+              name = "Isolation canary (not measured: $env:EMEND_SLOT)"
+              head_sha = $env:EMEND_VERDICT_SHA
               status = 'completed'
               conclusion = 'neutral'
               output = @{
@@ -329,29 +329,29 @@ jobs:
       - name: Prove isolated runner workspace
         if: steps.convene.outputs.convened == 'true' && steps.colocation.outputs.co_located == 'true'
         env:
-          COWRITE_SLOT: ${{ matrix.slot }}
-          COWRITE_OTHER_SLOT: ${{ matrix.other_slot }}
-          COWRITE_EXPECTED_SHA: ${{ matrix.checkout_ref }}
+          EMEND_SLOT: ${{ matrix.slot }}
+          EMEND_OTHER_SLOT: ${{ matrix.other_slot }}
+          EMEND_EXPECTED_SHA: ${{ matrix.checkout_ref }}
         run: |
-          $mine = Join-Path $env:RUNNER_WORKSPACE ("cowrite-isolation-" + $env:COWRITE_SLOT + ".txt")
-          $other = Join-Path $env:RUNNER_WORKSPACE ("cowrite-isolation-" + $env:COWRITE_OTHER_SLOT + ".txt")
+          $mine = Join-Path $env:RUNNER_WORKSPACE ("cowrite-isolation-" + $env:EMEND_SLOT + ".txt")
+          $other = Join-Path $env:RUNNER_WORKSPACE ("cowrite-isolation-" + $env:EMEND_OTHER_SLOT + ".txt")
           try {
             if (Test-Path -LiteralPath $other) {
               throw "Detected another canary sentinel in the same RUNNER_WORKSPACE: $other"
             }
-            Set-Content -LiteralPath $mine -Value $env:COWRITE_EXPECTED_SHA -NoNewline
+            Set-Content -LiteralPath $mine -Value $env:EMEND_EXPECTED_SHA -NoNewline
             Start-Sleep -Seconds 30
             if (-not (Test-Path -LiteralPath $mine)) {
               throw "This canary's sentinel disappeared from RUNNER_WORKSPACE: $mine"
             }
             $actual = (Get-Content -LiteralPath $mine -Raw).Trim()
-            if ($actual -ne $env:COWRITE_EXPECTED_SHA) {
-              throw "This canary's sentinel was overwritten: expected $env:COWRITE_EXPECTED_SHA, found $actual"
+            if ($actual -ne $env:EMEND_EXPECTED_SHA) {
+              throw "This canary's sentinel was overwritten: expected $env:EMEND_EXPECTED_SHA, found $actual"
             }
             if (Test-Path -LiteralPath $other) {
               throw "Concurrent canaries share RUNNER_WORKSPACE: $other"
             }
-            Write-Host "Runner=$env:RUNNER_NAME Workspace=$env:RUNNER_WORKSPACE Ref=$env:COWRITE_EXPECTED_SHA"
+            Write-Host "Runner=$env:RUNNER_NAME Workspace=$env:RUNNER_WORKSPACE Ref=$env:EMEND_EXPECTED_SHA"
           }
           finally {
             if (Test-Path -LiteralPath $mine) {

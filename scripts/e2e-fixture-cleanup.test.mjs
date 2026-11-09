@@ -48,7 +48,7 @@ async function startDriver() {
 // One driver for the whole file: `testDriverClient.mjs` reads its URL once at import, so a second
 // server on a second port would be unreachable from the already-loaded client.
 const driver = await startDriver();
-process.env.COWRITE_E2E_TEST_DRIVER_URL = driver.url;
+process.env.EMEND_E2E_TEST_DRIVER_URL = driver.url;
 // A `file:` URL, never a resolved filesystem path: on Windows the path form starts `C:\`, which the
 // ESM loader parses as the URL scheme `c:` and rejects with ERR_UNSUPPORTED_ESM_URL_SCHEME before a
 // single test registers.

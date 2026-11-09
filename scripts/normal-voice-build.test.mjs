@@ -122,7 +122,7 @@ test('on-demand self-hosted Windows NSIS build targets one immutable PR head wit
   assert.match(bundle, /if:\s*\$\{\{ github\.event_name == 'workflow_dispatch' && inputs\.windows_mode == 'unsigned-nsis' \}\}/);
   assert.match(bundle, /name: Unsigned NSIS \(Windows, self-hosted\)/);
   assert.match(bundle, /runs-on: \[self-hosted, Windows, cowrite-required\]/);
-  assert.match(bundle, /COWRITE_TARGET_SHA: \$\{\{ inputs\.target_sha \}\}/);
+  assert.match(bundle, /EMEND_TARGET_SHA: \$\{\{ inputs\.target_sha \}\}/);
   assert.match(bundle, /\^\[0-9a-fA-F\]\{40\}\$/);
   assert.match(bundle, /ref: \$\{\{ inputs\.target_sha \}\}/);
   assert.match(bundle, /git rev-parse HEAD/);

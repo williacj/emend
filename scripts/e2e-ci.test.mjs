@@ -99,13 +99,13 @@ test('the required e2e gate makes retry masking impossible (#1403/#1595)', () =>
 
 test('the one-project D23 backend is never shared by concurrent Playwright workers (#1581)', async () => {
   const portEnvironment = [
-    'COWRITE_E2E_VITE_PORT',
-    'COWRITE_E2E_TEST_DRIVER_PORT',
-    'COWRITE_E2E_TEST_DRIVER_URL',
+    'EMEND_E2E_VITE_PORT',
+    'EMEND_E2E_TEST_DRIVER_PORT',
+    'EMEND_E2E_TEST_DRIVER_URL',
   ];
   const originalEnvironment = new Map(portEnvironment.map((name) => [name, process.env[name]]));
-  process.env.COWRITE_E2E_VITE_PORT = '45101';
-  process.env.COWRITE_E2E_TEST_DRIVER_PORT = '45102';
+  process.env.EMEND_E2E_VITE_PORT = '45101';
+  process.env.EMEND_E2E_TEST_DRIVER_PORT = '45102';
 
   let config;
   try {
@@ -134,9 +134,9 @@ test('the e2e gate never arms the real-claude spawn escape hatch (issue #1149 st
   const job = e2eJob();
 
   // #1149 fixed the driver binary spawning the real, billable `claude` CLI by refusing unless
-  // COWRITE_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN=1. Putting the e2e suite on CI is exactly the
+  // EMEND_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN=1. Putting the e2e suite on CI is exactly the
   // change that would turn a regression here into recurring spend on every PR.
-  assert.doesNotMatch(job, /COWRITE_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN/);
+  assert.doesNotMatch(job, /EMEND_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN/);
 });
 
 test('the CI subset excludes exactly the quarantine tag (issue #1124 item 2)', () => {

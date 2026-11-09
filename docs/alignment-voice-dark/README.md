@@ -8,7 +8,7 @@
 Run from the repo root:
 
 ```sh
-COWRITE_ALIGNMENT_SCENARIO='dark voice' COWRITE_ALIGNMENT_OUTPUT=docs/alignment-voice-dark node scripts/capture-design-alignment.mjs
+EMEND_ALIGNMENT_SCENARIO='dark voice' EMEND_ALIGNMENT_OUTPUT=docs/alignment-voice-dark node scripts/capture-design-alignment.mjs
 node --test --test-name-pattern 'refresh \(22\) dark mic' scripts/capture-design-alignment.test.mjs
 ```
 

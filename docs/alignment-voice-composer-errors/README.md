@@ -7,4 +7,4 @@ Refresh (22) `voice.md` §§4–5, issue #2651. `measurements.json` records the 
 
 The D23 browser driver has no linked voice owner. The capture substitutes the typed `get_voice_status`, `start_voice_dictation`, and `voice://dictation` transport while retaining production React forms, the shared mic owner, CSS, and browser layout. It does not prove physical microphone capture, native Windows controls, or Whisper inference.
 
-Regenerate with `COWRITE_ALIGNMENT_SCENARIO='composer voice error' COWRITE_ALIGNMENT_OUTPUT=docs/alignment-voice-composer-errors node scripts/capture-design-alignment.mjs`, then run `node --test --test-name-pattern='refresh \(22\) composer voice errors' scripts/capture-design-alignment.test.mjs`.
+Regenerate with `EMEND_ALIGNMENT_SCENARIO='composer voice error' EMEND_ALIGNMENT_OUTPUT=docs/alignment-voice-composer-errors node scripts/capture-design-alignment.mjs`, then run `node --test --test-name-pattern='refresh \(22\) composer voice errors' scripts/capture-design-alignment.test.mjs`.

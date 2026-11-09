@@ -54,18 +54,18 @@ jobs:
     steps:
       - name: Validate benchmark inputs
         env:
-          COWRITE_TARGET_SHA: ${{ inputs.target_sha }}
-          COWRITE_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
+          EMEND_TARGET_SHA: ${{ inputs.target_sha }}
+          EMEND_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
         run: |
-          if ($env:COWRITE_TARGET_SHA -notmatch '^[0-9a-fA-F]{40}$') {
+          if ($env:EMEND_TARGET_SHA -notmatch '^[0-9a-fA-F]{40}$') {
             throw 'target_sha must be an immutable 40-character commit SHA'
           }
-          if ($env:COWRITE_CARGO_BUILD_JOBS -ne 'uncapped' -and
-              $env:COWRITE_CARGO_BUILD_JOBS -notmatch '^[1-9][0-9]*$') {
+          if ($env:EMEND_CARGO_BUILD_JOBS -ne 'uncapped' -and
+              $env:EMEND_CARGO_BUILD_JOBS -notmatch '^[1-9][0-9]*$') {
             throw 'cargo_build_jobs must be uncapped or a canonical positive integer'
           }
-          if ($env:COWRITE_CARGO_BUILD_JOBS -ne 'uncapped') {
-            Add-Content -LiteralPath $env:GITHUB_ENV -Value "CARGO_BUILD_JOBS=$env:COWRITE_CARGO_BUILD_JOBS"
+          if ($env:EMEND_CARGO_BUILD_JOBS -ne 'uncapped') {
+            Add-Content -LiteralPath $env:GITHUB_ENV -Value "CARGO_BUILD_JOBS=$env:EMEND_CARGO_BUILD_JOBS"
           }
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -179,9 +179,9 @@ jobs:
       - name: Validate isolated overlapping cohort
         env:
           GH_TOKEN: ${{ github.token }}
-          COWRITE_TARGET_SHA: ${{ inputs.target_sha }}
-          COWRITE_PARALLELISM: ${{ inputs.parallelism }}
-          COWRITE_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
+          EMEND_TARGET_SHA: ${{ inputs.target_sha }}
+          EMEND_PARALLELISM: ${{ inputs.parallelism }}
+          EMEND_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
         run: node scripts/windows-contention-cohort.mjs start
 
       - name: Download hostname evidence
@@ -212,11 +212,11 @@ jobs:
           $process = Start-Process -FilePath $powershell -ArgumentList $arguments -PassThru -WindowStyle Hidden
           $startedTicks = $process.StartTime.ToUniversalTime().Ticks
           $startedAt = $process.StartTime.ToUniversalTime().ToString('o')
-          Add-Content -LiteralPath $env:GITHUB_ENV -Value "COWRITE_SAMPLER_PID=$($process.Id)"
-          Add-Content -LiteralPath $env:GITHUB_ENV -Value "COWRITE_SAMPLER_STARTED_TICKS=$startedTicks"
-          Add-Content -LiteralPath $env:GITHUB_ENV -Value "COWRITE_SAMPLER_STARTED_AT=$startedAt"
-          Add-Content -LiteralPath $env:GITHUB_ENV -Value "COWRITE_SAMPLES_PATH=$samplesPath"
-          Add-Content -LiteralPath $env:GITHUB_ENV -Value "COWRITE_SAMPLER_STOP=$stopPath"
+          Add-Content -LiteralPath $env:GITHUB_ENV -Value "EMEND_SAMPLER_PID=$($process.Id)"
+          Add-Content -LiteralPath $env:GITHUB_ENV -Value "EMEND_SAMPLER_STARTED_TICKS=$startedTicks"
+          Add-Content -LiteralPath $env:GITHUB_ENV -Value "EMEND_SAMPLER_STARTED_AT=$startedAt"
+          Add-Content -LiteralPath $env:GITHUB_ENV -Value "EMEND_SAMPLES_PATH=$samplesPath"
+          Add-Content -LiteralPath $env:GITHUB_ENV -Value "EMEND_SAMPLER_STOP=$stopPath"
           $sampleReady = $false
           for ($attempt = 0; $attempt -lt 10; $attempt++) {
             $process.Refresh()
@@ -235,9 +235,9 @@ jobs:
 
       - name: Rust fmt check
         env:
-          COWRITE_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
+          EMEND_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
         run: |
-          if ($env:COWRITE_CARGO_BUILD_JOBS -eq 'uncapped') {
+          if ($env:EMEND_CARGO_BUILD_JOBS -eq 'uncapped') {
             Remove-Item Env:CARGO_BUILD_JOBS -ErrorAction SilentlyContinue
           }
           cargo fmt --manifest-path src-tauri/Cargo.toml --all -- --check
@@ -248,9 +248,9 @@ jobs:
       - name: Rust clippy
         if: ${{ !cancelled() && steps.rust.outcome == 'success' && steps.whisper.outcome == 'success' }}
         env:
-          COWRITE_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
+          EMEND_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
         run: |
-          if ($env:COWRITE_CARGO_BUILD_JOBS -eq 'uncapped') {
+          if ($env:EMEND_CARGO_BUILD_JOBS -eq 'uncapped') {
             Remove-Item Env:CARGO_BUILD_JOBS -ErrorAction SilentlyContinue
           }
           cargo clippy --manifest-path src-tauri/Cargo.toml --workspace --all-targets -- -D warnings
@@ -258,9 +258,9 @@ jobs:
       - name: Cargo test
         if: ${{ !cancelled() && steps.rust.outcome == 'success' && steps.whisper.outcome == 'success' }}
         env:
-          COWRITE_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
+          EMEND_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
         run: |
-          if ($env:COWRITE_CARGO_BUILD_JOBS -eq 'uncapped') {
+          if ($env:EMEND_CARGO_BUILD_JOBS -eq 'uncapped') {
             Remove-Item Env:CARGO_BUILD_JOBS -ErrorAction SilentlyContinue
           }
           cargo test --manifest-path src-tauri/Cargo.toml --workspace
@@ -304,17 +304,17 @@ jobs:
         if: ${{ always() }}
         env:
           GH_TOKEN: ${{ github.token }}
-          COWRITE_PARALLELISM: ${{ inputs.parallelism }}
-          COWRITE_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
+          EMEND_PARALLELISM: ${{ inputs.parallelism }}
+          EMEND_CARGO_BUILD_JOBS: ${{ inputs.cargo_build_jobs }}
         run: |
-          if (-not $env:COWRITE_SAMPLER_PID) {
+          if (-not $env:EMEND_SAMPLER_PID) {
             throw 'Host sampler did not start; contention evidence is invalid.'
           }
-          $expectedTicks = [long]$env:COWRITE_SAMPLER_STARTED_TICKS
+          $expectedTicks = [long]$env:EMEND_SAMPLER_STARTED_TICKS
           $endedAt = (Get-Date).ToUniversalTime().ToString('o')
-          $env:COWRITE_SAMPLER_ENDED_AT = $endedAt
-          $env:COWRITE_BENCHMARK_ENDED_AT = $endedAt
-          $sampler = Get-Process -Id ([int]$env:COWRITE_SAMPLER_PID) -ErrorAction SilentlyContinue
+          $env:EMEND_SAMPLER_ENDED_AT = $endedAt
+          $env:EMEND_BENCHMARK_ENDED_AT = $endedAt
+          $sampler = Get-Process -Id ([int]$env:EMEND_SAMPLER_PID) -ErrorAction SilentlyContinue
           $cleanupError = $null
           if (-not $sampler) {
             $cleanupError = 'Host sampler exited before cleanup'
@@ -323,9 +323,9 @@ jobs:
             $cleanupError = 'sampler process identity changed; refusing to stop reused PID'
           }
           else {
-            New-Item -ItemType File -Path $env:COWRITE_SAMPLER_STOP -Force | Out-Null
+            New-Item -ItemType File -Path $env:EMEND_SAMPLER_STOP -Force | Out-Null
             for ($attempt = 0; $attempt -lt 20; $attempt++) {
-              $sampler = Get-Process -Id ([int]$env:COWRITE_SAMPLER_PID) -ErrorAction SilentlyContinue
+              $sampler = Get-Process -Id ([int]$env:EMEND_SAMPLER_PID) -ErrorAction SilentlyContinue
               if (-not $sampler) { break }
               if ($sampler.StartTime.ToUniversalTime().Ticks -ne $expectedTicks) {
                 $cleanupError = 'sampler process identity changed; refusing to stop reused PID'
@@ -343,7 +343,7 @@ jobs:
               }
             }
           }
-          node scripts/windows-host-sampler-report.mjs $env:COWRITE_SAMPLES_PATH "${{ matrix.slot }}" "${{ inputs.parallelism }}" $env:COWRITE_CARGO_BUILD_JOBS
+          node scripts/windows-host-sampler-report.mjs $env:EMEND_SAMPLES_PATH "${{ matrix.slot }}" "${{ inputs.parallelism }}" $env:EMEND_CARGO_BUILD_JOBS
           $reportExit = $LASTEXITCODE
           node scripts/windows-contention-cohort.mjs finish
           $windowExit = $LASTEXITCODE

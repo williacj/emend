@@ -265,8 +265,8 @@ export async function inspectCohort({
   wait = (durationMs) => new Promise((resolve) => setTimeout(resolve, durationMs)),
   attempts = 24,
 } = {}) {
-  const targetSha = validateTargetSha(env.COWRITE_TARGET_SHA);
-  const cargoBuildJobs = validateCargoBuildJobs(env.COWRITE_CARGO_BUILD_JOBS);
+  const targetSha = validateTargetSha(env.EMEND_TARGET_SHA);
+  const cargoBuildJobs = validateCargoBuildJobs(env.EMEND_CARGO_BUILD_JOBS);
   validateEnv(env);
   if (!env.RUNNER_NAME) throw new Error('RUNNER_NAME is required');
   let lastError;
@@ -280,7 +280,7 @@ export async function inspectCohort({
     try {
       return {
         ...validateCohort({
-          parallelism: env.COWRITE_PARALLELISM,
+          parallelism: env.EMEND_PARALLELISM,
           currentRunnerName: env.RUNNER_NAME,
           ...jobs,
         }),
@@ -303,16 +303,16 @@ export async function inspectWindow({
   validateEnv(env);
   const allJobs = await collectJobs({
     repository: env.GITHUB_REPOSITORY,
-    startedAt: env.COWRITE_BENCHMARK_STARTED_AT,
-    endedAt: env.COWRITE_BENCHMARK_ENDED_AT,
+    startedAt: env.EMEND_BENCHMARK_STARTED_AT,
+    endedAt: env.EMEND_BENCHMARK_ENDED_AT,
     requestJson,
     env,
   });
   return validateWindow({
-    parallelism: env.COWRITE_PARALLELISM,
+    parallelism: env.EMEND_PARALLELISM,
     currentRunId: env.GITHUB_RUN_ID,
-    startedAt: env.COWRITE_BENCHMARK_STARTED_AT,
-    endedAt: env.COWRITE_BENCHMARK_ENDED_AT,
+    startedAt: env.EMEND_BENCHMARK_STARTED_AT,
+    endedAt: env.EMEND_BENCHMARK_ENDED_AT,
     allJobs,
   });
 }
@@ -322,7 +322,7 @@ async function main() {
   if (command === 'start') {
     const cohort = await inspectCohort();
     if (!process.env.GITHUB_ENV) throw new Error('GITHUB_ENV is required');
-    appendFileSync(process.env.GITHUB_ENV, `COWRITE_BENCHMARK_STARTED_AT=${cohort.startedAt}\n`);
+    appendFileSync(process.env.GITHUB_ENV, `EMEND_BENCHMARK_STARTED_AT=${cohort.startedAt}\n`);
     const markdown = [
       '## Windows contention cohort',
       '',

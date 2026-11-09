@@ -6,7 +6,7 @@
 Regenerate from the repository root with:
 
 ```sh
-COWRITE_ALIGNMENT_SCENARIO='14d editor ghost' COWRITE_ALIGNMENT_OUTPUT=docs/alignment-editor-ghost node scripts/capture-design-alignment.mjs
+EMEND_ALIGNMENT_SCENARIO='14d editor ghost' EMEND_ALIGNMENT_OUTPUT=docs/alignment-editor-ghost node scripts/capture-design-alignment.mjs
 ```
 
 [`measurements.json`](./measurements.json) records the exact source revision, loaded fonts, mounted theme for each frame, and measured CSS/DOM state for twelve browser screenshots. Its `colorScheme` is `mixed` because the scenario contains light and dark frames. Production Vite, React, CodeMirror and CSS run against a disposable D23 project. D23 has no linked voice owner, so the capture supplies typed voice status, Start and Partial events at that missing transport boundary. These images establish appearance and target placement, not physical microphone capture, Whisper output or native Windows title controls.
