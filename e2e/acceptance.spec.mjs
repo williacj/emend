@@ -1296,9 +1296,9 @@ test.describe("#2537 reciprocal comments navigation", () => {
     const project = createFixtureProject("# Former file\n");
     const recoveryPath = "untitled:1:notes.md";
     try {
-      const cowriteDir = join(project.root, ".emend");
-      mkdirSync(cowriteDir, { recursive: true });
-      writeFileSync(join(cowriteDir, "tab-session.json"), JSON.stringify({
+      const emendDir = join(project.root, ".emend");
+      mkdirSync(emendDir, { recursive: true });
+      writeFileSync(join(emendDir, "tab-session.json"), JSON.stringify({
         schema_version: 1,
         tabs: [{ path: recoveryPath, unsaved_content: content, recovered_from: project.path }],
         active_path: recoveryPath,
@@ -2602,10 +2602,10 @@ test.describe("J2 recovered document over-cap state (#1421)", () => {
   test("9c loss reason follows the 660px short-copy tile and keeps its caution at narrower widths", async ({ page }) => {
     project = createFixtureProject("# The moved document now at this path\n");
     const recoveryPath = `untitled:1:${project.path}`;
-    const cowriteDir = join(project.root, ".emend");
-    mkdirSync(cowriteDir, { recursive: true });
+    const emendDir = join(project.root, ".emend");
+    mkdirSync(emendDir, { recursive: true });
     writeFileSync(
-      join(cowriteDir, "tab-session.json"),
+      join(emendDir, "tab-session.json"),
       JSON.stringify({
         schema_version: 1,
         tabs: [{
@@ -2665,9 +2665,9 @@ test.describe("J2 recovered document over-cap state (#1421)", () => {
   }) => {
     project = createFixtureProject("# The moved document now at this path\n");
     const recoveryPath = `untitled:1:${project.path}`;
-    const cowriteDir = join(project.root, ".emend");
-    const sessionPath = join(cowriteDir, "tab-session.json");
-    mkdirSync(cowriteDir, { recursive: true });
+    const emendDir = join(project.root, ".emend");
+    const sessionPath = join(emendDir, "tab-session.json");
+    mkdirSync(emendDir, { recursive: true });
     writeFileSync(
       sessionPath,
       JSON.stringify({
@@ -2763,9 +2763,9 @@ test.describe("D12 untitled comment adoption (#1803)", () => {
     const recoveryPath = "untitled:1:notes.md";
     const destination = "adopted.md";
     project = createFixtureProject("# The moved document now at this path\n");
-    const cowriteDir = join(project.root, ".emend");
-    const sessionPath = join(cowriteDir, "tab-session.json");
-    mkdirSync(cowriteDir, { recursive: true });
+    const emendDir = join(project.root, ".emend");
+    const sessionPath = join(emendDir, "tab-session.json");
+    mkdirSync(emendDir, { recursive: true });
     writeFileSync(sessionPath, JSON.stringify({
       schema_version: 1,
       tabs: [{

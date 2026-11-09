@@ -66,7 +66,7 @@ process exit including a crash. Before #2245 the lease was the flat file
 `tab-session-writers/<key>.lock`; such a file is a zero-byte artifact of a
 development build and is left alone rather than swept, the disposition TD-12's
 amendment already records for a pre-relocation `lock*` line. Nothing adds or
-revives a `.emend/lock*` file; TD-12's project-tree exclusion remains exactly
+revives a `.cowrite/lock*` file; TD-12's project-tree exclusion remains exactly
 `tab-session.json`. Holding the OS lease across the complete writer lifetime
 makes the fixed-temp atomic writer single-writer across windows and processes.
 The revision comparison is a second guard: a stale renderer cannot overwrite a

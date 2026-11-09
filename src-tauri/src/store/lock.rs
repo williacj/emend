@@ -10,7 +10,7 @@
 //! # Where the registry lives
 //!
 //! **Per-user, machine-local app data — never the project folder** (TD-20 ruling (3), which
-//! relocated these files from `.emend/lock*` and amended TD-12's machine-local list down to
+//! relocated these files from `.cowrite/lock*` and amended TD-12's machine-local list down to
 //! exactly `tab-session.json`). One directory per project,
 //! `<app_local_data_dir>/instances/<project_key>/` ([`registry_dir`]), keyed by
 //! `blake3(canonical root)` — the identical keying `store::transcript` already uses for
@@ -25,7 +25,7 @@
 //! never raise a window for. Relocating also removes the write-into-the-user's-repo side effect
 //! `acquire` used to perform on every open, leaving `.emend/` purely TD-4 portable data
 //! (D1/FR-X-8 strengthened). Nothing migrated and nothing reads the old location: this module has
-//! never had a production caller, so no shipped path ever wrote `.emend/lock*`.
+//! never had a production caller, so no shipped path ever wrote `.cowrite/lock*`.
 //!
 //! **Every operation is handed the directory it works in.** [`probe`], [`acquire`],
 //! [`current_owner`], [`request_focus`] and [`FocusRequestWatcher`] take a registry directory and

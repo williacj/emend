@@ -34,6 +34,19 @@ pub fn tree(dir: &Path) -> Vec<String> {
     tree_skipping(dir, &|_| false)
 }
 
+/// [`tree`] with each file's bytes (`None` for a directory), so a test can prove a directory was
+/// neither written nor deleted, not merely that the same names still exist.
+pub fn tree_with_contents(dir: &Path) -> Vec<(String, Option<Vec<u8>>)> {
+    tree(dir)
+        .into_iter()
+        .map(|relative| {
+            let path = dir.join(&relative);
+            let bytes = path.is_file().then(|| fs::read(&path).unwrap());
+            (relative, bytes)
+        })
+        .collect()
+}
+
 fn collect(root: &Path, dir: &Path, skip_dir: &dyn Fn(&str) -> bool, found: &mut Vec<String>) {
     let Ok(entries) = fs::read_dir(dir) else {
         return;

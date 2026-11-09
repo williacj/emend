@@ -9,7 +9,7 @@
 //!
 //! **The excluded list is exactly `tab-session.json`, and `store::tab_session` is the one
 //! production caller** (TD-12 amended, 2026-08-14). TD-20 moved the ownership registry — formerly
-//! `.emend/lock*`, this module's other caller — out of the project folder entirely and into
+//! `.cowrite/lock*`, this module's other caller — out of the project folder entirely and into
 //! per-user app-local data, where nothing needs excluding because nothing is committed. TD-12's
 //! standing rule is unchanged and now covers the whole list: **every future addition names its own
 //! file in its own decision-log line**, so a new caller is a recorded decision, never a quiet
@@ -116,7 +116,7 @@ mod tests {
     }
 
     #[test]
-    fn creates_the_cowrite_dir_if_it_does_not_exist_yet() {
+    fn creates_the_emend_dir_if_it_does_not_exist_yet() {
         let dir = TempDir::new().unwrap();
         let emend_dir = dir.path().join(".emend");
         assert!(!emend_dir.exists());

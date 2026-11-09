@@ -1222,7 +1222,7 @@ mod identity_tests {
 #[cfg(test)]
 mod comment_append_fold_tests {
     use super::*;
-    use std::path::Path;
+    use crate::test_support::tree_with_contents;
     use tempfile::TempDir;
 
     fn store() -> (TempDir, SidecarStore, Uuid) {
@@ -1247,27 +1247,6 @@ mod comment_append_fold_tests {
                 workflow_run: None,
             },
         }
-    }
-
-    /// Every file under `dir` with its bytes, keyed by its path relative to `dir`.
-    fn snapshot(dir: &Path) -> Vec<(PathBuf, Vec<u8>)> {
-        let mut files = Vec::new();
-        let mut pending = vec![dir.to_path_buf()];
-        while let Some(next) = pending.pop() {
-            for entry in fs::read_dir(&next).unwrap() {
-                let path = entry.unwrap().path();
-                if path.is_dir() {
-                    pending.push(path);
-                } else {
-                    files.push((
-                        path.strip_prefix(dir).unwrap().to_path_buf(),
-                        fs::read(&path).unwrap(),
-                    ));
-                }
-            }
-        }
-        files.sort();
-        files
     }
 
     #[test]
@@ -1296,7 +1275,7 @@ mod comment_append_fold_tests {
             .append_comment_event(old_id, &create("c1", "alice", 1, "hello"))
             .unwrap();
         fs::rename(dir.path().join(".emend"), dir.path().join(".cowrite")).unwrap();
-        let before = snapshot(&dir.path().join(".cowrite"));
+        let before = tree_with_contents(&dir.path().join(".cowrite"));
         assert!(!before.is_empty());
 
         let store = SidecarStore::new(dir.path());
@@ -1313,7 +1292,7 @@ mod comment_append_fold_tests {
             .append_comment_event(new_id, &create("c2", "alice", 2, "fresh"))
             .unwrap();
 
-        assert_eq!(snapshot(&dir.path().join(".cowrite")), before);
+        assert_eq!(tree_with_contents(&dir.path().join(".cowrite")), before);
         assert!(dir.path().join(".emend/docs.json").is_file());
     }
 

@@ -649,8 +649,11 @@ mod tests {
     use crate::commands::project::refresh_project_files_on;
     use crate::project_files::{ProjectFileEntry, ProjectFilesError, ProjectFilesScanner};
     use crate::store::lock::{self, LockOutcome, LockOwner};
-    use crate::test_support::{spawn_ignored_test, tree};
+    use crate::store::service::SidecarStore;
+    use crate::store::tab_session;
+    use crate::test_support::{spawn_ignored_test, tree, tree_with_contents};
     use serde_json::json;
+    use std::fs;
     use std::io::{Read, Write};
     use std::sync::mpsc::{self, Receiver, Sender};
 
@@ -666,7 +669,7 @@ mod tests {
     /// what it lists, and would keep passing while the open path wrote some *other* new runtime
     /// file into the user's repo. A sanctioned future addition has to name itself here, which is
     /// TD-12's standing rule expressed as a test.
-    const SANCTIONED_COWRITE_PATHS_AFTER_OPEN: &[&str] = &[];
+    const SANCTIONED_EMEND_PATHS_AFTER_OPEN: &[&str] = &[];
 
     /// The env vars the ownership-release subprocess reads. The child is a second *process*, not a
     /// second thread: releasing on process exit is the one session-end path no in-process test can
@@ -701,7 +704,7 @@ mod tests {
 
     /// Criterion 1 (#1746): opening a project must not write runtime state into the user's repo.
     #[test]
-    fn an_ordinary_project_open_leaves_only_sanctioned_files_under_the_projects_cowrite_dir() {
+    fn an_ordinary_project_open_leaves_only_sanctioned_files_under_the_projects_emend_dir() {
         let registry = tempfile::TempDir::new().unwrap();
         let project = tempfile::TempDir::new().unwrap();
         let ownership = lock::test_support::take(
@@ -716,8 +719,62 @@ mod tests {
 
         assert_eq!(
             tree(&project.path().join(".emend")),
-            SANCTIONED_COWRITE_PATHS_AFTER_OPEN,
+            SANCTIONED_EMEND_PATHS_AFTER_OPEN,
             "an ordinary project open left unsanctioned paths under the user's `.emend/`"
+        );
+    }
+
+    /// TD-29: a project that holds only Cowrite's `.cowrite/` opens as a project with no sidecar
+    /// state. Real sidecar data and a saved tab session are written where Emend keeps them, then
+    /// moved to where Cowrite did; the open must restore none of it and leave it byte-identical.
+    #[test]
+    fn a_project_holding_only_dot_cowrite_opens_with_no_state_and_leaves_it_untouched() {
+        let registry = tempfile::TempDir::new().unwrap();
+        let project = tempfile::TempDir::new().unwrap();
+        fs::write(project.path().join("a.md"), "# a\n").unwrap();
+        let old_id = SidecarStore::new(project.path())
+            .get_or_mint_for_path("a.md")
+            .unwrap();
+        tab_session::save(
+            project.path(),
+            &tab_session::Session::new(
+                vec![tab_session::TabSnapshot::new("a.md", None)],
+                Some("a.md".to_string()),
+            ),
+        )
+        .unwrap();
+        fs::rename(
+            project.path().join(".emend"),
+            project.path().join(".cowrite"),
+        )
+        .unwrap();
+        let before = tree_with_contents(&project.path().join(".cowrite"));
+        assert!(before.iter().any(|(path, _)| path == "tab-session.json"));
+        let ownership = lock::test_support::take(
+            &lock::registry_dir(registry.path(), project.path()),
+            project.path(),
+            "instance-a",
+        );
+
+        let _open =
+            OpenProject::open_owning(project.path(), ownership, ProjectObservers::default())
+                .unwrap();
+
+        assert_eq!(
+            tab_session::load(project.path()).unwrap(),
+            tab_session::Session::default()
+        );
+        assert_eq!(
+            SidecarStore::new(project.path())
+                .doc_id_for_path("a.md")
+                .unwrap(),
+            None,
+            "the open adopted Cowrite's document id {old_id}"
+        );
+        assert_eq!(tree_with_contents(&project.path().join(".cowrite")), before);
+        assert_eq!(
+            tree(&project.path().join(".emend")),
+            SANCTIONED_EMEND_PATHS_AFTER_OPEN
         );
     }
 
