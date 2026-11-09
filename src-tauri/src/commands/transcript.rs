@@ -22,7 +22,7 @@ impl From<std::io::Error> for CommandError {
 }
 
 /// `<app-local-data-dir>/transcripts/<project_key(root)>/transcript.jsonl` (D15: local to the
-/// machine, never under `<root>/.cowrite/`). `app_local_data_dir` — not `app_config_dir`, which
+/// machine, never under `<root>/.emend/`). `app_local_data_dir` — not `app_config_dir`, which
 /// `commands::settings` uses — because some platforms sync `app_data_dir` (e.g. iCloud Drive on
 /// macOS); the local-data variant is the one Tauri guarantees stays on this machine only.
 fn transcript_path<R: Runtime>(

@@ -14,7 +14,7 @@
 //! window had open, and in-flight edits nobody has chosen to save yet. Committing or syncing that
 //! would leak a contributor's scratch/unsaved text to every collaborator on every save and spam
 //! review history with pure UI churn, which is not what TD-4's "committed by default" is for. It is
-//! excluded from commit/sync via a committed `.cowrite/.gitignore` entry (`store::gitignore`), so
+//! excluded from commit/sync via a committed `.emend/.gitignore` entry (`store::gitignore`), so
 //! every clone/machine ignores its own local session file with no checkpointer-side special case.
 //! TD-12 first recorded that mechanism for `store::lock`'s runtime files; its 2026-08-14 amendment
 //! narrows the excluded list to **exactly this file**, because TD-20 moved the ownership registry
@@ -229,11 +229,11 @@ impl Default for Session {
 }
 
 fn session_path(root: &Path) -> PathBuf {
-    cowrite_dir(root).join(SESSION_FILE_NAME)
+    emend_dir(root).join(SESSION_FILE_NAME)
 }
 
-fn cowrite_dir(root: &Path) -> PathBuf {
-    root.join(".cowrite")
+fn emend_dir(root: &Path) -> PathBuf {
+    root.join(".emend")
 }
 
 /// Persists `session` for the project at `root`, atomically (write-then-rename — a crash mid-write
@@ -241,7 +241,7 @@ fn cowrite_dir(root: &Path) -> PathBuf {
 /// file is gitignored (TD-12 precedent, see module docs).
 pub fn save(root: &Path, session: &Session) -> io::Result<()> {
     gitignore::ensure_pattern(
-        &cowrite_dir(root),
+        &emend_dir(root),
         GITIGNORE_PATTERN,
         "# Machine-local tab-session state (TD §3.1, P2a-6) — never committed/synced.",
     )?;
@@ -454,7 +454,7 @@ mod io_tests {
         // the session it names or "no session to restore," never a crash and never someone else's
         // content passed off as this project's.
         let dir = TempDir::new().unwrap();
-        fs::create_dir_all(cowrite_dir(dir.path())).unwrap();
+        fs::create_dir_all(emend_dir(dir.path())).unwrap();
         fs::write(session_path(dir.path()), "{not json").unwrap();
 
         let session = load(dir.path()).unwrap();
@@ -465,7 +465,7 @@ mod io_tests {
     #[test]
     fn a_truncated_json_file_degrades_to_a_fresh_session() {
         let dir = TempDir::new().unwrap();
-        fs::create_dir_all(cowrite_dir(dir.path())).unwrap();
+        fs::create_dir_all(emend_dir(dir.path())).unwrap();
         // A whole, valid session, cut off mid-write (e.g. a crash or a non-git sync tool tearing
         // the file) — not merely malformed at the start, genuinely half-written.
         let whole = serde_json::to_string(&Session::new(
@@ -486,7 +486,7 @@ mod io_tests {
         // What a non-git, non-gitignore-respecting sync tool (Dropbox-style folder sync) can leave
         // behind when two machines wrote the same path concurrently: conflict markers, not JSON.
         let dir = TempDir::new().unwrap();
-        fs::create_dir_all(cowrite_dir(dir.path())).unwrap();
+        fs::create_dir_all(emend_dir(dir.path())).unwrap();
         fs::write(
             session_path(dir.path()),
             "<<<<<<< machine-a\n{\"schema_version\":1,\"tabs\":[],\"active_path\":null}\n=======\n{\"schema_version\":1,\"tabs\":[],\"active_path\":null}\n>>>>>>> machine-b\n",
@@ -528,7 +528,7 @@ mod io_tests {
         // session — including the very unsaved buffers the field was added to preserve — on the
         // first launch after the upgrade.
         let dir = TempDir::new().unwrap();
-        fs::create_dir_all(cowrite_dir(dir.path())).unwrap();
+        fs::create_dir_all(emend_dir(dir.path())).unwrap();
         fs::write(
             session_path(dir.path()),
             r#"{"schema_version":1,"tabs":[{"path":"a.md","unsaved_content":"in-flight edit"}],"active_path":"a.md"}"#,
@@ -548,7 +548,7 @@ mod io_tests {
     #[test]
     fn a_legacy_over_cap_recovery_record_is_normalized_to_the_explicit_outcome() {
         let dir = TempDir::new().unwrap();
-        fs::create_dir_all(cowrite_dir(dir.path())).unwrap();
+        fs::create_dir_all(emend_dir(dir.path())).unwrap();
         fs::write(
             session_path(dir.path()),
             r#"{"schema_version":1,"tabs":[{"path":"untitled:1:b.md","unsaved_content":null,"recovered_from":"b.md"}],"active_path":"untitled:1:b.md"}"#,
@@ -564,7 +564,7 @@ mod io_tests {
     #[test]
     fn content_typed_after_an_explicit_omission_keeps_the_outcome_and_collapse() {
         let dir = TempDir::new().unwrap();
-        fs::create_dir_all(cowrite_dir(dir.path())).unwrap();
+        fs::create_dir_all(emend_dir(dir.path())).unwrap();
         fs::write(
             session_path(dir.path()),
             r#"{"schema_version":1,"tabs":[{"path":"untitled:1:b.md","unsaved_content":"kept","recovered_from":"b.md","unsaved_content_omitted":true,"loss_notice_collapsed":true}],"active_path":"untitled:1:b.md"}"#,
@@ -587,7 +587,7 @@ mod io_tests {
         // while nothing here carries `deny_unknown_fields`. Pinned by execution so that adding it
         // later is a test failure rather than a silent loss of everyone's session on a downgrade.
         let dir = TempDir::new().unwrap();
-        fs::create_dir_all(cowrite_dir(dir.path())).unwrap();
+        fs::create_dir_all(emend_dir(dir.path())).unwrap();
         fs::write(
             session_path(dir.path()),
             r#"{"schema_version":1,"tabs":[{"path":"a.md","unsaved_content":null,"a_field_from_the_future":true}],"active_path":"a.md","also_from_the_future":42}"#,
@@ -605,7 +605,7 @@ mod io_tests {
         // A build older or newer than the one that wrote the file — never guess at fields under a
         // schema-version assumption that may not hold.
         let dir = TempDir::new().unwrap();
-        fs::create_dir_all(cowrite_dir(dir.path())).unwrap();
+        fs::create_dir_all(emend_dir(dir.path())).unwrap();
         fs::write(
             session_path(dir.path()),
             r#"{"schema_version":999,"tabs":[{"path":"a.md","unsaved_content":null}],"active_path":null}"#,
@@ -623,19 +623,19 @@ mod io_tests {
 
         save(dir.path(), &Session::default()).unwrap();
 
-        let gitignore = fs::read_to_string(cowrite_dir(dir.path()).join(".gitignore")).unwrap();
+        let gitignore = fs::read_to_string(emend_dir(dir.path()).join(".gitignore")).unwrap();
         assert!(gitignore.lines().any(|l| l == GITIGNORE_PATTERN));
     }
 
     #[test]
     fn saving_a_session_preserves_an_existing_gitignores_other_entries() {
         let dir = TempDir::new().unwrap();
-        fs::create_dir_all(cowrite_dir(dir.path())).unwrap();
-        fs::write(cowrite_dir(dir.path()).join(".gitignore"), "custom-entry\n").unwrap();
+        fs::create_dir_all(emend_dir(dir.path())).unwrap();
+        fs::write(emend_dir(dir.path()).join(".gitignore"), "custom-entry\n").unwrap();
 
         save(dir.path(), &Session::default()).unwrap();
 
-        let gitignore = fs::read_to_string(cowrite_dir(dir.path()).join(".gitignore")).unwrap();
+        let gitignore = fs::read_to_string(emend_dir(dir.path()).join(".gitignore")).unwrap();
         assert!(gitignore.lines().any(|l| l == "custom-entry"));
         assert!(gitignore.lines().any(|l| l == GITIGNORE_PATTERN));
     }
@@ -653,7 +653,7 @@ mod io_tests {
         let result = save(dir.path(), &Session::default());
 
         assert!(result.is_err());
-        let gitignore = fs::read_to_string(cowrite_dir(dir.path()).join(".gitignore")).unwrap();
+        let gitignore = fs::read_to_string(emend_dir(dir.path()).join(".gitignore")).unwrap();
         assert!(gitignore.lines().any(|l| l == GITIGNORE_PATTERN));
     }
 

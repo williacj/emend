@@ -153,7 +153,7 @@ describe("timeline/ipc — pre-TD-16 transcript cards (ruling 5)", () => {
  * is on disk forever. Repairing them as they load is the same read-time disposition
  * `tolerateLegacyChangeIds` already takes for pre-TD-16 change ids, and for the same reason:
  * nothing is written back, and the transcript is machine-local scaffolding rather than a
- * `.cowrite/` portability contract, so no schema moves for it.
+ * `.emend/` portability contract, so no schema moves for it.
  *
  * `chat-message` (not `project-grounding`) is this suite's fixture kind. CJ's own store's eight
  * repeated `project-grounding-1` events were the empirically observed instance of this defect, but

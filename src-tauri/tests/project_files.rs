@@ -234,7 +234,7 @@ fn visibility_is_case_insensitive_without_hiding_user_authored_dot_paths() {
         ".git",
         ".HG",
         ".SvN",
-        ".cowrite",
+        ".emend",
         "NODE_MODULES",
         "target",
         "Dist",
@@ -291,7 +291,7 @@ fn refresh_builds_a_hierarchical_snapshot_without_applying_gitignore_rules() {
     fs::write(dir.path().join("workflows/review.md"), "# Review\n").unwrap();
     fs::write(dir.path().join(".gitignore"), "ignored-by-git.md\n").unwrap();
     fs::write(dir.path().join("ignored-by-git.md"), "still visible\n").unwrap();
-    for hidden in [".git", ".cowrite", "node_modules", "coverage", ".cache"] {
+    for hidden in [".git", ".emend", "node_modules", "coverage", ".cache"] {
         fs::create_dir_all(dir.path().join(hidden)).unwrap();
         fs::write(dir.path().join(hidden).join("secret.md"), "hidden\n").unwrap();
     }
@@ -1347,7 +1347,7 @@ fn failed_multi_move_retry_revalidation_leaves_every_history_path_unchanged() {
     let durable = SidecarStore::new(dir.path());
     durable.get_or_mint_for_path("drafts").unwrap();
     durable.get_or_mint_for_path("drafts/kept.md").unwrap();
-    let docs_json = dir.path().join(".cowrite/docs.json");
+    let docs_json = dir.path().join(".emend/docs.json");
     let before = fs::read(&docs_json).unwrap();
     let files = ProjectFiles::with_store_and_rekeyer(
         dir.path(),

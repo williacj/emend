@@ -245,7 +245,7 @@ impl DocWatcher {
 /// paths it named, and any backend correlation tracker.
 ///
 /// Returns `None` when nothing about the event can change what a snapshot shows — every path was
-/// outside the root or inside hidden tooling structure — so a `.cowrite/` sidecar write Cowrite
+/// outside the root or inside hidden tooling structure — so a `.emend/` sidecar write Cowrite
 /// itself performs never schedules a refresh.
 ///
 /// `docs` is the caller's already-computed project-relative spelling of `event.paths`, in the same
@@ -1188,13 +1188,13 @@ mod watchdog_tests {
         );
     }
 
-    /// Cowrite writes `.cowrite/` itself on every tracked change it lands. Scheduling a project-tree
+    /// Cowrite writes `.emend/` itself on every tracked change it lands. Scheduling a project-tree
     /// refresh for that would be pure churn, and no hidden path can change what a snapshot shows.
     #[test]
     fn an_event_confined_to_hidden_structure_schedules_nothing() {
         assert!(normalized_event(
             &notify::Event::new(EventKind::Modify(ModifyKind::Any)),
-            vec![".cowrite/docs.json".to_string(), "node_modules".to_string()],
+            vec![".emend/docs.json".to_string(), "node_modules".to_string()],
         )
         .is_none());
         assert!(normalized_event(

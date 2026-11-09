@@ -1,7 +1,7 @@
-<!-- ABOUTME: On-disk format of `.cowrite/tab-session.json` — FR-ED-3's per-project tab-session -->
+<!-- ABOUTME: On-disk format of `.emend/tab-session.json` — FR-ED-3's per-project tab-session -->
 <!-- ABOUTME: restore state (TD §3.1, P2a-6); machine-local and gitignored per TD-12 (amended). -->
 
-# Tab-session format (`.cowrite/tab-session.json`)
+# Tab-session format (`.emend/tab-session.json`)
 
 The `store::tab_session` sidecar behind FR-ED-3's per-project session restore:
 which tabs a project's window had open, in order, which one was active, and
@@ -15,7 +15,7 @@ restore its current text from.
 `changes/`, and `docs.json` — repo-owned data committed by default — a tab
 session is per-machine UI state: which files *this* window had open, and
 in-flight edits nobody has chosen to save yet. It is excluded from
-commit/sync via the committed `.cowrite/.gitignore` (TD-12, amended 2026-07-16
+commit/sync via the committed `.emend/.gitignore` (TD-12, amended 2026-07-16
 to generalize from lock files to this explicit list), maintained by
 `store::gitignore::ensure_pattern` before the very first session write.
 
@@ -66,7 +66,7 @@ process exit including a crash. Before #2245 the lease was the flat file
 `tab-session-writers/<key>.lock`; such a file is a zero-byte artifact of a
 development build and is left alone rather than swept, the disposition TD-12's
 amendment already records for a pre-relocation `lock*` line. Nothing adds or
-revives a `.cowrite/lock*` file; TD-12's project-tree exclusion remains exactly
+revives a `.emend/lock*` file; TD-12's project-tree exclusion remains exactly
 `tab-session.json`. Holding the OS lease across the complete writer lifetime
 makes the fixed-temp atomic writer single-writer across windows and processes.
 The revision comparison is a second guard: a stale renderer cannot overwrite a

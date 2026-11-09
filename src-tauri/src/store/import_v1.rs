@@ -17,10 +17,10 @@
 //! # Scope: emits and (via [`run_v1_upgrade`]) persists
 //!
 //! Per TD-4 the *pure* half of this module's job stops at emitting synthetic
-//! values — writing them under `.cowrite/comments/<doc-id>/<author>.jsonl` /
-//! `.cowrite/changes/<doc-id>.json` is the sidecar store service's job
+//! values — writing them under `.emend/comments/<doc-id>/<author>.jsonl` /
+//! `.emend/changes/<doc-id>.json` is the sidecar store service's job
 //! (`docs/formats/sidecar/README.md`), and `<doc-id>` is a **UUID minted into
-//! `.cowrite/docs.json`** (`docs-map.schema.json`), not a hash this module can
+//! `.emend/docs.json`** (`docs-map.schema.json`), not a hash this module can
 //! compute on its own. [`run_v1_upgrade`] is the P2a-10 wiring that wraps
 //! `migrate_comments`/`migrate_changes` with a `store::service::SidecarStore` to
 //! do exactly that: decode each legacy sidecar's encoded filename back to a

@@ -1,5 +1,5 @@
 // ABOUTME: Local transcript store (P2a-17, D15) — an append-only, per-project log of *rendered*
-// ABOUTME: timeline cards, kept under the OS app-local-data dir (never `.cowrite/`, never synced).
+// ABOUTME: timeline cards, kept under the OS app-local-data dir (never `.emend/`, never synced).
 
 // @anchor:transcript-store-module-doc
 //! D15: "conversation history is local to the machine per-project... conversations are
@@ -9,7 +9,7 @@
 //! history on reopen, and nothing more: no provider session state (TD-5's session-resume is a
 //! separate mechanism this store never touches), never repo-synced (TD §3.1 names `store/` as
 //! the owner of "local transcript DB", distinct from the TD-4 sidecars that live in the
-//! committed `.cowrite/`).
+//! committed `.emend/`).
 // @anchor-end:transcript-store-module-doc
 //!
 //! # Shape
@@ -78,7 +78,7 @@ pub struct TranscriptEvent {
 const AREA: &str = "transcripts";
 
 /// `<app_local_data_dir>/transcripts/<project_key(root)>/transcript.jsonl` — never under
-/// `<root>/.cowrite/`: D15's "local to the machine, not repo/git-tracked" is structural here,
+/// `<root>/.emend/`: D15's "local to the machine, not repo/git-tracked" is structural here,
 /// not merely a gitignore entry. Since TD-20 (2026-08-14) `store::lock`'s ownership registry is
 /// keyed the same way under the same app-local data dir — neither store is project data, and both
 /// resolve their directory through the one rule in `store::project_identity`.

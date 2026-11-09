@@ -479,8 +479,8 @@ async function j10Thread(driverUrl, root, content) {
 
 function j10Publish(root, threadId) {
   // Review sync is not yet wired, so seed its published event using the D20 sidecar schema.
-  const [docId] = readdirSync(join(root, ".cowrite", "comments"));
-  appendFileSync(join(root, ".cowrite", "comments", docId, "cowrite.jsonl"), JSON.stringify({
+  const [docId] = readdirSync(join(root, ".emend", "comments"));
+  appendFileSync(join(root, ".emend", "comments", docId, "cowrite.jsonl"), JSON.stringify({
     schema_version: 1, id: `publish-${threadId}`, parent_id: threadId,
     author: "cowrite", timestamp: Date.now() - 90_000, type: "publish",
   }) + "\n");
@@ -876,8 +876,8 @@ async function captureIntegrity(browser, viteUrl, driverUrl, platform) {
 async function captureRecovery(browser, viteUrl, driverUrl, platform) {
   const root = fixture(`${platform.id}-recovery`, "# The moved document now at this path\n");
   const recoveryPath = "untitled:1:notes.md";
-  mkdirSync(join(root, ".cowrite"), { recursive: true });
-  writeFileSync(join(root, ".cowrite", "tab-session.json"), JSON.stringify({
+  mkdirSync(join(root, ".emend"), { recursive: true });
+  writeFileSync(join(root, ".emend", "tab-session.json"), JSON.stringify({
     schema_version: 1,
     tabs: [{
       path: recoveryPath,
@@ -1032,8 +1032,8 @@ async function captureLegacyUnsupported(browser, viteUrl, driverUrl, platform) {
     const root = fixture(`${platform.id}-d27-${state}`);
     mkdirSync(join(root, "research"), { recursive: true });
     writeFileSync(join(root, formerPath), originalText);
-    mkdirSync(join(root, ".cowrite"), { recursive: true });
-    writeFileSync(join(root, ".cowrite", "tab-session.json"), JSON.stringify({
+    mkdirSync(join(root, ".emend"), { recursive: true });
+    writeFileSync(join(root, ".emend", "tab-session.json"), JSON.stringify({
       schema_version: 1,
       tabs: [
         { path: formerPath,
@@ -1106,8 +1106,8 @@ async function capturePathless(browser, viteUrl, driverUrl, platform) {
   const content = "Alpha claim. Beta";
   const root = fixture(`${platform.id}-pathless`, "# The moved document now at this path\n");
   const recoveryPath = "untitled:1:notes.md";
-  mkdirSync(join(root, ".cowrite"), { recursive: true });
-  writeFileSync(join(root, ".cowrite", "tab-session.json"), JSON.stringify({
+  mkdirSync(join(root, ".emend"), { recursive: true });
+  writeFileSync(join(root, ".emend", "tab-session.json"), JSON.stringify({
     schema_version: 1,
     tabs: [{ path: recoveryPath, unsaved_content: content, recovered_from: "notes.md" }],
     active_path: recoveryPath,
@@ -1311,8 +1311,8 @@ async function captureToolbar(browser, viteUrl, driverUrl, platform) {
   }
   const pathlessRoot = fixture(`${platform.id}-3d-pathless`);
   const pathless = "untitled:1:notes.md";
-  mkdirSync(join(pathlessRoot, ".cowrite"), { recursive: true });
-  writeFileSync(join(pathlessRoot, ".cowrite", "tab-session.json"), JSON.stringify({
+  mkdirSync(join(pathlessRoot, ".emend"), { recursive: true });
+  writeFileSync(join(pathlessRoot, ".emend", "tab-session.json"), JSON.stringify({
     schema_version: 1,
     tabs: [{ path: pathless, unsaved_content: "Pathless toolbar draft.\n", recovered_from: "notes.md" }],
     active_path: pathless,
@@ -1769,8 +1769,8 @@ async function captureVoice(browser, viteUrl, driverUrl, platform, theme = "ligh
   const root = fixture(`${platform.id}-voice`, "# Voice layout\n\nA pending revision.\n\nA sentence for dictation.\n");
   const documentPath = frozenOnly ? "untitled:1:product-brief.md" : "notes.md";
   if (frozenOnly) {
-    mkdirSync(join(root, ".cowrite"), { recursive: true });
-    writeFileSync(join(root, ".cowrite", "tab-session.json"), JSON.stringify({
+    mkdirSync(join(root, ".emend"), { recursive: true });
+    writeFileSync(join(root, ".emend", "tab-session.json"), JSON.stringify({
       schema_version: 1,
       tabs: [{ path: documentPath, unsaved_content: "Rewriting the positioning section from memory.",
         recovered_from: "product-brief.md" }],

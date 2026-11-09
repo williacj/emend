@@ -2794,7 +2794,7 @@ mod tests {
 
         let doc_id = store.get_or_mint_for_path("draft.md").unwrap();
         let log = root
-            .join(".cowrite")
+            .join(".emend")
             .join("comments")
             .join(doc_id.to_string())
             .join(format!("{}.jsonl", changes::AGENT_AUTHOR));

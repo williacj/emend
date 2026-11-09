@@ -97,9 +97,9 @@ fn discovery_paths_are_project_relative_for_rail_ownership() {
     )
     .unwrap();
     fs::write(&workflow, "# Polish\n").unwrap();
-    fs::create_dir_all(root.join(".cowrite")).unwrap();
+    fs::create_dir_all(root.join(".emend")).unwrap();
     fs::write(
-        root.join(".cowrite/config.json"),
+        root.join(".emend/config.json"),
         r#"{"schema_version":1,"workflows":{"glob":".claude/skills/review/workflows/*.md"}}"#,
     )
     .unwrap();
@@ -125,7 +125,7 @@ fn configured_discovery_uses_canonical_root_for_relative_paths() {
     fs::create_dir_all(root.join("subdir")).unwrap();
     fs::create_dir_all(root.join("skills")).unwrap();
     fs::create_dir_all(root.join("workflows")).unwrap();
-    fs::create_dir_all(root.join(".cowrite")).unwrap();
+    fs::create_dir_all(root.join(".emend")).unwrap();
     fs::write(
         root.join("skills/SKILL.md"),
         "---\nname: draft\ndescription: Draft prose.\n---\n",
@@ -133,7 +133,7 @@ fn configured_discovery_uses_canonical_root_for_relative_paths() {
     .unwrap();
     fs::write(root.join("workflows/review.md"), "# Review\n").unwrap();
     fs::write(
-        root.join(".cowrite/config.json"),
+        root.join(".emend/config.json"),
         r#"{"schema_version":1,"skills":{"roots":["skills"]},"workflows":{"glob":"workflows/*.md"}}"#,
     )
     .unwrap();

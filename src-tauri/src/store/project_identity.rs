@@ -75,7 +75,7 @@ pub fn canonical_root(root: &Path) -> PathBuf {
 }
 
 /// A stable, deterministic directory key for `root` (a project's path), so a store that lives
-/// *outside* the project entirely (D15: never under `.cowrite/`, never repo-synced) still keys one
+/// *outside* the project entirely (D15: never under `.emend/`, never repo-synced) still keys one
 /// store per project. blake3 (already used for `textops::Revision`'s content hashes, tech-design
 /// decision log 2026-07-10) rather than `std`'s `DefaultHasher`: the latter's algorithm is an
 /// unspecified, version-dependent implementation detail, which would risk silently orphaning every

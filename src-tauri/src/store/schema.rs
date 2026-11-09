@@ -19,16 +19,16 @@ use serde_json::Value;
 /// A published sidecar schema (`docs/formats/sidecar/`).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum Schema {
-    /// One line of a `.cowrite/comments/<doc-hash>/<author>.jsonl` event log
+    /// One line of a `.emend/comments/<doc-hash>/<author>.jsonl` event log
     /// (`comment-event.schema.json`) — `store::comments::CommentEvent`.
     CommentEvent,
-    /// One record's value in `.cowrite/changes/<doc-hash>.json` (`change-record.schema.json`) —
+    /// One record's value in `.emend/changes/<doc-hash>.json` (`change-record.schema.json`) —
     /// `store::changes::ChangeRecord`.
     ChangeRecord,
-    /// The whole `.cowrite/docs.json` file (`docs-map.schema.json`) — `store::docs_map::DocsMap`
+    /// The whole `.emend/docs.json` file (`docs-map.schema.json`) — `store::docs_map::DocsMap`
     /// (P2a-10).
     DocsMap,
-    /// The whole `.cowrite/config.json` file (`project-config.schema.json`) —
+    /// The whole `.emend/config.json` file (`project-config.schema.json`) —
     /// `skills::config::ProjectConfig` (P2b-8a-ii, #422). Unlike the other three, this file is
     /// optional/untrusted input: a missing/malformed one degrades to `skills`'s ratified defaults
     /// rather than failing (FR-X-5), and every path it names is §3.5-confined before use.

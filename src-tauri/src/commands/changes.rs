@@ -62,7 +62,7 @@ pub enum ChangeKind {
 /// Names the document a parse is joined against (TD-16 ruling 3).
 ///
 /// Supplied as a pair or not at all: `root` is the project root the record set is resolved under
-/// (`.cowrite/docs.json` lives there — the join is unreachable without it) and `path` is the
+/// (`.emend/docs.json` lives there — the join is unreachable without it) and `path` is the
 /// document inside it, project-relative in the app's canonical spelling (the same string a tab
 /// key and `DeliveryNotice.doc` carry). A buffer with no project — a scratch document, a
 /// dev-mode parse — supplies neither, and every one of its markers is honestly unrecorded.
@@ -611,7 +611,7 @@ mod join_tests {
 
         assert_eq!(parsed[0].id, "chg-untitled");
         assert!(parsed[0].recorded);
-        assert!(!dir.path().join(".cowrite/docs.json").exists());
+        assert!(!dir.path().join(".emend/docs.json").exists());
     }
 
     #[test]
@@ -733,9 +733,7 @@ mod join_tests {
         let store = SidecarStore::new(dir.path());
         let id = store.doc_id_for_path(DOC).unwrap().unwrap();
         fs::write(
-            dir.path()
-                .join(".cowrite/changes")
-                .join(format!("{id}.json")),
+            dir.path().join(".emend/changes").join(format!("{id}.json")),
             "{ not json",
         )
         .unwrap();

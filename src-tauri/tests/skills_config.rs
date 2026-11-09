@@ -1,7 +1,7 @@
-// ABOUTME: Integration tests for `.cowrite/config.json` (issue #422, P2b-8a-ii, split of #359)
+// ABOUTME: Integration tests for `.emend/config.json` (issue #422, P2b-8a-ii, split of #359)
 // ABOUTME: against real fixture project trees on disk, per test-plan §3's "plain integration tests".
 
-//! FR-SKILL-5 acceptance for the config-override half: `.cowrite/config.json` overrides the skill
+//! FR-SKILL-5 acceptance for the config-override half: `.emend/config.json` overrides the skill
 //! root(s) and the workflow glob at project open; a missing config leaves the ratified defaults
 //! (`tests/skills_discovery.rs`) unchanged; a configured path that escapes the project root is
 //! rejected, not followed (§3.5) — covering `..`, an absolute path, and a symlink that resolves
@@ -28,7 +28,7 @@ fn write(path: &Path, content: &str) {
 }
 
 fn write_config(root: &Path, json: &str) {
-    write(&root.join(".cowrite/config.json"), json);
+    write(&root.join(".emend/config.json"), json);
 }
 
 fn skill(name: &str, description: &str) -> String {
@@ -299,7 +299,7 @@ fn an_unreadable_config_file_degrades_to_defaults_and_is_reported() {
 
     let root = project_root("an_unreadable_config_file_degrades_to_defaults_and_is_reported");
     write(&root.join("SKILL.md"), &skill("real", "still discovered"));
-    let config_path = root.join(".cowrite/config.json");
+    let config_path = root.join(".emend/config.json");
     write(&config_path, r#"{"schema_version": 1}"#);
     fs::set_permissions(&config_path, fs::Permissions::from_mode(0o000)).unwrap();
 

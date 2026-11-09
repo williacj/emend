@@ -102,7 +102,7 @@ function stripSchemaVersion(event: TranscriptEventWire): TimelineCard {
  * reachable by triaging the live editor directly.
  *
  * Not a D22 migration: the transcript is machine-local scaffolding (D15, `store::transcript`), not
- * a `.cowrite/` portability contract — no schema moves for this.
+ * a `.emend/` portability contract — no schema moves for this.
  */
 function tolerateLegacyChangeIds(card: TimelineCard): TimelineCard {
   if (card.kind !== "change-set") return card;
@@ -133,7 +133,7 @@ function tolerateLegacyChangeIds(card: TimelineCard): TimelineCard {
  * byte-identical, so a store written by the fixed generator passes through untouched.
  *
  * Read-time only, exactly like `tolerateLegacyChangeIds` above: the transcript is append-only (D15)
- * and nothing here is written back, and — being machine-local scaffolding rather than a `.cowrite/`
+ * and nothing here is written back, and — being machine-local scaffolding rather than a `.emend/`
  * portability contract (FR-X-8/D22 govern the sidecars, `docs/formats/sidecar`) — no schema moves
  * for it. A card id is opaque and nothing outside the mounted session joins on it, so a repaired id
  * costs a rehydrated card nothing.

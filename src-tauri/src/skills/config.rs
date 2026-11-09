@@ -1,7 +1,7 @@
-// ABOUTME: `.cowrite/config.json` — the published override for `skills`' ratified discovery
+// ABOUTME: `.emend/config.json` — the published override for `skills`' ratified discovery
 // ABOUTME: defaults (FR-SKILL-5, split of #359 / #421); every path it names is §3.5-confined.
 
-//! **Untrusted input, honestly degraded (FR-X-5).** `.cowrite/config.json` is the one on-disk
+//! **Untrusted input, honestly degraded (FR-X-5).** `.emend/config.json` is the one on-disk
 //! contract this module reads that isn't wholly authored by Cowrite itself — it travels with a
 //! cloned repo, so a configured skill root or workflow glob is exactly the untrusted-path shape
 //! §3.5 confinement exists for. [`resolve`] never fails: a missing file is the ordinary "no
@@ -38,10 +38,10 @@ use super::{SkipReason, SkippedSkill};
 /// Bumped whenever the on-wire shape changes (TD-4: "every file carries `schema_version`").
 pub const SCHEMA_VERSION: u32 = 1;
 
-const COWRITE_DIR: &str = ".cowrite";
+const EMEND_DIR: &str = ".emend";
 const CONFIG_FILE: &str = "config.json";
 
-/// The whole `.cowrite/config.json` file (`project-config.schema.json`).
+/// The whole `.emend/config.json` file (`project-config.schema.json`).
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct ProjectConfig {
     pub schema_version: u32,
@@ -72,7 +72,7 @@ pub struct WorkflowsOverride {
 }
 
 /// What [`super::discover`] should actually walk, after applying and confining
-/// `.cowrite/config.json`'s overrides. `None` in either field means the ratified default applies —
+/// `.emend/config.json`'s overrides. `None` in either field means the ratified default applies —
 /// there was no config, the config didn't touch that piece, or the `roots`/`glob` key was simply
 /// absent (as opposed to present-but-empty, which is a deliberate "walk nothing" override — see
 /// [`resolve`]).
@@ -88,12 +88,12 @@ pub struct Resolved {
     pub workflow_dirs: Option<Vec<PathBuf>>,
 }
 
-/// Reads and applies `<project_root>/.cowrite/config.json`. Never fails: every problem —
+/// Reads and applies `<project_root>/.emend/config.json`. Never fails: every problem —
 /// unreadable file, malformed JSON/shape, or a path that fails §3.5 confinement — degrades to the
 /// ratified default for the affected piece and is pushed onto `issues` (reusing
 /// `skills::discover`'s own skip-reporting shape) rather than silently dropped.
 pub fn resolve(project_root: &Path, issues: &mut Vec<SkippedSkill>) -> Resolved {
-    let config_path = project_root.join(COWRITE_DIR).join(CONFIG_FILE);
+    let config_path = project_root.join(EMEND_DIR).join(CONFIG_FILE);
 
     let raw = match fs::read_to_string(&config_path) {
         Ok(raw) => raw,

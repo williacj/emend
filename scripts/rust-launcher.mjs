@@ -36,7 +36,7 @@ export function resolveSharedTargetDir({ cwd, gitCommonDir, pathOps = HOST_PATH_
   // is not a checkout's `.git` — a bare repo anchoring a worktree set, or `--separate-git-dir` —
   // where the parent is unrelated ground, so the cache goes inside the Git directory itself.
   const anchor = pathOps.basename(commonDir) === '.git' ? pathOps.dirname(commonDir) : commonDir;
-  return pathOps.join(anchor, '.cowrite-cache', 'rust-target');
+  return pathOps.join(anchor, '.emend-cache', 'rust-target');
 }
 
 // The CLI's entry file is that package's business: read it from the declared `bin` so a rename on

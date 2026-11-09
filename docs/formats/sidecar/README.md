@@ -1,11 +1,11 @@
 <!-- ABOUTME: Catalog + provenance of the Cowrite sidecar JSON Schemas (comment events, track-changes attribution, doc identity). -->
-<!-- ABOUTME: The FR-X-8 portability contract for `.cowrite/` (TD-4); validated by the `store::schema` conformance module (test-plan §3 stores). -->
+<!-- ABOUTME: The FR-X-8 portability contract for `.emend/` (TD-4); validated by the `store::schema` conformance module (test-plan §3 stores). -->
 
 # Sidecar schemas
 
 The machine-readable half of TD-4's sidecar portability contract (FR-X-8: "the
 sidecar schemas … are documented public formats"). Everything Cowrite writes
-under a project's `.cowrite/` directory is plain JSON/JSONL, committed by
+under a project's `.emend/` directory is plain JSON/JSONL, committed by
 default, and constrained by one of these schemas — so the data outlives Cowrite
 itself and other tools can read it.
 
@@ -21,10 +21,10 @@ revision of the contract that particular value was written under.
 
 | File | What it validates | On disk |
 |---|---|---|
-| `comment-event.schema.json` | One line of a comment event log | `.cowrite/comments/<doc-hash>/<author>.jsonl` — one JSONL file per document per author, append-only |
-| `change-record.schema.json` | One track-changes attribution record | `.cowrite/changes/<doc-hash>.json` — a single JSON object per document, keyed by change id: `{"<change-id>": ChangeRecord, ...}`; each value conforms to this schema |
-| `docs-map.schema.json` | The whole document-identity map file | `.cowrite/docs.json` — one file per project, mapping a per-doc UUID to its current project-relative path |
-| `project-config.schema.json` | The whole project-config override file | `.cowrite/config.json` — one file per project, overriding the `skills/` module's discovery defaults (FR-SKILL-5); optional, degrades to the ratified defaults when absent/unreadable/malformed (FR-X-5) |
+| `comment-event.schema.json` | One line of a comment event log | `.emend/comments/<doc-hash>/<author>.jsonl` — one JSONL file per document per author, append-only |
+| `change-record.schema.json` | One track-changes attribution record | `.emend/changes/<doc-hash>.json` — a single JSON object per document, keyed by change id: `{"<change-id>": ChangeRecord, ...}`; each value conforms to this schema |
+| `docs-map.schema.json` | The whole document-identity map file | `.emend/docs.json` — one file per project, mapping a per-doc UUID to its current project-relative path |
+| `project-config.schema.json` | The whole project-config override file | `.emend/config.json` — one file per project, overriding the `skills/` module's discovery defaults (FR-SKILL-5); optional, degrades to the ratified defaults when absent/unreadable/malformed (FR-X-5) |
 
 ## Grounding & drift tolerance
 

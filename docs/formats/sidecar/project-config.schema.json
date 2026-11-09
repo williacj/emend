@@ -3,7 +3,7 @@
   "$id": "https://cowrite.local/formats/sidecar/project-config.schema.json",
   "schema_version": 1,
   "title": "Cowrite project config",
-  "description": "The whole `.cowrite/config.json` file (FR-SKILL-5, tech-design §3.1): the published, repo-owned override for the `skills/` module's ratified discovery defaults — which directories are walked for `SKILL.md`, and where the workflow glob looks. Read once at project open (`skills::discover`); a missing, unreadable, or malformed file degrades to the ratified defaults rather than failing project open (FR-X-5). Every path this file names is confined to the project root before use (§3.5) — a value that escapes is rejected, not followed.",
+  "description": "The whole `.emend/config.json` file (FR-SKILL-5, tech-design §3.1): the published, repo-owned override for the `skills/` module's ratified discovery defaults — which directories are walked for `SKILL.md`, and where the workflow glob looks. Read once at project open (`skills::discover`); a missing, unreadable, or malformed file degrades to the ratified defaults rather than failing project open (FR-X-5). Every path this file names is confined to the project root before use (§3.5) — a value that escapes is rejected, not followed.",
   "type": "object",
   "required": ["schema_version"],
   "properties": {

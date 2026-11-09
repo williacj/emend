@@ -10,7 +10,7 @@
 //! # Where the registry lives
 //!
 //! **Per-user, machine-local app data — never the project folder** (TD-20 ruling (3), which
-//! relocated these files from `.cowrite/lock*` and amended TD-12's machine-local list down to
+//! relocated these files from `.emend/lock*` and amended TD-12's machine-local list down to
 //! exactly `tab-session.json`). One directory per project,
 //! `<app_local_data_dir>/instances/<project_key>/` ([`registry_dir`]), keyed by
 //! `blake3(canonical root)` — the identical keying `store::transcript` already uses for
@@ -23,9 +23,9 @@
 //! visible to every user and machine sharing that folder (network share, OneDrive/Dropbox, a
 //! second account), where a held lock either is unreliable or names an owner this process could
 //! never raise a window for. Relocating also removes the write-into-the-user's-repo side effect
-//! `acquire` used to perform on every open, leaving `.cowrite/` purely TD-4 portable data
+//! `acquire` used to perform on every open, leaving `.emend/` purely TD-4 portable data
 //! (D1/FR-X-8 strengthened). Nothing migrated and nothing reads the old location: this module has
-//! never had a production caller, so no shipped path ever wrote `.cowrite/lock*`.
+//! never had a production caller, so no shipped path ever wrote `.emend/lock*`.
 //!
 //! **Every operation is handed the directory it works in.** [`probe`], [`acquire`],
 //! [`current_owner`], [`request_focus`] and [`FocusRequestWatcher`] take a registry directory and
@@ -872,10 +872,10 @@ mod registry_location_tests {
     ) {
         let project = Fixture::new();
         // Committed TD-4 project data the user already has — taking ownership must leave the repo
-        // byte-identical, including `.cowrite/.gitignore`, which `acquire` used to append to on
+        // byte-identical, including `.emend/.gitignore`, which `acquire` used to append to on
         // every single open (TD-12 amended, 2026-08-14).
-        fs::create_dir_all(project.root.join(".cowrite")).unwrap();
-        fs::write(project.root.join(".cowrite/.gitignore"), "custom-entry\n").unwrap();
+        fs::create_dir_all(project.root.join(".emend")).unwrap();
+        fs::write(project.root.join(".emend/.gitignore"), "custom-entry\n").unwrap();
         let before = tree(&project.root);
 
         let _guard = test_support::take(&project.registry, &project.root, "instance-a");
@@ -887,7 +887,7 @@ mod registry_location_tests {
             "taking ownership created a path under the user's project root"
         );
         assert_eq!(
-            fs::read_to_string(project.root.join(".cowrite/.gitignore")).unwrap(),
+            fs::read_to_string(project.root.join(".emend/.gitignore")).unwrap(),
             "custom-entry\n"
         );
         // Every artifact is inside the one keyed directory...

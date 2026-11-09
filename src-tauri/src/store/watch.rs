@@ -24,13 +24,13 @@ use uuid::Uuid;
 /// Which sidecar a [`SidecarChange`] touched.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SidecarKind {
-    /// `.cowrite/comments/<doc-id>/<author>.jsonl`
+    /// `.emend/comments/<doc-id>/<author>.jsonl`
     Comments,
-    /// `.cowrite/changes/<doc-id>.json`
+    /// `.emend/changes/<doc-id>.json`
     Changes,
-    /// `.cowrite/docs.json`
+    /// `.emend/docs.json`
     DocsMap,
-    /// Anything else under `.cowrite/` this module doesn't specifically classify (e.g. the
+    /// Anything else under `.emend/` this module doesn't specifically classify (e.g. the
     /// directories themselves, or a future sidecar kind) — still reported, never dropped.
     Other,
 }
@@ -45,7 +45,7 @@ pub struct SidecarChange {
     pub path: PathBuf,
 }
 
-/// A live watch on one project's `.cowrite/` directory. Dropping this stops the watch (the
+/// A live watch on one project's `.emend/` directory. Dropping this stops the watch (the
 /// underlying `notify` watcher is torn down with it).
 pub struct SidecarWatcher {
     _watcher: RecommendedWatcher,
@@ -53,12 +53,12 @@ pub struct SidecarWatcher {
 }
 
 impl SidecarWatcher {
-    /// Starts watching `cowrite_dir` (a project's `.cowrite/` directory, which must already
+    /// Starts watching `emend_dir` (a project's `.emend/` directory, which must already
     /// exist) recursively for externally-landed changes.
-    pub fn watch(cowrite_dir: &Path) -> notify::Result<SidecarWatcher> {
+    pub fn watch(emend_dir: &Path) -> notify::Result<SidecarWatcher> {
         let (raw_tx, raw_rx) = mpsc::channel();
         let mut watcher = notify::recommended_watcher(raw_tx)?;
-        watcher.watch(cowrite_dir, RecursiveMode::Recursive)?;
+        watcher.watch(emend_dir, RecursiveMode::Recursive)?;
 
         let (tx, rx) = mpsc::channel();
         std::thread::spawn(move || {
@@ -115,7 +115,7 @@ pub(crate) fn recv_matching(
     }
 }
 
-/// Classifies a raw changed path under `.cowrite/` into a typed [`SidecarChange`], per the
+/// Classifies a raw changed path under `.emend/` into a typed [`SidecarChange`], per the
 /// on-disk layout `store::service::SidecarStore` writes (`docs.json`, `comments/<uuid>/<author>
 /// .jsonl`, `changes/<uuid>.json`).
 fn classify(path: &Path) -> Option<SidecarChange> {
@@ -169,14 +169,14 @@ mod classify_tests {
 
     #[test]
     fn docs_json_classifies_as_docs_map_with_no_doc_id() {
-        let change = classify(Path::new("/proj/.cowrite/docs.json")).unwrap();
+        let change = classify(Path::new("/proj/.emend/docs.json")).unwrap();
         assert_eq!(change.kind, SidecarKind::DocsMap);
         assert_eq!(change.doc_id, None);
     }
 
     #[test]
     fn a_comment_author_file_classifies_with_its_doc_id() {
-        let path = format!("/proj/.cowrite/comments/{}/alice.jsonl", uuid());
+        let path = format!("/proj/.emend/comments/{}/alice.jsonl", uuid());
         let change = classify(Path::new(&path)).unwrap();
         assert_eq!(change.kind, SidecarKind::Comments);
         assert_eq!(change.doc_id, Some(uuid()));
@@ -184,7 +184,7 @@ mod classify_tests {
 
     #[test]
     fn a_changes_file_classifies_with_its_doc_id() {
-        let path = format!("/proj/.cowrite/changes/{}.json", uuid());
+        let path = format!("/proj/.emend/changes/{}.json", uuid());
         let change = classify(Path::new(&path)).unwrap();
         assert_eq!(change.kind, SidecarKind::Changes);
         assert_eq!(change.doc_id, Some(uuid()));
@@ -192,14 +192,14 @@ mod classify_tests {
 
     #[test]
     fn an_unrecognized_path_is_still_reported_as_other_never_dropped() {
-        let change = classify(Path::new("/proj/.cowrite/some-future-file.txt")).unwrap();
+        let change = classify(Path::new("/proj/.emend/some-future-file.txt")).unwrap();
         assert_eq!(change.kind, SidecarKind::Other);
         assert_eq!(change.doc_id, None);
     }
 
     #[test]
     fn a_second_authors_file_in_the_same_doc_directory_names_the_same_doc_id() {
-        let bob = format!("/proj/.cowrite/comments/{}/bob.jsonl", uuid());
+        let bob = format!("/proj/.emend/comments/{}/bob.jsonl", uuid());
         let change = classify(Path::new(&bob)).unwrap();
         assert_eq!(change.kind, SidecarKind::Comments);
         assert_eq!(change.doc_id, Some(uuid()));
@@ -241,13 +241,13 @@ mod live_watch_tests {
         tx.send(SidecarChange {
             doc_id: None,
             kind: SidecarKind::Other,
-            path: PathBuf::from("/proj/.cowrite"),
+            path: PathBuf::from("/proj/.emend"),
         })
         .unwrap();
         tx.send(SidecarChange {
             doc_id: None,
             kind: SidecarKind::DocsMap,
-            path: PathBuf::from("/proj/.cowrite/docs.json"),
+            path: PathBuf::from("/proj/.emend/docs.json"),
         })
         .unwrap();
         let watcher = SidecarWatcher {

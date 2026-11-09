@@ -6,7 +6,7 @@
 //! writes to disk (FR-SKILL-2/D10 — the repo stays the one, provider-neutral home). Callers get
 //! back paths plus the two required frontmatter fields.
 //!
-//! **Ratified defaults, `.cowrite/config.json`-overridable (P2b-8a-ii, #422).** The sibling
+//! **Ratified defaults, `.emend/config.json`-overridable (P2b-8a-ii, #422).** The sibling
 //! `config` submodule reads and confines the published project-config override (its own published
 //! schema + path-confinement obligation — `docs/formats/sidecar/project-config.schema.json`); this
 //! module's own defaults are what apply absent (or despite a rejected/malformed) override:
@@ -25,7 +25,7 @@
 //! -insensitively (Windows filesystems are case-insensitive; test-plan §3 flags this class of bug
 //! generally), at any depth — a vendored copy nested inside otherwise-real content is excluded too.
 //! This is a fixed, documented set, not `.gitignore`-driven: FR-SKILL-5 asks for "standard ignore
-//! dirs", not full gitignore semantics, and this list is unaffected by `.cowrite/config.json` — the
+//! dirs", not full gitignore semantics, and this list is unaffected by `.emend/config.json` — the
 //! published override (`config` submodule) only relocates *where* discovery looks (`skills.roots`,
 //! `workflows.glob`), not the ignore-dir set applied within that walk.
 //!
@@ -40,7 +40,7 @@
 //! — file or directory, with its path and reason — is returned to the caller so it stays reportable
 //! instead of silently vanishing; a broken `workflows/` can be reported twice (once from the general
 //! skill walk, which also descends into it, and once from workflow-glob matching), since the two
-//! passes read it independently — harmless duplication, not a lost skip. A `.cowrite/config.json`
+//! passes read it independently — harmless duplication, not a lost skip. A `.emend/config.json`
 //! problem (unreadable/malformed, or a configured path §3.5 rejects) is reported the same way, via
 //! [`SkipReason::ConfigMalformed`]/[`SkipReason::ConfigPathRejected`] (see `config` module doc).
 
@@ -101,11 +101,11 @@ pub enum SkipReason {
     /// mount, an ACL — so this subtree was skipped rather than aborting the whole walk (FR-X-5).
     /// Anything already found in sibling subtrees is unaffected.
     DirectoryUnreadable(String),
-    /// `.cowrite/config.json` exists but couldn't be read as UTF-8, parsed as JSON, or matched the
+    /// `.emend/config.json` exists but couldn't be read as UTF-8, parsed as JSON, or matched the
     /// published schema's shape (missing `schema_version`, an unsupported `workflows.glob`, …) —
     /// discovery proceeded on the ratified defaults instead (`skills::config`, FR-X-5).
     ConfigMalformed(String),
-    /// A path named inside `.cowrite/config.json` (a `skills.roots` entry, or the directory half
+    /// A path named inside `.emend/config.json` (a `skills.roots` entry, or the directory half
     /// of `workflows.glob`) failed §3.5 path confinement — rejected, not followed. Any other,
     /// still-valid part of the config is unaffected.
     ConfigPathRejected(String),
@@ -140,7 +140,7 @@ pub struct Discovery {
 }
 
 /// Walks `project_root` for skills and workflows under the ratified defaults, as overridden by
-/// `.cowrite/config.json` if one is present and trustworthy (see [`config`] module doc). Fails
+/// `.emend/config.json` if one is present and trustworthy (see [`config`] module doc). Fails
 /// only if `project_root` itself can't be walked (e.g. does not exist); a problem with an
 /// individual `SKILL.md`, a subdirectory encountered anywhere below the root, or the config
 /// override itself, is captured in [`Discovery::skipped`] instead — sibling subtrees that read
@@ -318,7 +318,7 @@ fn strip_matching_quotes(value: &str) -> &str {
 
 /// The default `workflows/*.md` glob: every top-level, non-recursive `.md` file directly inside a
 /// root-level `workflows/` directory (see [`discover_workflows_in`] for the shared implementation
-/// and its FR-X-5 contract, which this default and a `.cowrite/config.json` `workflows.glob`
+/// and its FR-X-5 contract, which this default and a `.emend/config.json` `workflows.glob`
 /// override both go through identically).
 fn discover_workflows(project_root: &Path, discovery: &mut Discovery) {
     discover_workflows_in(project_root.join(WORKFLOWS_DIR_NAME), discovery);

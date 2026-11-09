@@ -919,7 +919,7 @@ mod tests {
             "parent-attachment".into(),
         );
         assert!(matches!(busy, Err(CommandError::WriterBusy(_))));
-        assert!(!project.path().join(".cowrite/lock.tab-session").exists());
+        assert!(!project.path().join(".emend/lock.tab-session").exists());
 
         child.0.kill().unwrap();
         child.0.wait().unwrap();

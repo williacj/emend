@@ -82,11 +82,11 @@ npm run tauri:shared -- dev
 npm run tauri:shared -- build
 ```
 
-Shared mode resolves Git's common worktree directory and puts `.cowrite-cache/rust-target` beside
+Shared mode resolves Git's common worktree directory and puts `.emend-cache/rust-target` beside
 the checkout — or, when that common directory is not a checkout's `.git` (a bare repo anchoring a
 worktree set, or `--separate-git-dir`), inside the Git directory itself, since there is no checkout
 to sit beside. Do not run shared-mode commands concurrently in different worktrees; Cargo will
-serialize them on the shared target lock. The `.cowrite-cache` directory is gitignored at the repo
+serialize them on the shared target lock. The `.emend-cache` directory is gitignored at the repo
 root; the other placement lands inside the Git directory, which is never tracked.
 
 Dev and test builds carry line-table debug info (`[profile.dev] debug = 1` in

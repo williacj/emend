@@ -15,9 +15,7 @@ use emend_lib::agent::delivery::{DeliveryNotice, DeliveryObserver};
 use emend_lib::agent::project::{
     canonical_root, OpenProjectRunObserver, ProjectObservers, SharedOpenProject,
 };
-use emend_lib::agent::run_queue::{
-    NoopEmitter, RunQueue, RunQueueState, RunRequest, StopOutcome,
-};
+use emend_lib::agent::run_queue::{NoopEmitter, RunQueue, RunQueueState, RunRequest, StopOutcome};
 use emend_lib::agent::session::{AgentSession, SessionError};
 use emend_lib::commands::adoption::{
     cancel_adoption_on, commit_adoption_on, land_adoption_on, mint_untitled_doc_id_on,

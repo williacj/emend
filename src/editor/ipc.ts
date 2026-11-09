@@ -174,7 +174,7 @@ export async function recreateMissingDocument(
 
 /**
  * Names the document a parse is joined against — mirrors Rust `commands::changes::DocRef`. Both
- * halves or neither: `root` is where `.cowrite/docs.json` lives (the record set is unreachable
+ * halves or neither: `root` is where `.emend/docs.json` lives (the record set is unreachable
  * without it) and `path` is the document inside it, project-relative, in the same canonical
  * spelling a tab key and `DeliveryNotice.doc` carry.
  */

@@ -657,10 +657,10 @@ mod tests {
     const DRAFT: &str = "draft.md";
     const SESSION_ID: &str = "e6639704-657d-4f23-8225-2f41647dbe31";
 
-    /// The only paths an ordinary project open may leave under the project root's `.cowrite/`.
+    /// The only paths an ordinary project open may leave under the project root's `.emend/`.
     /// TD-12 (amended 2026-08-14) narrows the machine-local list to exactly `tab-session.json`,
     /// which `store::tab_session` writes when a *tab session* is saved — opening a project writes
-    /// none of it, so an open leaves `.cowrite/` exactly as it found it and this list is empty.
+    /// none of it, so an open leaves `.emend/` exactly as it found it and this list is empty.
     ///
     /// Deliberately an allowlist. A list of forbidden names (`lock`, `lock.owner`, …) proves only
     /// what it lists, and would keep passing while the open path wrote some *other* new runtime
@@ -715,9 +715,9 @@ mod tests {
                 .unwrap();
 
         assert_eq!(
-            tree(&project.path().join(".cowrite")),
+            tree(&project.path().join(".emend")),
             SANCTIONED_COWRITE_PATHS_AFTER_OPEN,
-            "an ordinary project open left unsanctioned paths under the user's `.cowrite/`"
+            "an ordinary project open left unsanctioned paths under the user's `.emend/`"
         );
     }
 
