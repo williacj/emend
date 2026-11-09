@@ -2154,7 +2154,12 @@ describe("editor/TabbedEditor — external path transitions", () => {
         "true",
       ),
     );
-    expect(container.querySelector(".cm-content")).toHaveTextContent("unsaved move");
+    // The moved tab is a fresh pane (its key follows the path), and `EditorShell` mounts its view
+    // only after its async `openDocument` read resolves, so the carried buffer appears a tick
+    // after the tab label changes.
+    await waitFor(() =>
+      expect(container.querySelector(".cm-content")).toHaveTextContent("unsaved move"),
+    );
     expect(saveDocumentMock.mock.calls.some(([, path]) => path === "drafts/a.md")).toBe(false);
 
     screen.getByRole("button", { name: "Close archive/a.md" }).click();
