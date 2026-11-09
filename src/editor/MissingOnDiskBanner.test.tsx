@@ -39,7 +39,7 @@ describe("editor/MissingOnDiskBanner", () => {
   it("offers Recreate only when the backend proved confinement for this path", () => {
     render(<MissingOnDiskBanner recreatable={false} failure={null} {...handlers()} />);
     // macOS and every unsupported filesystem: the action is absent, not disabled — offering a
-    // control Cowrite cannot honor is the promise TD-18's gate exists to refuse.
+    // control Emend cannot honor is the promise TD-18's gate exists to refuse.
     expect(screen.queryByRole("button", { name: "Recreate" })).toBeNull();
     cleanup();
 

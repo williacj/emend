@@ -1,4 +1,4 @@
-# Cowrite v2 Implementation Plan
+# Emend v2 Implementation Plan
 
 ABOUTME: Phased implementation plan mapping the tech design's build order to GitHub milestones and issue-sized work units.
 ABOUTME: Companion to tech-design.md (TD-1..8, build order) and test-plan.md; every unit carries its FR/TD/J/P references.
@@ -129,7 +129,7 @@ ABOUTME: Companion to tech-design.md (TD-1..8, build order) and test-plan.md; ev
 | # | Unit | Refs |
 |---|---|---|
 | P4-1 | **Chore (open at phase start): procure signing certs** (Windows cert + Apple Developer ID — lead time) | TD §3.6 (review M10) |
-| P4-2 | git2 foundation: detect/init, D12 light-up, auto-checkpoint + race matrix; **machine-commit identity synthesis** (GitHub account → fallback `Cowrite <noreply@…>`, tested on config-less repos) | TD-8 (review M6) |
+| P4-2 | git2 foundation: detect/init, D12 light-up, auto-checkpoint + race matrix; **machine-commit identity synthesis** (GitHub account → fallback `Emend <noreply@…>`, tested on config-less repos) | TD-8 (review M6) |
 | P4-3 | GitHub device flow + keychain | FR-X-9 |
 | P4-4 | Worktree manager: create/mirror/prune/crash-repair (+ identity, + attribute install per SPIKE-2 mechanism) | TD-3 |
 | P4-5 | Union merge driver: install + sidecar branch-merge tests | TD §3.2b |

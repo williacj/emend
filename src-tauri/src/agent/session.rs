@@ -790,7 +790,7 @@ fn fold_init_field(event: &Value, field: &str, slot: &mut Option<String>) {
     }
 }
 
-/// The provider inventory is optional in the stream contract. Once advertised, every Cowrite
+/// The provider inventory is optional in the stream contract. Once advertised, every Emend
 /// entry must establish a connected binding before the required document tools can be used.
 fn check_cowrite_binding(event: &Value) -> std::io::Result<()> {
     if !is_system_init(event) {

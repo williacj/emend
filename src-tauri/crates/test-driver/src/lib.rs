@@ -1553,7 +1553,7 @@ fn guarded_spawn_claude_run(
 pub fn serve(listener: TcpListener) {
     // Mirrors `src-tauri/src/lib.rs`'s own `.setup()`: one open-project slot per driver instance,
     // opened by `/open_project` and read by the spawner, so a run started through the driver is
-    // auto-wired to that project's Cowrite tool surface exactly as one started through Tauri IPC is
+    // auto-wired to that project's Emend tool surface exactly as one started through Tauri IPC is
     // (TD-1/TD-17, #472).
     let session = new_session();
     let spawn_session = Arc::clone(&session);

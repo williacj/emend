@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cowrite.local/formats/provider-contract/mcp-tool-call.schema.json",
+  "$id": "https://emend.local/formats/provider-contract/mcp-tool-call.schema.json",
   "schema_version": 1,
-  "title": "Cowrite MCP tool call",
-  "description": "A call to one of the Cowrite-hosted MCP tools (TD-1 §3.2 tool surface, v1). Shape = `{name, arguments}` — the JSON-RPC `tools/call` params. `arguments` is validated per-tool via the `name` discriminator. Argument shapes are derived from the TD-1 §3.2 design contract; the tool-*call*/*result* stream-event framing was not exercised in SPIKE-1 (gap #7) and is captured during adapter work — this schema constrains the argument payloads the agent sends. Protection (D21) and revision-token staleness (TD-7) are enforced by the tool implementation, not this schema. Unknown tool names are rejected.",
+  "title": "Emend MCP tool call",
+  "description": "A call to one of the Emend-hosted MCP tools (TD-1 §3.2 tool surface, v1). Shape = `{name, arguments}` — the JSON-RPC `tools/call` params. `arguments` is validated per-tool via the `name` discriminator. Argument shapes are derived from the TD-1 §3.2 design contract; the tool-*call*/*result* stream-event framing was not exercised in SPIKE-1 (gap #7) and is captured during adapter work — this schema constrains the argument payloads the agent sends. Protection (D21) and revision-token staleness (TD-7) are enforced by the tool implementation, not this schema. Unknown tool names are rejected.",
   "type": "object",
   "required": ["name", "arguments"],
   "properties": {

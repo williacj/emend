@@ -1,14 +1,14 @@
 ---
 name: tdd
-description: "Design discriminating tests while implementing a Cowrite feature or bugfix, or while writing or changing tests. Load before the first test body. Do not use for independent review, pre-handoff-only checking, prose-only cards, or throwaway spikes."
+description: "Design discriminating tests while implementing an Emend feature or bugfix, or while writing or changing tests. Load before the first test body. Do not use for independent review, pre-handoff-only checking, prose-only cards, or throwaway spikes."
 ---
 
-<!-- ABOUTME: Cowrite's test-design workflow for discriminating red-green-refactor cycles. -->
+<!-- ABOUTME: Emend's test-design workflow for discriminating red-green-refactor cycles. -->
 <!-- ABOUTME: Moves oracle, seam, variation, and valid-RED decisions to the moment each test is designed. -->
 
 # Discriminating TDD
 
-Use this skill to design each test before implementation. `docs/test-plan.md` and Cowrite's
+Use this skill to design each test before implementation. `docs/test-plan.md` and Emend's
 constitution remain authoritative. The implementer still owns suite scoping, traceability, PR evidence, and handoff.
 
 Do not use this workflow for prose-only cards or gitignored `/spikes/` throwaway code. Do not create a
@@ -60,7 +60,7 @@ selector, and unrelated failures do not count.
 - State meaningful fixed axes honestly. Add another test only when its varied axis protects a distinct
   risk, not to claim exhaustive edge-case coverage.
 
-## Route Cowrite-specific risks
+## Route Emend-specific risks
 
 - For a `textops` invariant, extend the relevant P1-P6 property. Make generators reach the difficult
   input classes instead of merely increasing the case count.

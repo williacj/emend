@@ -130,7 +130,7 @@ impl ModelRegistry {
     }
 
     /// Admit only a candidate matching a trusted identity. The companion lock serializes
-    /// updates from multiple Cowrite windows; metadata publication is an atomic replacement.
+    /// updates from multiple Emend windows; metadata publication is an atomic replacement.
     pub fn admit(&self, spec: &ModelSpec, candidate: &Path) -> Result<ModelRecord, RegistryError> {
         validate_spec(spec)?;
         fs::create_dir_all(&self.data_dir)?;
@@ -201,7 +201,7 @@ impl ModelRegistry {
     fn managed_target_path(&self, spec: &ModelSpec) -> Option<PathBuf> {
         let models = self.data_dir.join("models");
         // Inspect the directory entry itself. Following a link here could classify an outside
-        // model directory as Cowrite-owned, and a regular file can look like a missing child on
+        // model directory as Emend-owned, and a regular file can look like a missing child on
         // Windows even though the managed directory is obstructed.
         let managed_dir = match fs::symlink_metadata(&models) {
             Ok(metadata) if metadata.file_type().is_dir() => fs::canonicalize(&models).ok()?,
@@ -220,7 +220,7 @@ impl ModelRegistry {
         validate_spec(spec)?;
         fs::create_dir_all(&self.data_dir)?;
         // Match the downloader's lock order: model-download lock, then registry lock. Otherwise
-        // a second Cowrite process could publish after Remove returned and silently re-adopt it.
+        // a second Emend process could publish after Remove returned and silently re-adopt it.
         let key = blake3::hash(spec.id.as_bytes()).to_hex().to_string();
         let downloads = self.data_dir.join("downloads");
         fs::create_dir_all(&downloads)?;

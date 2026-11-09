@@ -24,7 +24,7 @@ use super::{
 };
 use crate::store::lock::{self, LockOwner, ProjectLockGuard};
 
-/// The shipped requester-side platform adapter. Unsupported build hosts fail closed; Cowrite only
+/// The shipped requester-side platform adapter. Unsupported build hosts fail closed; Emend only
 /// ships Windows and macOS, where the platform implementations below are deliberately explicit.
 pub struct SystemRequesterActivation;
 

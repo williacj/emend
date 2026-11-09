@@ -1868,7 +1868,7 @@ mod tests {
     #[test]
     fn create_document_refuses_a_case_variant_path_naming_an_already_protected_document() {
         // CJ's fix direction (issue #419): the D21 refusal must be decided on the *file's*
-        // identity, not the caller's spelling. NTFS and APFS — Cowrite's two shipped
+        // identity, not the caller's spelling. NTFS and APFS — Emend's two shipped
         // filesystems — are both case-insensitive, so `Open.md` and an open `open.md` tab name
         // the same on-disk file; a `create_document("Open.md", ...)` call must be refused exactly
         // as `create_document("open.md", ...)` is, and must not touch the file on disk. Gated to
@@ -3268,7 +3268,7 @@ mod tests {
         // notice must carry the one canonical spelling — not whatever the agent happened to type.
         // `confine` accepts every spelling below as the same file; only one matches a tab key, and
         // a miss is silent (the card lands, the buffer never redlines, and the FR-ED-7 poller then
-        // reports Cowrite's own agent write as an outside change — the M11 outcome #346 prevents).
+        // reports Emend's own agent write as an outside change — the M11 outcome #346 prevents).
         let content = "hello world\n";
         let spellings: &[&str] = if cfg!(windows) {
             &[

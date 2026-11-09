@@ -8,7 +8,7 @@ import type { ProviderStatuses } from "./types";
 /**
  * `null` while the first detection round is still in flight. Re-checks on window focus (FR-X-7:
  * "status re-checks live... without an app restart" — a login finished in an external terminal
- * updates the result the next time the user comes back to Cowrite).
+ * updates the result the next time the user comes back to Emend).
  */
 export function useProviderStatuses(): ProviderStatuses {
   const [entries, setEntries] = useState<ProviderStatuses>(null);

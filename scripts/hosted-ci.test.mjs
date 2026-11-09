@@ -1,4 +1,4 @@
-// ABOUTME: Tests the hosted CI Cargo matrix against Cowrite's shipped-platform policy.
+// ABOUTME: Tests the hosted CI Cargo matrix against Emend's shipped-platform policy.
 // ABOUTME: Pins independent macOS and Windows results while rejecting Ubuntu as a Rust test lane.
 import test from 'node:test';
 import assert from 'node:assert/strict';

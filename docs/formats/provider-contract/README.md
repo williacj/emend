@@ -1,4 +1,4 @@
-<!-- ABOUTME: Catalog + provenance of the Cowrite provider-contract JSON Schemas (stream-JSON grammar + MCP payloads). -->
+<!-- ABOUTME: Catalog + provenance of the Emend provider-contract JSON Schemas (stream-JSON grammar + MCP payloads). -->
 <!-- ABOUTME: The machine-readable half of TD-1's contract; validated by the `provider-contract` crate and consumed by the fake agent (test-plan §1). -->
 
 # Provider contract schemas
@@ -19,10 +19,10 @@ draft meta-schema.
 |---|---|---|
 | `stream-event.claude.schema.json` | One event from Claude Code CLI `-p --output-format stream-json --verbose` | SPIKE-1 recorded transcript §5.2 + §3.1 |
 | `stream-event.copilot.schema.json` | One event from GitHub Copilot CLI `-p --output-format json` (JSONL) | SPIKE-1 recorded transcript §5.3 + §4.2 |
-| `mcp-server-config.schema.json` | The `mcpServers` config Cowrite auto-wires into a spawned CLI | SPIKE-1 §4.3 (empirically captured) |
+| `mcp-server-config.schema.json` | The `mcpServers` config Emend auto-wires into a spawned CLI | SPIKE-1 §4.3 (empirically captured) |
 | `permission-hook-decision.schema.json` | A Copilot `preToolUse` hook decision (`allow`/`deny`/`ask`) | SPIKE-1 §4.4 |
 | `permission-callback.claude.schema.json` | Native Claude permission callback arguments before TD-1 adaptation | Claude 2.1.263 live callback, 2026-09-07 |
-| `mcp-tool-call.schema.json` | Arguments for a Cowrite-hosted MCP tool call (`{name, arguments}`) | TD-1 §3.2 tool surface (design contract) |
+| `mcp-tool-call.schema.json` | Arguments for an Emend-hosted MCP tool call (`{name, arguments}`) | TD-1 §3.2 tool surface (design contract) |
 
 ## Grounding & drift tolerance
 
@@ -73,8 +73,8 @@ invented rationale. The broker returns the canonical `allow`, `allow_always`, or
 The MCP result's first text item contains JSON: `{"behavior":"allow","updatedInput":<original input>}`
 or `{"behavior":"deny","message":<guidance>}`. This callback returns text content only:
 Claude 2.1.263 rejected the duplicate `structuredContent` envelope as an invalid permission
-result. Other Cowrite tools retain their structured results.
-Cowrite retains exact-command allowlisting itself for the current run. Its execution key excludes
+result. Other Emend tools retain their structured results.
+Emend retains exact-command allowlisting itself for the current run. Its execution key excludes
 display-only `description` but binds the complete command and every other input field, including
 unknown execution controls. A changed command or sandbox flag asks again. It does not return
 `allow_always` as though that were a Claude response or write provider settings.
@@ -91,7 +91,7 @@ A script grant binds the canonical path, a BLAKE3 digest of its contents, the in
 (or direct invocation), and every execution-key field except `command`. Literal script arguments
 may change. The initial identity is checked again at the user's decision and each later callback;
 a mismatch requires a new decision. A changed script while waiting cannot receive a script grant
-from the stale card. All grants clear when the run ends. These are callback-time checks: Cowrite
+from the stale card. All grants clear when the run ends. These are callback-time checks: Emend
 does not freeze the file between approval and the provider's later execution, nor claim to bind
 imported dependencies or ambient interpreter resolution. The original callback input still passes
 through unchanged after approval; no script content or grant is persisted in D15 or provider settings.

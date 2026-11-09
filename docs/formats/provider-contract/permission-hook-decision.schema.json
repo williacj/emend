@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cowrite.local/formats/provider-contract/permission-hook-decision.schema.json",
+  "$id": "https://emend.local/formats/provider-contract/permission-hook-decision.schema.json",
   "schema_version": 1,
   "title": "Copilot preToolUse hook decision",
   "description": "The decision object a GitHub Copilot CLI `preToolUse` hook returns to allow/deny/ask a tool call (fail-closed on error). Schema from SPIKE-1 (docs/spikes/spike1-provider-contract.md §4.4) / docs.github.com hooks-configuration. This is the Copilot-side mechanism for the J7 permission flow (FR-AGENT-3); the Claude side uses `--permission-prompt-tool` targeting the `permission_request` MCP tool instead (mcp-tool-call.schema.json).",

@@ -63,7 +63,7 @@ export async function pickDocumentFile(root: string): Promise<string | null> {
  *
  * For a missing document, `suggestedPath` is its original project-relative path. That preserves
  * the familiar name and location, but J2 still makes the destination user-chosen through the
- * native panel. TD-18's confinement gate instead governs Cowrite's direct `[Recreate]` command;
+ * native panel. TD-18's confinement gate instead governs Emend's direct `[Recreate]` command;
  * keeping those two interaction boundaries distinct is the constitution-grounded implementation
  * recommendation recorded by #1445, not an additional Recreate capability.
  *

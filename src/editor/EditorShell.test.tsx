@@ -1466,7 +1466,7 @@ describe("editor/EditorShell — integrity banners (P2a-21)", () => {
       fireEvent.click(screen.getByRole("button", { name: "Keep mine" }));
       await waitFor(() => expect(saveDocumentMock).toHaveBeenCalledTimes(2));
       // Hold Keep mine's write while at least one poll observes issued A's completed publication.
-      // That publication is known Cowrite output, not a new external side that may revoke B.
+      // That publication is known Emend output, not a new external side that may revoke B.
       const readsBeforeKeepMineCompletion = openDocumentMock.mock.calls.length;
       await waitFor(() =>
         expect(openDocumentMock.mock.calls.length).toBeGreaterThan(readsBeforeKeepMineCompletion),
@@ -2522,7 +2522,7 @@ describe("editor/EditorShell — Missing on disk (#933)", () => {
       expect(recreateMock).toHaveBeenCalledWith("notes/a.md", "rescued\n# Hi\n", true);
       // The file now holds exactly this buffer, so the tab is clean against it ...
       await waitFor(() => expect(onDirtyChange).toHaveBeenLastCalledWith(false));
-      // ... and the FR-ED-7 poller has nothing to report about the bytes Cowrite itself just wrote:
+      // ... and the FR-ED-7 poller has nothing to report about the bytes Emend itself just wrote:
       // the disk baseline moved with the write, so reading exactly them back is not a change, and a
       // divergence noticed before the file vanished (the polls above, reading what Recreate is about
       // to write) describes bytes this write replaced. The shell is told the document is no longer
@@ -2829,7 +2829,7 @@ describe("editor/EditorShell — Missing on disk (#933)", () => {
       expect(screen.queryByText("This file changed outside the editor")).toBeNull();
 
       // Only the read started for this reappearance may settle the disk side. It sees another
-      // writer's bytes, so the edit remains in Cowrite and no write lands over them.
+      // writer's bytes, so the edit remains in Emend and no write lands over them.
       await act(async () => {
         currentRead.settle({ content: "current occupant bytes\n", revision: "r9" });
         await Promise.resolve();
@@ -3779,7 +3779,7 @@ describe("editor/EditorShell — agent delivery lands in the open buffer (#346, 
   });
 
   it("does not raise the external-change banner for the agent's own delivery", async () => {
-    // Attribution precedence (tech-design finding M11): a write Cowrite itself delivered is a
+    // Attribution precedence (tech-design finding M11): a write Emend itself delivered is a
     // tracked change, never the FR-ED-7 "changed outside the editor" banner. The delivery moves
     // the disk baseline, so the next poll sees no divergence.
     const { ref } = await mounted({ externalChangePollMs: 10 });

@@ -1,4 +1,4 @@
-// ABOUTME: Agent subsystem (§3.1 `agent/`) — the Cowrite-hosted MCP server (TD-1) the app wires
+// ABOUTME: Agent subsystem (§3.1 `agent/`) — the Emend-hosted MCP server (TD-1) the app wires
 // ABOUTME: into every spawned CLI: loopback bind + per-session bearer (§3.5), the §3.2 tool surface,
 // ABOUTME: and the TD-17 `OpenProject` aggregate that owns them for one open project's lifetime.
 

@@ -1,11 +1,11 @@
-ABOUTME: Records the final integrated browser evidence for aligning Cowrite's existing features with the design mocks.
+ABOUTME: Records the final integrated browser evidence for aligning Emend's existing features with the design mocks.
 ABOUTME: Links reproducible captures and measured layout to the Gate A baseline and states the limits of browser platform emulation.
 
 # Existing-feature design alignment: after-state evidence
 
 Run `node scripts/capture-design-alignment.mjs` from the repository root to regenerate the PNG files and [`measurements.json`](./measurements.json). The harness starts Vite and the D23 test driver on temporary loopback ports, uses disposable project folders, exercises real application routes, and removes the fixtures and servers afterward. It records the source revision, any scenario failures, and computed DOM/CSS measurements for each screenshot. Set `EMEND_ALIGNMENT_OUTPUT` to capture in a temporary folder during development; `EMEND_ALIGNMENT_SCENARIO` filters by scenario name for a focused rerun.
 
-The default viewport is 1400×900 CSS pixels at device scale 1, light color scheme. `Win32` and `MacIntel` platform overrides select Cowrite's platform styling before app modules load. The 3d, 9c, 9g, 13g and J9 held-route captures also use their named narrow widths. This is a **webview/browser visual gate**, not a native Tauri or operating-system frame capture. The final integrated pass captured **218 states with zero scenario failures** at merged revision `5a23b2a15`; the JSON names the exact full commit. Screenshots retain the date-dependent card timestamps and saved-at readouts produced by the real fixture, so those strings are not pixel baselines.
+The default viewport is 1400×900 CSS pixels at device scale 1, light color scheme. `Win32` and `MacIntel` platform overrides select Emend's platform styling before app modules load. The 3d, 9c, 9g, 13g and J9 held-route captures also use their named narrow widths. This is a **webview/browser visual gate**, not a native Tauri or operating-system frame capture. The final integrated pass captured **218 states with zero scenario failures** at merged revision `5a23b2a15`; the JSON names the exact full commit. Screenshots retain the date-dependent card timestamps and saved-at readouts produced by the real fixture, so those strings are not pixel baselines.
 
 ## Captured states
 

@@ -32,7 +32,7 @@ pub enum Step {
     /// event object verbatim (fidelity lives in the scenario file, validated
     /// against the stream-json schema — see `crate::schema`).
     Emit(Value),
-    /// Call one Cowrite MCP tool against the tool server (P0-7). The call is
+    /// Call one Emend MCP tool against the tool server (P0-7). The call is
     /// validated against `provider_contract::Schema::McpToolCall` before dispatch
     /// (when playback validation is on); the server's response, if `expect` is
     /// set, must equal it. MCP is a side channel — this step writes nothing to the

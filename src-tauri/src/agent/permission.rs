@@ -190,7 +190,7 @@ impl PermissionBroker {
         Self::close(&mut inner);
     }
 
-    /// Claude's MCP callback carries tool_name/input/tool_use_id, not Cowrite's display fields.
+    /// Claude's MCP callback carries tool_name/input/tool_use_id, not Emend's display fields.
     /// See the official CLI permission-prompt-tool reference and Agent SDK user-input contract.
     #[cfg(test)]
     fn request(&self, arguments: &Value) -> Result<Value, String> {

@@ -55,7 +55,7 @@ fn contract_parity_claude_result_missing_session_id_rejected() {
 
 /// #1118: the terminal `result` event's own `result` string is what carries a turn's answer into
 /// the timeline (`agent::reply`), so it is a typed field of the published contract rather than an
-/// undeclared extra — a provider emitting a non-string there is drift Cowrite must see, not parse.
+/// undeclared extra — a provider emitting a non-string there is drift Emend must see, not parse.
 #[test]
 fn contract_parity_claude_result_with_a_non_string_answer_rejected() {
     let bad = json!({ "type": "result", "subtype": "success", "session_id": "s", "result": 7 });

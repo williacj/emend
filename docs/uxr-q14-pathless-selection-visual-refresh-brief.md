@@ -1,4 +1,4 @@
-ABOUTME: Requests the pathless selection-popover state missing from Cowrite's generated mocks.
+ABOUTME: Requests the pathless selection-popover state missing from Emend's generated mocks.
 ABOUTME: Records CJ's UXR-Q14.4 behavior for the next design-project refresh without editing docs/design.
 
 # UXR-Q14.4 pathless selection popover visual refresh

@@ -1,4 +1,4 @@
-// ABOUTME: The Cowrite-hosted MCP server (TD-1) — binds loopback only with a per-session bearer token
+// ABOUTME: The Emend-hosted MCP server (TD-1) — binds loopback only with a per-session bearer token
 // ABOUTME: (§3.5), speaks the MCP lifecycle and tool protocol, dispatches the §3.2 tools over an `McpContext`,
 // ABOUTME: and (`ProjectMcpServer`) ties that binding's whole lifetime to one open project (#413).
 
@@ -78,7 +78,7 @@ impl LoopbackMcpServer {
     }
 
     /// This session's bearer token — the app injects it into the spawned CLI's MCP config so only
-    /// children Cowrite spawned can call the tools (§3.5).
+    /// children Emend spawned can call the tools (§3.5).
     pub fn token(&self) -> &str {
         &self.token
     }
@@ -276,7 +276,7 @@ impl ProjectMcpServer {
         self.addr
     }
 
-    /// The connection info Cowrite's own CLI-spawn adapter (`agent::claude`) injects into a spawned
+    /// The connection info Emend's own CLI-spawn adapter (`agent::claude`) injects into a spawned
     /// CLI's `--mcp-config` (TD-1: "the user never configures anything"). Backend-only — never
     /// surfaced to the frontend and never logged (FR-X-2).
     pub fn mcp_server(&self) -> claude::McpServer {

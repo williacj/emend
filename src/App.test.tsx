@@ -1817,7 +1817,7 @@ describe("App", () => {
   });
 
   // #472/TD-17: the backend learns a project is open only from this one call — it is what binds the
-  // project's MCP server, and therefore what makes every later agent run reach Cowrite's tool
+  // project's MCP server, and therefore what makes every later agent run reach Emend's tool
   // surface at all. Before this card nothing in the app ever told the backend a project existed.
   describe("project lifecycle (TD-17, #472)", () => {
     it("Open a folder → the backend is told which project is open before the shell transitions", async () => {
@@ -5362,7 +5362,7 @@ describe("App — live project path transitions and Missing on disk (#932/#933)"
     await waitFor(() =>
       expect(within(rail).queryByRole("treeitem", { name: "notes/outline.md" })).toBeNull(),
     );
-    // The tab, the buffer, and the recovery actions Cowrite offers for it.
+    // The tab, the buffer, and the recovery actions Emend offers for it.
     expect(screen.getByRole("tab", { name: /notes\/outline\.md/ })).toBeInTheDocument();
     expect(container.querySelector(".cm-content")).toHaveTextContent("outline");
     expect(

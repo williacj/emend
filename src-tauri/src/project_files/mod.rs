@@ -117,7 +117,7 @@ pub struct NormalizedEvent {
 /// admitted only when it is visible as *both* a directory and a file. A hidden tooling directory or
 /// Git control file anywhere in the path therefore means the event cannot change what a snapshot
 /// shows, and coalescing it into a refresh would only churn: `.emend/` alone receives a sidecar
-/// write for every tracked change Cowrite itself lands.
+/// write for every tracked change Emend itself lands.
 ///
 /// The accepted cost of deciding without a kind: a *file* named exactly like a hidden directory
 /// (`build`, `dist`, `target`, …) is a visible row the scanner lists, but an event naming it

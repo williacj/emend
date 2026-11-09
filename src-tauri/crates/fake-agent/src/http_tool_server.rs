@@ -1,14 +1,14 @@
 // ABOUTME: The fake agent's real-transport tool server — initializes and discovers MCP tools over loopback
-// ABOUTME: HTTP to whatever `--mcp-config` Cowrite injected, so a spawned run's MCP wiring (#472)
+// ABOUTME: HTTP to whatever `--mcp-config` Emend injected, so a spawned run's MCP wiring (#472)
 // ABOUTME: can be proven end-to-end instead of stubbed in-process.
 
 //! [`StubToolServer`](crate::StubToolServer) answers MCP calls in-process — deterministic, zero
 //! network, and the right default for every scenario that is exercising *playback*.
 //!
-//! This is the other half: when the fake agent is spawned the way Cowrite spawns a real CLI, it is
+//! This is the other half: when the fake agent is spawned the way Emend spawns a real CLI, it is
 //! handed `--mcp-config` — one `http` server with a URL and an `Authorization: Bearer <token>`
 //! header (TD-1 §3.5, `agent::claude::mcp_config`). [`HttpToolServer`] is what consumes it, so a
-//! test can assert that the address and token Cowrite injected genuinely reach Cowrite's own tool
+//! test can assert that the address and token Emend injected genuinely reach Emend's own tool
 //! surface, with the bearer check genuinely in the path.
 //!
 //! Deliberately hand-rolled HTTP (no new dependencies), matching this workspace's existing
@@ -28,7 +28,7 @@ use crate::tool_server::{ToolError, ToolServer};
 /// test driving it — rather than hang the suite forever (test-plan §4: no unbounded waits).
 const STREAM_TIMEOUT: Duration = Duration::from_secs(5);
 
-/// The name Cowrite registers its server under inside `mcpServers` (`agent::claude`'s
+/// The name Emend registers its server under inside `mcpServers` (`agent::claude`'s
 /// `MCP_SERVER_NAME`) — the entry this reads its connection info from.
 const MCP_SERVER_KEY: &str = "cowrite";
 
@@ -38,7 +38,7 @@ const MCP_SERVER_KEY: &str = "cowrite";
 pub struct HttpToolServer {
     /// `host:port` parsed out of the config's `url` — what [`TcpStream::connect`] dials.
     authority: String,
-    /// The request path from the config's `url` (Cowrite's server has one endpoint, `/`).
+    /// The request path from the config's `url` (Emend's server has one endpoint, `/`).
     path: String,
     /// The `Authorization` header value to present, verbatim.
     authorization: Option<String>,

@@ -4723,7 +4723,7 @@ describe("editor/TabbedEditor — missing on disk (#933)", () => {
 
     const guard = await screen.findByRole("alertdialog");
     expect(guard).toHaveTextContent("Close and discard Emend’s open copy?");
-    // FR-ED-3's guard would offer `Save`, which for a document with no file is a write Cowrite
+    // FR-ED-3's guard would offer `Save`, which for a document with no file is a write Emend
     // cannot perform.
     expect(within(guard).queryByRole("button", { name: "Save" })).toBeNull();
   });

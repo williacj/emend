@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cowrite.local/formats/sidecar/project-config.schema.json",
+  "$id": "https://emend.local/formats/sidecar/project-config.schema.json",
   "schema_version": 1,
-  "title": "Cowrite project config",
+  "title": "Emend project config",
   "description": "The whole `.emend/config.json` file (FR-SKILL-5, tech-design §3.1): the published, repo-owned override for the `skills/` module's ratified discovery defaults — which directories are walked for `SKILL.md`, and where the workflow glob looks. Read once at project open (`skills::discover`); a missing, unreadable, or malformed file degrades to the ratified defaults rather than failing project open (FR-X-5). Every path this file names is confined to the project root before use (§3.5) — a value that escapes is rejected, not followed.",
   "type": "object",
   "required": ["schema_version"],
@@ -10,7 +10,7 @@
     "schema_version": {
       "type": "integer",
       "minimum": 1,
-      "description": "Format revision, independent of this schema document's own `schema_version` above (TD-4: every Cowrite on-disk file carries one)."
+      "description": "Format revision, independent of this schema document's own `schema_version` above (TD-4: every Emend on-disk file carries one)."
     },
     "skills": {
       "type": "object",

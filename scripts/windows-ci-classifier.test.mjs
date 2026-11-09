@@ -101,7 +101,7 @@ test('unions independent path classes without widening them', () => {
   expectSuites(['scripts/check-test-matrix.mjs', 'src/editor/App.tsx'], ['T', 'F', 'E']);
 });
 
-test('Cowrite agent guidance and the root README select tooling checks', () => {
+test('Emend agent guidance and the root README select tooling checks', () => {
   for (const path of ['.claude/skills/tdd/SKILL.md', '.agents/README.md', 'README.md']) {
     expectSuites([path], ['T']);
   }

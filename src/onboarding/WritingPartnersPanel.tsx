@@ -1,6 +1,6 @@
 // ABOUTME: J8 "Writing partners" panel — detects both providers on mount and re-checks on window
 // ABOUTME: focus (FR-X-7: "status re-checks live... without an app restart" — a login finished in
-// ABOUTME: an external terminal updates the chip the next time the user comes back to Cowrite).
+// ABOUTME: an external terminal updates the chip the next time the user comes back to Emend).
 import { ProviderChip } from "./ProviderChip";
 import { isZeroProviders } from "./types";
 import type { ProviderStatuses } from "./types";

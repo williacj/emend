@@ -1,4 +1,4 @@
-// ABOUTME: Tauri application setup for the Cowrite shell — installs the native menu, registers the
+// ABOUTME: Tauri application setup for the Emend shell — installs the native menu, registers the
 // ABOUTME: IPC commands, and runs the app. The backend holds all authority (TD-2).
 pub mod agent;
 pub mod commands;
@@ -51,7 +51,7 @@ pub fn run() {
             app.manage(settings);
             // This app instance's one open project (TD-17, M7: one per instance) — `None` until
             // `commands::project::open_project` binds one. It is managed state *and* captured by
-            // the run spawner below, so every spawned CLI is auto-wired to that project's Cowrite
+            // the run spawner below, so every spawned CLI is auto-wired to that project's Emend
             // tool surface with no user configuration step (TD-1), and the per-session bearer token
             // lives exactly as long as the project session (FR-X-2).
             let session = commands::project::new_session();

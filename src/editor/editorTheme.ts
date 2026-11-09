@@ -1,4 +1,4 @@
-// ABOUTME: Bridges Cowrite's effective app theme into the CM6 dark-theme facet on every editor.
+// ABOUTME: Bridges Emend's effective app theme into the CM6 dark-theme facet on every editor.
 // ABOUTME: Keeps editor chrome on the app's existing core color tokens instead of new hues.
 import { Compartment, type Extension } from "@codemirror/state";
 import { EditorView, ViewPlugin } from "@codemirror/view";

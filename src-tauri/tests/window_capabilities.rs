@@ -17,7 +17,7 @@ fn the_main_window_may_destroy_itself() {
         authority
             .resolve_access("plugin:window|destroy", "main", "main", &Origin::Local)
             .is_some(),
-        "the main window may not destroy itself — quitting Cowrite is impossible without this grant"
+        "the main window may not destroy itself — quitting Emend is impossible without this grant"
     );
     // The same resolver denies a command no capability grants, so the assertion above is a real
     // question about `destroy` and not a lookup that answers `Some` for anything.

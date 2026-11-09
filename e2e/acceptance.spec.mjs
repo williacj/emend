@@ -5154,8 +5154,7 @@ test.describe("J9 project-open status clipping (13g)", () => {
         expect(geometry.reasonWidth).toBe(0);
         expect(geometry.nameWidth).toBeGreaterThan(160);
       }
-      // The narrowest step sits below the floor for this copy: with the shorter "Emend couldn’t open "
-      // prefix, 430px still leaves the name 160.6px, so the floor case is measured at 420px.
+      // 420px is the first step at which this copy's name reaches the 160px floor.
       if (width === 420) {
         expect(geometry.prefixTextToNameGap).toBeGreaterThan(2);
         expect(geometry.prefixTextToNameGap).toBeLessThan(7);
@@ -5800,7 +5799,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     await guard.getByRole("button", { name: "Cancel" }).click();
     await expect(page.locator(".cm-content:visible")).toContainText("still editable while missing.");
 
-    // The file reappears with exactly the bytes Cowrite last wrote: identical content, so the row
+    // The file reappears with exactly the bytes Emend last wrote: identical content, so the row
     // comes back, the Missing state ends, and autosave resumes at the original path — with no
     // changed-contents banner, because nothing about the file actually differs.
     project.addFile("notes.md", lastSavedBytes);
@@ -5836,7 +5835,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     // Reaching this banner is two claims at once. It exists only because the transition read the
     // path, which is the divergence handling that has to be installed before writes resume; and it
     // could only find a divergence because nothing overwrote the file first — a write landing before
-    // that read would have moved Cowrite's own baseline onto the disk, leaving nothing to report and
+    // that read would have moved Emend's own baseline onto the disk, leaving nothing to report and
     // no way back to the bytes it replaced.
     await expect(page.getByText("This file changed outside the editor")).toBeVisible();
     expect(project.readSaved()).toBe(external);

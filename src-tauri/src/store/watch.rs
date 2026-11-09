@@ -4,7 +4,7 @@
 //! A sync worker (or another running instance, or a reviewer's checkout) can land sidecar writes
 //! on disk that this process didn't make itself — a pulled `comments/<doc-id>/<author>.jsonl`
 //! append, an updated `changes/<doc-id>.json`, a `docs.json` rewrite. Subscribers need to know
-//! when that happens so they can re-fold and refresh state, without Cowrite polling the
+//! when that happens so they can re-fold and refresh state, without Emend polling the
 //! filesystem on a timer (test-plan §3: "no polling storms").
 //!
 //! `notify::recommended_watcher` is backed by the OS's native notification API — FSEvents on

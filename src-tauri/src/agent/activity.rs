@@ -118,7 +118,7 @@ fn line_for_tool_use(block: &Value, root: &Path) -> ActivityLine {
     }
 }
 
-/// The Cowrite MCP tool surface (TD-1 §3.2), named on the wire as `mcp__cowrite__<tool>` per
+/// The Emend MCP tool surface (TD-1 §3.2), named on the wire as `mcp__cowrite__<tool>` per
 /// Claude Code's MCP tool-naming convention.
 fn line_for_mcp_tool(tool: &str, input: &Value, root: &Path) -> ActivityLine {
     let doc = string_field(input, "doc");

@@ -1,4 +1,4 @@
-// ABOUTME: Cross-platform launcher for ordinary Cowrite Cargo and Tauri builds.
+// ABOUTME: Cross-platform launcher for ordinary Emend Cargo and Tauri builds.
 // ABOUTME: Adds optional sccache and sequential-worktree target sharing without changing engine builds.
 import { spawn, spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';

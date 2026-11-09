@@ -2,7 +2,7 @@
 name = "provider-contract"
 version = "0.1.0"
 edition = "2021"
-description = "Validation helper for the Cowrite provider contract (stream-JSON grammar + MCP payloads) against the published docs/formats schemas."
+description = "Validation helper for the Emend provider contract (stream-JSON grammar + MCP payloads) against the published docs/formats schemas."
 
 [dependencies]
 serde_json = "1"

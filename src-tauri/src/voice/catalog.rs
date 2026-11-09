@@ -1,4 +1,4 @@
-// ABOUTME: Trusted, replaceable catalog entry for Cowrite's first local Whisper model.
+// ABOUTME: Trusted, replaceable catalog entry for Emend's first local Whisper model.
 // ABOUTME: Pins source revision, exact length, and BLAKE3 before download or admission.
 
 use super::model_registry::ModelSpec;

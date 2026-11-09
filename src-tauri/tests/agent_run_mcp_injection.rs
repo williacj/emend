@@ -1,4 +1,4 @@
-// ABOUTME: Integration tests for required Cowrite MCP run binding (TD-1/TD-5/#472/#2396).
+// ABOUTME: Integration tests for required Emend MCP run binding (TD-1/TD-5/#472/#2396).
 // ABOUTME: Exercise production config injection, real handshakes, and attributed queue failure.
 
 use std::path::{Path, PathBuf};
@@ -75,7 +75,7 @@ fn mcp_config_arg(args: &[String]) -> Value {
 }
 
 /// The card's headline defect (#472): every card in #344's split pointed at another, so a spawned
-/// run reached `AgentSession::spawn` with `mcp_server: None` and no agent could call a Cowrite
+/// run reached `AgentSession::spawn` with `mcp_server: None` and no agent could call an Emend
 /// tool at all. The production argv builder must now always carry the open project's bound server.
 #[test]
 fn a_runs_invocation_carries_the_bound_servers_address_and_token() {
@@ -372,8 +372,8 @@ fn a_spawned_agent_reaches_the_real_tool_surface_over_the_bound_server() {
 }
 
 /// The bearer token is load-bearing over the real wire, not just in `agent::mcp`'s unit tests: an
-/// agent handed a tampered config cannot reach the tool surface (§3.5 — only children Cowrite
-/// spawned, with the token Cowrite minted, get in).
+/// agent handed a tampered config cannot reach the tool surface (§3.5 — only children Emend
+/// spawned, with the token Emend minted, get in).
 ///
 /// The spawned agent's exit status alone cannot distinguish "refused with 401" from "never reached
 /// the server at all" (PR #513 review round 2, Minor), so the *same* tampered config is first driven
@@ -435,7 +435,7 @@ fn write_scenario(dir: &Path, expect: Option<Value>) -> PathBuf {
     path
 }
 
-/// The child stands in only for the external provider CLI. Its advertised Cowrite status comes
+/// The child stands in only for the external provider CLI. Its advertised Emend status comes
 /// from the real HttpToolServer initialize/initialized/tools-list handshake against OpenProject.
 #[test]
 #[ignore]
@@ -598,22 +598,22 @@ fn a_failed_real_mcp_handshake_fails_its_run_and_advances_to_a_connected_run() {
     assert_eq!(
         state.finished.len(),
         2,
-        "failed Cowrite binding did not terminate its live child and advance the queue"
+        "failed Emend binding did not terminate its live child and advance the queue"
     );
     assert_eq!(state.finished[0].id, first.id);
     assert!(
         matches!(&state.finished[0].phase, RunPhase::Failed { message } if message.contains("Emend") && message.contains("tools")),
-        "failed Cowrite binding did not produce its attributed Failed state: {:?}",
+        "failed Emend binding did not produce its attributed Failed state: {:?}",
         state.finished[0].phase
     );
     assert!(
         state.finished[0].activity.is_empty(),
-        "tool-less activity continued after Cowrite initialization failed"
+        "tool-less activity continued after Emend initialization failed"
     );
     assert_eq!(state.finished[1].id, second.id);
     assert!(
         matches!(&state.finished[1].phase, RunPhase::Completed { reply: Some(reply) } if reply == content.trim()),
-        "connected Cowrite binding was rejected because an unrelated server failed: {:?}",
+        "connected Emend binding was rejected because an unrelated server failed: {:?}",
         state.finished[1].phase
     );
     assert_eq!(

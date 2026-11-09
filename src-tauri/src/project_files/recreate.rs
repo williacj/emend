@@ -36,7 +36,7 @@ pub enum RecreatePublishStatus {
     Reappeared,
 }
 
-/// Acquisition errors happen before Cowrite asks for buffer content or permits any content/temp/
+/// Acquisition errors happen before Emend asks for buffer content or permits any content/temp/
 /// target I/O. Once acquired, confinement is transaction-long; publication can fail ordinarily,
 /// but cannot report a late capability loss after bytes have been exposed.
 #[derive(Clone, Debug, PartialEq, Eq)]

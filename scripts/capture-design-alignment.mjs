@@ -1,4 +1,4 @@
-// ABOUTME: Captures the integrated Cowrite frontend against the existing design-alignment baseline.
+// ABOUTME: Captures the integrated Emend frontend against the existing design-alignment baseline.
 // ABOUTME: Uses the production Vite tree and D23 backend with disposable projects, then records pixels and CSS geometry.
 import { chromium } from "@playwright/test";
 import { strict as assert } from "node:assert";

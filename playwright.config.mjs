@@ -1,4 +1,4 @@
-// ABOUTME: Playwright configuration for Cowrite's e2e walking skeleton (P2a-2, D23, test-plan §4).
+// ABOUTME: Playwright configuration for Emend's e2e walking skeleton (P2a-2, D23, test-plan §4).
 // ABOUTME: Drives the real frontend served by Vite dev mode; document commands route through the
 // ABOUTME: D23 headless test driver (crates/test-driver) rather than the Tauri IPC bridge, since a
 // ABOUTME: plain Chromium page has no Tauri webview runtime — no application logic is mocked, only
@@ -74,7 +74,7 @@ export default defineConfig({
       env: {
         ...process.env,
         // A dev machine running this suite may itself have `claude`/`copilot` on PATH (any
-        // Cowrite dev box does) — redirect `agent::providers`' real PATH lookup to binary names
+        // Emend dev box does) — redirect `agent::providers`' real PATH lookup to binary names
         // guaranteed absent everywhere, so `detect_providers` deterministically reports zero
         // providers without touching the real PATH or mocking the detection logic (P2a-22,
         // NI-provider-detect; CLAUDE.md: never mock in e2e).

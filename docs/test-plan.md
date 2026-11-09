@@ -1,6 +1,6 @@
-# Cowrite Test Plan (v2 rewrite)
+# Emend Test Plan (v2 rewrite)
 
-ABOUTME: Test strategy and plan for the Cowrite rewrite — test levels, traceability to FRs/TDs, environments, and release gates.
+ABOUTME: Test strategy and plan for the Emend rewrite — test levels, traceability to FRs/TDs, environments, and release gates.
 ABOUTME: Companion to functional-spec.md (FR-*), ux-design.md (J1–J8), tech-design.md (TD-1..8, SPIKEs).
 
 **Status:** Complete (2026-07-05). Fresh-eyes review incorporated; all questions resolved (TP-Q1–Q4). Amended 2026-08-06 (§1, §7b), 2026-08-12 (§8), 2026-08-20 (§9), 2026-08-28 (§9b), 2026-09-02 (§9), 2026-09-03 (§9) — see §11.

@@ -1,7 +1,7 @@
-// ABOUTME: Validation helper for the Cowrite provider contract (TD-1) — stream-JSON grammar + MCP payloads.
+// ABOUTME: Validation helper for the Emend provider contract (TD-1) — stream-JSON grammar + MCP payloads.
 // ABOUTME: Embeds the published docs/formats/provider-contract schemas and validates values/transcripts against them (test-plan §1 contract parity).
 
-//! Reusable validation helper for the Cowrite provider contract.
+//! Reusable validation helper for the Emend provider contract.
 //!
 //! The machine-readable half of the TD-1 contract lives as JSON Schemas under
 //! `docs/formats/provider-contract/`. This crate embeds those schemas at build
@@ -34,11 +34,11 @@ pub enum Schema {
     ClaudeStreamEvent,
     /// A single GitHub Copilot CLI JSON event (`stream-event.copilot.schema.json`).
     CopilotStreamEvent,
-    /// The `mcpServers` config Cowrite injects into a spawned CLI (`mcp-server-config.schema.json`).
+    /// The `mcpServers` config Emend injects into a spawned CLI (`mcp-server-config.schema.json`).
     McpServerConfig,
     /// A Copilot `preToolUse` hook decision (`permission-hook-decision.schema.json`).
     PermissionHookDecision,
-    /// Arguments for a Cowrite-hosted MCP tool call (`mcp-tool-call.schema.json`).
+    /// Arguments for an Emend-hosted MCP tool call (`mcp-tool-call.schema.json`).
     McpToolCall,
     /// Claude native permission-prompt-tool arguments, before canonical TD-1 adaptation.
     ClaudePermissionCallback,

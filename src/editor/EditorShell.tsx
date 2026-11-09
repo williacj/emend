@@ -349,7 +349,7 @@ export interface EditorShellHandle extends Pick<DocumentSurfaceHandle,
    *
    * `content` is what the backend already wrote to disk. On a **clean** tab this also moves the
    * dirty and disk baselines: the tab stays clean (this is not an unsaved edit) and the FR-ED-7
-   * external-change poller does not mistake Cowrite's own delivery for an outside write (finding
+   * external-change poller does not mistake Emend's own delivery for an outside write (finding
    * M11 — an agent-attributed write is a tracked change, never that banner).
    *
    * On a **dirty** tab (the buffer differs from the saved baseline) this is deliberately a no-op on
@@ -589,7 +589,7 @@ export const EditorShell = forwardRef<EditorShellHandle, EditorShellProps>(funct
   // free, and anything — a concurrent creator, a restored backup, the same file again — can occupy
   // it at any instant. So the write pause J2 raises outlasts the missing state itself, from that
   // moment until a completed read re-establishes the disk side (the FR-ED-7 check below, or a
-  // `Recreate` that published bytes Cowrite chose). Ending Missing is not that read: a write
+  // `Recreate` that published bytes Emend chose). Ending Missing is not that read: a write
   // resuming with it would overwrite bytes nobody has looked at, which is the disk side FR-ED-7
   // exists to preserve and the source of truth TD-2 makes the file (#1595).
   const diskStateUnknownRef = useRef(false);
@@ -862,7 +862,7 @@ export const EditorShell = forwardRef<EditorShellHandle, EditorShellProps>(funct
     let cancelled = false;
     // Bytes belonging to the ordinary save currently issued by *this* effect's document identity. A
     // poll may observe those bytes before the save promise's completion runs; this identity lets it
-    // recognize Cowrite's own publication during that narrow window without freezing a later
+    // recognize Emend's own publication during that narrow window without freezing a later
     // external side. Deliberately a plain closure-local, not a `useRef` — every other participant in
     // the save/poll callbacks below (`cancelled`, `runSave`, `checkDiskForExternalChange`, `scheduler`)
     // is already scoped to this one effect run. A shared ref here (a prior revision of this code) let
@@ -981,7 +981,7 @@ export const EditorShell = forwardRef<EditorShellHandle, EditorShellProps>(funct
       try {
         const revision = await saveDocument(root, path, content, normalizeLineEndingsRef.current);
         // Whatever else changed while this write was in flight, its atomic completion is the newest
-        // disk state Cowrite itself has observed. Keep this disk-only baseline current so a poll
+        // disk state Emend itself has observed. Keep this disk-only baseline current so a poll
         // between an explicit Keep mine and its queued write does not misclassify this known
         // publication as a second outside edit. The captured side and dirty baseline stay frozen.
         // A completion from an unmounted document (or one whose path is currently Missing) cannot
@@ -1290,7 +1290,7 @@ export const EditorShell = forwardRef<EditorShellHandle, EditorShellProps>(funct
               const isCurrentCapture =
                 captured?.diskContent === disk.content && captured.diskRevision === disk.revision;
               // A later genuine disk revision becomes the side Reload/Compare/Keep mine resolve.
-              // Repeated polls of that same revision are no-ops, while Cowrite's own A was excluded
+              // Repeated polls of that same revision are no-ops, while Emend's own A was excluded
               // above even if its read landed before A's completion continuation.
               if (!isCurrentCapture) {
                 saveAuthorizationEpochRef.current += 1;
@@ -1484,7 +1484,7 @@ export const EditorShell = forwardRef<EditorShellHandle, EditorShellProps>(funct
             viewRef.current.dispatch({ effects: recheckDirty.of() });
             // Any divergence a poll noticed before the file vanished describes bytes this write has
             // now replaced — raising FR-ED-7's banner for it the moment the Missing state ends would
-            // report Cowrite's own write as an outside change (finding M11's rule, one path over).
+            // report Emend's own write as an outside change (finding M11's rule, one path over).
             updateExternalChange(null);
             setComparing(false);
             divergenceUndecidedRef.current = false;
@@ -1637,7 +1637,7 @@ export const EditorShell = forwardRef<EditorShellHandle, EditorShellProps>(funct
     // without this wrapper creating a second parser owner.
     surfaceRef.current?.setParseDocument({ root, path }, diskRevision);
     // Mark these captured bytes dismissed (review CRITICAL, PR #2108) — the same mechanism Keep
-    // mine already uses, not `diskContentRef`: that ref means "what Cowrite last confirmed IS on
+    // mine already uses, not `diskContentRef`: that ref means "what Emend last confirmed IS on
     // disk" (moved only by an actual read or an actual write's own completion, `runSave`'s
     // unconditional `diskContentRef.current = written`), and advancing it here on a mere click
     // would be wrong under detection-bound v1 — an already-issued save from *before* detection may

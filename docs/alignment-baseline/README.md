@@ -1,9 +1,9 @@
-ABOUTME: Records the measured Gate A baseline for aligning currently working Cowrite surfaces to the design mocks.
+ABOUTME: Records the measured Gate A baseline for aligning currently working Emend surfaces to the design mocks.
 ABOUTME: Separates captured defects, already matching treatments, and states still requiring native or fixture evidence.
 
 # Current-feature design alignment baseline
 
-Captured 2026-09-30 from `main` at `abc57b012`. Browser screenshots use the current Vite frontend, D23 test driver, a disposable project, light theme, and a 1400×900 viewport unless a narrow width is named. `Win32` and `MacIntel` browser platform overrides select Cowrite's platform styling; they do **not** reproduce native Tauri chrome. Representative current-build screenshots are beside this inventory. Capture scripts, full computed geometry and additional states are under `/private/tmp/cowrite-alignment-a1a-b/` and `/private/tmp/cowrite-alignment-a1c-d/`; A1e/A2 observations and computed values are under `/private/tmp/cowrite-alignment-a1e-a2/`. The temporary files are working evidence; recapture at E1.
+Captured 2026-09-30 from `main` at `abc57b012`. Browser screenshots use the current Vite frontend, D23 test driver, a disposable project, light theme, and a 1400×900 viewport unless a narrow width is named. `Win32` and `MacIntel` browser platform overrides select Emend's platform styling; they do **not** reproduce native Tauri chrome. Representative current-build screenshots are beside this inventory. Capture scripts, full computed geometry and additional states are under `/private/tmp/cowrite-alignment-a1a-b/` and `/private/tmp/cowrite-alignment-a1c-d/`; A1e/A2 observations and computed values are under `/private/tmp/cowrite-alignment-a1e-a2/`. The temporary files are working evidence; recapture at E1.
 
 ## Difference inventory
 

@@ -5,7 +5,7 @@
 
 The `store::tab_session` sidecar behind FR-ED-3's per-project session restore:
 which tabs a project's window had open, in order, which one was active, and
-each dirty tab's capped unsaved content, so relaunching Cowrite restores the
+each dirty tab's capped unsaved content, so relaunching Emend restores the
 same working set. It also carries untitled recovery documents that exist *only*
 here: preserved buffers displaced by an external move (#932, J2) or retained
 from a legacy unsupported document tab (#2515, D27). Neither has a file to
