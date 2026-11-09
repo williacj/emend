@@ -50,7 +50,7 @@ provider-contract = { path = "crates/provider-contract" }
 # RFC3339 timestamp parsing for the D22 importer (v1 wrote `created_at`/`timestamp`
 # via `chrono::Utc::now().to_rfc3339()` — same crate family, no hand-rolled parser).
 chrono = { version = "0.4", default-features = false, features = ["std"] }
-# Per-doc identity (`.cowrite/docs.json`, TD §3.2b) — UUID v4 minted at first sidecar write.
+# Per-doc identity (`.emend/docs.json`, TD §3.2b) — UUID v4 minted at first sidecar write.
 uuid = { version = "1", features = ["v4", "serde"] }
 # FS watcher for externally-landed sidecar changes (P2a-10) — native OS notification APIs
 # (FSEvents/inotify/ReadDirectoryChangesW), never polling.

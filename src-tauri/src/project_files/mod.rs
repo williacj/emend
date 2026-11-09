@@ -43,7 +43,7 @@ const HIDDEN_DIRECTORY_NAMES: &[&str] = &[
     ".git",
     ".hg",
     ".svn",
-    ".cowrite",
+    ".emend",
     "node_modules",
     "target",
     "dist",
@@ -116,14 +116,14 @@ pub struct NormalizedEvent {
 /// A native event carries no entry kind — the path it names may already be gone — so a component is
 /// admitted only when it is visible as *both* a directory and a file. A hidden tooling directory or
 /// Git control file anywhere in the path therefore means the event cannot change what a snapshot
-/// shows, and coalescing it into a refresh would only churn: `.cowrite/` alone receives a sidecar
+/// shows, and coalescing it into a refresh would only churn: `.emend/` alone receives a sidecar
 /// write for every tracked change Cowrite itself lands.
 ///
 /// The accepted cost of deciding without a kind: a *file* named exactly like a hidden directory
 /// (`build`, `dist`, `target`, …) is a visible row the scanner lists, but an event naming it
 /// schedules nothing, so its create/rename/delete waits for the next refresh from another cause or
 /// from `[Refresh]`. Both alternatives are worse — admitting a component visible as *either* kind
-/// re-admits every `.cowrite/` sidecar write, and a kind-aware rule re-admits `node_modules/`-scale
+/// re-admits every `.emend/` sidecar write, and a kind-aware rule re-admits `node_modules/`-scale
 /// churn — so the miss is preferred to a feedback loop.
 pub fn is_event_path_visible(relative: &str) -> bool {
     !relative.is_empty()

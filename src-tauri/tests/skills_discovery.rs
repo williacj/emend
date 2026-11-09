@@ -6,7 +6,7 @@
 //! `workflows/*.md` glob, nothing copied into an app-owned store (paths + parsed frontmatter only),
 //! and a malformed/unreadable `SKILL.md` skipped honestly rather than failing the whole walk
 //! (FR-X-5) with the skip reported back to the caller. None of these fixtures write
-//! `.cowrite/config.json`, so they exercise the ratified defaults unchanged; the config-override
+//! `.emend/config.json`, so they exercise the ratified defaults unchanged; the config-override
 //! half (P2b-8a-ii, #422) has its own dedicated coverage in `tests/skills_config.rs`.
 
 use std::fs;

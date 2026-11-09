@@ -1,8 +1,8 @@
-// ABOUTME: Document identity map — the pure `.cowrite/docs.json` shape (TD §3.2b, `docs-map.schema.json`)
+// ABOUTME: Document identity map — the pure `.emend/docs.json` shape (TD §3.2b, `docs-map.schema.json`)
 // ABOUTME: plus its atomic load/save. Path<->UUID lookups only; minting/rename/adopt policy lives in `service`.
 
 //! The pure data half of TD §3.2b's doc-identity contract: "sidecars key on a per-doc UUID minted
-//! at first sidecar write; a committed `.cowrite/docs.json` maps path<->UUID (rename/move = one
+//! at first sidecar write; a committed `.emend/docs.json` maps path<->UUID (rename/move = one
 //! map update event — FR-ED-8; scratch-doc adoption = mint on save-in)."
 //!
 //! `DocsMap` itself carries no I/O or minting policy — it is the schema-shaped value plus the
@@ -27,7 +27,7 @@ use crate::store::atomic;
 /// matching `store::comments`/`store::changes`'s own constants.
 pub const SCHEMA_VERSION: u32 = 1;
 
-/// The whole `.cowrite/docs.json` file (`docs-map.schema.json`): a per-doc UUID keyed to the
+/// The whole `.emend/docs.json` file (`docs-map.schema.json`): a per-doc UUID keyed to the
 /// project-relative path that document currently lives at. Holds the *current* map only — a
 /// rename overwrites the value in place, it does not append a history (TD §3.2b: "single-writer
 /// by design").
@@ -80,7 +80,7 @@ impl DocsMap {
     }
 }
 
-/// Loads `.cowrite/docs.json` from `path`. A missing file is a fresh, empty map (a project that
+/// Loads `.emend/docs.json` from `path`. A missing file is a fresh, empty map (a project that
 /// has never minted a doc identity yet) rather than an error.
 pub fn load(path: &Path) -> io::Result<DocsMap> {
     match fs::read_to_string(path) {
@@ -205,7 +205,7 @@ mod io_tests {
     #[test]
     fn save_then_load_round_trips() {
         let dir = TempDir::new().unwrap();
-        let path = dir.path().join(".cowrite/docs.json");
+        let path = dir.path().join(".emend/docs.json");
         let mut map = DocsMap::new();
         map.set_path(Uuid::from_bytes([3; 16]), "notes/outline.md");
 

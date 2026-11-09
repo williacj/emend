@@ -15,9 +15,7 @@ use emend_lib::agent::project::{OpenProjectRunObserver, ProjectObservers, Shared
 use emend_lib::agent::run_queue::{NoopEmitter, RunObserver, RunPhase, RunQueue, RunRequest};
 use emend_lib::agent::session::{AgentSession, SessionError};
 use emend_lib::commands::agent::{claude_invocation, spawn_claude_run, start_run_on};
-use emend_lib::commands::project::{
-    close_project_on, new_session, open_project_on, CommandError,
-};
+use emend_lib::commands::project::{close_project_on, new_session, open_project_on, CommandError};
 
 mod common;
 use common::{fake_agent_bin, fake_agent_scenario};

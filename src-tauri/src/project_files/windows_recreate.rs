@@ -203,7 +203,7 @@ impl WindowsRecreateTransaction {
         let parent = self.route.handles.last().unwrap();
         let mut last_collision = None;
         for _ in 0..TEMP_CREATE_ATTEMPTS {
-            let name = OsString::from(format!(".cowrite-recreate-{}.tmp", Uuid::new_v4().simple()));
+            let name = OsString::from(format!(".emend-recreate-{}.tmp", Uuid::new_v4().simple()));
             match nt_create_relative(
                 parent,
                 &name,

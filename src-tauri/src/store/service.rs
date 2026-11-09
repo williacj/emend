@@ -9,13 +9,13 @@
 //!
 //! # Layout
 //!
-//! Everything lives under `<project root>/.cowrite/` (TD-4: "all Cowrite data under one
-//! `.cowrite/` dir"), keyed by the per-doc UUID rather than path or a path hash — a rename never
+//! Everything lives under `<project root>/.emend/` (TD-4: "all Cowrite data under one
+//! `.emend/` dir"), keyed by the per-doc UUID rather than path or a path hash — a rename never
 //! touches sidecar content, only the `docs.json` map entry (FR-ED-8):
 //!
-//! - `.cowrite/docs.json` — the whole path<->UUID map (`store::docs_map`).
-//! - `.cowrite/comments/<doc-id>/<author>.jsonl` — one append-only event log per author.
-//! - `.cowrite/changes/<doc-id>.json` — the single current attribution map for that doc.
+//! - `.emend/docs.json` — the whole path<->UUID map (`store::docs_map`).
+//! - `.emend/comments/<doc-id>/<author>.jsonl` — one append-only event log per author.
+//! - `.emend/changes/<doc-id>.json` — the single current attribution map for that doc.
 //!
 //! # Comments vs. changes: append means different things on disk
 //!
@@ -268,16 +268,16 @@ impl SidecarStore {
         }
     }
 
-    fn cowrite_dir(&self) -> PathBuf {
-        self.root.join(".cowrite")
+    fn emend_dir(&self) -> PathBuf {
+        self.root.join(".emend")
     }
 
     fn docs_json_path(&self) -> PathBuf {
-        self.cowrite_dir().join("docs.json")
+        self.emend_dir().join("docs.json")
     }
 
     fn comments_dir(&self, id: Uuid) -> PathBuf {
-        self.cowrite_dir().join("comments").join(id.to_string())
+        self.emend_dir().join("comments").join(id.to_string())
     }
 
     /// The append-only log every event `author` writes for `id` lands in. Public so a caller can
@@ -290,9 +290,7 @@ impl SidecarStore {
     }
 
     fn changes_file(&self, id: Uuid) -> PathBuf {
-        self.cowrite_dir()
-            .join("changes")
-            .join(format!("{id}.json"))
+        self.emend_dir().join("changes").join(format!("{id}.json"))
     }
 
     fn load_docs_map_for_write(
@@ -646,7 +644,7 @@ impl SidecarStore {
     pub fn find_doc_id_by_comment(&self, comment_id: &str) -> Result<Option<Uuid>, SidecarError> {
         let map = docs_map::load(&self.docs_json_path())?;
         let mut ids: BTreeSet<Uuid> = map.documents.into_keys().collect();
-        let comments_root = self.cowrite_dir().join("comments");
+        let comments_root = self.emend_dir().join("comments");
         match fs::read_dir(&comments_root) {
             Ok(entries) => {
                 for entry in entries {
@@ -764,12 +762,12 @@ impl SidecarStore {
 
     // --- FS watch (no polling — native OS notification APIs) ----------------------------------
 
-    /// Starts watching this project's `.cowrite/` directory for externally-landed sidecar changes
+    /// Starts watching this project's `.emend/` directory for externally-landed sidecar changes
     /// (a sync worker pulling a reviewer's edits, another process writing alongside this one) —
     /// `notify`'s recommended watcher uses native OS notification APIs (FSEvents/inotify/
     /// ReadDirectoryChangesW), never polling.
     pub fn watch(&self) -> notify::Result<SidecarWatcher> {
-        SidecarWatcher::watch(&self.cowrite_dir())
+        SidecarWatcher::watch(&self.emend_dir())
     }
 }
 
@@ -925,7 +923,7 @@ mod identity_tests {
         let first = store.get_or_mint_for_path("first.md").unwrap();
         let second = store.get_or_mint_for_path("second.md").unwrap();
         let existing = store.get_or_mint_for_path("taken.md").unwrap();
-        let docs_json = dir.path().join(".cowrite/docs.json");
+        let docs_json = dir.path().join(".emend/docs.json");
         let before = fs::read(&docs_json).unwrap();
 
         let error = store
@@ -952,7 +950,7 @@ mod identity_tests {
         let (dir, store) = store();
         let first = store.get_or_mint_for_path("first.md").unwrap();
         let second = store.get_or_mint_for_path("second.md").unwrap();
-        let docs_json = dir.path().join(".cowrite/docs.json");
+        let docs_json = dir.path().join(".emend/docs.json");
         let before = fs::read(&docs_json).unwrap();
 
         let error = store
@@ -1224,6 +1222,7 @@ mod identity_tests {
 #[cfg(test)]
 mod comment_append_fold_tests {
     use super::*;
+    use crate::test_support::tree_with_contents;
     use tempfile::TempDir;
 
     fn store() -> (TempDir, SidecarStore, Uuid) {
@@ -1248,6 +1247,53 @@ mod comment_append_fold_tests {
                 workflow_run: None,
             },
         }
+    }
+
+    #[test]
+    fn a_new_project_writes_its_sidecar_under_dot_emend_only() {
+        let (dir, store, _) = store();
+        let id = store.get_or_mint_for_path("a.md").unwrap();
+        store
+            .append_comment_event(id, &create("c1", "alice", 1, "hello"))
+            .unwrap();
+
+        assert!(dir.path().join(".emend/docs.json").is_file());
+        assert!(store
+            .comment_author_file(id, "alice")
+            .starts_with(dir.path().join(".emend")));
+        assert!(store.comment_author_file(id, "alice").is_file());
+        assert!(!dir.path().join(".cowrite").exists());
+    }
+
+    #[test]
+    fn a_project_holding_only_dot_cowrite_opens_with_no_sidecar_state_and_leaves_it_untouched() {
+        // TD-29: a clean break with no migration. Real sidecar data is written by the store, then
+        // moved to where Cowrite kept it; a fresh store must neither read, write nor delete it.
+        let (dir, writer, _) = store();
+        let old_id = writer.get_or_mint_for_path("a.md").unwrap();
+        writer
+            .append_comment_event(old_id, &create("c1", "alice", 1, "hello"))
+            .unwrap();
+        fs::rename(dir.path().join(".emend"), dir.path().join(".cowrite")).unwrap();
+        let before = tree_with_contents(&dir.path().join(".cowrite"));
+        assert!(!before.is_empty());
+
+        let store = SidecarStore::new(dir.path());
+        assert_eq!(store.doc_id_for_path("a.md").unwrap(), None);
+        assert_eq!(store.tracked_paths().unwrap(), Vec::<String>::new());
+        assert_eq!(store.find_doc_id_by_comment("c1").unwrap(), None);
+        assert!(!store
+            .sidecar_disposition(old_id)
+            .unwrap()
+            .has_sidecar_data());
+        let new_id = store.get_or_mint_for_path("a.md").unwrap();
+        assert_ne!(new_id, old_id);
+        store
+            .append_comment_event(new_id, &create("c2", "alice", 2, "fresh"))
+            .unwrap();
+
+        assert_eq!(tree_with_contents(&dir.path().join(".cowrite")), before);
+        assert!(dir.path().join(".emend/docs.json").is_file());
     }
 
     fn reply(id: &str, parent: &str, author: &str, ts: i64, body: &str) -> CommentEvent {
@@ -1566,7 +1612,7 @@ mod watch_tests {
         let store = SidecarStore::new(dir.path());
         let id = store.mint_doc_id();
         // The watch target directory must exist before an OS watcher can be installed on it.
-        std::fs::create_dir_all(dir.path().join(".cowrite")).unwrap();
+        std::fs::create_dir_all(dir.path().join(".emend")).unwrap();
         let watcher = store.watch().unwrap();
 
         store

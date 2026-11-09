@@ -11,7 +11,7 @@ use textops::Anchor;
 /// job; this module only needs the field to exist on every event.
 pub const SCHEMA_VERSION: u32 = 1;
 
-/// One line of a `.cowrite/comments/<doc-hash>/<author>.jsonl` event log (TD-4).
+/// One line of a `.emend/comments/<doc-hash>/<author>.jsonl` event log (TD-4).
 ///
 /// Append-only: an author's own file only ever grows. `id` is a globally unique
 /// token the caller mints (this module doesn't generate them — a UUID/ULID from the

@@ -47,7 +47,7 @@ fn recreate_temps(root: &Path) -> Vec<PathBuf> {
             } else if entry
                 .file_name()
                 .to_string_lossy()
-                .starts_with(".cowrite-recreate-")
+                .starts_with(".emend-recreate-")
             {
                 found.push(entry.path());
             }

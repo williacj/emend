@@ -107,7 +107,7 @@ ABOUTME: Companion to tech-design.md (TD-1..8, build order) and test-plan.md; ev
 | P2b-5 | `add_comments` / `reply_to_comment` + findings rendering + report card | J3, FR-REVIEW-1..3 |
 | P2b-6 | `create_document` + J2 birth flow + workshop mode | J2, FR-CHAT-1/2 |
 | P2b-7 | Quote-bar selection→anchored message | UX P6 |
-| P2b-8 | Skills/workflow discovery + project card + `.cowrite/config.json` schema publication | FR-SKILL-1/5 |
+| P2b-8 | Skills/workflow discovery + project card + `.emend/config.json` schema publication | FR-SKILL-1/5 |
 | P2b-9 | Spellcheck (suppressed in markup/frontmatter) + keymap module | FR-ED-3, FR-X-1 |
 | P2b-10 | Benchmark suite (§6 budgets) + dedicated-runner baseline | FR-X-4, test-plan §6 (review M8) |
 | P2b-11 | J1/J2/J4 acceptance scripts complete (incl. delivery-while-typing) | test-plan §4 |

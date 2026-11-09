@@ -61,7 +61,7 @@ impl From<textops::MarkerKind> for ChangeType {
 /// "attribution keyed by change ID"; issue #46: author, type, timestamps, group,
 /// change-set, note).
 ///
-/// `.cowrite/changes/<doc-hash>.json` holds the *current* record set: track-changes
+/// `.emend/changes/<doc-hash>.json` holds the *current* record set: track-changes
 /// is single-writer by design (only the author decides changes, D19), so the writer
 /// simply persists the latest record per id and last-write-wins is correct by
 /// construction (TD-4) — there is no cross-author merge to arbitrate, unlike

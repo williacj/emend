@@ -160,9 +160,7 @@ mod tests {
     #[test]
     fn macos_bundle_detection_requires_the_structural_contents_macos_layout() {
         assert_eq!(
-            containing_app_bundle(Path::new(
-                "/Applications/Emend.app/Contents/MacOS/Emend"
-            )),
+            containing_app_bundle(Path::new("/Applications/Emend.app/Contents/MacOS/Emend")),
             Some(Path::new("/Applications/Emend.app"))
         );
         assert_eq!(

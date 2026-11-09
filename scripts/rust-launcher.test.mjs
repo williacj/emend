@@ -108,7 +108,7 @@ test('shared target is derived from an absolute Git common directory', () => {
       cwd: '/repo/worktree',
       gitCommonDir: '/repo/main/.git',
     }),
-    join('/repo/main', '.cowrite-cache', 'rust-target'),
+    join('/repo/main', '.emend-cache', 'rust-target'),
   );
 });
 
@@ -124,7 +124,7 @@ test('shared target resolves a relative Git common directory against the worktre
       gitCommonDir: '.git',
       pathOps: path.posix,
     }),
-    path.posix.join('/repo/main', '.cowrite-cache', 'rust-target'),
+    path.posix.join('/repo/main', '.emend-cache', 'rust-target'),
   );
 });
 
@@ -135,7 +135,7 @@ test('shared target resolves a relative Git common directory against the worktre
       gitCommonDir: '.git',
       pathOps: path.win32,
     }),
-    path.win32.join('C:\\repo\\main', '.cowrite-cache', 'rust-target'),
+    path.win32.join('C:\\repo\\main', '.emend-cache', 'rust-target'),
   );
 });
 
@@ -148,7 +148,7 @@ test('shared target for a bare repository stays inside the Git directory', () =>
       cwd: '/repos/cowrite-feature',
       gitCommonDir: '/repos/cowrite.git',
     }),
-    join('/repos/cowrite.git', '.cowrite-cache', 'rust-target'),
+    join('/repos/cowrite.git', '.emend-cache', 'rust-target'),
   );
 });
 
@@ -163,7 +163,7 @@ test('shared mode sets CARGO_TARGET_DIR while retaining wrapper selection', () =
     }),
     {
       RUSTC_WRAPPER: 'sccache',
-      CARGO_TARGET_DIR: join('/repo/main', '.cowrite-cache', 'rust-target'),
+      CARGO_TARGET_DIR: join('/repo/main', '.emend-cache', 'rust-target'),
     },
   );
 });

@@ -1,9 +1,9 @@
-// ABOUTME: Shared `.cowrite/.gitignore` maintenance (TD-12) for every machine-local runtime
+// ABOUTME: Shared `.emend/.gitignore` maintenance (TD-12) for every machine-local runtime
 // ABOUTME: sidecar — appends an exclusion pattern once, never touches or reorders existing entries.
 
-//! TD-12: TD-4 commits all of `.cowrite/` by default, but per-machine runtime state is meaningless
+//! TD-12: TD-4 commits all of `.emend/` by default, but per-machine runtime state is meaningless
 //! off-machine and must never travel through checkpoint commits or review sync. The recorded
-//! exclusion mechanism is a **committed** `.cowrite/.gitignore` that each runtime sidecar's own
+//! exclusion mechanism is a **committed** `.emend/.gitignore` that each runtime sidecar's own
 //! module maintains on first write; this module is the one shared implementation, so a caller never
 //! reimplements the same idempotent append.
 //!
@@ -19,14 +19,14 @@ use std::fs;
 use std::io;
 use std::path::Path;
 
-/// Ensures `cowrite_dir`'s `.gitignore` contains `pattern` on its own line, preceded by `comment`
+/// Ensures `emend_dir`'s `.gitignore` contains `pattern` on its own line, preceded by `comment`
 /// the first time it's added. Idempotent and non-destructive: appends nothing — and does not
 /// rewrite the file at all — once `pattern` is already present; existing entries (including ones
-/// this function didn't write) are always preserved. `cowrite_dir` is the project's `.cowrite/`
+/// this function didn't write) are always preserved. `emend_dir` is the project's `.emend/`
 /// directory itself (not the project root), and is created if missing.
-pub fn ensure_pattern(cowrite_dir: &Path, pattern: &str, comment: &str) -> io::Result<()> {
-    fs::create_dir_all(cowrite_dir)?;
-    let path = cowrite_dir.join(".gitignore");
+pub fn ensure_pattern(emend_dir: &Path, pattern: &str, comment: &str) -> io::Result<()> {
+    fs::create_dir_all(emend_dir)?;
+    let path = emend_dir.join(".gitignore");
     let existing = match fs::read_to_string(&path) {
         Ok(content) => content,
         Err(e) if e.kind() == io::ErrorKind::NotFound => String::new(),
@@ -58,11 +58,11 @@ mod tests {
     #[test]
     fn adds_the_pattern_and_comment_to_a_fresh_gitignore() {
         let dir = TempDir::new().unwrap();
-        let cowrite_dir = dir.path().join(".cowrite");
+        let emend_dir = dir.path().join(".emend");
 
-        ensure_pattern(&cowrite_dir, SESSION_PATTERN, "# comment").unwrap();
+        ensure_pattern(&emend_dir, SESSION_PATTERN, "# comment").unwrap();
 
-        let content = fs::read_to_string(cowrite_dir.join(".gitignore")).unwrap();
+        let content = fs::read_to_string(emend_dir.join(".gitignore")).unwrap();
         assert!(content.lines().any(|l| l == "# comment"));
         assert!(content.lines().any(|l| l == SESSION_PATTERN));
     }
@@ -70,13 +70,13 @@ mod tests {
     #[test]
     fn preserves_existing_entries_when_appending() {
         let dir = TempDir::new().unwrap();
-        let cowrite_dir = dir.path().join(".cowrite");
-        fs::create_dir_all(&cowrite_dir).unwrap();
-        fs::write(cowrite_dir.join(".gitignore"), "custom-entry\n").unwrap();
+        let emend_dir = dir.path().join(".emend");
+        fs::create_dir_all(&emend_dir).unwrap();
+        fs::write(emend_dir.join(".gitignore"), "custom-entry\n").unwrap();
 
-        ensure_pattern(&cowrite_dir, SESSION_PATTERN, "# comment").unwrap();
+        ensure_pattern(&emend_dir, SESSION_PATTERN, "# comment").unwrap();
 
-        let content = fs::read_to_string(cowrite_dir.join(".gitignore")).unwrap();
+        let content = fs::read_to_string(emend_dir.join(".gitignore")).unwrap();
         assert!(content.lines().any(|l| l == "custom-entry"));
         assert!(content.lines().any(|l| l == SESSION_PATTERN));
     }
@@ -84,15 +84,15 @@ mod tests {
     #[test]
     fn is_byte_identical_when_the_pattern_is_already_present() {
         let dir = TempDir::new().unwrap();
-        let cowrite_dir = dir.path().join(".cowrite");
-        fs::create_dir_all(&cowrite_dir).unwrap();
+        let emend_dir = dir.path().join(".emend");
+        fs::create_dir_all(&emend_dir).unwrap();
         let existing = format!("custom-entry\n{SESSION_PATTERN}\n");
-        fs::write(cowrite_dir.join(".gitignore"), &existing).unwrap();
+        fs::write(emend_dir.join(".gitignore"), &existing).unwrap();
 
-        ensure_pattern(&cowrite_dir, SESSION_PATTERN, "# comment").unwrap();
+        ensure_pattern(&emend_dir, SESSION_PATTERN, "# comment").unwrap();
 
         assert_eq!(
-            fs::read_to_string(cowrite_dir.join(".gitignore")).unwrap(),
+            fs::read_to_string(emend_dir.join(".gitignore")).unwrap(),
             existing
         );
     }
@@ -100,30 +100,30 @@ mod tests {
     #[test]
     fn distinct_patterns_from_distinct_callers_coexist() {
         let dir = TempDir::new().unwrap();
-        let cowrite_dir = dir.path().join(".cowrite");
+        let emend_dir = dir.path().join(".emend");
 
-        ensure_pattern(&cowrite_dir, SESSION_PATTERN, "# tab session").unwrap();
+        ensure_pattern(&emend_dir, SESSION_PATTERN, "# tab session").unwrap();
         ensure_pattern(
-            &cowrite_dir,
+            &emend_dir,
             "some-future-sidecar.json",
             "# a future addition",
         )
         .unwrap();
 
-        let content = fs::read_to_string(cowrite_dir.join(".gitignore")).unwrap();
+        let content = fs::read_to_string(emend_dir.join(".gitignore")).unwrap();
         assert!(content.lines().any(|l| l == SESSION_PATTERN));
         assert!(content.lines().any(|l| l == "some-future-sidecar.json"));
     }
 
     #[test]
-    fn creates_the_cowrite_dir_if_it_does_not_exist_yet() {
+    fn creates_the_emend_dir_if_it_does_not_exist_yet() {
         let dir = TempDir::new().unwrap();
-        let cowrite_dir = dir.path().join(".cowrite");
-        assert!(!cowrite_dir.exists());
+        let emend_dir = dir.path().join(".emend");
+        assert!(!emend_dir.exists());
 
-        ensure_pattern(&cowrite_dir, SESSION_PATTERN, "# comment").unwrap();
+        ensure_pattern(&emend_dir, SESSION_PATTERN, "# comment").unwrap();
 
-        assert!(cowrite_dir.join(".gitignore").exists());
+        assert!(emend_dir.join(".gitignore").exists());
     }
 }
 
@@ -165,7 +165,7 @@ mod caller_set_tests {
 
         assert!(
             survivors.is_empty(),
-            "the relocated registry's `.cowrite/.gitignore` pattern survives in {survivors:?}"
+            "the relocated registry's `.emend/.gitignore` pattern survives in {survivors:?}"
         );
     }
 }

@@ -1265,8 +1265,8 @@ test.describe("#2537 reciprocal comments navigation", () => {
       const [created] = await createComment(project.root, project.path, "you", "Withdrawn note", {
         content, utf16Offset: content.indexOf("target passage"), utf16Length: "target passage".length,
       }, 1);
-      const [docId] = readdirSync(join(project.root, ".cowrite", "comments"));
-      appendFileSync(join(project.root, ".cowrite", "comments", docId, "cowrite.jsonl"), JSON.stringify({
+      const [docId] = readdirSync(join(project.root, ".emend", "comments"));
+      appendFileSync(join(project.root, ".emend", "comments", docId, "cowrite.jsonl"), JSON.stringify({
         schema_version: 1, id: `publish-${created.id}`, parent_id: created.id,
         author: "cowrite", timestamp: 2, type: "publish",
       }) + "\n");
@@ -1296,9 +1296,9 @@ test.describe("#2537 reciprocal comments navigation", () => {
     const project = createFixtureProject("# Former file\n");
     const recoveryPath = "untitled:1:notes.md";
     try {
-      const cowriteDir = join(project.root, ".cowrite");
-      mkdirSync(cowriteDir, { recursive: true });
-      writeFileSync(join(cowriteDir, "tab-session.json"), JSON.stringify({
+      const emendDir = join(project.root, ".emend");
+      mkdirSync(emendDir, { recursive: true });
+      writeFileSync(join(emendDir, "tab-session.json"), JSON.stringify({
         schema_version: 1,
         tabs: [{ path: recoveryPath, unsaved_content: content, recovered_from: project.path }],
         active_path: recoveryPath,
@@ -1550,8 +1550,8 @@ test.describe("J10 own-comment correction", () => {
       }, 1);
       // Review sync has no producer yet. Seed the durable D20 publication fact through its real
       // sidecar schema so the own-author Delete route retains the placeholder.
-      const [docId] = readdirSync(join(project.root, ".cowrite", "comments"));
-      appendFileSync(join(project.root, ".cowrite", "comments", docId, "cowrite.jsonl"), JSON.stringify({
+      const [docId] = readdirSync(join(project.root, ".emend", "comments"));
+      appendFileSync(join(project.root, ".emend", "comments", docId, "cowrite.jsonl"), JSON.stringify({
         schema_version: 1, id: `publish-${created.id}`, parent_id: created.id,
         author: "cowrite", timestamp: 2, type: "publish",
       }) + "\n");
@@ -2506,8 +2506,8 @@ test.describe("D27 retained legacy unsupported-tab recovery", () => {
     const formerPath = project.addFile("draft.rs", "original source\n");
     const retained = "retained \u00e9dit\r\nsecond line\r\n";
     const recoveryPath = `untitled:1:${formerPath}`;
-    const sessionPath = join(project.root, ".cowrite", "tab-session.json");
-    mkdirSync(join(project.root, ".cowrite"), { recursive: true });
+    const sessionPath = join(project.root, ".emend", "tab-session.json");
+    mkdirSync(join(project.root, ".emend"), { recursive: true });
     writeFileSync(sessionPath, JSON.stringify({
       schema_version: 1,
       tabs: [{ path: formerPath, unsaved_content: retained }],
@@ -2566,8 +2566,8 @@ test.describe("D27 retained legacy unsupported-tab recovery", () => {
     project = createFixtureProject("# Supported document\n");
     mkdirSync(join(project.root, "research"), { recursive: true });
     const formerPath = project.addFile("research/survey-export.csv", "source rows\n");
-    const sessionPath = join(project.root, ".cowrite", "tab-session.json");
-    mkdirSync(join(project.root, ".cowrite"), { recursive: true });
+    const sessionPath = join(project.root, ".emend", "tab-session.json");
+    mkdirSync(join(project.root, ".emend"), { recursive: true });
     writeFileSync(sessionPath, JSON.stringify({
       schema_version: 1,
       tabs: [{ path: formerPath, unsaved_content: null, unsaved_content_omitted: true }],
@@ -2602,10 +2602,10 @@ test.describe("J2 recovered document over-cap state (#1421)", () => {
   test("9c loss reason follows the 660px short-copy tile and keeps its caution at narrower widths", async ({ page }) => {
     project = createFixtureProject("# The moved document now at this path\n");
     const recoveryPath = `untitled:1:${project.path}`;
-    const cowriteDir = join(project.root, ".cowrite");
-    mkdirSync(cowriteDir, { recursive: true });
+    const emendDir = join(project.root, ".emend");
+    mkdirSync(emendDir, { recursive: true });
     writeFileSync(
-      join(cowriteDir, "tab-session.json"),
+      join(emendDir, "tab-session.json"),
       JSON.stringify({
         schema_version: 1,
         tabs: [{
@@ -2665,9 +2665,9 @@ test.describe("J2 recovered document over-cap state (#1421)", () => {
   }) => {
     project = createFixtureProject("# The moved document now at this path\n");
     const recoveryPath = `untitled:1:${project.path}`;
-    const cowriteDir = join(project.root, ".cowrite");
-    const sessionPath = join(cowriteDir, "tab-session.json");
-    mkdirSync(cowriteDir, { recursive: true });
+    const emendDir = join(project.root, ".emend");
+    const sessionPath = join(emendDir, "tab-session.json");
+    mkdirSync(emendDir, { recursive: true });
     writeFileSync(
       sessionPath,
       JSON.stringify({
@@ -2763,9 +2763,9 @@ test.describe("D12 untitled comment adoption (#1803)", () => {
     const recoveryPath = "untitled:1:notes.md";
     const destination = "adopted.md";
     project = createFixtureProject("# The moved document now at this path\n");
-    const cowriteDir = join(project.root, ".cowrite");
-    const sessionPath = join(cowriteDir, "tab-session.json");
-    mkdirSync(cowriteDir, { recursive: true });
+    const emendDir = join(project.root, ".emend");
+    const sessionPath = join(emendDir, "tab-session.json");
+    mkdirSync(emendDir, { recursive: true });
     writeFileSync(sessionPath, JSON.stringify({
       schema_version: 1,
       tabs: [{
@@ -4612,8 +4612,8 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
     // The D23 provider can fail between two DOM assertions. Its terminal transition correctly
     // clears the Working-only guidance line, so prove re-delegation at the durable TD-4 event seam.
     // This also distinguishes a fresh Address from the old run's failure note still on the card.
-    const [docId] = readdirSync(join(project.root, ".cowrite", "comments"));
-    const authorLog = join(project.root, ".cowrite", "comments", docId, "you.jsonl");
+    const [docId] = readdirSync(join(project.root, ".emend", "comments"));
+    const authorLog = join(project.root, ".emend", "comments", docId, "you.jsonl");
     const addresses = () => readFileSync(authorLog, "utf8").trim().split("\n")
       .map((line) => JSON.parse(line))
       .filter((event) => event.type === "address" && event.parent_id === threadId);

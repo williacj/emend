@@ -7,7 +7,6 @@
 /.codex-artifacts/
 /.codex-worktrees/
 /.codex-test-tmp/
-/.cowrite-review/
 
 # Node / frontend (v2 scaffold)
 node_modules/
@@ -17,7 +16,7 @@ dist-ssr/
 
 # Rust (v2 scaffold)
 target/
-/.cowrite-cache/
+/.emend-cache/
 
 # Playwright e2e run artifacts (P2a-2)
 /test-results/

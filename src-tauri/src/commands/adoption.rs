@@ -353,9 +353,9 @@ mod tests {
         let id = mint_untitled_doc_id_on(root.to_string_lossy().into_owned()).unwrap();
 
         assert!(uuid::Uuid::parse_str(&id).is_ok());
-        assert!(!root.join(".cowrite/docs.json").exists());
-        assert!(!root.join(".cowrite/comments").exists());
-        assert!(!root.join(".cowrite/changes").exists());
+        assert!(!root.join(".emend/docs.json").exists());
+        assert!(!root.join(".emend/comments").exists());
+        assert!(!root.join(".emend/changes").exists());
     }
 
     #[test]
