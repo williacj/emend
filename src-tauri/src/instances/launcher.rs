@@ -232,7 +232,7 @@ mod tests {
         let brokers = Cell::new(0);
         let directs = Cell::new(0);
         launch_macos_with(
-            Path::new("/tmp/target/debug/cowrite"),
+            Path::new("/tmp/target/debug/emend"),
             |_| {
                 brokers.set(brokers.get() + 1);
                 Ok(true)

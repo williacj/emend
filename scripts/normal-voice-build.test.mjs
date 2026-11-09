@@ -55,7 +55,7 @@ test('hosted Windows and macOS gates build and inspect a normal unsigned app exe
   assert.match(workflow, /target\/release\/emend\.exe/);
   assert.match(workflow, /target\/release\/emend(?:[^.\w]|$)/);
   assert.match(workflow, /target\/release\/bundle\/nsis[\s\S]*\*-setup\.exe/);
-  assert.match(workflow, /target\/release\/bundle\/macos\/Cowrite\.app/);
+  assert.match(workflow, /target\/release\/bundle\/macos\/Emend\.app/);
   assert.match(workflow, /PlistBuddy -c 'Print :NSMicrophoneUsageDescription'/);
   assert.match(workflow, /scripts\/provision-whisper-windows\.ps1/);
   assert.match(workflow, /LIBCLANG_PATH/);

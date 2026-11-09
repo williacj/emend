@@ -22,6 +22,17 @@ describe("window chrome configuration", () => {
     });
   });
 
+  it("titles the native window with the product name on every platform", () => {
+    // Platform files replace the base `app.windows` array whole (JSON merge patch), so each
+    // one carries its own title and must not drift from `productName`.
+    const base = readJson("src-tauri/tauri.conf.json");
+    for (const path of ["src-tauri/tauri.conf.json", "src-tauri/tauri.windows.conf.json", "src-tauri/tauri.macos.conf.json"]) {
+      for (const window of readJson(path).app.windows) {
+        expect({ path, title: window.title }).toEqual({ path, title: base.productName });
+      }
+    }
+  });
+
   it("grants only the window commands needed by the title row", () => {
     const permissions = readJson("src-tauri/capabilities/default.json").permissions;
     for (const name of ["allow-close", "allow-minimize", "allow-toggle-maximize", "allow-start-dragging"]) {

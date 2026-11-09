@@ -202,7 +202,7 @@ jobs:
           test -s "$exe"
           file "$exe" | grep -q 'Mach-O'
           shasum -a 256 "$exe"
-          app=src-tauri/target/release/bundle/macos/Cowrite.app
+          app=src-tauri/target/release/bundle/macos/Emend.app
           test -d "$app/Contents/MacOS"
           test -s "$app/Contents/Info.plist"
           /usr/libexec/PlistBuddy -c 'Print :NSMicrophoneUsageDescription' "$app/Contents/Info.plist"

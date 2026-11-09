@@ -360,7 +360,7 @@ test('direct invocation is recognized as the entrypoint', () => {
 test('npm scripts route ordinary and explicit shared builds through the launcher', () => {
   const scripts = readPackageScripts();
   assert.equal(scripts.tauri, 'node scripts/rust-launcher.mjs tauri');
-  assert.equal(scripts['build:rust'], 'node scripts/rust-launcher.mjs cargo build --package cowrite');
+  assert.equal(scripts['build:rust'], 'node scripts/rust-launcher.mjs cargo build --package emend');
   assert.equal(scripts['tauri:shared'], 'node scripts/rust-launcher.mjs --shared tauri');
-  assert.equal(scripts['build:rust:shared'], 'node scripts/rust-launcher.mjs --shared cargo build --package cowrite');
+  assert.equal(scripts['build:rust:shared'], 'node scripts/rust-launcher.mjs --shared cargo build --package emend');
 });
