@@ -248,20 +248,25 @@
   --outline-offset-render-failure-root: 6px;
   --outline-offset-render-failure-button: 3px;
 
-  /* Comment-anchor highlight washes (`commentHighlights.ts`'s `commentHighlightTheme`, ux-design.md
-     §2 thread states, #1719). #1781 restores the binding light-mode open and selected/add-here
-     treatments from `docs/design/specs/comments.md:20`; the theme owns their specified box-shadow. */
+  /* Comment-anchor highlights (`commentHighlights.ts`'s `commentHighlightTheme`), valued per
+     `docs/design/specs/tokens.md` → *Comment-anchor states*. The fill carries selection and the
+     line carries thread state; `selected-pattern-border` redraws Working's and Addressed — pending's
+     pattern in the accent, and `selected-resolved-border` is Resolved's line on the selected fill. */
   --color-comment-highlight-open-bg: #fbf3e1;
   --color-comment-highlight-open-border: #e0c98c;
   --color-comment-highlight-selected-bg: #e1e0f8;
   --color-comment-highlight-selected-border: #a19ce9;
-  --color-comment-highlight-working-bg: #e6e0ff;
-  --color-comment-highlight-working-border: #6f52d9;
+  --color-comment-highlight-selected-pattern-border: var(--color-accent);
+  --color-comment-highlight-selected-resolved-border: #6b665c;
+  --color-comment-highlight-working-bg: #f0ede6;
+  --color-comment-highlight-working-border: #6b665c;
+  --color-comment-highlight-addressed-pending-bg: #fbf3e1;
+  --color-comment-highlight-addressed-pending-border: #8a6614;
   --color-comment-highlight-reopened-bg: #ffe0d6;
   --color-comment-highlight-reopened-border: #cf5b22;
   --color-comment-highlight-suggestion-bg: #d8f0dd;
   --color-comment-highlight-suggestion-border: #1a7f37;
-  --color-comment-highlight-resolved-border: #c4c4c4;
+  --color-comment-highlight-resolved-border: #8c8779;
   --color-comment-gutter-open-border: #b5871f;
   --color-comment-gutter-open-fg: #8a6614;
   --color-comment-gutter-selected-border: #4f46e5;
@@ -595,26 +600,25 @@
   --color-frontmatter-fold-mac-border: var(--color-border);
   --color-frontmatter-fold-accent: var(--color-accent);
 
-  /* #1719: the light washes above sat at 1.01-1.11:1 against dark mode's near-white --color-fg,
-     painting near-invisible text — the mocks record dark mode itself as a known gap
-     (`docs/design/specs/state.md:47`), so per the #931 disposition above these derive strictly from
-     the existing app palette rather than hand-picking new dark hues. Each state keeps a distinct hue
-     anchor (amber/blue/red) where the palette has one; `suggestion` has none (no green core token),
-     so it — like `resolved`'s already-transparent wash — leans on its underline shape (wavy) for
-     state identity, exactly as this file's own doc comment says a colour-blind reader already must.
-     Every background resolves to a token dark enough to hold >=4.5:1 against --color-fg (#e6e7ea):
-     --color-warning-bg/--color-surface/--color-border are ~7.3:1/~11.9:1/~8.8:1 respectively. */
+  /* Dark comment-anchor highlights, valued per `docs/design/specs/tokens.md` → *Comment-anchor
+     states*, which specifies dark for this surface (`docs/design/specs/state.md` records the
+     carve-out). Open and Addressed — pending share the warning pair; the selected fill is also the
+     selected gutter icon's fill, so the two read as one selection (`comments.md`, (33)). */
   --color-comment-highlight-open-bg: var(--color-warning-bg);
   --color-comment-highlight-open-border: var(--color-warning-fg);
-  --color-comment-highlight-selected-bg: var(--color-surface);
+  --color-comment-highlight-selected-bg: #23284d;
   --color-comment-highlight-selected-border: var(--color-accent);
-  --color-comment-highlight-working-bg: var(--color-surface);
-  --color-comment-highlight-working-border: var(--color-accent);
+  --color-comment-highlight-selected-pattern-border: var(--color-accent);
+  --color-comment-highlight-selected-resolved-border: #9aa0a6;
+  --color-comment-highlight-working-bg: #26282c;
+  --color-comment-highlight-working-border: #9aa0a6;
+  --color-comment-highlight-addressed-pending-bg: var(--color-warning-bg);
+  --color-comment-highlight-addressed-pending-border: var(--color-warning-fg);
   --color-comment-highlight-reopened-bg: var(--color-border);
   --color-comment-highlight-reopened-border: var(--color-danger-fg);
-  --color-comment-highlight-suggestion-bg: var(--color-surface);
-  --color-comment-highlight-suggestion-border: var(--color-muted);
-  --color-comment-highlight-resolved-border: var(--color-border);
+  --color-comment-highlight-suggestion-bg: #14532d;
+  --color-comment-highlight-suggestion-border: #86efac;
+  --color-comment-highlight-resolved-border: #6b7075;
   --color-comment-gutter-open-border: var(--color-warning-fg);
   --color-comment-gutter-open-fg: var(--color-warning-fg);
   --color-comment-gutter-selected-border: var(--color-accent);

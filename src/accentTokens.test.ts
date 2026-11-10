@@ -83,6 +83,28 @@ describe("accent tokens (tokens.md, Accent family, refresh 31)", () => {
     expect(declaration(dark, "--color-comment-gutter-resolved-fg")).toBe("var(--color-accent-ink)");
   });
 
+  it("fills the selected gutter icon with the selected-anchor fill, so dark draws it on #23284d (comments.md (33))", () => {
+    // The icon and its anchor read as one selection; the dark `+` is set in the accent ink and the
+    // border keeps the dark accent.
+    const icon = ruleBody(".cm-commentGutterIcon-selected");
+    const dark = ruleBody(':root[data-theme="dark"]');
+    expect({
+      iconBackground: declaration(icon, "background"),
+      iconBorder: declaration(icon, "border-color"),
+      iconGlyph: declaration(icon, "color"),
+      darkFill: declaration(dark, "--color-comment-highlight-selected-bg"),
+      darkBorder: declaration(dark, "--color-comment-gutter-selected-border"),
+      darkGlyph: declaration(dark, "--color-comment-gutter-selected-fg"),
+    }).toEqual({
+      iconBackground: "var(--color-comment-highlight-selected-bg)",
+      iconBorder: "var(--color-comment-gutter-selected-border)",
+      iconGlyph: "var(--color-comment-gutter-selected-fg)",
+      darkFill: "#23284d",
+      darkBorder: "var(--color-accent)",
+      darkGlyph: "var(--color-accent-ink)",
+    });
+  });
+
   it("keeps the light accent ring on panels that stay light in dark, where the dark accent fails 3:1", () => {
     for (const [panel, background, ring] of [
       [".comment-thread-card__menu", "#fff", ".comment-thread-card__menu button:focus-visible"],
