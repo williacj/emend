@@ -423,6 +423,7 @@ async function captureQuote(browser, viteUrl, driverUrl, platform) {
   try {
     await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-content:visible").waitFor();
+    await page.locator(".cm-line").first().click({ position: { x: 1, y: 1 } });
     await page.keyboard.press(platform.id === "mac" ? "Meta+Home" : "Control+Home");
     for (let index = 0; index < 5; index += 1) await page.keyboard.press("Shift+ArrowRight");
     await page.getByRole("button", { name: "Quote to chat" }).click();
