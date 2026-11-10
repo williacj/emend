@@ -2,6 +2,18 @@
 
 Newest first. Each entry lists what changed in the specs since the previous refresh, so an implementer can work the delta.
 
+## 2026-11-10 (32) — Comment-anchor states: Working and Addressed — pending
+
+Raised against the shipped app after (31) (williacj/emend#39): the Working anchor tint (`#E6E0FF`) sat 1.02:1 from the new Selected tint, the two shared their dark fill and accent line, and Addressed — pending drew exactly Working's anchor. Specs only; no mock draws these anchors.
+
+1. **Rule.** The anchor's fill shows selection and its line shows thread state, by pattern and weight. Selection redraws the same pattern in the accent. `comments.md` → *Anchor highlights in the text*; `tokens.md` → *Comment-anchor states*.
+2. **Working → neutral.** `#F0EDE6` with `1px dotted #6B665C` (dark `#26282C`, `1px dotted #9AA0A6`). It drops the violet, because a running agent is neither an accent action nor something the author owes.
+3. **Addressed — pending → its own anchor.** Open's amber fill with `2px dashed #8A6614` (dark: `#78350F` with `2px dashed #FCD34D`, the app's warning pair, 6.29:1).
+4. **Selected.** Light unchanged for Open (`#E1E0F8`, 1px solid `#A19CE9`). Selected Working and Selected Addressed — pending keep their pattern in `#4F46E5`. Dark Selected moves to `#23284D` with the pattern in `#A5B0FF`.
+5. **Contrast.** Body text is 10.2:1 or better on every fill. Patterned lines are 4.76:1 or better against their fills.
+6. **Not changed:** the accent family, Open, Reopened, Suggestion, and every state's meaning. No J# delta is raised. §2's three non-animated carriers are on the card, so this filled an appearance gap rather than resolving a conflict. Selected Reopened and Selected Suggestion are left open.
+7. **Composition.** Selected applies alongside every state's style, not only to Open. Dark warning values confirmed from `src/styles.css` on 2026-11-10 and written into both specs in place of the earlier placeholders.
+
 ## 2026-11-08 (31) — Rename to Emend, app icon, indigo accent
 
 CJ, 2026-11-08: the app is renamed **Cowrite → Emend** and moves to `williacj/emend`; the brand accent is the Emend site's indigo. Tracking: williacj/emend#10 under epic #21. Appearance only; behavior is unchanged. Entries below this one keep the Cowrite name and the old values as written, because they are history.

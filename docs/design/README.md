@@ -12,9 +12,13 @@ Read `specs/` for the implementable detail. Each spec file covers one surface an
 
 Where the mocks and `docs/ux-design.md` disagree on **behavior**, `ux-design.md` wins. Where they disagree on **appearance**, the hi-fi mocks win. Where they disagree about the *same* thing, or a mock implies behavior `ux-design.md` does not record, **raise it with CJ** — neither document is amended by the reader (`CLAUDE.md`, "Reading `docs/design/`").
 
-## Current status (31)
+## Current status (32)
 
-**Refresh (31) is current.** The app is renamed **Cowrite → Emend** (CJ, 2026-11-08; williacj/emend#10 under #21) and its accent moves to the Emend site's indigo. Nothing else changes: layout, every other token, states and behavior are as in (30), and every gap in `specs/state.md` "Known gaps" stays open.
+**Refresh (32) is current**, a specs-only follow-up to (31). The comment anchor in the document now tells Working, Addressed — pending and Selected apart by line pattern as well as colour. Working is neutral with a dotted line, Addressed — pending is amber with a 2px dashed line, and Selected swaps the fill to indigo while keeping the state's line. See `specs/comments.md` → *Anchor highlights in the text* and `CHANGELOG.md` (32).
+
+## Status (31)
+
+**Refresh (31).** The app is renamed **Cowrite → Emend** (CJ, 2026-11-08; williacj/emend#10 under #21) and its accent moves to the Emend site's indigo. Nothing else changes: layout, every other token, states and behavior are as in (30), and every gap in `specs/state.md` "Known gaps" stays open.
 
 - **Name.** The mocks are now `mocks/Emend Authoring Shell.dc.html` and `mocks/Emend Wireframes.dc.html`. Every drawn window title and copy line that named the product reads Emend, swapped one-for-one. The app's own copy changes in williacj/emend#6, under `../ux-design.md`.
 - **Icon.** New `icons/`: the macOS master (a) and the Windows/small-size glyph (b), drawn on `mocks/Emend App Icon.dc.html`. Every Windows title bar, light and dark, now draws (b) at 15px in place of the plain square.

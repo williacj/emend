@@ -2,6 +2,12 @@
 
 > **Renamed 2026-11-08:** the app was Cowrite until D36 and TD-29. Entries dated before 2026-11-08 keep the old name, the old on-disk names (`.cowrite/`, `COWRITE_*`, `com.cowrite.desktop`) and bare `#NNNN` issue numbers, which refer to `williacj/cowrite`. They are left as written, because they record what was true then.
 
+# 2026-11-10 — design refresh (32) import: comment-anchor states
+
+- Imported refresh (32) wholesale. It is specs only: `comments.md`, `tokens.md`, CHANGELOG and README. It was raised after williacj/emend#39 because the Working tint sat 1.02:1 from the new Selected tint and Addressed — pending drew Working's exact anchor. Working becomes neutral and dotted, Addressed — pending becomes amber and 2px dashed, Selected applies alongside every state, and dark Selected becomes `#23284D`. The app still draws the old anchors until williacj/emend#41.
+- Known staleness: the `comments.md` "No J# delta" bullet and CHANGELOG (32) item 6 call the fourth carrier optional. CJ made it binding the same day (williacj/emend#40), and §2 wins on behaviour. Refresh (33) is to drop that text and add Selected + Reopened and Selected + Suggestion.
+- For #41: the dark selected gutter icon also uses `--color-comment-highlight-selected-bg` (`src/styles.css`), so the new dark Selected fill recolours that icon too. The spec doesn't mention this, so raise it with the Designer before treating it as intended.
+
 # 2026-11-08 — williacj/emend#10 design refresh (31) import
 
 - Imported CJ's design handoff refresh (31) wholesale: Emend rename, `icons/` masters, indigo accent family, and the macOS softened focus ring at `rgba(79,70,229,.72)` for 3:1. Main was at (26), so (27)–(30) arrive with it: turn 16 agent conversations, all marked proposed and feeding williacj/emend#22, not a licence to build.
