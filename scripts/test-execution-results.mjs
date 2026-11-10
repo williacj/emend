@@ -12,7 +12,7 @@ import { join } from "node:path";
 // this whole check exists to make impossible.
 //
 // The `KIND_READERS` table below is the one definition of the convention, for producers as well
-// as consumers: `.github/workflows/windows-self-hosted.yml` and `playwright.config.mjs` name
+// as consumers: `.github/workflows/ci.yml` and `playwright.config.mjs` name
 // files to match it, and check-test-matrix.test.mjs pins it against that file's own `KINDS` table
 // so a kind can never be existence-checked without also being evidenceable.
 

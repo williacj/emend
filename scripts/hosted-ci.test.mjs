@@ -113,3 +113,46 @@ test('the hosted execution check reads both legs together and fails when a leg d
   // Enforced: vitest and e2e. rust and node stay observed: widening the gate is CJ's call (#2234).
   assert.match(check, /--require-kinds vitest,e2e$/);
 });
+
+test('hosted Lint pins one Rust toolchain with rustfmt and clippy, then enforces both checks (#817)', () => {
+  const workflow = readFileSync(WORKFLOW_PATH, 'utf8');
+  const lint = job(workflow, 'lint');
+  assert.match(lint, /toolchain: 1\.97\.0\n\s+components: rustfmt, clippy/);
+  assert.match(lint, /run: cargo fmt --manifest-path src-tauri\/Cargo\.toml --all -- --check/);
+  assert.match(lint, /run: cargo clippy --manifest-path src-tauri\/Cargo\.toml --workspace --all-targets -- -D warnings/);
+  assert.doesNotMatch(lint, /continue-on-error/);
+  // One toolchain across every hosted Rust job, so lint and the suites judge the same compiler.
+  const pins = [...workflow.matchAll(/^\s+toolchain: (\S+)$/gm)].map((match) => match[1]);
+  assert.ok(pins.length >= 3, `expected a pin in each Rust job, found ${pins.length}`);
+  const channel = readFileSync(join(HERE, '..', 'rust-toolchain.toml'), 'utf8').match(/^channel = "([^"]+)"$/m)?.[1];
+  assert.ok(channel, 'expected rust-toolchain.toml to pin a channel');
+  assert.deepEqual([...new Set(pins)], [channel]);
+});
+
+test('hosted CI validates the FR-traceability matrix and the vitest unhandled-errors invariant (test-plan §9/§9b)', () => {
+  const workflow = readFileSync(WORKFLOW_PATH, 'utf8');
+  for (const name of ['suites', 'test-matrix']) {
+    const block = job(workflow, name);
+    assert.match(block, /run: npm run matrix:check\n/, name);
+    assert.match(block, /run: npm run check:vitest-unhandled-errors\n/, name);
+  }
+});
+
+test('the Windows Suites leg runs default-feature workspace tests, CPAL capture and native Whisper included, into its Rust artifact (#2542/#2544)', () => {
+  const suites = job(readFileSync(WORKFLOW_PATH, 'utf8'), 'suites');
+  // The app's default feature is voice-inference, which enables voice-capture: a plain workspace
+  // test compiles and runs both, so the step must not narrow the feature set.
+  const manifest = readFileSync(join(HERE, '..', 'src-tauri', 'Cargo.toml'), 'utf8');
+  assert.match(manifest, /^default = \["voice-inference"\]$/m);
+  assert.match(manifest, /^voice-inference = \["voice-capture", "dep:whisper-rs"\]$/m);
+
+  const cargo = suites.match(/- name: Cargo test\n([\s\S]*?)(?=\n\s+- name:|$)/)?.[1];
+  assert.ok(cargo, 'expected the Cargo test step');
+  assert.match(cargo, /run: cargo test --manifest-path src-tauri\/Cargo\.toml --workspace 2>&1 \| tee "\$EMEND_MATRIX_ARTIFACTS\/rust-\$\{\{ matrix\.label \}\}\.txt"/);
+  assert.doesNotMatch(cargo, /--features|--no-default-features/);
+
+  // Windows provisions verified CMake and libclang before Cargo compiles Whisper.
+  const provision = suites.indexOf('- name: Provision Windows Whisper tools');
+  assert.ok(provision > 0 && provision < suites.indexOf('- name: Cargo test'));
+  assert.match(suites, /if: matrix\.os == 'windows-latest'\n\s+shell: pwsh\n\s+run: \.\/scripts\/provision-whisper-windows\.ps1/);
+});

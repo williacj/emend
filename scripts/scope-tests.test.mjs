@@ -15,7 +15,7 @@ import {
   renderScopeReport,
   renderBanner,
 } from './scope-tests.mjs';
-import { ALL_SUITES, classifyChangedPaths } from './windows-ci-classifier.mjs';
+import { ALL_SUITES, classifyChangedPaths } from './suite-classifier.mjs';
 import { readPackageScripts } from './package-scripts.mjs';
 
 function gitResult(status = 0, stdout = '') {
@@ -198,7 +198,7 @@ test('collectWorkingDiffPaths surfaces a failing git call instead of silently re
 
 // #2467 review round 1, Important 4: the original list covered six of nine rules (1, 4-8) and the PR
 // body over-claimed "every rule". Rules 2 and 3 are now included — rule 2 (a shared-interface path) and
-// rule 3 (a cross-layer Rust+frontend pair, the same pair `windows-ci-classifier.test.mjs` itself uses
+// rule 3 (a cross-layer Rust+frontend pair, the same pair `suite-classifier.test.mjs` itself uses
 // as its own cross-layer negative control) — bringing this to every rule the classifier can reach from a
 // single `classifyChangedPaths` call: 1-4 and 6-8. Rule 9 is covered separately by the fail-closed banner tests
 // above, since it needs `failClosed`, not just suite selection, to discriminate.
@@ -264,7 +264,7 @@ test('a rule-9 fail-closed all-four match renders the loud banner; a rule-1 all-
 //
 // #2467 review round 2, Important 2 (round 1's tests were the actual defect): these three used to
 // synthesize the `classification` object by hand, so they could never notice that `renderScopeReport`'s
-// dispatch depended on windows-ci-classifier.mjs's own un-pinned prose — proven by the reviewer: a
+// dispatch depended on suite-classifier.mjs's own un-pinned prose — proven by the reviewer: a
 // reworded classifier message left the hand-typed-fixture tests 22/22 green while the REAL render
 // silently broke. All three now call the real, imported `classifyChangedPaths` directly — the actual
 // seam, not a stand-in for it — so `renderScopeReport`'s own current dispatch (on `paths.length` and
@@ -318,7 +318,7 @@ test('every fail-closed banner line — border and content alike — renders at 
   ]) {
     const report = renderScopeReport({ classification, commands, paths, baseRef: 'main' });
     // Both border (`####...`) and content (`# text #`) banner rows start AND end with `#`; the report's
-    // own `## Windows suite classification` / `## Run these` markdown headings start with `#` but never
+    // own `## Suite classification` / `## Run these` markdown headings start with `#` but never
     // end with one, so this filter cannot accidentally pull them in.
     const bannerLines = report.split('\n').filter((line) => line.startsWith('#') && line.endsWith('#'));
     assert.ok(bannerLines.length >= 3, `expected a banner block for reason "${classification.reason}"`);

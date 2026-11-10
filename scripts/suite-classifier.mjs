@@ -1,10 +1,7 @@
-// ABOUTME: Selects Windows CI suites from the ratified changed-path contract without suppressing the job.
-// ABOUTME: Validates immutable event trees and their local diff, falling back to all suites on every uncertain result.
-import { appendFileSync } from 'node:fs';
-import { spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+// ABOUTME: Selects the test suites a change needs from the ratified changed-path contract.
+// ABOUTME: Falls back to all suites on every uncertain result; `npm run scope:tests` is its caller.
 
-export const CLASSIFIER_VERSION = 'windows-suites-v3';
+export const CLASSIFIER_VERSION = 'suites-v3';
 export const ALL_SUITES = Object.freeze(['R', 'T', 'F', 'E']);
 
 const SUITE_NAMES = Object.freeze({
@@ -13,10 +10,9 @@ const SUITE_NAMES = Object.freeze({
   F: 'Frontend',
   E: 'E2E acceptance',
 });
-const SHA_PATTERN = /^[0-9a-f]{40}$/i;
 const CLASSIFIER_PATHS = new Set([
-  'scripts/windows-ci-classifier.mjs',
-  'scripts/windows-ci-classifier.test.mjs',
+  'scripts/suite-classifier.mjs',
+  'scripts/suite-classifier.test.mjs',
 ]);
 
 function suiteFlags(selected) {
@@ -170,30 +166,6 @@ export function classifyChangedPaths(rawPaths, { baseSha = null, headSha = null 
   });
 }
 
-function requireSha(value, label) {
-  if (!SHA_PATTERN.test(value ?? '')) throw new Error(`${label} is missing or malformed`);
-  return value.toLowerCase();
-}
-
-function defaultRunGit(args, { timeoutMs, maxBuffer } = {}) {
-  return spawnSync('git', args, {
-    encoding: null,
-    timeout: timeoutMs,
-    maxBuffer,
-    shell: false,
-    windowsHide: true,
-  });
-}
-
-function successfulGit(result) {
-  return !result?.error && result?.status === 0;
-}
-
-function checkedGit(result, label) {
-  if (!successfulGit(result)) throw new Error(`${label} failed`);
-  return Buffer.isBuffer(result.stdout) ? result.stdout : Buffer.from(result.stdout ?? '');
-}
-
 function decodeUtf8(buffer, label) {
   try {
     return new TextDecoder('utf-8', { fatal: true }).decode(buffer);
@@ -212,64 +184,6 @@ export function parseNameOnlyDiff(output) {
   return paths;
 }
 
-export async function classifyPullRequest({
-  env = process.env,
-  runGit = defaultRunGit,
-  now = Date.now,
-  timeoutMs = 10_000,
-  maxBuffer = 4 * 1024 * 1024,
-} = {}) {
-  const eventName = env.GITHUB_EVENT_NAME;
-  if (eventName !== 'pull_request') {
-    return runAll(`${eventName || 'non-pull-request'} full-suite mode`, {
-      baseSha: SHA_PATTERN.test(env.EMEND_EVENT_BASE_SHA ?? '') ? env.EMEND_EVENT_BASE_SHA : null,
-      headSha: SHA_PATTERN.test(env.EMEND_EVENT_HEAD_SHA ?? '') ? env.EMEND_EVENT_HEAD_SHA : null,
-    });
-  }
-
-  let baseSha = null;
-  let headSha = null;
-  try {
-    baseSha = requireSha(env.EMEND_EVENT_BASE_SHA, 'event base SHA');
-    headSha = requireSha(env.EMEND_EVENT_HEAD_SHA, 'event head SHA');
-    const deadline = now() + timeoutMs;
-    const invoke = (args) => {
-      const remaining = deadline - now();
-      if (remaining <= 0) throw new Error('classifier git deadline exceeded');
-      return runGit(args, { timeoutMs: Math.max(1, Math.floor(remaining)), maxBuffer });
-    };
-
-    const checkoutHead = decodeUtf8(
-      checkedGit(invoke(['rev-parse', 'HEAD']), 'checkout HEAD read'),
-      'checkout HEAD',
-    ).trim().toLowerCase();
-    if (checkoutHead !== headSha) throw new Error('checkout HEAD differs from workflow event head');
-
-    const baseSpec = `${baseSha}^{commit}`;
-    if (!successfulGit(invoke(['cat-file', '-e', baseSpec]))) {
-      checkedGit(
-        invoke(['fetch', '--no-tags', '--depth=1', 'origin', baseSha]),
-        'exact base fetch',
-      );
-    }
-    checkedGit(invoke(['cat-file', '-e', baseSpec]), 'base commit verification');
-    checkedGit(invoke(['cat-file', '-e', `${headSha}^{commit}`]), 'head commit verification');
-    checkedGit(invoke(['merge-base', '--is-ancestor', baseSha, headSha]), 'base ancestry verification');
-    const diff = checkedGit(
-      invoke(['diff', '--no-renames', '--name-only', '-z', baseSha, headSha, '--']),
-      'immutable tree diff',
-    );
-    const paths = parseNameOnlyDiff(diff);
-    return classifyChangedPaths(paths, { baseSha, headSha });
-  } catch (error) {
-    return runAll(`uncertain classification: ${error?.message ?? String(error)}`, {
-      failClosed: true,
-      baseSha,
-      headSha,
-    });
-  }
-}
-
 function suiteReason(classification, suite) {
   const matching = classification.matches
     .filter((match) => match.suites.includes(suite))
@@ -283,7 +197,7 @@ function suiteReason(classification, suite) {
 
 export function renderClassificationSummary(classification) {
   const lines = [
-    '## Windows suite classification',
+    '## Suite classification',
     '',
     `- Classifier: \`${classification.version}\``,
     `- Base SHA: ${classification.baseSha ? `\`${classification.baseSha}\`` : 'not applicable'}`,
@@ -299,33 +213,4 @@ export function renderClassificationSummary(classification) {
     '',
   ];
   return lines.join('\n');
-}
-
-export function nodeSetupRequired(suites) {
-  return ALL_SUITES.some((suite) => suite !== 'R' && suites[suite] === true);
-}
-
-export async function main(env = process.env) {
-  const classification = await classifyPullRequest({ env });
-  if (!env.GITHUB_OUTPUT) throw new Error('GITHUB_OUTPUT is required');
-  const output = [
-    `version=${classification.version}`,
-    `run_rust=${classification.suites.R}`,
-    `run_tooling=${classification.suites.T}`,
-    `run_frontend=${classification.suites.F}`,
-    `run_e2e=${classification.suites.E}`,
-    `run_node=${nodeSetupRequired(classification.suites)}`,
-  ].join('\n');
-  appendFileSync(env.GITHUB_OUTPUT, `${output}\n`);
-  const summary = renderClassificationSummary(classification);
-  if (env.GITHUB_STEP_SUMMARY) appendFileSync(env.GITHUB_STEP_SUMMARY, summary);
-  else process.stdout.write(summary);
-  return classification;
-}
-
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
-  main().catch((error) => {
-    console.error(error.message);
-    process.exitCode = 1;
-  });
 }

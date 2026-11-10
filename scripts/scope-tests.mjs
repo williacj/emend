@@ -2,7 +2,7 @@
 // ABOUTME: base and prints which suites the ratified classifier selects, plus their run commands.
 //
 // This deliberately does NOT reimplement the path->suite rule table. The rules already live in, and
-// are already tested by, `./windows-ci-classifier.mjs` (`classifyChangedPaths`); a second copy here is
+// are already tested by, `./suite-classifier.mjs` (`classifyChangedPaths`); a second copy here is
 // exactly the defect this script exists to remove (#1124, #2281, #2247 all trace to a hand-maintained
 // prose copy of the same table drifting). This module's only job is the LOCAL seam the CI classifier
 // does not have: reading a live git worktree (merge base, uncommitted, untracked) instead of an
@@ -15,7 +15,7 @@ import {
   classifyChangedPaths,
   parseNameOnlyDiff,
   renderClassificationSummary,
-} from './windows-ci-classifier.mjs';
+} from './suite-classifier.mjs';
 import { readPackageScripts } from './package-scripts.mjs';
 
 const MAX_BUFFER = 4 * 1024 * 1024;
@@ -166,20 +166,20 @@ export function renderBanner(lines) {
 }
 
 // `classification.failClosed` covers THREE distinct classifier conditions (classifyChangedPaths in
-// windows-ci-classifier.mjs): rule 9 (an unrecognized path), an empty changed-path result (nothing to
+// suite-classifier.mjs): rule 9 (an unrecognized path), an empty changed-path result (nothing to
 // classify — the common no-op case on a clean tree), and uncertain/malformed input. A single banner
 // worded for rule 9 alone renders false text ("no path-table rule matched") on the empty-diff case,
 // where nothing was ever offered to a rule in the first place — crying wolf on the MOST common no-op
 // invocation erodes exactly the signal requirement 4 exists to buy (#2467 review round 1, Important 3).
 //
 // #2467 review round 2, Important 2: round 1's dispatch matched on `classification.reason` — free prose
-// windows-ci-classifier.mjs owns and does not guarantee, and its own test suite pins none of it. That
+// suite-classifier.mjs owns and does not guarantee, and its own test suite pins none of it. That
 // reproduced this card's own central defect (depending on another module's un-pinned text) one level
 // down, inside the very fix meant to close it (proven by the reviewer: rewording only the classifier's
 // empty-case message left this file's tests 22/22 green while the real rendered banner silently reverted
 // to the wrong text). Dispatch now uses only stable, structurally-typed facts: `paths.length` is a value
 // THIS module computed itself (not parsed from another module's output), and `match.rule` is the
-// classifier's own tested integer contract (`windows-ci-classifier.test.mjs` asserts `.rule` values
+// classifier's own tested integer contract (`suite-classifier.test.mjs` asserts `.rule` values
 // directly, e.g. `assert.equal(rootConfig.matches[0].rule, 1)`) — not prose, and not owed to us by
 // promise alone the way `reason`'s wording is.
 function failClosedBannerLines(classification, paths) {
