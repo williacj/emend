@@ -62,18 +62,25 @@ Emend's accent is the indigo of the Emend marketing page, replacing Cowrite's bl
 
 **Kept, deliberately.** `#E4E9EF` (Windows active-file tint) is listed with the neutrals and keeps its value, as the brief keeps neutrals. `#10131A` (label on a dark accent fill) is ink, not accent. The lo-fi wireframes' stand-in blue (`#2A78D6`, `#1B5AA6`, `#DFE8F4`, `#A9C4E4`, `#EAF2FC`) moves to `#4F46E5`, `#4338CA`, `#DCDAF9`, `#9F9AF3` and `#E8E7FF` so the two files agree.
 
-### Comment-anchor states (refresh (32))
+### Comment-anchor states (refreshes (32) and (33))
 
-Anchor highlights in the document text (`comments.md` → *Anchor highlights in the text*). The fill carries selection; the line carries thread state by **pattern and weight**, so neither selection nor state depends on colour alone. No new colour is introduced: every value below is already in this file or is the app's dark warning pair (`#78350F` background, `#FCD34D` text; `src/styles.css`, confirmed 2026-11-10).
+Anchor highlights in the document text (`comments.md` → *Anchor highlights in the text*). The fill carries selection; the line carries thread state by **pattern and weight**, so neither selection nor state depends on colour alone. Every value below is already in this file or in the app's dark palette (`src/styles.css`: warning `#78350F`/`#FCD34D`, Reopened `#3A3D42`/`#F87171`), except the two dark Suggestion values new in (33).
 
 | State | Fill (light / dark) | Line (light / dark) | Body text on the fill | Line on the fill |
 |---|---|---|---|---|
 | Open (unchanged) | `#FBF3E1` / warning bg `#78350F` | 1px solid `#E0C98C` / warning fg `#FCD34D` | 11.9:1 / 7.34:1 | 1.47:1 / 6.29:1 (solid line; unchanged) |
 | Working | `#F0EDE6` / `#26282C` | 1px dotted `#6B665C` / `#9AA0A6` | 11.3:1 / 11.9:1 | 4.88:1 / 5.59:1 |
 | Addressed — pending | `#FBF3E1` / `#78350F` | 2px dashed `#8A6614` / `#FCD34D` | 11.9:1 / 7.34:1 | 4.76:1 / 6.29:1 |
-| Selected, any of the above | `#E1E0F8` / `#23284D` | the state's own pattern, in `#4F46E5` / `#A5B0FF`; Selected + Open keeps 1px solid `#A19CE9` | 10.2:1 / 11.5:1 | 4.86:1 / 6.92:1 |
+| Reopened (unchanged; dark confirmed (33)) | `#FFE0D6` / `#3A3D42` | 3px double `#CF5B22` / `#F87171` | 10.6:1 / 8.82:1 | 3.26:1 / 3.94:1 |
+| Suggestion (dark new in (33)) | `#D8F0DD` / **`#14532D`** | 1px solid `#1A7F37` / **`#86EFAC`** | 10.9:1 / 7.37:1 | 4.21:1 / 6.49:1 |
+| Selected + Open | `#E1E0F8` / `#23284D` | 1px solid `#A19CE9` / `#A5B0FF` | 10.2:1 / 11.5:1 | 1.92:1 (solid line; unchanged) / 6.92:1 |
+| Selected + Working, Selected + Addressed — pending | `#E1E0F8` / `#23284D` | the state's own pattern, in `#4F46E5` / `#A5B0FF` | 10.2:1 / 11.5:1 | 4.86:1 / 6.92:1 |
+| Selected + Reopened (33) | `#E1E0F8` / `#23284D` | 3px double, own colour: `#CF5B22` / `#F87171` | 10.2:1 / 11.5:1 | 3.14:1 / 5.12:1 |
+| Selected + Suggestion (33) | `#E1E0F8` / `#23284D` | 1px solid, own colour: `#1A7F37` / `#86EFAC` | 10.2:1 / 11.5:1 | 3.92:1 / 10.1:1 |
 
-A dotted or dashed 1–2px line has to reach 3:1 against its fill to read as a pattern rather than a smudge, so the Working and Addressed — pending lines use the darker ink of their family (`#6B665C`, `#8A6614`) rather than the border shade. The dark Selected fill moves from the surface `#26282C` to the family's held-selection tint `#23284D`, so Selected and Working no longer share a dark fill. Fills sit 1.02–1.17:1 apart in lightness, which is why the line pattern, not the fill, is the carrier.
+A dotted or dashed 1–2px line has to reach 3:1 against its fill to read as a pattern rather than a smudge, so the Working and Addressed — pending lines use the darker ink of their family (`#6B665C`, `#8A6614`) rather than the border shade. The dark Selected fill moves from the surface `#26282C` to the family's held-selection tint `#23284D`, so Selected and Working no longer share a dark fill. Fills sit close in lightness: in light, 1.06:1 (Open/Working), 1.11:1 (Working/Selected) and 1.17:1 (Open/Selected); in dark, 1.04:1 (Working/Selected). That is why the line pattern, not the fill, is the carrier. The solid lines of Open (1.47:1) and Selected + Open (1.92:1) are low-contrast by design and unchanged; neither carries a pattern.
+
+**(33) Dark Suggestion.** The app drew dark Suggestion on `#26282C` with 1px solid `#9AA0A6`, the same fill and colour as dark Working. It moves to `#14532D` with `#86EFAC` (green-900/green-300), built like the dark warning pair `#78350F`/`#FCD34D`. Against dark Working: fill 1.62:1, and the line differs in hue and pattern. Two new colours, both Suggestion's. **Dark Reopened confirmed** as the app draws it: `#3A3D42` (the dark line/edge token) with 3px double `#F87171` (the error ink), body 8.82:1, line 3.94:1.
 
 **Retired:** Working `#E6E0FF` with `1px dashed #6F52D9` (light) and `1px dashed #A5B0FF` on `#26282C` (dark). Addressed — pending no longer reuses them.
 

@@ -2,6 +2,16 @@
 
 > **Renamed 2026-11-08:** the app was Cowrite until D36 and TD-29. Entries dated before 2026-11-08 keep the old name, the old on-disk names (`.cowrite/`, `COWRITE_*`, `com.cowrite.desktop`) and bare `#NNNN` issue numbers, which refer to `williacj/cowrite`. They are left as written, because they record what was true then.
 
+# 2026-11-10 — design refresh (33) import: comment-anchor follow-ups
+
+- Imported refresh (33) wholesale. It is specs only and touches the same four files as (32). It adds Selected + Reopened and Selected + Suggestion, which keep their own line colour when selected. Dark Suggestion moves to `#14532D` with a 1px solid `#86EFAC` line, because it had matched dark Working's fill and line colour. The "optional fourth carrier" bullet is replaced by a pointer to §2 (#40). The dark selected gutter-icon recolour to `#23284D` is confirmed as intended. All contrast figures were recomputed and match.
+- Known gap that the design itself records: unselected Open and Suggestion both use a 1px solid line and differ only by colour. That pair is outside §2's fourth carrier.
+- For #41 (the review found these; each goes to the Designer for refresh (34)):
+  - **Wavy underline.** The spec never mentions Suggestion's wavy underline (`commentHighlights.ts`, `textDecoration: underline wavy`). That underline is what actually separates Suggestion from Open without relying on colour. Keep it until (34) rules, because dropping it would open the gap the design records. In dark the fills `#14532D` and `#78350F` measure 1.00:1.
+  - **Resolved.** The spec gives no line for Resolved. The app draws it `1px dotted` on a transparent fill, the same line as the new Working, so the two differ only by fill and line colour. Keep it as it is until (34).
+  - **Dark `+` glyph.** comments.md says the dark selected-icon `+` keeps `#A5B0FF`. tokens.md's ink split says text set in the accent is `#B7C0FF`, which is what the app draws (`--color-accent-ink`, pinned by `accentTokens.test.ts`), at 8.09:1 on `#23284D`. Keep `#B7C0FF`.
+  - **state.md.** state.md still describes dark mode as a gap. (32) and (33) now specify dark anchors, so the #931 "derive dark strictly from the existing palette" comment in `commentHighlights.ts` gives way to the spec for these tokens.
+
 # 2026-11-10 — design refresh (32) import: comment-anchor states
 
 - Imported refresh (32) wholesale. It is specs only: `comments.md`, `tokens.md`, CHANGELOG and README. It was raised after williacj/emend#39 because the Working tint sat 1.02:1 from the new Selected tint and Addressed — pending drew Working's exact anchor. Working becomes neutral and dotted, Addressed — pending becomes amber and 2px dashed, Selected applies alongside every state, and dark Selected becomes `#23284D`. The app still draws the old anchors until williacj/emend#41.
