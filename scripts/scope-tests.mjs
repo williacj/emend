@@ -25,9 +25,9 @@ const DEFAULT_TIMEOUT_MS = 10_000;
 
 // No npm script builds and runs the Rust workspace suite (unlike T/F/E below), so there is no
 // existing source of truth to read this command from. It mirrors the one place the literal command is
-// otherwise recorded: `.github/workflows/windows-self-hosted.yml`'s `cargo test` step (also pinned by
-// `scripts/windows-workflow.test.mjs`). If that step's invocation ever changes, this line has to change
-// with it — there is no seam that makes the two automatically agree.
+// otherwise recorded: the required gate's `cargo test` step in `.github/workflows/ci.yml`. If that
+// step's invocation ever changes, this line has to change with it; `scripts/scope-tests.test.mjs`
+// fails when the two disagree.
 const RUST_TEST_COMMAND = 'cargo test --manifest-path src-tauri/Cargo.toml --workspace';
 
 // T/F/E each already have a named script in package.json — the actual command text (what it runs,

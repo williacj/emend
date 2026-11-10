@@ -35,7 +35,7 @@ test('self-hosted Windows provisions target-native Whisper tools before default-
 
 test('hosted Ubuntu lint installs CPAL ALSA headers before default-feature clippy', () => {
   const workflow = read('.github/workflows/ci.yml');
-  const lint = workflow.slice(workflow.indexOf('\n  lint:\n'), workflow.indexOf('\n  test-cargo:\n'));
+  const lint = workflow.slice(workflow.indexOf('\n  lint:\n'), workflow.indexOf('\n  suites:\n'));
   const linuxDeps = namedStep(lint, 'Install Linux deps');
   assert.ok(linuxDeps);
   assert.match(linuxDeps[0], /^\s*if: matrix\.os == 'ubuntu-latest'$/m);
@@ -76,9 +76,9 @@ test('every hosted Rust job gets the proven Windows toolchain and target binding
   assert.match(workflow, /^  GGML_CCACHE: "OFF"$/m);
   assert.equal((workflow.match(/- name: Provision Windows Whisper tools/g) ?? []).length, 3);
   for (const [job, nextJob, cargoStep] of [
-    ['lint', 'test-cargo', 'Rust clippy'],
-    ['test-cargo', 'build-app', 'Cargo test'],
-    ['build-app', 'test-npm', 'Build unsigned app with normal features'],
+    ['lint', 'suites', 'Rust clippy'],
+    ['suites', 'build-app', 'Cargo test'],
+    ['build-app', 'test-matrix', 'Build unsigned app with normal features'],
   ]) {
     const start = workflow.indexOf(`\n  ${job}:\n`);
     const end = workflow.indexOf(`\n  ${nextJob}:\n`, start + 1);
