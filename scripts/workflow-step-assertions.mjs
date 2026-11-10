@@ -5,7 +5,7 @@
 // workflows can carry regex-meaningful characters (e.g. the parenthesized "(test-plan §9b)" suffix on
 // "Validate vitest unhandled-errors invariant") that would otherwise silently change what the
 // constructed pattern matches rather than fail loudly.
-export function escapeRegExp(text) {
+function escapeRegExp(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 

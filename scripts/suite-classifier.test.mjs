@@ -123,8 +123,14 @@ test('parses git name-only NUL framing, including deletions and both sides of a 
 });
 
 test('malformed NUL framing, an empty path, invalid UTF-8 and non-buffer output all throw', () => {
-  for (const output of [Buffer.from('src/a.ts'), Buffer.from('a\0\0'), Buffer.from([0xff, 0]), 'src/a.ts\0']) {
-    assert.throws(() => parseNameOnlyDiff(output));
+  // Each case names its own guard's message, so a removed guard cannot pass on another one's error.
+  for (const [output, message] of [
+    [Buffer.from('src/a.ts'), /missing NUL framing/],
+    [Buffer.from('a\0\0'), /contains an empty path/],
+    [Buffer.from([0xff, 0]), /is not valid UTF-8/],
+    ['src/a.ts\0', /is not a byte buffer/],
+  ]) {
+    assert.throws(() => parseNameOnlyDiff(output), message);
   }
 });
 

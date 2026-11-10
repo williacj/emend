@@ -15,6 +15,11 @@ on:
 # runs. cancel-in-progress only for PRs: superseded PR runs are cancelled to save
 # runner minutes, but pushes to main always run to completion so every mainline
 # commit keeps its own CI signal.
+# Read-only: no job here writes to the repository. Artifact upload and download use the run's own
+# runtime token, not GITHUB_TOKEN.
+permissions:
+  contents: read
+
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -33,6 +38,7 @@ jobs:
         os: [macos-latest, windows-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     name: Lint (${{ matrix.os }})
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -315,6 +321,7 @@ jobs:
   test-matrix:
     runs-on: ubuntu-latest
     name: Test-matrix traceability
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -351,6 +358,7 @@ jobs:
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     name: Test-matrix execution evidence
+    timeout-minutes: 15
     steps:
       - name: Require both Suites legs to pass
         if: ${{ needs.suites.result != 'success' }}
@@ -395,6 +403,7 @@ jobs:
   benchmark:
     runs-on: macos-latest
     name: Benchmark (stub)
+    timeout-minutes: 5
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

@@ -156,3 +156,36 @@ test('the Windows Suites leg runs default-feature workspace tests, CPAL capture 
   assert.ok(provision > 0 && provision < suites.indexOf('- name: Cargo test'));
   assert.match(suites, /if: matrix\.os == 'windows-latest'\n\s+shell: pwsh\n\s+run: \.\/scripts\/provision-whisper-windows\.ps1/);
 });
+
+test('hosted CI checks every pull request and push to main, read-only, with every job bounded (williacj/emend#9)', () => {
+  const workflow = readFileSync(WORKFLOW_PATH, 'utf8');
+  // No path filter: a filtered trigger could leave a PR with no check at all.
+  const on = workflow.match(/\non:\n([\s\S]*?)\n(?=\S)/)?.[1];
+  assert.ok(on, 'expected the on: block');
+  assert.match(on, /^  pull_request:\n    branches: \[main\]$/m);
+  assert.match(on, /^  push:\n    branches: \[main\]$/m);
+  assert.doesNotMatch(on, /paths(-ignore)?:/);
+  assert.match(workflow, /\npermissions:\n  contents: read\n/);
+  assert.doesNotMatch(workflow, /: write/);
+
+  const jobs = [...workflow.matchAll(/\n  ([a-z][a-z-]+):\n/g)].map((match) => match[1])
+    .filter((name) => !['push', 'pull_request', 'contents'].includes(name));
+  assert.ok(jobs.length >= 6, `expected every job, found ${jobs.join(', ')}`);
+  for (const name of jobs) assert.match(job(workflow, name), /\n    timeout-minutes: \d+\n/, name);
+});
+
+test('rustfmt keeps its Ubuntu Lint leg, so the format check cannot silently stop running', () => {
+  const lint = job(readFileSync(WORKFLOW_PATH, 'utf8'), 'lint');
+  assert.match(lint, /os: \[macos-latest, windows-latest, ubuntu-latest\]/);
+  const fmt = lint.match(/- name: Rust fmt check\n([\s\S]*?)(?=\n\s+- name:|$)/)?.[1];
+  assert.ok(fmt, 'expected the fmt step');
+  assert.match(fmt, /if: matrix\.os == 'ubuntu-latest'/);
+});
+
+test('test:scripts uses no shell glob, so node:test discovery works the same through cmd.exe on Windows (#388)', () => {
+  const pkg = JSON.parse(readFileSync(join(HERE, '..', 'package.json'), 'utf8'));
+  // npm runs scripts through cmd.exe on Windows, which does not expand globs; node:test's own
+  // directory discovery is the portable form.
+  assert.equal(pkg.scripts['test:scripts'], 'cd scripts && node --test');
+  assert.doesNotMatch(pkg.scripts['test:scripts:ci'], /[*?]/);
+});

@@ -4,10 +4,8 @@
 // This deliberately does NOT reimplement the path->suite rule table. The rules already live in, and
 // are already tested by, `./suite-classifier.mjs` (`classifyChangedPaths`); a second copy here is
 // exactly the defect this script exists to remove (#1124, #2281, #2247 all trace to a hand-maintained
-// prose copy of the same table drifting). This module's only job is the LOCAL seam the CI classifier
-// does not have: reading a live git worktree (merge base, uncommitted, untracked) instead of an
-// immutable PR event tree, and printing the result for a human at a prompt instead of writing
-// `GITHUB_OUTPUT`.
+// prose copy of the same table drifting). This module's only job is the local seam: reading a live
+// git worktree (merge base, uncommitted, untracked) and printing the result for a human at a prompt.
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
@@ -35,9 +33,7 @@ const RUST_TEST_COMMAND = 'cargo test --manifest-path src-tauri/Cargo.toml --wor
 // `buildSuiteCommands` reads the real script map rather than assuming its own copy of the command body.
 const SUITE_SCRIPT_NAMES = Object.freeze({ T: 'test:scripts', F: 'test', E: 'test:e2e' });
 
-// #2467 review round 1, Minor (Rule of Three; reviewer confirmed round 2 — this decline holds):
-// Keep this Git wrapper Buffer-based for `parseNameOnlyDiff`'s NUL-safe framing. The CI classifier
-// has its own Git invocation boundary and does not need the local working-tree view this tool reads.
+// Buffer-based for `parseNameOnlyDiff`'s NUL-safe framing.
 export function defaultRunGit(args, { cwd = process.cwd(), timeoutMs = DEFAULT_TIMEOUT_MS, maxBuffer = MAX_BUFFER } = {}) {
   return spawnSync('git', args, {
     cwd,
@@ -81,7 +77,7 @@ function isCleanRefMiss(res) {
 
 // A worktree may have no `origin` remote-tracking `main` (a from-scratch bare clone missing the
 // remote-tracking ref, an offline checkout) — falling back to the local branch keeps the tool usable
-// there instead of failing outright the way the CI classifier's stricter immutable-event contract may.
+// there instead of failing outright.
 export function resolveDefaultBranchRef({ runGit = defaultRunGit, cwd = process.cwd(), candidates = ['origin/main', 'main'] } = {}) {
   for (const ref of candidates) {
     const res = runGit(['rev-parse', '--verify', '-q', ref], { cwd });
