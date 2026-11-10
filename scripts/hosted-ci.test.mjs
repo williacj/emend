@@ -50,6 +50,34 @@ test('each hosted Suites leg uploads every suite\'s execution evidence under its
   assert.doesNotMatch(upload, /^\s+if:/m);
 });
 
+test('every hosted suite step runs on both legs and after an earlier suite fails (williacj/emend#8)', () => {
+  const suites = job(readFileSync(WORKFLOW_PATH, 'utf8'), 'suites');
+  // bash runs with `-eo pipefail`, which is what makes `cargo test 2>&1 | tee` fail on a test failure.
+  assert.match(suites, /\n    defaults:\n      run:\n        shell: bash\n/);
+  assert.doesNotMatch(suites, /\n    if:/);
+
+  const steps = suites.split(/\n(?=      - (?:name|uses):)/).slice(1);
+  const names = steps.map((step) => step.match(/- name: (.*)/)?.[1] ?? step.match(/- uses: (\S+)/)[1]);
+  const first = names.indexOf('tooling self-test');
+  const last = names.indexOf('Playwright acceptance suite');
+  assert.ok(first > 0 && last > first, 'expected the suite steps in order');
+  // Any other condition could skip a suite on one OS, which reading both legs together cannot see.
+  for (const step of steps.slice(first, last + 1)) {
+    const conditions = step.match(/^\s+if:.*$/gm)?.map((line) => line.trim());
+    assert.deepEqual(conditions, ['if: ${{ !cancelled() }}'], step.split('\n')[0]);
+  }
+  assert.deepEqual(names.slice(first, last + 1), [
+    'tooling self-test',
+    'Validate docs/test-matrix.md',
+    'Validate vitest unhandled-errors invariant (test-plan §9b)',
+    'vitest',
+    'Cargo test',
+    'Install Playwright Chromium',
+    'Pre-build the headless test driver',
+    'Playwright acceptance suite',
+  ]);
+});
+
 test('the hosted execution check reads both legs together and fails when a leg did not pass (williacj/emend#8)', () => {
   const evidence = job(readFileSync(WORKFLOW_PATH, 'utf8'), 'matrix-evidence');
 
@@ -60,6 +88,18 @@ test('the hosted execution check reads both legs together and fails when a leg d
   assert.ok(guard, 'expected the leg-result guard');
   assert.match(guard, /if: \$\{\{ needs\.suites\.result != 'success' \}\}/);
   assert.match(guard, /exit 1/);
+
+  // Every kind from every leg, so a suite that stops producing results on one OS fails here even
+  // though the other leg's results would still satisfy each row.
+  const presence = evidence.match(/- name: Require every suite's results from both legs\n([\s\S]*?)(?=\n\s+- (?:name|uses):|$)/)?.[1];
+  assert.ok(presence, 'expected the per-leg presence check');
+  assert.match(presence, /for label in windows macos; do/);
+  for (const file of ['node-scripts-$label.jsonl', 'vitest-$label.json', 'rust-$label.txt', 'e2e-$label.json']) {
+    assert.ok(presence.includes(`"${file}"`), file);
+  }
+  assert.match(presence, /\[ ! -s "\$dir\/\$file" \]/);
+  assert.match(presence, /exit "\$missing"/);
+  assert.ok(evidence.indexOf('Require every suite') < evidence.indexOf('node scripts/check-test-matrix.mjs'));
 
   assert.match(evidence, /pattern: matrix-results-\*/);
   assert.match(evidence, /merge-multiple: true/);

@@ -51,25 +51,23 @@ test('buildSuiteCommands refuses to print a command for a suite whose script is 
 });
 
 // R has no npm script to source its command from (unlike T/F/E), so it is a literal in
-// scripts/scope-tests.mjs, hand-synced with `.github/workflows/windows-self-hosted.yml`'s own `cargo
-// test` step. This is the exact drift shape #1124/#2281/#2247 trace to for the rule table — pinning it
+// scripts/scope-tests.mjs, hand-synced with the required gate's `cargo test` step in
+// `.github/workflows/ci.yml`. This is the exact drift shape #1124/#2281/#2247 trace to for the rule table — pinning it
 // here means a change to one side without the other reddens this test instead of silently diverging.
 //
 // #2467 review round 1, Important 2: a bare `workflow.includes(commands.R)` is substring CONTAINMENT,
 // not identity — appending a flag after `--workspace` (e.g. `--no-fail-fast`) stays contained and this
 // test would stay green while CI's actual invocation silently diverged from what this file prints.
-// Anchoring on the exact `cmd /c '<command> 2>&1'` wrapper the workflow embeds it in (verified against
-// mutated-workflow fixtures: an appended flag, and a removed `--manifest-path`, both correctly go RED
-// against the anchored form; only the exact, unmodified command matches) closes both the append and the
-// removal/reorder cases the plain-containment version missed.
-test('the hardcoded R command matches, boundary-anchored, the exact cargo invocation in the required Windows workflow', () => {
+// Anchoring on the whole step line the workflow runs, `run: <command> 2>&1 | tee …`, closes both the
+// append case and the removal/reorder cases the plain-containment version missed.
+test('the hardcoded R command matches, boundary-anchored, the exact cargo invocation in the required workflow', () => {
   const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
-  const workflow = readFileSync(join(repoRoot, '.github', 'workflows', 'windows-self-hosted.yml'), 'utf8');
+  const workflow = readFileSync(join(repoRoot, '.github', 'workflows', 'ci.yml'), 'utf8');
   const commands = buildSuiteCommands({ 'test:scripts': 'b', test: 'c', 'test:e2e': 'd' });
-  const anchored = `cmd /c '${commands.R} 2>&1'`;
+  const anchored = `        run: ${commands.R} 2>&1 | tee `;
   assert.ok(
-    workflow.includes(anchored),
-    `expected windows-self-hosted.yml to contain the exact, unmodified invocation "${anchored}"`,
+    workflow.split('\n').some((line) => line.startsWith(anchored)),
+    `expected ci.yml to run the exact, unmodified invocation "${anchored.trim()}"`,
   );
 });
 
