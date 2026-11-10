@@ -12,9 +12,13 @@ Read `specs/` for the implementable detail. Each spec file covers one surface an
 
 Where the mocks and `docs/ux-design.md` disagree on **behavior**, `ux-design.md` wins. Where they disagree on **appearance**, the hi-fi mocks win. Where they disagree about the *same* thing, or a mock implies behavior `ux-design.md` does not record, **raise it with CJ** — neither document is amended by the reader (`CLAUDE.md`, "Reading `docs/design/`").
 
-## Current status (33)
+## Current status (34)
 
-**Refresh (33) is current**, a specs-only follow-up to (32). Selected Reopened and Selected Suggestion take the indigo fill and keep their own line. Dark Suggestion moves to its own green (`#14532D` / `#86EFAC`) so it no longer matches dark Working. Dark Reopened and the dark selected gutter icon are confirmed. The anchor's role as §2's fourth carrier is now binding in `../ux-design.md`. See `CHANGELOG.md` (33).
+**Refresh (34) is current**, three corrections to the (33) comment-anchor spec from an independent review against the shipped code. Suggestion's wavy underline is now specified, which closes the Open/Suggestion gap. Resolved and Dismissed get a 1px dashed anchor of their own, with no fill. The dark selected icon's `+` is `#B7C0FF`. `state.md` records the anchors as a dark-mode carve-out. See `CHANGELOG.md` (34).
+
+## Status (33)
+
+**Refresh (33)**, a specs-only follow-up to (32). Selected Reopened and Selected Suggestion take the indigo fill and keep their own line. Dark Suggestion moves to its own green (`#14532D` / `#86EFAC`) so it no longer matches dark Working. Dark Reopened and the dark selected gutter icon are confirmed. The anchor's role as §2's fourth carrier is now binding in `../ux-design.md`. See `CHANGELOG.md` (33).
 
 ## Status (32)
 

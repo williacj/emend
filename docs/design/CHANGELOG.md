@@ -2,13 +2,24 @@
 
 Newest first. Each entry lists what changed in the specs since the previous refresh, so an implementer can work the delta.
 
+## 2026-11-10 (34) — Three corrections to the (33) comment-anchor spec
+
+An independent review checked (33) against the shipped code (`src/editor/commentHighlights.ts`, `src/styles.css`). Specs only. No state's meaning changes; no J# delta.
+
+1. **Suggestion's wavy underline is specified.** The app draws `text-decoration: underline wavy` in the line colour, offset 2px, beside the 1px solid border; (32) and (33) left it out. It is now in both tables, in both themes and when selected. It is what separates Suggestion from Open by pattern, so (33)'s "known gap" bullet is replaced by a note that the gap is closed (dark Open and Suggestion fills are 1.00:1, so this matters most there). (33) item 3 carries a correction note.
+2. **Resolved and Dismissed get an anchor row and their own pattern.** No fill, 1px **dashed**: `#8C8779` light (3.46:1), `#6B7075` dark (3.30:1, new). The app drew Resolved 1px dotted, the pattern (32) gave Working. Selected: the indigo fill with the dashed line darkened to `#6B665C` / `#9AA0A6` (4.41:1 / 5.37:1). Dismissed shares the anchor, following §2's closed mechanics; its card appearance stays undrawn (UXR-Q12).
+3. **Dark selected icon `+` is `#B7C0FF`** (accent ink, 8.09:1 on `#23284D`), not `#A5B0FF`. Only the border is `#A5B0FF`. `comments.md` corrected.
+4. **`state.md`** records the comment anchors as a dark-mode carve-out, specified but not drawn, with the three colours this folder added for them.
+
+Until (34) is in the repo, #41 keeps the app's current wavy underline, Resolved look and `#B7C0FF` glyph.
+
 ## 2026-11-10 (33) — Comment-anchor follow-ups to (32)
 
 (32) is in the repo (williacj/emend#42). CJ answered both of its open questions yes on 2026-11-10. Specs only: `comments.md`, `tokens.md`, this file and the README.
 
 1. **Selected + Reopened and Selected + Suggestion.** Same rule as (32): the indigo selected fill (`#E1E0F8` / `#23284D`), and each keeps its own line in its own colour, not the accent. Reopened: 3px double `#CF5B22` / `#F87171`, 3.14:1 / 5.12:1 on the fill. Suggestion: 1px solid `#1A7F37` / `#86EFAC`, 3.92:1 / 10.1:1. Body text 10.2:1 / 11.5:1. Rows added to both tables. The "is open" sentence is removed.
 2. **The fourth carrier is binding.** `../ux-design.md` §2 now lists the anchor as the fourth non-animated way of telling Working from Addressed — pending (williacj/emend#40, merged in #43). It binds only where the thread has a live anchor, and selection must never hide which of the two it is. `comments.md` points to §2 in place of (32)'s "No J# delta … optional" bullet. **(32) item 6 is superseded** by this; it stays as written, as history.
-3. **Dark Suggestion gets its own treatment.** The app drew it as `#26282C` with 1px solid `#9AA0A6`, the same fill and colour as (32)'s dark Working. It is now `#14532D` with 1px solid `#86EFAC` (green-900/green-300, built like the dark warning pair). Body 7.37:1, line 6.49:1, fill 1.62:1 from dark Working. Light Suggestion is unchanged.
+3. **Dark Suggestion gets its own treatment.** The app drew it as `#26282C` with 1px solid `#9AA0A6` *(corrected in (34): and a wavy underline in the same grey, which this item left out)*, the same fill and colour as (32)'s dark Working. It is now `#14532D` with 1px solid `#86EFAC` (green-900/green-300, built like the dark warning pair). Body 7.37:1, line 6.49:1, fill 1.62:1 from dark Working. Light Suggestion is unchanged.
 4. **Dark Reopened confirmed** as the app draws it: `#3A3D42` with 3px double `#F87171`, body 8.82:1, line 3.94:1.
 5. **Dark selected gutter icon.** It shares the selected anchor's fill token, so (32)'s move to `#23284D` recolours it. Intended; one line added to the gutter-icon section. Light unchanged.
 6. **`tokens.md` corrections** from the independent review: the Selected + Open line (1.92:1) is now listed, and the fill-separation figures are corrected to 1.06–1.17:1 in light and 1.04:1 in dark. The earlier 1.02 was the retired Working tint.
