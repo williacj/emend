@@ -16,9 +16,27 @@ Two halves: **gutter icons** in the document margin, and the **comments column**
 
 **Anchoring — use the paragraph-anchored approach.** In `4a`/`4b` each icon is `position:absolute; top:1–3px; right:-56px` (`-58px` for the wider selected icon) on its own paragraph, so it tracks the anchor as the document reflows. Options `3a`/`3b` show an earlier approach — icons at fixed `top` values in a 44px absolutely-positioned gutter strip — which is fragile; do not implement that. Add vertical collision nudging when two anchors fall close together.
 
-**Anchor highlights in the text:**
-- Open — `background:#FBF3E1; box-shadow:0 1px 0 #E0C98C`
-- Selected — `background:#E1E0F8; box-shadow:0 1px 0 #A19CE9`
+**Anchor highlights in the text** (revised (32); values and contrast in `tokens.md` → *Comment-anchor states*):
+
+The **fill says whether the thread is selected**; the **line says the thread's state**, by pattern and weight as well as colour. Selecting a thread swaps the fill to the indigo tint and redraws the same line pattern in the accent, so a selected thread still shows its state. No anchor animates.
+
+| State | Light | Dark | Line pattern (the non-colour carrier) |
+|---|---|---|---|
+| Open | `background:#FBF3E1; box-shadow:0 1px 0 #E0C98C` (unchanged) | `background:#78350F; box-shadow:0 1px 0 #FCD34D` (the warning pair, unchanged) | 1px solid |
+| Working | `background:#F0EDE6; border-bottom:1px dotted #6B665C` | `background:#26282C; border-bottom:1px dotted #9AA0A6` | 1px **dotted**, neutral |
+| Addressed — pending | `background:#FBF3E1; border-bottom:2px dashed #8A6614` | `background:#78350F; border-bottom:2px dashed #FCD34D` (6.29:1) | 2px **dashed**, amber |
+| Selected + Open | `background:#E1E0F8; box-shadow:0 1px 0 #A19CE9` (unchanged) | `background:#23284D; box-shadow:0 1px 0 #A5B0FF` | 1px solid |
+| Selected + Working | `background:#E1E0F8; border-bottom:1px dotted #4F46E5` | `background:#23284D; border-bottom:1px dotted #A5B0FF` | 1px dotted |
+| Selected + Addressed — pending | `background:#E1E0F8; border-bottom:2px dashed #4F46E5` | `background:#23284D; border-bottom:2px dashed #A5B0FF` | 2px dashed |
+
+- **Selected composes with every state; it is not an Open-only style.** A selected thread takes the selected fill and its state's line together. Selected + Working and Selected + Addressed — pending are real, drawable combinations, so selection must be applied alongside the state's style, never instead of it.
+- **Working is neutral, not violet.** It means the agent is running and the author owes nothing, so it takes no accent (accent means a selection or an action) and no amber (amber means a comment waiting on the author). The previous `#E6E0FF` / `1px dashed #6F52D9` treatment is withdrawn; it measured 1.02:1 against the Selected tint.
+- **Addressed — pending stays in the comment amber**, because like Open it waits on the author. It differs from Open by a 2px dashed line in the darker amber ink, against Open's 1px solid light amber line. It no longer shares Working's anchor.
+- **The anchor follows the state the card displays**, in §2's presentation order. A thread with a run in flight shows Working even if an earlier delivery left changes undecided; those changes are marked in the text by their own redline marks.
+- **Reduced motion.** Nothing here moves. If the implementation adds motion to Working (moving dots, for example), the static dotted line must remain the carrier and the motion must stop under `prefers-reduced-motion`.
+- **Forced colours.** Draw the patterned lines with `border-bottom`, not `box-shadow`: Windows High Contrast drops box shadows but keeps borders, so Working and Addressed — pending stay distinct there. Open and Selected + Open still use the shadow line (unchanged), which forced colours hide.
+- **Unchanged here:** Reopened (`#FFE0D6`, 3px double `#CF5B22`) and Suggestion (`#D8F0DD`, 1px solid `#1A7F37`) keep their treatments and are not yet in this table; whether a selected Reopened or Suggestion keeps its line by the same rule is open.
+- **No J# delta.** The state meanings are unchanged. `../ux-design.md` §2 places its three non-animated carriers on the card, so the identical anchors were a gap in appearance, not a conflict with §2. If CJ wants the document anchor to be a binding fourth carrier, that would be a §2 prose addition; it is optional and this treatment does not depend on it.
 
 The `+` icon is also the **live add affordance**: highlighting text shows it in the gutter next to the selection before the comment is committed.
 
@@ -86,7 +104,7 @@ Centered pill: 11.5px `#6B665C`, padding 5px 12px, radius 12px, bg `#F7F5EF` (Wi
 
 ## Interactions
 
-- **Click a gutter icon** → scroll its thread into view in the column and select it (anchor highlight switches to the `#E1E0F8` selected treatment). Click a card → same in reverse.
+- **Click a gutter icon** → scroll its thread into view in the column and select it (anchor fill switches to the `#E1E0F8` selected tint and its line keeps the thread state's pattern; see *Anchor highlights in the text*). Click a card → same in reverse.
 - **Resolve (`✓`)** → thread animates to the resolved treatment; if resolved threads are hidden it collapses into the hidden-threads chip, and the header count decrements.
 - **Edit (`✎`)** → in-place editing state above.
 - **`⋯`** → overflow menu above.
