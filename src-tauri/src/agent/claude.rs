@@ -81,7 +81,7 @@ pub struct SpawnRequest {
 
 /// The MCP tool `--permission-prompt-tool` delegates every headless tool-permission decision to
 /// (SPIKE-1 §3.3/§3.4, TD-5, J7 / FR-AGENT-3): the `permission_request` tool (TD-1 §3.2) on our own
-/// `cowrite` server, named with Claude Code's `mcp__<server>__<tool>` convention (line 25). Built
+/// `emend` server, named with Claude Code's `mcp__<server>__<tool>` convention (line 25). Built
 /// from [`MCP_SERVER_NAME`] so it can never drift from the server name we actually inject. Only
 /// meaningful when an [`McpServer`] is wired — the tool lives on that server — so [`build_args`]
 /// emits the flag alongside `--mcp-config`, never on its own (see #453: this is what makes D21
@@ -95,7 +95,7 @@ pub fn permission_prompt_tool() -> String {
 }
 
 /// Builds the `--mcp-config` payload (the published `McpServerConfig` schema): one `http` server
-/// named `cowrite`, pointing at the loopback address with the bearer token in its `Authorization`
+/// named `emend`, pointing at the loopback address with the bearer token in its `Authorization`
 /// header — the whole "user configures nothing" contract lives in this one value.
 pub fn mcp_config(server: &McpServer) -> Value {
     let mut headers = json!({"Authorization": format!("Bearer {}", server.token)});
@@ -243,7 +243,7 @@ mod tests {
     }
 
     #[test]
-    fn permission_prompt_tool_targets_the_permission_request_tool_on_the_cowrite_server() {
+    fn permission_prompt_tool_targets_the_permission_request_tool_on_the_emend_server() {
         // Must track MCP_SERVER_NAME (the `mcp__<server>__<tool>` convention, line 25) so the
         // delegated tool name and the injected server name can never drift apart.
         assert_eq!(

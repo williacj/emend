@@ -20,14 +20,17 @@ const SHIPPED_FILES = [
 
 // The display name, and the protocol values the agent, the webview and the sidecar see: the MCP
 // server name and its tool prefix, event names, the run header, the app's author value and the
-// reference-data envelope's version field.
-const OLD_NAME = /Cowrite|mcp__cowrite__|cowrite:\/\/|"cowrite"|cowrite_context_version/;
+// reference-data envelope's version field. Header names are matched in any case, as servers read them.
+const OLD_NAME = [
+  /Cowrite|mcp__cowrite__|cowrite:\/\/|"cowrite"|`cowrite`|mcpServers\.cowrite|cowrite_context_version/,
+  /x-cowrite-run/i,
+];
 
 export function oldNameLines(files, read) {
   const found = [];
   for (const file of files) {
     read(file).split('\n').forEach((line, index) => {
-      if (!OLD_NAME.test(line)) return;
+      if (!OLD_NAME.some((pattern) => pattern.test(line))) return;
       found.push(`${file}:${index + 1}: ${line.trim()}`);
     });
   }
@@ -53,6 +56,9 @@ test('the guard finds the old name in copy, comments and protocol values', () =>
       'let tool = "mcp__cowrite__propose_changes";',
       'const EVENT: &str = "cowrite://agent/delivery";',
       '{ cowrite_context_version: 1 }',
+      'if lower.starts_with("x-cowrite-run:") {',
+      'assert!(err.contains("mcpServers.cowrite"));',
+      '/// Reads the `cowrite` entry',
       'let dir = ".cowrite";',
       'const NAME: &str = "emend";',
     ].join('\n'),
@@ -66,5 +72,8 @@ test('the guard finds the old name in copy, comments and protocol values', () =>
     'c.rs:3: let tool = "mcp__cowrite__propose_changes";',
     'c.rs:4: const EVENT: &str = "cowrite://agent/delivery";',
     'c.rs:5: { cowrite_context_version: 1 }',
+    'c.rs:6: if lower.starts_with("x-cowrite-run:") {',
+    'c.rs:7: assert!(err.contains("mcpServers.cowrite"));',
+    'c.rs:8: /// Reads the `cowrite` entry',
   ]);
 });

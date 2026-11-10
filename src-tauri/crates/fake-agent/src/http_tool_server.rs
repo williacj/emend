@@ -61,7 +61,7 @@ impl std::fmt::Debug for HttpToolServer {
 }
 
 impl HttpToolServer {
-    /// Reads the `cowrite` entry out of a `--mcp-config` payload (the published `McpServerConfig`
+    /// Reads the `emend` entry out of a `--mcp-config` payload (the published `McpServerConfig`
     /// shape). Returns the reason as a plain string when the payload has no usable entry — the
     /// binary reports it and exits non-zero rather than silently falling back to the stub, which
     /// would make a broken injection look like a passing test.
@@ -387,9 +387,9 @@ mod tests {
     }
 
     #[test]
-    fn a_config_without_a_cowrite_entry_is_an_error_not_a_silent_stub_fallback() {
+    fn a_config_without_an_emend_entry_is_an_error_not_a_silent_stub_fallback() {
         let err = HttpToolServer::from_mcp_config(&json!({ "mcpServers": {} })).unwrap_err();
-        assert!(err.contains("mcpServers.cowrite"));
+        assert!(err.contains("mcpServers.emend"));
     }
 
     #[test]

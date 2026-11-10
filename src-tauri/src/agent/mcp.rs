@@ -671,7 +671,7 @@ fn read_request(stream: &TcpStream) -> io::Result<Request> {
             protocol_version = line
                 .split_once(':')
                 .map(|(_, value)| value.trim().to_string());
-        } else if lower.starts_with("x-cowrite-run:") {
+        } else if lower.starts_with("x-emend-run:") {
             run_id = line
                 .split_once(':')
                 .map(|(_, value)| value.trim().to_string());
