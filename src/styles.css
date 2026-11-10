@@ -7,15 +7,18 @@
   --color-welcome-quiet: #8c8779;
   --color-dictation-ghost-fg: #8c8779;
   --color-dictation-ghost-underline: #bdb8ac;
-  --color-dictation-held-bg: #e4ebf4;
-  --color-dictation-held-underline: #a9c0dc;
+  --color-dictation-held-bg: #e1e0f8;
+  --color-dictation-held-underline: #a19ce9;
   --color-welcome-signedout: #6b665c;
   --color-welcome-primary-fg: #fcfbf8;
   --color-surface: #faf8f3;
   --color-fg: #1f1d1a;
   --color-muted: #6b665c;
   --color-border: #e3dfd6;
-  --color-accent: #2f5d8c;
+  --color-accent: #4f46e5;
+  --color-accent-ink: #4f46e5;
+  /* The softened focus ring (tokens.md, macOS 12a–12d); dark rings take the dark accent. */
+  --color-accent-ring-soft: rgba(79, 70, 229, 0.72);
   --color-accent-contrast: #ffffff;
   --color-comment-resolve-hover: #f0ede6;
   --color-app-titlebar-win-bg: #e8e4db;
@@ -50,7 +53,7 @@
   --color-session-dialog-border: #dcd7cc;
   --color-session-list-bg: #faf8f3;
   --color-session-default-bg: #f0ede6;
-  --color-session-focus: #2f5d8c;
+  --color-session-focus: #4f46e5;
   --color-session-status-win-bg: #f5f3ed;
   --color-session-status-mac-bg: #f1eee7;
   --color-document-status-win-bg: #f5f3ed;
@@ -76,7 +79,7 @@
   --color-project-open-status-action-active-bg: #edeae2;
   --color-project-open-status-action-pending-bg: #e8e4db;
   --color-project-open-status-dismiss: #a39e92;
-  --color-project-open-status-focus: #2f5d8c;
+  --color-project-open-status-focus: #4f46e5;
   --font-project-open-status: "IBM Plex Sans", system-ui, sans-serif;
   --color-settings-dialog-bg: #fcfbf8;
   --color-settings-nav-win-bg: #f5f3ed;
@@ -87,7 +90,7 @@
   --color-settings-win-control-border: #d5d0c4;
   --color-settings-mac-control-hairline: #dcd7cc;
   --color-settings-control-bg: #ffffff;
-  --color-settings-focus: #2f5d8c;
+  --color-settings-focus: #4f46e5;
   --color-settings-model-track: #e3dfd6;
   --color-settings-model-held: #a39e92;
   --color-editor-toolbar-bg: #faf8f3;
@@ -126,7 +129,7 @@
   --color-editor-format-bg: #ffffff;
   --color-editor-format-border: #d5d0c4;
   --color-editor-format-mac-border: #dcd7cc;
-  --color-editor-format-accent: #2f5d8c;
+  --color-editor-format-accent: #4f46e5;
   --color-editor-format-accent-contrast: #ffffff;
   --color-editor-format-pending: #a39e92;
   --shadow-settings-window-win: 0 18px 44px rgba(31, 29, 26, 0.18),
@@ -149,7 +152,7 @@
   --color-files-rail-label: #8c8779;
   --color-files-rail-muted: #a39e92;
   --color-files-rail-border: #e3dfd6;
-  --color-files-rail-accent: #2f5d8c;
+  --color-files-rail-accent: #4f46e5;
   --color-files-rail-accent-contrast: #ffffff;
   --color-files-rail-win-active-bg: #e4e9ef;
   --color-files-rail-control-bg: #ffffff;
@@ -174,7 +177,7 @@
   --color-timeline-chat-meta: #8c8779;
   --color-timeline-chat-footer-border: #f0ede6;
   --color-timeline-chat-user-avatar: #dcd7cc;
-  --color-timeline-chat-agent-avatar: #2f5d8c;
+  --color-timeline-chat-agent-avatar: #4f46e5;
   --shadow-timeline-chat-mac: 0 1px 2px rgba(31, 29, 26, 0.07);
 
   /* Comments column active-run status line (`5a.5`/`5b.5`, `docs/design/specs/comments.md:150`) —
@@ -202,7 +205,7 @@
   --color-tab-active-fg: #1f1d1a;
   --color-tab-inactive-fg: #6b665c;
   /* The unsaved-work dot, and the focus ring derived from it (`.project-rail`'s accent convention). */
-  --color-tab-accent: #2f5d8c;
+  --color-tab-accent: #4f46e5;
   --color-tab-close-active: #a39e92;
   --color-tab-close-inactive: #bdb8ac;
   --color-tab-hover-bg: rgba(31, 29, 26, 0.05);
@@ -215,7 +218,7 @@
   --color-frontmatter-fold-hover-fg: #1f1d1a;
   --color-frontmatter-fold-win-border: #d5d0c4;
   --color-frontmatter-fold-mac-border: #dcd7cc;
-  --color-frontmatter-fold-accent: #2f5d8c;
+  --color-frontmatter-fold-accent: #4f46e5;
 
   /* J15 / turn 12 is a terminal light surface even when the failed tree had selected dark mode.
      Keep its complete appearance contract here rather than inheriting mutable shell tokens. */
@@ -224,7 +227,7 @@
   --color-render-failure-titlebar-mac-bg: #edeae2;
   --color-render-failure-titlebar-border: #dcd7cc;
   --color-render-failure-titlebar-title: #4a463e;
-  --color-render-failure-titlebar-icon: #2f5d8c;
+  --color-render-failure-titlebar-icon: #4f46e5;
   --color-render-failure-titlebar-close-hover: #d9d4c9;
   --color-render-failure-heading: #1f1d1a;
   --color-render-failure-body: #4a463e;
@@ -241,7 +244,7 @@
   --radius-render-failure-button-mac: 7px;
   --shadow-render-failure-button-mac: 0 1px 2px rgba(31, 29, 26, 0.18);
   --outline-render-failure-focus-win: 2px solid var(--color-render-failure-heading);
-  --outline-render-failure-focus-mac: 3px solid rgba(47, 93, 140, 0.45);
+  --outline-render-failure-focus-mac: 3px solid rgba(79, 70, 229, 0.72);
   --outline-offset-render-failure-root: 6px;
   --outline-offset-render-failure-button: 3px;
 
@@ -250,8 +253,8 @@
      treatments from `docs/design/specs/comments.md:20`; the theme owns their specified box-shadow. */
   --color-comment-highlight-open-bg: #fbf3e1;
   --color-comment-highlight-open-border: #e0c98c;
-  --color-comment-highlight-selected-bg: #e4ebf4;
-  --color-comment-highlight-selected-border: #a9c0dc;
+  --color-comment-highlight-selected-bg: #e1e0f8;
+  --color-comment-highlight-selected-border: #a19ce9;
   --color-comment-highlight-working-bg: #e6e0ff;
   --color-comment-highlight-working-border: #6f52d9;
   --color-comment-highlight-reopened-bg: #ffe0d6;
@@ -261,8 +264,8 @@
   --color-comment-highlight-resolved-border: #c4c4c4;
   --color-comment-gutter-open-border: #b5871f;
   --color-comment-gutter-open-fg: #8a6614;
-  --color-comment-gutter-selected-border: #2f5d8c;
-  --color-comment-gutter-selected-fg: #2f5d8c;
+  --color-comment-gutter-selected-border: #4f46e5;
+  --color-comment-gutter-selected-fg: #4f46e5;
   --color-comment-gutter-resolved-border: #6e9179;
   --color-comment-gutter-resolved-bg: #edf4ef;
   --color-comment-gutter-resolved-fg: #2e6b44;
@@ -396,15 +399,17 @@
   --color-welcome-quiet: var(--color-muted);
   --color-dictation-ghost-fg: var(--color-muted);
   --color-dictation-ghost-underline: var(--color-muted);
-  --color-dictation-held-bg: #26324a;
-  --color-dictation-held-underline: #5b8dff;
+  --color-dictation-held-bg: #23284d;
+  --color-dictation-held-underline: #a5b0ff;
   --color-welcome-signedout: var(--color-muted);
   --color-welcome-primary-fg: var(--color-bg);
   --color-surface: #26282c;
   --color-fg: #e6e7ea;
   --color-muted: #9aa0a6;
   --color-border: #3a3d42;
-  --color-accent: #5b8dff;
+  --color-accent: #a5b0ff;
+  --color-accent-ink: #b7c0ff;
+  --color-accent-ring-soft: #a5b0ff;
   --color-accent-contrast: #10131a;
   --color-comment-resolve-hover: var(--color-surface);
   --color-app-titlebar-win-bg: var(--color-surface);
@@ -613,10 +618,10 @@
   --color-comment-gutter-open-border: var(--color-warning-fg);
   --color-comment-gutter-open-fg: var(--color-warning-fg);
   --color-comment-gutter-selected-border: var(--color-accent);
-  --color-comment-gutter-selected-fg: var(--color-accent);
+  --color-comment-gutter-selected-fg: var(--color-accent-ink);
   --color-comment-gutter-resolved-border: var(--color-accent);
   --color-comment-gutter-resolved-bg: var(--color-surface);
-  --color-comment-gutter-resolved-fg: var(--color-accent);
+  --color-comment-gutter-resolved-fg: var(--color-accent-ink);
 
   color-scheme: dark;
 }
@@ -992,10 +997,10 @@ body {
 .settings-dialog[data-platform="mac"] .voice-settings__switch {
   border-color: var(--color-settings-mac-control-hairline);
 }
-.settings-dialog[data-platform="mac"] .voice-settings__switch:checked { border-color: #2f5d8c; }
+.settings-dialog[data-platform="mac"] .voice-settings__switch:checked { border-color: #4f46e5; }
 .voice-settings__switch:checked {
-  border-color: #2f5d8c;
-  background: #2f5d8c;
+  border-color: #4f46e5;
+  background: #4f46e5;
 }
 .voice-settings__switch:checked::before {
   transform: translateX(12px);
@@ -2695,7 +2700,7 @@ button.chat-message-card__quote-link:hover {
 }
 
 .dictation-mic:focus-visible {
-  outline: 2px solid #2f5d8c;
+  outline: 2px solid #4f46e5;
   outline-offset: 2px;
 }
 
@@ -2712,7 +2717,7 @@ button.chat-message-card__quote-link:hover {
   height: 2px;
   background: #e3dfd6;
 }
-.dictation-mic__progress > span { display: block; height: 100%; background: #2f5d8c; }
+.dictation-mic__progress > span { display: block; height: 100%; background: #4f46e5; }
 .dictation-mic--download_cancelled .dictation-mic__progress > span { background: #a39e92; }
 .dictation-mic--recording { background: #1f1d1a; color: #fcfbf8; }
 .dictation-mic--recording .dictation-mic__glyph rect { fill: currentColor; stroke: none; }
@@ -2990,9 +2995,15 @@ button.chat-message-card__quote-link:hover {
 
 .comment-thread-card__edit:focus-visible,
 .comment-thread-card__menu-trigger:focus-visible,
-.comment-thread-card__menu button:focus-visible,
 .comment-thread-card__correction button:focus-visible {
-  outline: 2px solid #2f5d8c;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* The overflow menu keeps a light surface in both themes, so its ring keeps the light accent:
+   the dark accent on white would be 2.05:1, under a focus indicator's 3:1. */
+.comment-thread-card__menu button:focus-visible {
+  outline: 2px solid #4f46e5;
   outline-offset: 2px;
 }
 
@@ -3067,15 +3078,17 @@ button.chat-message-card__quote-link:hover {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #2f5d8c;
+  color: #4f46e5;
   font: inherit;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
 }
 
+/* The refusal box keeps a light surface in both themes (as its button text does), so its ring
+   keeps the light accent. */
 .comment-thread-card__linked-refusal button:focus-visible {
-  outline: 2px solid #2f5d8c;
+  outline: 2px solid #4f46e5;
   outline-offset: 2px;
 }
 
@@ -3101,8 +3114,8 @@ button.chat-message-card__quote-link:hover {
 }
 
 .comment-thread-card__correction textarea:focus-visible {
-  border-color: #2f5d8c;
-  outline: 2px solid rgba(47, 93, 140, 0.45);
+  border-color: var(--color-accent);
+  outline: 2px solid var(--color-accent-ring-soft);
 }
 
 .comment-thread-card__correction strong {
@@ -3184,10 +3197,10 @@ button.chat-message-card__quote-link:hover {
 
 .comment-thread-card__published {
   padding: 2px 7px;
-  border: 1px solid #b9cbdd;
+  border: 1px solid #b3b0e6;
   border-radius: 10px;
-  background: #e4ebf4;
-  color: #2f5d8c;
+  background: #e1e0f8;
+  color: #4f46e5;
   font-size: 11px;
 }
 
@@ -3366,7 +3379,7 @@ button.chat-message-card__quote-link:hover {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: var(--color-accent);
+  color: var(--color-accent-ink);
   border: 1px solid var(--color-accent);
   border-radius: 4px;
   padding: 1px 4px;
@@ -3405,7 +3418,7 @@ button.comment-thread-card__anchor {
 }
 
 button.comment-thread-card__anchor--withdrawn {
-  color: #2f5d8c;
+  color: var(--color-accent-ink);
   font-size: 12px;
   text-decoration: none;
 }
@@ -3425,7 +3438,7 @@ button.comment-thread-card__anchor--withdrawn {
   border: 0;
   border-radius: 4px;
   background: none;
-  color: var(--color-accent);
+  color: var(--color-accent-ink);
   font: 500 12px "IBM Plex Sans", system-ui, sans-serif;
   cursor: pointer;
 }
@@ -3549,7 +3562,7 @@ button.comment-thread-card__anchor--withdrawn {
   font-weight: 500;
 }
 
-.agent-working-card__outbound-marker { color: #2f5d8c; }
+.agent-working-card__outbound-marker { color: var(--color-accent-ink); }
 .agent-working-card__inbound-marker { color: #8c8779; }
 
 .agent-working-card__expanded-header {
@@ -3608,7 +3621,7 @@ button.comment-thread-card__anchor--withdrawn {
 }
 
 .comment-thread-card__replies summary {
-  color: var(--color-accent);
+  color: var(--color-accent-ink);
   cursor: pointer;
   font-size: 12px;
   font-weight: 500;
@@ -3687,7 +3700,7 @@ button.comment-thread-card__anchor--withdrawn {
   border: 1px solid #d5d0c4;
   border-radius: 6px;
   background: #fcfbf8;
-  color: var(--color-accent);
+  color: var(--color-accent-ink);
   font: 500 12.5px "IBM Plex Sans", system-ui, sans-serif;
   cursor: pointer;
 }
@@ -3727,7 +3740,7 @@ button.comment-thread-card__anchor--withdrawn {
 :root[data-theme="dark"] .comment-thread-card__address {
   border-color: var(--color-border);
   background: var(--color-bg);
-  color: var(--color-accent);
+  color: var(--color-accent-ink);
 }
 
 /* The existing revision card uses the emphasized 3a/3b shell while its triage controls and
@@ -3856,8 +3869,8 @@ button.comment-thread-card__anchor--withdrawn {
 }
 
 .change-set-card__actions > button:first-of-type {
-  border-color: #2f5d8c;
-  background: #2f5d8c;
+  border-color: #4f46e5;
+  background: #4f46e5;
   color: #ffffff;
   font-weight: 500;
 }
@@ -3884,7 +3897,7 @@ button.comment-thread-card__anchor--withdrawn {
 }
 
 .timeline-panel[data-platform="mac"] .change-set-card__actions > button:first-of-type {
-  border-color: #2f5d8c;
+  border-color: #4f46e5;
 }
 
 :root[data-theme="dark"] .change-set-card__section-count {
@@ -3977,7 +3990,7 @@ button.comment-thread-card__anchor--withdrawn {
 
 .batch-address__trigger:focus-visible,
 .batch-address__panel :is(select, input, button):focus-visible {
-  outline: 2px solid #2f5d8c;
+  outline: 2px solid #4f46e5;
   outline-offset: 1px;
 }
 
@@ -4001,7 +4014,7 @@ button.comment-thread-card__anchor--withdrawn {
 
 :root[data-theme="dark"] .batch-address__trigger:focus-visible,
 :root[data-theme="dark"] .batch-address__panel :is(select, input, button):focus-visible {
-  outline-color: #5b8dff;
+  outline-color: #a5b0ff;
 }
 
 :root[data-theme="dark"] .timeline-panel[data-platform="mac"] .batch-address__trigger,
@@ -4110,8 +4123,8 @@ button.comment-thread-card__anchor--withdrawn {
 }
 
 .batch-address__include input:checked {
-  border-color: #2f5d8c;
-  background: #2f5d8c;
+  border-color: #4f46e5;
+  background: #4f46e5;
 }
 
 .batch-address__include input:checked::after {
@@ -4130,7 +4143,7 @@ button.comment-thread-card__anchor--withdrawn {
   padding: 5px 11px;
   border: 0;
   border-radius: 6px;
-  background: #2f5d8c;
+  background: #4f46e5;
   color: #fff;
   font: 500 12px/1.5 "IBM Plex Sans", system-ui, sans-serif;
   cursor: pointer;
@@ -4145,14 +4158,14 @@ button.comment-thread-card__anchor--withdrawn {
   border-color: #3a3d42;
 }
 :root[data-theme="dark"] .batch-address__include input:checked {
-  background: #5b8dff;
-  border-color: #5b8dff;
+  background: #a5b0ff;
+  border-color: #a5b0ff;
 }
 :root[data-theme="dark"] .batch-address__include input:checked::after {
   border-color: #10131a;
 }
 :root[data-theme="dark"] .batch-address__run {
-  background: #5b8dff;
+  background: #a5b0ff;
   color: #10131a;
 }
 
@@ -5733,7 +5746,7 @@ button.comment-thread-card__anchor--withdrawn {
 }
 
 .view-mode-toolbar__format-option:hover:not([aria-disabled="true"]):not(:disabled) {
-  color: var(--color-editor-format-accent);
+  color: var(--color-accent-ink);
 }
 
 .view-mode-toolbar__format-option[aria-pressed="true"]:hover:not(:disabled) {
@@ -5755,7 +5768,7 @@ button.comment-thread-card__anchor--withdrawn {
   outline: none;
   box-shadow:
     0 0 0 1px var(--color-editor-format-mac-border),
-    0 0 0 3px rgba(47, 93, 140, 0.45);
+    0 0 0 3px var(--color-accent-ring-soft);
 }
 
 .display-mode-control {
@@ -6319,7 +6332,7 @@ button.comment-thread-card__anchor--withdrawn {
 
 /* Scoped to this modifier (review Minor, PR #2108) — not the shared `.integrity-banner__action`
    base, which the CRLF and Missing-on-disk banners also render through and which this card does
-   not own restyling. `--color-tab-accent` is the app's own ratified "2px #2F5D8C" focus-ring hex,
+   not own restyling. `--color-tab-accent` is the app's own ratified "2px #4f46e5" focus-ring hex,
    reused below for the highlighted-default fill too. */
 .integrity-banner--external-change .integrity-banner__action:focus-visible {
   outline: 2px solid var(--color-tab-accent);
@@ -6330,12 +6343,12 @@ button.comment-thread-card__anchor--withdrawn {
   cursor: default;
 }
 
-/* The highlighted default (`Keep mine` while dirty, `Try again`): solid `#2F5D8C`/white/500 per
+/* The highlighted default (`Keep mine` while dirty, `Try again`): solid `#4f46e5`/white/500 per
    the same table — `--color-tab-accent` (above) is that exact hex already. `--color-accent-
    contrast` (not a literal `#ffffff`, review Important 1, PR #2108) is the file's own paired-
-   contrast idiom, and it matters here: dark theme's own accent is a much lighter blue
-   (`--color-accent: #5b8dff`), so a hardcoded white fails AA (3.14:1) where the token itself
-   resolves dark and passes (6.01:1). Light theme is unaffected either way — the token is
+   contrast idiom, and it matters here: dark theme's own accent is a much lighter indigo
+   (`--color-accent: #a5b0ff`), so a hardcoded white fails AA (2.05:1) where the token itself
+   resolves to `#10131a` and passes (9.07:1). Light theme is unaffected either way — the token is
    `#ffffff` there too. */
 .integrity-banner--external-change .integrity-banner__action--default {
   border-color: transparent;

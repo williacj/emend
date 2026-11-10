@@ -546,18 +546,18 @@ test.describe("C3 composer", () => {
     expect(await dismiss.evaluate((element) => ({
       width: getComputedStyle(element).outlineWidth,
       color: getComputedStyle(element).outlineColor,
-    }))).toEqual({ width: "2px", color: "rgb(47, 93, 140)" });
+    }))).toEqual({ width: "2px", color: "rgb(79, 70, 229)" });
     const field = page.getByRole("textbox", { name: "Message" });
     await field.focus();
     expect(await field.evaluate((element) => ({
       width: getComputedStyle(element).outlineWidth,
       color: getComputedStyle(element).outlineColor,
-    }))).toEqual({ width: "2px", color: "rgb(47, 93, 140)" });
+    }))).toEqual({ width: "2px", color: "rgb(79, 70, 229)" });
     await page.evaluate(() => { document.documentElement.dataset.theme = "dark"; });
     const send = page.getByRole("button", { name: "Send" });
     for (const control of [dismiss, field, send]) {
       await control.focus();
-      await expect(control).toHaveCSS("outline-color", "rgb(91, 141, 255)");
+      await expect(control).toHaveCSS("outline-color", "rgb(165, 176, 255)");
     }
   });
 });
@@ -1067,20 +1067,20 @@ test.describe("C4 existing comment card", () => {
       await resolve.hover();
       await expect(resolve).toHaveCSS("background-color", "rgb(240, 237, 230)");
       await page.evaluate(() => { document.documentElement.dataset.theme = "dark"; });
-      await expect(disclosure).toHaveCSS("color", "rgb(91, 141, 255)");
+      await expect(disclosure).toHaveCSS("color", "rgb(183, 192, 255)"); // accent ink: text set in the accent
       await expect(resolve).toHaveCSS("background-color", "rgb(38, 40, 44)");
       await resolve.focus();
-      await expect(resolve).toHaveCSS("outline-color", "rgb(91, 141, 255)");
+      await expect(resolve).toHaveCSS("outline-color", "rgb(165, 176, 255)");
       await expect(resolve).toHaveCSS("outline-width", "2px");
       await reply.focus();
-      await expect(reply).toHaveCSS("outline-color", "rgb(91, 141, 255)");
+      await expect(reply).toHaveCSS("outline-color", "rgb(165, 176, 255)");
       await expect(reply).toHaveCSS("outline-width", "2px");
       const replyButton = popover.getByRole("button", { name: "Reply", exact: true });
       await replyButton.focus();
-      await expect(replyButton).toHaveCSS("outline-color", "rgb(91, 141, 255)");
+      await expect(replyButton).toHaveCSS("outline-color", "rgb(165, 176, 255)");
       const address = popover.getByRole("button", { name: "Address with AI" });
       await address.focus();
-      await expect(address).toHaveCSS("outline-color", "rgb(91, 141, 255)");
+      await expect(address).toHaveCSS("outline-color", "rgb(165, 176, 255)");
     } finally {
       await project.cleanup(page);
     }
@@ -1160,8 +1160,8 @@ test.describe("#2594 selection-time gutter add", () => {
       const existingIcon = page.locator(`[data-comment-gutter-thread="${existing.id}"]`);
       await expect(add).toBeVisible();
       await expect(add).toHaveText("+");
-      await expect(add).toHaveCSS("border-color", "rgb(47, 93, 140)");
-      await expect(add).toHaveCSS("background-color", "rgb(228, 235, 244)");
+      await expect(add).toHaveCSS("border-color", "rgb(79, 70, 229)");
+      await expect(add).toHaveCSS("background-color", "rgb(225, 224, 248)");
       const [addBox, existingBox] = await Promise.all([add.boundingBox(), existingIcon.boundingBox()]);
       expect(addBox.width).toBe(24);
       expect(addBox.height).toBe(22);
@@ -1948,7 +1948,7 @@ test.describe("P2a-2 walking skeleton", () => {
       foreground: "#1f1d1a",
       muted: "#6b665c",
       border: "#e3dfd6",
-      accent: "#2f5d8c",
+      accent: "#4f46e5",
       uiFont: '"IBM Plex Sans", system-ui, sans-serif',
       ibmPlexFaces: ["normal 400", "normal 500", "normal 600"],
       canvasBackground: "rgb(252, 251, 248)",
@@ -3953,7 +3953,7 @@ test.describe("P2a-8 editor-view control + display-mode UI", () => {
       };
     });
     expect(pressedStyle).toEqual({
-      background: "rgb(47, 93, 140)",
+      background: "rgb(79, 70, 229)",
       color: "rgb(255, 255, 255)",
       width: 27,
       height: 26,
@@ -3975,10 +3975,10 @@ test.describe("P2a-8 editor-view control + display-mode UI", () => {
     });
     if (focusStyle.platform === "mac") {
       expect(focusStyle.outlineStyle).toBe("none");
-      expect(focusStyle.boxShadow).toContain("rgba(47, 93, 140, 0.45) 0px 0px 0px 3px");
+      expect(focusStyle.boxShadow).toContain("rgba(79, 70, 229, 0.72) 0px 0px 0px 3px");
     } else {
       expect(focusStyle).toMatchObject({
-        outlineColor: "rgb(47, 93, 140)",
+        outlineColor: "rgb(79, 70, 229)",
         outlineWidth: "2px",
         outlineOffset: "1px",
       });
@@ -4435,8 +4435,8 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
     const popover = await openCommentThread(page, "second");
     await expect(popover).toContainText("Check this word.");
     await expect(highlight).toHaveClass(/cm-commentHighlight-selected/);
-    await expect(highlight).toHaveCSS("background-color", "rgb(228, 235, 244)");
-    await expect(highlight).toHaveCSS("box-shadow", "rgb(169, 192, 220) 0px 1px 0px 0px");
+    await expect(highlight).toHaveCSS("background-color", "rgb(225, 224, 248)");
+    await expect(highlight).toHaveCSS("box-shadow", "rgb(161, 156, 233) 0px 1px 0px 0px");
 
     await popover.getByRole("button", { name: "Close" }).click();
 
@@ -5202,9 +5202,9 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     name: "macOS",
     navigatorPlatform: "MacIntel",
     railBackground: "rgb(241, 238, 231)",
-    activeBackground: "rgb(47, 93, 140)",
+    activeBackground: "rgb(79, 70, 229)",
     activeForeground: "rgb(255, 255, 255)",
-    darkActiveBackground: "rgb(91, 141, 255)",
+    darkActiveBackground: "rgb(165, 176, 255)",
     darkActiveForeground: "rgb(16, 19, 26)",
   };
 
@@ -5379,7 +5379,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
       footerDot: "rgb(181, 135, 31)",
     });
     if (platform.name === "Windows") {
-      expect(light.activeShadow).toContain("rgb(47, 93, 140)");
+      expect(light.activeShadow).toContain("rgb(79, 70, 229)");
       expect(light.activeShadow).toContain("inset");
     } else {
       expect(light.activeShadow).toBe("none");
@@ -5401,7 +5401,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
       footerDot: "rgb(252, 211, 77)",
     });
     if (platform.name === "Windows") {
-      expect(dark.activeShadow).toContain("rgb(91, 141, 255)");
+      expect(dark.activeShadow).toContain("rgb(165, 176, 255)");
       expect(dark.activeShadow).toContain("inset");
     } else {
       expect(dark.activeShadow).toBe("none");
@@ -6309,7 +6309,7 @@ test.describe("P2b-11a J1 — revision-review complete: activity polling, delive
     });
     expect(appearance).toEqual({
       ...expected,
-      reviewBackground: "rgb(47, 93, 140)",
+      reviewBackground: "rgb(79, 70, 229)",
       reviewForeground: "rgb(255, 255, 255)",
       sectionCountColor: "rgb(140, 135, 121)",
     });

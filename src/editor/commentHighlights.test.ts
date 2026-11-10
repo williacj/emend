@@ -897,11 +897,11 @@ describe("editor/commentHighlights — theme colours resolve through tokens, not
         "--color-comment-highlight-open-border: var(--color-warning-fg)",
       ],
       [
-        "--color-comment-highlight-selected-bg: #e4ebf4",
+        "--color-comment-highlight-selected-bg: #e1e0f8",
         "--color-comment-highlight-selected-bg: var(--color-surface)",
       ],
       [
-        "--color-comment-highlight-selected-border: #a9c0dc",
+        "--color-comment-highlight-selected-border: #a19ce9",
         "--color-comment-highlight-selected-border: var(--color-accent)",
       ],
       [

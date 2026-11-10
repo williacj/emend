@@ -94,11 +94,11 @@ describe("timeline shell appearance (3a/3b, specs/timeline-rail.md)", () => {
     expect(panel.maxWidth).toBe("320px");
     expect(cssRule(".batch-address__filter select").minWidth).toBe("132px");
     expect(cssRule(".batch-address__include input").width).toBe("14px");
-    expect(cssRule(".batch-address__run").background).toBe("rgb(47, 93, 140)");
-    expect(cssRule(".batch-address__trigger:focus-visible").outline).toBe("2px solid #2f5d8c");
+    expect(cssRule(".batch-address__run").background).toBe("rgb(79, 70, 229)");
+    expect(cssRule(".batch-address__trigger:focus-visible").outline).toBe("2px solid #4f46e5");
     expect(cssRule(':root[data-theme="dark"] .batch-address__panel').background).toBe("rgb(38, 40, 44)");
-    expect(cssRule(':root[data-theme="dark"] .batch-address__run').background).toBe("rgb(91, 141, 255)");
-    expect(cssRule(':root[data-theme="dark"] .batch-address__trigger:focus-visible').outlineColor).toBe("rgb(91, 141, 255)");
+    expect(cssRule(':root[data-theme="dark"] .batch-address__run').background).toBe("rgb(165, 176, 255)");
+    expect(cssRule(':root[data-theme="dark"] .batch-address__trigger:focus-visible').outlineColor).toBe("rgb(165, 176, 255)");
   });
 
   it("keeps the overflow invoker painted open while the chooser floats from it", () => {
