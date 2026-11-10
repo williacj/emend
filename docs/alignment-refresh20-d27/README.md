@@ -3,7 +3,7 @@ ABOUTME: Separates measured implementation from the generated mock's omission-on
 
 # Refresh (20): D27 legacy unsupported-tab capture
 
-Run `EMEND_ALIGNMENT_SCENARIO='D27 legacy' EMEND_ALIGNMENT_OUTPUT=docs/alignment-refresh20-d27 node scripts/capture-design-alignment.mjs` from the repository root to regenerate [the measurements](./measurements.json) and 24 PNGs. This capture writes a real version-1 `.emend/tab-session.json` with `research/survey-export.csv` as the active unsupported tab, opens its disposable project through Emend's production route, and observes the Rust refusal and restored-session presentation. It substitutes only `navigator.platform` for Win32/MacIntel styling and the native Save As picker result. The JSON records source revision `c0d20e96942c7d2798c28ec2fbc050af6bcdeaf3`, fixture path, observed state, CSS boxes, and scenario failures (none).
+Run `EMEND_ALIGNMENT_SCENARIO='D27 legacy' EMEND_ALIGNMENT_OUTPUT=docs/alignment-refresh20-d27 node scripts/capture-design-alignment.mjs` from the repository root to regenerate [the measurements](./measurements.json) and 24 PNGs. This capture writes a real version-1 `.emend/tab-session.json` with `research/survey-export.csv` as the active unsupported tab, opens its disposable project through Emend's production route, and observes the Rust refusal and restored-session presentation. It substitutes only `navigator.platform` for Win32/MacIntel styling and the native Save As picker result. The JSON records source revision `6df9ac1ae2068eca914e5f36dbfb45a771c49ee3`, fixture path, observed state, CSS boxes, and scenario failures (none).
 
 | State | Windows | macOS |
 |---|---|---|
