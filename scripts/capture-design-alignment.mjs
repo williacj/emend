@@ -2295,6 +2295,7 @@ async function captureHeldProjectRouting(browser, viteUrl, driverUrl, platform) 
     held = null;
   } finally {
     held?.release();
+    await page.unrouteAll({ behavior: "ignoreErrors" });
     await context.close();
     await post(driverUrl, "close_project");
   }
