@@ -5,11 +5,21 @@ import { readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
-import { assertProjectOpenCapture } from "./capture-design-alignment-state.mjs";
+import { assertProjectOpenCapture, scenarioSelected } from "./capture-design-alignment-state.mjs";
 
 const repository = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const output = join(repository, "docs/alignment-refresh20-pathless");
 const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+
+test("scenario filter matches by substring, or exactly after the platform with a leading =", () => {
+  assert.equal(scenarioSelected(undefined, "win compact toolbar"), true);
+  assert.equal(scenarioSelected("toolbar", "win compact toolbar"), true);
+  assert.equal(scenarioSelected("=toolbar", "win toolbar"), true);
+  assert.equal(scenarioSelected("=toolbar", "mac toolbar"), true);
+  assert.equal(scenarioSelected("=toolbar", "win compact toolbar"), false);
+  assert.equal(scenarioSelected("=voice", "mac composer voice error"), false);
+  assert.equal(scenarioSelected("=voice", "win turn 15 chooser held light"), false);
+});
 
 test("turn 15 chooser evidence keeps a one-row toolbar and anchors the narrow panel to visible overflow", () => {
   const chooserOutput = join(repository, "docs/alignment-address-chooser");

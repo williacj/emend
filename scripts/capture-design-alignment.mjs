@@ -9,7 +9,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { allocateLoopbackPorts } from "./e2e-ports.mjs";
-import { assertProjectOpenCapture } from "./capture-design-alignment-state.mjs";
+import { assertProjectOpenCapture, scenarioSelected } from "./capture-design-alignment-state.mjs";
 
 const repository = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const output = resolve(process.env.EMEND_ALIGNMENT_OUTPUT ?? join(repository, "docs/alignment-after"));
@@ -194,7 +194,7 @@ async function snapshot(page, name, target = null, metadata = {}) {
 }
 
 async function runScenario(name, run) {
-  if (process.env.EMEND_ALIGNMENT_SCENARIO && !name.includes(process.env.EMEND_ALIGNMENT_SCENARIO)) return;
+  if (!scenarioSelected(process.env.EMEND_ALIGNMENT_SCENARIO, name)) return;
   selectedScenarios += 1;
   console.log(`Capturing ${name}`);
   try {

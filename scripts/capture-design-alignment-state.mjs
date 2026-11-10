@@ -1,6 +1,13 @@
-// ABOUTME: Validates live J9 project-open DOM measurements before design screenshots are written.
+// ABOUTME: Pure capture-gate helpers: scenario selection and live J9 project-open DOM checks.
 // ABOUTME: Keeps the capture gate independent of timing and of the image file's existence.
 import { strict as assert } from "node:assert";
+
+// A filter selects scenarios whose name contains it; "=name" selects exactly "<platform> name".
+export function scenarioSelected(filter, name) {
+  if (!filter) return true;
+  if (filter.startsWith("=")) return name.slice(name.indexOf(" ") + 1) === filter.slice(1);
+  return name.includes(filter);
+}
 
 export function assertProjectOpenCapture(observed, expected) {
   assert.equal(observed.text, expected.text, `${expected.state} line differs from the backend state`);
