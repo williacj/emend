@@ -54,7 +54,7 @@ export async function routeProjectOpen(root: string): Promise<ProjectRouteOutcom
   return callBackend<ProjectRouteOutcome>("route_project_open", { root });
 }
 
-export const PROJECT_ROUTING_EVENT = "cowrite://project/routing";
+export const PROJECT_ROUTING_EVENT = "emend://project/routing";
 
 /** One backend-ordered routing transition; the App status layer is display only (TD-20(9)). */
 export type ProjectRoutingNotice =
@@ -87,7 +87,7 @@ export async function closeProject(): Promise<void> {
  * Rust `commands::project::PROJECT_FILES_EVENT` and this listener rejects any other name, so the
  * browser acceptance edge mechanically binds the two spellings.
  */
-export const PROJECT_FILES_EVENT = "cowrite://project/files";
+export const PROJECT_FILES_EVENT = "emend://project/files";
 
 /** What a project row's filesystem shape is — mirrors Rust `project_files::EntryKind`. */
 export type ProjectFileEntryKind =

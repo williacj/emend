@@ -101,7 +101,7 @@ fn line_for_tool_use(block: &Value, root: &Path) -> ActivityLine {
     let name = block.get("name").and_then(Value::as_str).unwrap_or("tool");
     let input = &block["input"];
 
-    if let Some(mcp_tool) = name.strip_prefix("mcp__cowrite__") {
+    if let Some(mcp_tool) = name.strip_prefix("mcp__emend__") {
         return line_for_mcp_tool(mcp_tool, input, root);
     }
 
@@ -118,7 +118,7 @@ fn line_for_tool_use(block: &Value, root: &Path) -> ActivityLine {
     }
 }
 
-/// The Emend MCP tool surface (TD-1 §3.2), named on the wire as `mcp__cowrite__<tool>` per
+/// The Emend MCP tool surface (TD-1 §3.2), named on the wire as `mcp__emend__<tool>` per
 /// Claude Code's MCP tool-naming convention.
 fn line_for_mcp_tool(tool: &str, input: &Value, root: &Path) -> ActivityLine {
     let doc = string_field(input, "doc");
@@ -189,7 +189,7 @@ mod tests {
             "type": "assistant",
             "message": { "content": [
                 { "type": "tool_use", "name": "Read", "input": { "file_path": absolute.to_string_lossy() } },
-                { "type": "tool_use", "name": "mcp__cowrite__get_document_state", "input": { "doc": "sermon.md" } }
+                { "type": "tool_use", "name": "mcp__emend__get_document_state", "input": { "doc": "sermon.md" } }
             ] }
         });
 
@@ -307,10 +307,10 @@ mod tests {
     }
 
     #[test]
-    fn a_cowrite_mcp_tool_use_maps_to_a_friendly_verb_and_the_doc_argument() {
+    fn an_emend_mcp_tool_use_maps_to_a_friendly_verb_and_the_doc_argument() {
         let block = json!({
             "type": "tool_use",
-            "name": "mcp__cowrite__propose_changes",
+            "name": "mcp__emend__propose_changes",
             "input": { "doc": "draft.md", "revision": "rev-1", "edits": [] }
         });
         assert_eq!(
@@ -320,8 +320,8 @@ mod tests {
     }
 
     #[test]
-    fn an_unmapped_cowrite_mcp_tool_is_humanized_from_its_tool_name() {
-        let block = json!({ "type": "tool_use", "name": "mcp__cowrite__future_tool", "input": {} });
+    fn an_unmapped_emend_mcp_tool_is_humanized_from_its_tool_name() {
+        let block = json!({ "type": "tool_use", "name": "mcp__emend__future_tool", "input": {} });
         assert_eq!(
             line_for_block(&block, Path::new(".")).unwrap().label(),
             "Future tool…"

@@ -45,6 +45,12 @@ revision of the contract that particular value was written under.
   skips `publish` can omit that placeholder; a reader that skips `withdraw`
   instead may still show the original body. The append-only log retains both
   facts for readers that understand them.
+- **The app's own author value is `emend`.** An event the app records as a
+  system-observed fact, not an action a person or the agent took, carries
+  `author: "emend"` and lands in `.emend/comments/<doc-hash>/emend.jsonl`.
+  Today that is the `address_failed` the app appends at load for an
+  "Address with AI" run that no longer exists. Under TD-29 nothing reads a
+  pre-rename `.cowrite/`, so no event with the old author value is ever folded.
 - **`change-record.schema.json` is strict** on the fields it declares — this is
   Emend's own single-writer attribution format (D19), not a
   forward-compatibility surface, so an unrecognized `kind` is a contract

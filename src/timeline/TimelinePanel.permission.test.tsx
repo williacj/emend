@@ -86,9 +86,9 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
     const view = render(
       <TimelinePanel root="/project" collapsed onPendingPermissionChange={onPendingPermissionChange} onPermissionNavigationActivate={onPermissionNavigationActivate} />,
     );
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
     push("agent://activity", running());
-    push("cowrite://agent/permission", permission(1));
+    push("emend://agent/permission", permission(1));
     await waitFor(() => expect(onPendingPermissionChange).toHaveBeenLastCalledWith(true));
     expect(document.querySelector(".timeline-panel")).toHaveAttribute("hidden");
 
@@ -109,10 +109,10 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
 
   it("applies explicit permission navigation focus once across later revisions of the same FIFO head", async () => {
     render(<TimelinePanel root="/project" />);
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
     push("agent://activity", running());
     const first = request("first");
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: "run-1", revision: 1, requests: [first],
     });
     fireEvent.click(screen.getByRole("button", { name: "Show permission request in Timeline" }));
@@ -120,7 +120,7 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
 
     const composer = screen.getByRole("textbox", { name: "Message" });
     composer.focus();
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: "run-1", revision: 2, requests: [first],
     });
 
@@ -132,20 +132,20 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
 
   it("retains focused FIFO ownership through a queued addition until the head clears", async () => {
     render(<TimelinePanel root="/project" />);
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
     push("agent://activity", running());
     const first = request("first");
     const second = request("second", "Write");
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: "run-1", revision: 1, requests: [first],
     });
     screen.getByRole("button", { name: "Allow once" }).focus();
 
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: "run-1", revision: 2, requests: [first, second],
     });
     expect(screen.getAllByRole("button", { name: "Allow once" })[0]).toHaveFocus();
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: "run-1", revision: 3, requests: [second],
     });
 
@@ -160,17 +160,17 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
       return Promise.resolve(undefined);
     });
     render(<TimelinePanel root="/project" />);
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
     push("agent://activity", running());
     const composer = screen.getByRole("textbox", { name: "Message" });
     composer.focus();
-    push("cowrite://agent/permission", permission(4));
+    push("emend://agent/permission", permission(4));
     expect(screen.queryByText("command-4")).toBeNull();
     expect(composer).toHaveFocus();
 
     act(() => resolveHydration(permission(3)));
     await waitFor(() => expect(screen.getByText("command-4")).toBeTruthy());
-    push("cowrite://agent/permission", permission(3));
+    push("emend://agent/permission", permission(3));
     expect(screen.queryByText("command-3")).toBeNull();
     expect(screen.getByText("command-4")).toBeTruthy();
     expect(
@@ -187,9 +187,9 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
       return Promise.resolve(undefined);
     });
     const { rerender } = render(<TimelinePanel root="/project-a" />);
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
     push("agent://activity", running());
-    push("cowrite://agent/permission", permission(9));
+    push("emend://agent/permission", permission(9));
     await waitFor(() => expect(screen.getByRole("button", { name: "Allow once" })).toBeTruthy());
     fireEvent.click(screen.getByRole("button", { name: "Allow once" }));
     expect(invokeMock).toHaveBeenCalledWith("decide_permission", {
@@ -201,7 +201,7 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
     await waitFor(() =>
       expect(invokeMock.mock.calls.filter(([command]) => command === "permission_state")).toHaveLength(2),
     );
-    push("cowrite://agent/permission", permission(1, "run-1", "project-b"));
+    push("emend://agent/permission", permission(1, "run-1", "project-b"));
     await waitFor(() => expect(screen.getByText("command-1")).toBeTruthy());
   });
 
@@ -222,10 +222,10 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
     });
 
     const { rerender } = render(<TimelinePanel root="/project-a" />);
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
     push("agent://activity", running());
-    push("cowrite://agent/permission", permission(7, "run-1", "project-a"));
-    push("cowrite://agent/permission", permission(5, "run-1", "project-a"));
+    push("emend://agent/permission", permission(7, "run-1", "project-a"));
+    push("emend://agent/permission", permission(5, "run-1", "project-a"));
     expect(screen.queryByText("command-7")).toBeNull();
     act(() => resolveProjectA(permission(6, "run-1", "project-a")));
     await waitFor(() => expect(screen.getByText("command-7")).toBeTruthy());
@@ -234,16 +234,16 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
     await waitFor(() =>
       expect(invokeMock.mock.calls.filter(([command]) => command === "permission_state")).toHaveLength(2),
     );
-    push("cowrite://agent/permission", permission(99, "run-1", "project-a"));
-    push("cowrite://agent/permission", permission(2, "run-1", "project-b"));
+    push("emend://agent/permission", permission(99, "run-1", "project-a"));
+    push("emend://agent/permission", permission(2, "run-1", "project-b"));
     expect(screen.queryByText("command-2")).toBeNull();
     act(() => resolveProjectB(permission(1, "run-1", "project-b")));
     await waitFor(() => expect(screen.getByText("command-2")).toBeTruthy());
 
-    push("cowrite://agent/permission", permission(100, "run-1", "project-a"));
+    push("emend://agent/permission", permission(100, "run-1", "project-a"));
     expect(screen.queryByText("command-100")).toBeNull();
     expect(screen.getByText("command-2")).toBeTruthy();
-    push("cowrite://agent/permission", permission(3, "run-1", "project-b"));
+    push("emend://agent/permission", permission(3, "run-1", "project-b"));
     expect(screen.getByText("command-3")).toBeTruthy();
   });
 
@@ -263,7 +263,7 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
     render(<TimelinePanel root="/project-a" />);
     await waitFor(() => expect(hydrationCall).toBe(1));
     push("agent://activity", running());
-    push("cowrite://agent/permission", permission(2, "run-1", "project-a"));
+    push("emend://agent/permission", permission(2, "run-1", "project-a"));
 
     await waitFor(() => expect(screen.getByText("command-2")).toBeTruthy());
     expect(hydrationCall).toBe(2);
@@ -271,13 +271,13 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
 
   it("keeps a filtered permission arrival passive, then navigates to its exact run and heading on activation (#2429)", async () => {
     render(<TimelinePanel root="/project" />);
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
     push("agent://activity", running("run-1"));
     fireEvent.click(screen.getByRole("button", { name: "Changes" }));
     const composer = screen.getByRole("textbox", { name: "Message" });
     composer.focus();
 
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a",
       runId: "run-1",
       revision: 4,
@@ -300,7 +300,7 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
     expect(screen.getByRole("region", { name: "Permission request: Bash" })).toContainElement(heading);
     expect(heading.closest("article")).toHaveAttribute("data-card-id", "run-1");
 
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: null, revision: 5, requests: [],
     });
     expect(screen.queryByRole("button", { name: "Show permission request in Timeline" })).toBeNull();
@@ -309,16 +309,16 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
 
   it("moves focus from a clearing Timeline attention action to its persistent heading only when owned", async () => {
     render(<TimelinePanel root="/project" />);
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
     push("agent://activity", running());
     const first = request("request-first", "Bash");
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: "run-1", revision: 1, requests: [first],
     });
     const attention = screen.getByRole("button", { name: "Show permission request in Timeline" });
     attention.focus();
 
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: null, revision: 2, requests: [],
     });
 
@@ -326,7 +326,7 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
     expect(heading).toHaveFocus();
     expect(heading).toHaveClass("timeline-host__label--programmatic-focus");
 
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: "run-1", revision: 3, requests: [request("request-next", "Write")],
     });
     expect(heading).toHaveFocus();
@@ -334,7 +334,7 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
 
     const composer = screen.getByRole("textbox", { name: "Message" });
     composer.focus();
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: null, revision: 4, requests: [],
     });
     expect(composer).toHaveFocus();
@@ -342,23 +342,23 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
 
   it("announces each FIFO head once and remains silent for revisions, non-head additions, and activation (#2429)", async () => {
     render(<TimelinePanel root="/project" />);
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
     push("agent://activity", running());
     const first = request("request-1", "Bash");
     const second = request("request-2", "Write");
 
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: "run-1", revision: 1, requests: [first],
     });
     const firstAnnouncement = screen.getByRole("status", { name: "Permission attention" });
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: "run-1", revision: 2, requests: [first, second],
     });
     expect(screen.getByRole("status", { name: "Permission attention" })).toBe(firstAnnouncement);
     fireEvent.click(screen.getByRole("button", { name: "Show permission request in Timeline" }));
     expect(screen.getByRole("status", { name: "Permission attention" })).toBe(firstAnnouncement);
 
-    push("cowrite://agent/permission", {
+    push("emend://agent/permission", {
       projectId: "project-a", runId: "run-1", revision: 3, requests: [second],
     });
     expect(screen.getByRole("status", { name: "Permission attention" })).not.toBe(firstAnnouncement);
@@ -367,8 +367,8 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
 
   it("does not advertise an orphaned or terminal run as an actionable permission request", async () => {
     render(<TimelinePanel root="/project" />);
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
-    push("cowrite://agent/permission", permission(1));
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
+    push("emend://agent/permission", permission(1));
     expect(screen.queryByRole("button", { name: "Show permission request in Timeline" })).toBeNull();
 
     push("agent://activity", {
@@ -391,9 +391,9 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
         />
       </>,
     );
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
     push("agent://activity", running());
-    push("cowrite://agent/permission", permission(1));
+    push("emend://agent/permission", permission(1));
     const origin = screen.getByRole("button", { name: "Persistent origin" });
     origin.focus();
     const attention = screen.getByRole("button", { name: "Show permission request in Timeline" });
@@ -424,9 +424,9 @@ describe("timeline/TimelinePanel — permission requests (#2399)", () => {
         onPermissionNavigationActivate={onPermissionNavigationActivate}
       />,
     );
-    await waitFor(() => expect(handlerFor("cowrite://agent/permission")).toBeDefined());
+    await waitFor(() => expect(handlerFor("emend://agent/permission")).toBeDefined());
     push("agent://activity", running());
-    push("cowrite://agent/permission", permission(1));
+    push("emend://agent/permission", permission(1));
     const attention = screen.getByRole("button", { name: "Show permission request in Timeline" });
     attention.focus();
     fireEvent.click(attention);

@@ -218,7 +218,7 @@ async function holdProjectRouting(page, driverUrl) {
       return;
     }
     const requestingIndex = batch.events.findIndex((event) =>
-      event.event === "cowrite://project/routing"
+      event.event === "emend://project/routing"
       && event.payload.status === "requesting"
       && event.payload.root === hold.root);
     if (hold.notice === null && requestingIndex >= 0) {
@@ -232,11 +232,11 @@ async function holdProjectRouting(page, driverUrl) {
       return;
     }
     if (hold.notice !== null && batch.events.some((event) =>
-      event.event === "cowrite://project/routing"
+      event.event === "emend://project/routing"
       && event.payload.status === "finished"
       && event.payload.request_id === hold.notice.request_id)) {
       hold.finishedNotice = batch.events.find((event) =>
-        event.event === "cowrite://project/routing"
+        event.event === "emend://project/routing"
         && event.payload.status === "finished"
         && event.payload.request_id === hold.notice.request_id).payload;
       await hold.released;
@@ -480,9 +480,9 @@ async function j10Thread(driverUrl, root, content) {
 function j10Publish(root, threadId) {
   // Review sync is not yet wired, so seed its published event using the D20 sidecar schema.
   const [docId] = readdirSync(join(root, ".emend", "comments"));
-  appendFileSync(join(root, ".emend", "comments", docId, "cowrite.jsonl"), JSON.stringify({
+  appendFileSync(join(root, ".emend", "comments", docId, "emend.jsonl"), JSON.stringify({
     schema_version: 1, id: `publish-${threadId}`, parent_id: threadId,
-    author: "cowrite", timestamp: Date.now() - 90_000, type: "publish",
+    author: "emend", timestamp: Date.now() - 90_000, type: "publish",
   }) + "\n");
 }
 

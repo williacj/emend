@@ -13,7 +13,7 @@ import {
  * The event a completed `propose_changes` is announced on. Namespaced so the agent's own event
  * surface stays distinguishable as it grows (activity, run phases — TD-5's streaming events).
  */
-export const DELIVERY_EVENT = "cowrite://agent/delivery";
+export const DELIVERY_EVENT = "emend://agent/delivery";
 
 /**
  * One change in a delivered set — mirrors Rust `agent::delivery::DeliveredChange`

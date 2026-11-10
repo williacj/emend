@@ -21,7 +21,7 @@
             {
               "type": "tool_use",
               "id": "toolu_addcomments02",
-              "name": "mcp__cowrite__add_comments",
+              "name": "mcp__emend__add_comments",
               "input": { "doc": "notes.md", "comments": [] }
             }
           ]

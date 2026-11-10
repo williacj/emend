@@ -19,9 +19,9 @@ pub const SAVE_DOCUMENT_AS_MENU_ID: &str = "save_document_as";
 /// the native file picker itself runs on the frontend (`stores/menu.ts`'s `pickDocumentFile`,
 /// mirroring `onboarding/ipc.ts`'s `pickProjectFolder` precedent) since only that side knows which
 /// project root a chosen path should resolve against.
-pub const OPEN_DOCUMENT_EVENT: &str = "cowrite://menu/open-document";
+pub const OPEN_DOCUMENT_EVENT: &str = "emend://menu/open-document";
 /// The frontend signal emitted when the native `File > Save As…` item fires.
-pub const SAVE_DOCUMENT_AS_EVENT: &str = "cowrite://menu/save-document-as";
+pub const SAVE_DOCUMENT_AS_EVENT: &str = "emend://menu/save-document-as";
 
 pub fn build<R: Runtime>(app: &AppHandle<R>) -> tauri::Result<Menu<R>> {
     let menu = Menu::new(app)?;
@@ -174,7 +174,7 @@ mod tests {
     #[test]
     fn save_as_contract_uses_the_native_item_values_shared_with_the_frontend() {
         assert_eq!(SAVE_DOCUMENT_AS_MENU_ID, "save_document_as");
-        assert_eq!(SAVE_DOCUMENT_AS_EVENT, "cowrite://menu/save-document-as");
+        assert_eq!(SAVE_DOCUMENT_AS_EVENT, "emend://menu/save-document-as");
         assert_eq!(SAVE_DOCUMENT_AS_LABEL, "Save As…");
         assert_eq!(SAVE_DOCUMENT_AS_ACCELERATOR, "CmdOrCtrl+Shift+S");
     }

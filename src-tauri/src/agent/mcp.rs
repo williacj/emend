@@ -457,7 +457,7 @@ fn dispatch(body: &str, ctx: &McpContext, run_id: Option<&str>) -> String {
                 json!({
                     "protocolVersion": if SUPPORTED_VERSIONS.contains(&version) { version } else { PROTOCOL_VERSION },
                     "capabilities": { "tools": {} },
-                    "serverInfo": { "name": "cowrite", "version": env!("CARGO_PKG_VERSION") }
+                    "serverInfo": { "name": "emend", "version": env!("CARGO_PKG_VERSION") }
                 }),
             );
         }

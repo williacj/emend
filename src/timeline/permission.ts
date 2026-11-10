@@ -30,7 +30,7 @@ export type PermissionDecision =
   | { kind: "deny"; reason: string };
 
 /** Mirrors Rust `commands::agent::PERMISSION_EVENT`. */
-export const PERMISSION_EVENT = "cowrite://agent/permission";
+export const PERMISSION_EVENT = "emend://agent/permission";
 
 export function getPermissionState(): Promise<PermissionState> {
   return callBackend<PermissionState>("permission_state", {});

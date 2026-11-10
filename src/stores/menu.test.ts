@@ -75,9 +75,9 @@ describe("stores/menu — subscribing to File > Save As…", () => {
 
     const stop = await listenForSaveDocumentAsRequests(handler);
 
-    expect(SAVE_DOCUMENT_AS_MENU_EVENT).toBe("cowrite://menu/save-document-as");
+    expect(SAVE_DOCUMENT_AS_MENU_EVENT).toBe("emend://menu/save-document-as");
     expect(listenForBackendEventMock).toHaveBeenCalledWith(
-      "cowrite://menu/save-document-as",
+      "emend://menu/save-document-as",
       expect.any(Function),
     );
     emit?.();

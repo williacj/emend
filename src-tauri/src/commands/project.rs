@@ -50,8 +50,8 @@ pub enum CommandError {
 /// The channel [`TauriProjectFilesEmitter`] pushes every automatic project-files refresh transition
 /// on (TD-18). The D23 driver also places this exact name in its event envelope, mechanically
 /// binding `src/stores/project.ts`'s mirror through the browser acceptance path.
-pub const PROJECT_FILES_EVENT: &str = "cowrite://project/files";
-pub const PROJECT_ROUTING_EVENT: &str = "cowrite://project/routing";
+pub const PROJECT_FILES_EVENT: &str = "emend://project/files";
+pub const PROJECT_ROUTING_EVENT: &str = "emend://project/routing";
 
 /// Carries TD-20(9)'s backend-owned request ordering and terminal outcomes to the shared app status
 /// state. The frontend observes policy; it never serializes project routes itself.

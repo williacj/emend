@@ -19,7 +19,7 @@ use crate::agent::session::{AgentSession, SessionError};
 use crate::agent::state::McpContext;
 use crate::commands::path_confine::{confine, identity_relative};
 
-pub const PERMISSION_EVENT: &str = "cowrite://agent/permission";
+pub const PERMISSION_EVENT: &str = "emend://agent/permission";
 
 pub struct TauriPermissionEmitter(pub AppHandle);
 impl crate::agent::permission::PermissionObserver for TauriPermissionEmitter {
@@ -95,12 +95,12 @@ pub const ACTIVITY_EVENT: &str = "agent://activity";
 /// The channel [`TauriDeliveryEmitter`] pushes every landed `propose_changes` on — the J1 Phase B
 /// pipe (#346). `src/stores/delivery.ts`'s `DELIVERY_EVENT` is this string's only consumer; change
 /// both together.
-pub const DELIVERY_EVENT: &str = "cowrite://agent/delivery";
+pub const DELIVERY_EVENT: &str = "emend://agent/delivery";
 
 /// The channel [`TauriDocumentBirthEmitter`] pushes every landed `create_document` on — the J2 birth
 /// pipe (#420). `src/stores/documentBirth.ts`'s `DOCUMENT_BIRTH_EVENT` is this string's only
 /// consumer; change both together.
-pub const DOCUMENT_BIRTH_EVENT: &str = "cowrite://agent/document-birth";
+pub const DOCUMENT_BIRTH_EVENT: &str = "emend://agent/document-birth";
 
 /// Bridges `agent::run_queue`'s [`ActivityEmitter`] seam onto a live `AppHandle::emit` — kept as
 /// its own newtype (rather than exposing `AppHandle` to `agent::` directly) so `agent::run_queue`

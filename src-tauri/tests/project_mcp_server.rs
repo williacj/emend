@@ -80,11 +80,11 @@ fn mcp_server_feeds_the_claude_adapters_mcp_config_injection_unchanged() {
 
     let config = claude::mcp_config(&server.mcp_server());
     assert_eq!(
-        config["mcpServers"]["cowrite"]["url"],
+        config["mcpServers"]["emend"]["url"],
         format!("http://{addr}/")
     );
     assert_eq!(
-        config["mcpServers"]["cowrite"]["headers"]["Authorization"],
+        config["mcpServers"]["emend"]["headers"]["Authorization"],
         format!("Bearer {token}")
     );
     assert!(provider_contract::is_valid(

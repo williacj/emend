@@ -5,7 +5,7 @@ import { REFERENCE_DATA_LABEL } from "./referenceData";
 
 /** FR-CHAT-4's `open_documents` envelope as it appears on the wire (snake_case, `unsaved`). */
 export interface OpenDocumentsEnvelope {
-  cowrite_context_version: number;
+  emend_context_version: number;
   kind: "open_documents";
   active: Record<string, unknown> | null;
   also_open: Record<string, unknown>[];

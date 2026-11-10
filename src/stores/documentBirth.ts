@@ -7,7 +7,7 @@ import { listenForBackendEvent } from "./driverEvents";
  * The event a completed `create_document` is announced on — the birth-pipe sibling of
  * `stores/delivery.ts`'s `DELIVERY_EVENT`, namespaced the same way for the same reason.
  */
-export const DOCUMENT_BIRTH_EVENT = "cowrite://agent/document-birth";
+export const DOCUMENT_BIRTH_EVENT = "emend://agent/document-birth";
 
 /** A completed document birth — mirrors Rust `agent::birth::DocumentBirthNotice`. */
 export interface DocumentBirthNotice {

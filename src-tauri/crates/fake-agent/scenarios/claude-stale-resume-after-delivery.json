@@ -9,7 +9,7 @@
           "content": [
             {
               "type": "tool_use",
-              "name": "mcp__cowrite__propose_changes",
+              "name": "mcp__emend__propose_changes",
               "input": { "path": "draft.md", "changes": [] }
             }
           ]

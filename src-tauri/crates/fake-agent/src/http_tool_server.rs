@@ -30,7 +30,7 @@ const STREAM_TIMEOUT: Duration = Duration::from_secs(5);
 
 /// The name Emend registers its server under inside `mcpServers` (`agent::claude`'s
 /// `MCP_SERVER_NAME`) — the entry this reads its connection info from.
-const MCP_SERVER_KEY: &str = "cowrite";
+const MCP_SERVER_KEY: &str = "emend";
 
 /// A [`ToolServer`] that forwards every call over real loopback HTTP to the MCP server named in a
 /// `--mcp-config` payload, carrying that payload's `Authorization` header.
@@ -95,7 +95,7 @@ impl HttpToolServer {
             authorization,
             run_id: server
                 .get("headers")
-                .and_then(|h| h.get("X-Cowrite-Run"))
+                .and_then(|h| h.get("X-Emend-Run"))
                 .and_then(Value::as_str)
                 .map(str::to_owned),
             tools: None,
@@ -208,7 +208,7 @@ impl HttpToolServer {
         let run = self
             .run_id
             .as_ref()
-            .map(|id| format!("X-Cowrite-Run: {id}\r\n"))
+            .map(|id| format!("X-Emend-Run: {id}\r\n"))
             .unwrap_or_default();
         let request = format!(
             "POST {} HTTP/1.1\r\nHost: {}\r\n{auth}{version}{run}Content-Type: application/json\r\n\
@@ -323,7 +323,7 @@ mod tests {
     fn config(url: &str) -> Value {
         json!({
             "mcpServers": {
-                "cowrite": {
+                "emend": {
                     "type": "http",
                     "url": url,
                     "headers": { "Authorization": "Bearer tok-123" }

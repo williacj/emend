@@ -27,9 +27,9 @@ use super::activity::{activity_lines, ActivityLine};
 use super::claude::MCP_SERVER_NAME;
 use super::reply::{provider_error_text, reply_text, successful_result, unusable_resumed_session};
 
-/// The `mcp__cowrite__<tool>` name the stream carries for our own `propose_changes` tool calls
+/// The `mcp__emend__<tool>` name the stream carries for our own `propose_changes` tool calls
 /// (`agent::claude::MCP_SERVER_NAME`, `agent::activity`).
-const PROPOSE_CHANGES_TOOL: &str = "mcp__cowrite__propose_changes";
+const PROPOSE_CHANGES_TOOL: &str = "mcp__emend__propose_changes";
 
 /// Maximum stderr bytes retained for a failed run. The reader drains concurrently, retaining
 /// only its newest tail; fatal diagnostics conventionally land last.
@@ -47,7 +47,7 @@ const STDERR_FINISH_GRACE: Duration = Duration::from_millis(100);
 /// (`propose_changes`) or comments (`add_comments`, `reply_to_comment`) on a document — the ones
 /// that give a run its own change-set or comment card in the timeline
 /// ([`AgentSession::saw_delivery`], #1118). Spelled on the wire under the same
-/// `mcp__cowrite__<tool>` convention `PROPOSE_CHANGES_TOOL` above and
+/// `mcp__emend__<tool>` convention `PROPOSE_CHANGES_TOOL` above and
 /// `agent::activity::line_for_mcp_tool` already read — announced as an `assistant` `tool_use`
 /// block. That convention, not a recording, is the ground here: SPIKE-1 exercised no MCP tool call
 /// at all (its gap #7, `docs/formats/provider-contract/README.md`), so nothing in the repo records
@@ -60,8 +60,8 @@ const STDERR_FINISH_GRACE: Duration = Duration::from_millis(100);
 /// exactly that and no more.
 const DELIVERY_TOOLS: [&str; 3] = [
     PROPOSE_CHANGES_TOOL,
-    "mcp__cowrite__add_comments",
-    "mcp__cowrite__reply_to_comment",
+    "mcp__emend__add_comments",
+    "mcp__emend__reply_to_comment",
 ];
 
 /// One parsed line from the child's stream-JSON stdout: the raw event value plus the J1 activity
@@ -825,7 +825,7 @@ fn is_system_init(event: &Value) -> bool {
 }
 
 /// The tool names announced by `event`, which is a call only when it is an `assistant` message
-/// envelope carrying `tool_use` blocks (`agent::activity`'s `mcp__cowrite__<tool>` naming
+/// envelope carrying `tool_use` blocks (`agent::activity`'s `mcp__emend__<tool>` naming
 /// convention). Every other event — including a `user` envelope's `tool_result`, and prose that
 /// merely names a tool — announces nothing.
 fn announced_tools(event: &Value) -> impl Iterator<Item = &str> {
@@ -960,17 +960,17 @@ mod tests {
             json!({}),
             json!([]),
             json!([{"name": "calendar", "status": "connected"}]),
-            json!([{"name": "cowrite-other", "status": "connected"}]),
-            json!([{"name": "cowrite", "status": "failed"}]),
-            json!([{"name": "cowrite", "status": "needs-auth"}]),
-            json!([{"name": "cowrite", "status": "starting"}]),
-            json!([{"name": "cowrite", "status": "Connected"}]),
-            json!([{"name": "cowrite", "status": "unknown future status"}]),
-            json!([{"name": "cowrite"}]),
-            json!([{"name": "cowrite", "status": null}]),
-            json!([{"name": "cowrite", "status": 1}]),
-            json!([{"name": "cowrite", "status": "connected"}, {"name": "cowrite", "status": "failed"}]),
-            json!([{"name": "cowrite", "status": "failed"}, {"name": "cowrite", "status": "connected"}]),
+            json!([{"name": "emend-other", "status": "connected"}]),
+            json!([{"name": "emend", "status": "failed"}]),
+            json!([{"name": "emend", "status": "needs-auth"}]),
+            json!([{"name": "emend", "status": "starting"}]),
+            json!([{"name": "emend", "status": "Connected"}]),
+            json!([{"name": "emend", "status": "unknown future status"}]),
+            json!([{"name": "emend"}]),
+            json!([{"name": "emend", "status": null}]),
+            json!([{"name": "emend", "status": 1}]),
+            json!([{"name": "emend", "status": "connected"}, {"name": "emend", "status": "failed"}]),
+            json!([{"name": "emend", "status": "failed"}, {"name": "emend", "status": "connected"}]),
         ];
         for inventory in inventories {
             assert!(
@@ -987,11 +987,11 @@ mod tests {
     fn connected_cowrite_ignores_unrelated_server_statuses() {
         for unrelated in [
             json!({"name": "calendar", "status": "failed"}),
-            json!({"name": "cowrite-other", "status": "needs-auth"}),
+            json!({"name": "emend-other", "status": "needs-auth"}),
             json!({"name": "unknown"}),
             json!(null),
         ] {
-            let event = json!({"type": "system", "subtype": "init", "mcp_servers": [unrelated, {"name": "cowrite", "status": "connected"}]});
+            let event = json!({"type": "system", "subtype": "init", "mcp_servers": [unrelated, {"name": "emend", "status": "connected"}]});
             assert!(
                 check_cowrite_binding(&event).is_ok(),
                 "an unrelated server rejected a connected Emend binding"
@@ -1016,7 +1016,7 @@ mod tests {
 
     #[test]
     fn cowrite_binding_failure_never_echoes_provider_inventory() {
-        let event = json!({"type": "system", "subtype": "init", "mcp_servers": [{"name": "cowrite", "status": "Bearer secret-provider-inventory", "url": "https://credential@example.invalid"}]});
+        let event = json!({"type": "system", "subtype": "init", "mcp_servers": [{"name": "emend", "status": "Bearer secret-provider-inventory", "url": "https://credential@example.invalid"}]});
         let error = check_cowrite_binding(&event).unwrap_err().to_string();
         assert_eq!(
             error, "The agent could not connect to Emend's document tools.",
@@ -1059,7 +1059,7 @@ mod tests {
     #[test]
     fn stderr_redactions_remove_inline_mcp_authorization_values_and_bare_tokens() {
         let args = vec![json!({
-            "mcpServers": { "cowrite": { "headers": {
+            "mcpServers": { "emend": { "headers": {
                 "Authorization": "Bearer test-token-123"
             } } }
         })
@@ -1119,7 +1119,7 @@ mod tests {
         let event = json!({
             "type": "assistant",
             "message": { "content": [
-                { "type": "tool_use", "name": "mcp__cowrite__propose_changes", "input": {} }
+                { "type": "tool_use", "name": "mcp__emend__propose_changes", "input": {} }
             ] }
         });
         assert!(is_propose_changes_call(&event));
@@ -1152,9 +1152,9 @@ mod tests {
     #[test]
     fn is_delivery_call_detects_the_tracked_change_and_comment_tools() {
         for tool in [
-            "mcp__cowrite__propose_changes",
-            "mcp__cowrite__add_comments",
-            "mcp__cowrite__reply_to_comment",
+            "mcp__emend__propose_changes",
+            "mcp__emend__add_comments",
+            "mcp__emend__reply_to_comment",
         ] {
             assert!(is_delivery_call(&tool_use_event(tool)), "{tool} delivers");
         }
@@ -1168,10 +1168,10 @@ mod tests {
     #[test]
     fn is_delivery_call_is_false_for_every_tool_that_lands_nothing() {
         for tool in [
-            "mcp__cowrite__get_document_state",
-            "mcp__cowrite__list_documents",
-            "mcp__cowrite__permission_request",
-            "mcp__cowrite__create_document",
+            "mcp__emend__get_document_state",
+            "mcp__emend__list_documents",
+            "mcp__emend__permission_request",
+            "mcp__emend__create_document",
             "Read",
             "Write",
         ] {
@@ -1186,7 +1186,7 @@ mod tests {
         let tool_result = json!({
             "type": "assistant",
             "message": { "content": [
-                { "type": "tool_result", "name": "mcp__cowrite__propose_changes" }
+                { "type": "tool_result", "name": "mcp__emend__propose_changes" }
             ] }
         });
         assert!(!is_delivery_call(&tool_result));
@@ -1197,7 +1197,7 @@ mod tests {
         let non_assistant_envelope = json!({
             "type": "user",
             "message": { "content": [
-                { "type": "tool_use", "name": "mcp__cowrite__propose_changes", "input": {} }
+                { "type": "tool_use", "name": "mcp__emend__propose_changes", "input": {} }
             ] }
         });
         assert!(!is_delivery_call(&non_assistant_envelope));
@@ -1205,7 +1205,7 @@ mod tests {
         let text_naming_the_tool = json!({
             "type": "assistant",
             "message": { "content": [
-                { "type": "text", "text": "I will call mcp__cowrite__propose_changes next." }
+                { "type": "text", "text": "I will call mcp__emend__propose_changes next." }
             ] }
         });
         assert!(!is_delivery_call(&text_naming_the_tool));

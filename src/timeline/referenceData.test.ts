@@ -118,7 +118,7 @@ describe("timeline/referenceData — the open_documents envelope (FR-CHAT-4, D30
 
     expect(request).toBe("Summarize this message.");
     expect(openDocuments).toEqual({
-      cowrite_context_version: 1,
+      emend_context_version: 1,
       kind: "open_documents",
       active: { path: "drafts/a-commandment.md", unsaved: false },
       also_open: [{ path: "notes/outline.md", unsaved: false }],
@@ -224,7 +224,7 @@ describe("timeline/referenceData — the open_documents envelope (FR-CHAT-4, D30
     );
 
     expect(openDocuments).toEqual({
-      cowrite_context_version: 1,
+      emend_context_version: 1,
       kind: "open_documents",
       active: null,
       also_open: [],
@@ -425,7 +425,7 @@ describe("timeline/referenceData — composing with FR-CHAT-3's quoted selection
 
     expect(openDocuments).toBeDefined();
     expect(quote).toEqual({
-      cowrite_context_version: 1,
+      emend_context_version: 1,
       kind: "quoted_selection",
       document_path: "drafts/quoted.md",
       quoted_text: QUOTE.text,
@@ -479,7 +479,7 @@ describe("timeline/referenceData — composing with FR-CHAT-3's quoted selection
         }),
       );
       expect(quote).toEqual({
-        cowrite_context_version: 1,
+        emend_context_version: 1,
         kind: "quoted_selection",
         document_path: QUOTE.documentPath,
         quoted_text: text,
@@ -500,7 +500,7 @@ describe("timeline/referenceData — composing with FR-CHAT-3's quoted selection
       // #1762 reason the content-bound tests above state.
       expect(Object.keys(quote ?? {})).not.toContain("quoted_text");
       expect(quote).toEqual({
-        cowrite_context_version: 1,
+        emend_context_version: 1,
         kind: "quoted_selection",
         document_path: QUOTE.documentPath,
         anchor: QUOTE.anchor,
@@ -518,7 +518,7 @@ describe("timeline/referenceData — composing with FR-CHAT-3's quoted selection
       );
       expect(Object.keys(quote ?? {})).not.toContain("quoted_text");
       expect(quote).toEqual({
-        cowrite_context_version: 1,
+        emend_context_version: 1,
         kind: "quoted_selection",
         document_path: null,
         label: PATHLESS_QUOTE.label,
@@ -535,7 +535,7 @@ describe("timeline/referenceData — composing with FR-CHAT-3's quoted selection
         }),
       );
       expect(quote).toEqual({
-        cowrite_context_version: 1,
+        emend_context_version: 1,
         kind: "quoted_selection",
         document_path: null,
         label: PATHLESS_QUOTE.label,

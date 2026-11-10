@@ -1722,7 +1722,7 @@ fn route_project_open_repeats_the_backend_notice_vocabulary_through_d23() {
     let batch: serde_json::Value = serde_json::from_str(&body).unwrap();
     let events = batch["events"].as_array().unwrap();
     assert_eq!(events.len(), 2, "{events:?}");
-    assert_eq!(events[0]["event"], "cowrite://project/routing");
+    assert_eq!(events[0]["event"], "emend://project/routing");
     assert_eq!(events[0]["payload"]["status"], "requesting");
     assert_eq!(events[1]["payload"]["status"], "finished");
     assert_eq!(events[1]["payload"]["outcome"]["status"], "adopted_here");
