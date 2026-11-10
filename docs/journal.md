@@ -2,6 +2,34 @@
 
 > **Renamed 2026-11-08:** the app was Cowrite until D36 and TD-29. Entries dated before 2026-11-08 keep the old name, the old on-disk names (`.cowrite/`, `COWRITE_*`, `com.cowrite.desktop`) and bare `#NNNN` issue numbers, which refer to `williacj/cowrite`. They are left as written, because they record what was true then.
 
+# 2026-11-10 — design refresh (34) import: corrections to (33)
+
+- Imported refresh (34) on top of (33), in the same PR. It answers all four review findings recorded under (33) below.
+  - **Wavy underline.** Suggestion's wavy underline is now specified in both themes and when selected. That closes the Open/Suggestion colour-only gap.
+  - **Resolved.** Resolved and Dismissed get one anchor: no fill and a 1px dashed line, `#8C8779` light and `#6B7075` dark (new). When selected, the line darkens to `#6B665C` light and `#9AA0A6` dark.
+  - **Dark `+`.** The dark selected-icon `+` is corrected to `#B7C0FF`.
+  - **state.md** now records comment anchors as a dark-mode carve-out.
+- I recomputed every new contrast figure and they all match.
+- **For #41:** this supersedes the notes under (33).
+  - Keep the wavy underline, which the spec now asks for.
+  - Resolved changes from 1px dotted `#C4C4C4`/`#3A3D42` to 1px dashed `#8C8779`/`#6B7075`, and gains a Selected + Resolved form. Today the app marks only `open` threads as selected, and #41 widens that anyway for (32)/(33).
+  - Dismissed can't ship in #41. The app has no `dismissed` thread state (`src/comments/types.ts`), so its anchor lands with whichever card adds that state.
+- **For the Designer, next refresh:** the review found these.
+  - Say that Dismissed shares only Resolved's *text* anchor. Its gutter icon stays undrawn (UXR-Q12) and may not take Resolved's `✓` glyph or fill, under ux-design §2's FR-CMT-15 rule.
+  - In dark, the selected Resolved line gets *lighter* (`#6B7075` → `#9AA0A6`), so "darkens" is wrong there.
+  - The headings in comments.md and tokens.md still say "(32) and (33)".
+- **For ux-design's owner:** the Dismissed bullet in §2 says comments.md "draws no closed-state highlight to inherit". That is stale now that (34) draws one.
+
+# 2026-11-10 — design refresh (33) import: comment-anchor follow-ups
+
+- Imported refresh (33) wholesale. It is specs only and touches the same four files as (32). It adds Selected + Reopened and Selected + Suggestion, which keep their own line colour when selected. Dark Suggestion moves to `#14532D` with a 1px solid `#86EFAC` line, because it had matched dark Working's fill and line colour. The "optional fourth carrier" bullet is replaced by a pointer to §2 (#40). The dark selected gutter-icon recolour to `#23284D` is confirmed as intended. All contrast figures were recomputed and match.
+- Known gap that the design itself records: unselected Open and Suggestion both use a 1px solid line and differ only by colour. That pair is outside §2's fourth carrier.
+- For #41 (the review found these; each goes to the Designer for refresh (34)):
+  - **Wavy underline.** The spec never mentions Suggestion's wavy underline (`commentHighlights.ts`, `textDecoration: underline wavy`). That underline is what actually separates Suggestion from Open without relying on colour. Keep it until (34) rules, because dropping it would open the gap the design records. In dark the fills `#14532D` and `#78350F` measure 1.00:1.
+  - **Resolved.** The spec gives no line for Resolved. The app draws it `1px dotted` on a transparent fill, the same line as the new Working, so the two differ only by fill and line colour. Keep it as it is until (34).
+  - **Dark `+` glyph.** comments.md says the dark selected-icon `+` keeps `#A5B0FF`. tokens.md's ink split says text set in the accent is `#B7C0FF`, which is what the app draws (`--color-accent-ink`, pinned by `accentTokens.test.ts`), at 8.09:1 on `#23284D`. Keep `#B7C0FF`.
+  - **state.md.** state.md still describes dark mode as a gap. (32) and (33) now specify dark anchors, so the #931 "derive dark strictly from the existing palette" comment in `commentHighlights.ts` gives way to the spec for these tokens.
+
 # 2026-11-10 — design refresh (32) import: comment-anchor states
 
 - Imported refresh (32) wholesale. It is specs only: `comments.md`, `tokens.md`, CHANGELOG and README. It was raised after williacj/emend#39 because the Working tint sat 1.02:1 from the new Selected tint and Addressed — pending drew Working's exact anchor. Working becomes neutral and dotted, Addressed — pending becomes amber and 2px dashed, Selected applies alongside every state, and dark Selected becomes `#23284D`. The app still draws the old anchors until williacj/emend#41.
