@@ -1,5 +1,5 @@
 {
-  "sourceRevision": "d5ac19d4d8226bcefeb6b1351ec2c62186cb4af5",
+  "sourceRevision": "6df9ac1ae2068eca914e5f36dbfb45a771c49ee3",
   "viewport": "1400x900 except named narrow cases",
   "deviceScaleFactor": 1,
   "colorScheme": "dark",
@@ -40,7 +40,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — win-voice Settings"
+          "text": "Emend — win-voice Settings"
         },
         ".app-body": {
           "x": 0,
@@ -345,10 +345,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 115.375,
+          "width": 111,
           "height": 18.75,
-          "scrollWidth": 115,
-          "clientWidth": 115,
+          "scrollWidth": 111,
+          "clientWidth": 111,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -365,7 +365,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — win-voice"
+          "text": "Emend — win-voice"
         },
         ".tab-bar__recovered-path": {
           "x": 324.84375,
@@ -531,7 +531,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Settings"
+          "text": "Emend — notes.md Settings"
         },
         ".app-body": {
           "x": 0,
@@ -811,10 +811,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -831,7 +831,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 365,
@@ -921,7 +921,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Settings"
+          "text": "Emend — notes.md Settings"
         },
         ".app-body": {
           "x": 0,
@@ -1201,10 +1201,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -1221,7 +1221,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 365,
@@ -1311,7 +1311,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Settings"
+          "text": "Emend — notes.md Settings"
         },
         ".app-body": {
           "x": 0,
@@ -1591,10 +1591,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -1611,7 +1611,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 365,
@@ -1701,7 +1701,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Settings"
+          "text": "Emend — notes.md Settings"
         },
         ".app-body": {
           "x": 0,
@@ -1981,10 +1981,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -2001,7 +2001,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 365,
@@ -2582,7 +2582,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Saved · 9:05 PM Settings"
+          "text": "notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -2972,7 +2972,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Saved · 9:05 PM Settings"
+          "text": "notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -3362,7 +3362,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Saved · 9:05 PM Settings"
+          "text": "notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -3752,7 +3752,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Saved · 9:05 PM Settings"
+          "text": "notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,

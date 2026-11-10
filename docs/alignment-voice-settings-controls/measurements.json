@@ -1,5 +1,5 @@
 {
-  "sourceRevision": "11eee5caec15900d553351f93939fff92bb376f6",
+  "sourceRevision": "6df9ac1ae2068eca914e5f36dbfb45a771c49ee3",
   "viewport": "1400x900 except named narrow cases",
   "deviceScaleFactor": 1,
   "colorScheme": "mixed",
@@ -40,7 +40,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -65,7 +65,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -190,7 +190,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -315,7 +315,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "Markdown 9 words Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -599,9 +599,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(47, 93, 140)",
+          "background": "rgb(79, 70, 229)",
           "color": "rgb(0, 0, 0)",
-          "border": "rgb(47, 93, 140)",
+          "border": "rgb(79, 70, 229)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",
@@ -695,10 +695,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -715,7 +715,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -886,7 +886,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -911,7 +911,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Recording · 0:00 Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Recording · 0:00 Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -1036,7 +1036,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Recording · 0:00 Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Recording · 0:00 Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -1161,7 +1161,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Recording · 0:00 Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "Markdown 9 words Recording · 0:00 Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -1445,9 +1445,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(47, 93, 140)",
+          "background": "rgb(79, 70, 229)",
           "color": "rgb(84, 84, 84)",
-          "border": "rgb(47, 93, 140)",
+          "border": "rgb(79, 70, 229)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",
@@ -1541,10 +1541,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -1561,7 +1561,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -1757,7 +1757,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -1782,7 +1782,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -1907,7 +1907,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -2032,7 +2032,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "Markdown 9 words Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -2437,10 +2437,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -2457,7 +2457,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -2628,7 +2628,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -2653,7 +2653,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words No microphone found Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to check for change"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words No microphone found Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -2778,7 +2778,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words No microphone found Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words No microphone found Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -2903,7 +2903,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words No microphone found Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "Markdown 9 words No microphone found Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -3187,9 +3187,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(47, 93, 140)",
+          "background": "rgb(79, 70, 229)",
           "color": "rgb(0, 0, 0)",
-          "border": "rgb(47, 93, 140)",
+          "border": "rgb(79, 70, 229)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",
@@ -3308,10 +3308,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -3328,7 +3328,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -3524,7 +3524,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -3549,7 +3549,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Selected microphone is unavailable Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to c"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Selected microphone is unavailable Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to ch"
         },
         ".project-rail": {
           "x": 0,
@@ -3674,7 +3674,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Selected microphone is unavailable Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words Selected microphone is unavailable Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -3799,7 +3799,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Selected microphone is unavailable Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "Markdown 9 words Selected microphone is unavailable Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -4083,9 +4083,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(47, 93, 140)",
+          "background": "rgb(79, 70, 229)",
           "color": "rgb(0, 0, 0)",
-          "border": "rgb(47, 93, 140)",
+          "border": "rgb(79, 70, 229)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",
@@ -4204,10 +4204,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -4224,7 +4224,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -4420,7 +4420,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -4445,7 +4445,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words No microphone found Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to check for change"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words No microphone found Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice-settings-controls DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -4570,7 +4570,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words No microphone found Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Positioning brief A first draft of the product promise. Markdown 9 words No microphone found Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -4695,7 +4695,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words No microphone found Display: All Simple None Original Saved · 11:19 PM Claude Code · not installed"
+          "text": "Markdown 9 words No microphone found Display: All Simple None Original Saved · 3:58 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -4979,9 +4979,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(91, 141, 255)",
+          "background": "rgb(165, 176, 255)",
           "color": "rgb(255, 255, 255)",
-          "border": "rgb(91, 141, 255)",
+          "border": "rgb(165, 176, 255)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",
@@ -5100,10 +5100,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -5120,7 +5120,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -5316,7 +5316,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -5875,9 +5875,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(91, 141, 255)",
+          "background": "rgb(165, 176, 255)",
           "color": "rgb(255, 255, 255)",
-          "border": "rgb(91, 141, 255)",
+          "border": "rgb(165, 176, 255)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",
@@ -5996,10 +5996,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -6016,7 +6016,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 250,
@@ -6212,7 +6212,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 11:19 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:58 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -6771,9 +6771,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(47, 93, 140)",
+          "background": "rgb(79, 70, 229)",
           "color": "rgb(0, 0, 0)",
-          "border": "rgb(47, 93, 140)",
+          "border": "rgb(79, 70, 229)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",
@@ -7058,7 +7058,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 11:19 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:58 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -7617,9 +7617,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(47, 93, 140)",
+          "background": "rgb(79, 70, 229)",
           "color": "rgb(84, 84, 84)",
-          "border": "rgb(47, 93, 140)",
+          "border": "rgb(79, 70, 229)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",
@@ -7929,7 +7929,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 11:19 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:58 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -8800,7 +8800,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 11:19 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:58 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -9359,9 +9359,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(47, 93, 140)",
+          "background": "rgb(79, 70, 229)",
           "color": "rgb(0, 0, 0)",
-          "border": "rgb(47, 93, 140)",
+          "border": "rgb(79, 70, 229)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",
@@ -9696,7 +9696,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 11:19 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:58 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -10255,9 +10255,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(47, 93, 140)",
+          "background": "rgb(79, 70, 229)",
           "color": "rgb(0, 0, 0)",
-          "border": "rgb(47, 93, 140)",
+          "border": "rgb(79, 70, 229)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",
@@ -10592,7 +10592,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 11:19 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:58 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -11151,9 +11151,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(91, 141, 255)",
+          "background": "rgb(165, 176, 255)",
           "color": "rgb(255, 255, 255)",
-          "border": "rgb(91, 141, 255)",
+          "border": "rgb(165, 176, 255)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",
@@ -11488,7 +11488,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 11:19 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:58 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -12047,9 +12047,9 @@
           "height": 18,
           "scrollWidth": 28,
           "clientWidth": 28,
-          "background": "rgb(91, 141, 255)",
+          "background": "rgb(165, 176, 255)",
           "color": "rgb(255, 255, 255)",
-          "border": "rgb(91, 141, 255)",
+          "border": "rgb(165, 176, 255)",
           "borderRadius": "9px",
           "boxShadow": "none",
           "opacity": "1",

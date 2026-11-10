@@ -1,5 +1,5 @@
 {
-  "sourceRevision": "07a8e2164b088e555f3c840cf195a1670f409f96",
+  "sourceRevision": "6df9ac1ae2068eca914e5f36dbfb45a771c49ee3",
   "viewport": "1400x900 except named narrow cases",
   "deviceScaleFactor": 1,
   "colorScheme": "mixed",
@@ -40,7 +40,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -315,7 +315,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 17 words Recording · 0:07 Display: All Simple None Original Saved · 10:30 PM Claude Code · not installed"
+          "text": "Markdown 17 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -470,10 +470,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -490,7 +490,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -643,8 +643,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -717,7 +717,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -1147,10 +1147,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -1167,7 +1167,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 486,
@@ -1320,8 +1320,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 593,
-          "y": 890,
+          "x": 581,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -1391,7 +1391,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -1666,7 +1666,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 17 words Recording · 0:07 Display: All Simple None Original Saved · 10:30 PM Claude Code · not installed"
+          "text": "Markdown 17 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -1821,10 +1821,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -1841,7 +1841,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -1900,11 +1900,11 @@
           "height": 21,
           "scrollWidth": 0,
           "clientWidth": 0,
-          "background": "rgb(228, 235, 244)",
+          "background": "rgb(225, 224, 248)",
           "color": "rgb(51, 48, 42)",
           "border": "rgb(51, 48, 42)",
           "borderRadius": "0px",
-          "boxShadow": "rgb(169, 192, 220) 0px -1px 0px 0px inset",
+          "boxShadow": "rgb(161, 156, 233) 0px -1px 0px 0px inset",
           "opacity": "1",
           "fontFamily": "\"Source Serif 4\", Georgia, serif",
           "fontSize": "15.5px",
@@ -2019,8 +2019,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -2052,8 +2052,8 @@
         "underlineOffset": "3px",
         "lineBoxes": 4,
         "heldText": "the first only sets it up",
-        "heldBackground": "rgb(228, 235, 244)",
-        "heldBoxShadow": "rgb(169, 192, 220) 0px -1px 0px 0px inset",
+        "heldBackground": "rgb(225, 224, 248)",
+        "heldBoxShadow": "rgb(161, 156, 233) 0px -1px 0px 0px inset",
         "ghostAfterHeld": true
       }
     },
@@ -2093,7 +2093,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -2368,7 +2368,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 17 words Recording · 0:07 Display: All Simple None Original Saved · 10:30 PM Claude Code · not installed"
+          "text": "Markdown 17 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -2523,10 +2523,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -2543,7 +2543,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -2696,8 +2696,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -2770,7 +2770,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -3200,10 +3200,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -3220,7 +3220,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 486,
@@ -3373,8 +3373,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 593,
-          "y": 890,
+          "x": 581,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -3444,7 +3444,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -3719,7 +3719,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 17 words Recording · 0:07 Display: All Simple None Original Saved · 10:30 PM Claude Code · not installed"
+          "text": "Markdown 17 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -3874,10 +3874,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -3894,7 +3894,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -3953,11 +3953,11 @@
           "height": 21,
           "scrollWidth": 0,
           "clientWidth": 0,
-          "background": "rgb(38, 50, 74)",
+          "background": "rgb(35, 40, 77)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
           "borderRadius": "0px",
-          "boxShadow": "rgb(91, 141, 255) 0px -1px 0px 0px inset",
+          "boxShadow": "rgb(165, 176, 255) 0px -1px 0px 0px inset",
           "opacity": "1",
           "fontFamily": "\"Source Serif 4\", Georgia, serif",
           "fontSize": "15.5px",
@@ -4072,8 +4072,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -4105,8 +4105,8 @@
         "underlineOffset": "3px",
         "lineBoxes": 4,
         "heldText": "the first only sets it up",
-        "heldBackground": "rgb(38, 50, 74)",
-        "heldBoxShadow": "rgb(91, 141, 255) 0px -1px 0px 0px inset",
+        "heldBackground": "rgb(35, 40, 77)",
+        "heldBoxShadow": "rgb(165, 176, 255) 0px -1px 0px 0px inset",
         "ghostAfterHeld": true
       }
     },
@@ -4146,7 +4146,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:30 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -4749,8 +4749,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -4823,7 +4823,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:30 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -5426,8 +5426,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 593,
-          "y": 890,
+          "x": 581,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -5497,7 +5497,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:30 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -6006,11 +6006,11 @@
           "height": 21,
           "scrollWidth": 0,
           "clientWidth": 0,
-          "background": "rgb(228, 235, 244)",
+          "background": "rgb(225, 224, 248)",
           "color": "rgb(51, 48, 42)",
           "border": "rgb(51, 48, 42)",
           "borderRadius": "0px",
-          "boxShadow": "rgb(169, 192, 220) 0px -1px 0px 0px inset",
+          "boxShadow": "rgb(161, 156, 233) 0px -1px 0px 0px inset",
           "opacity": "1",
           "fontFamily": "\"Source Serif 4\", Georgia, serif",
           "fontSize": "15.5px",
@@ -6125,8 +6125,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -6158,8 +6158,8 @@
         "underlineOffset": "3px",
         "lineBoxes": 4,
         "heldText": "the first only sets it up",
-        "heldBackground": "rgb(228, 235, 244)",
-        "heldBoxShadow": "rgb(169, 192, 220) 0px -1px 0px 0px inset",
+        "heldBackground": "rgb(225, 224, 248)",
+        "heldBoxShadow": "rgb(161, 156, 233) 0px -1px 0px 0px inset",
         "ghostAfterHeld": true
       }
     },
@@ -6199,7 +6199,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:30 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -6802,8 +6802,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -6876,7 +6876,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:30 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -7479,8 +7479,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 593,
-          "y": 890,
+          "x": 581,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -7550,7 +7550,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:30 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -8059,11 +8059,11 @@
           "height": 21,
           "scrollWidth": 0,
           "clientWidth": 0,
-          "background": "rgb(38, 50, 74)",
+          "background": "rgb(35, 40, 77)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
           "borderRadius": "0px",
-          "boxShadow": "rgb(91, 141, 255) 0px -1px 0px 0px inset",
+          "boxShadow": "rgb(165, 176, 255) 0px -1px 0px 0px inset",
           "opacity": "1",
           "fontFamily": "\"Source Serif 4\", Georgia, serif",
           "fontSize": "15.5px",
@@ -8178,8 +8178,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -8211,8 +8211,8 @@
         "underlineOffset": "3px",
         "lineBoxes": 4,
         "heldText": "the first only sets it up",
-        "heldBackground": "rgb(38, 50, 74)",
-        "heldBoxShadow": "rgb(91, 141, 255) 0px -1px 0px 0px inset",
+        "heldBackground": "rgb(35, 40, 77)",
+        "heldBoxShadow": "rgb(165, 176, 255) 0px -1px 0px 0px inset",
         "ghostAfterHeld": true
       }
     }

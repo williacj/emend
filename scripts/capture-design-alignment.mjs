@@ -9,7 +9,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { allocateLoopbackPorts } from "./e2e-ports.mjs";
-import { assertProjectOpenCapture } from "./capture-design-alignment-state.mjs";
+import { assertProjectOpenCapture, scenarioSelected } from "./capture-design-alignment-state.mjs";
 
 const repository = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const output = resolve(process.env.EMEND_ALIGNMENT_OUTPUT ?? join(repository, "docs/alignment-after"));
@@ -194,7 +194,7 @@ async function snapshot(page, name, target = null, metadata = {}) {
 }
 
 async function runScenario(name, run) {
-  if (process.env.EMEND_ALIGNMENT_SCENARIO && !name.includes(process.env.EMEND_ALIGNMENT_SCENARIO)) return;
+  if (!scenarioSelected(process.env.EMEND_ALIGNMENT_SCENARIO, name)) return;
   selectedScenarios += 1;
   console.log(`Capturing ${name}`);
   try {
@@ -423,6 +423,7 @@ async function captureQuote(browser, viteUrl, driverUrl, platform) {
   try {
     await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
     await page.locator(".cm-content:visible").waitFor();
+    await page.locator(".cm-line").first().click({ position: { x: 1, y: 1 } });
     await page.keyboard.press(platform.id === "mac" ? "Meta+Home" : "Control+Home");
     for (let index = 0; index < 5; index += 1) await page.keyboard.press("Shift+ArrowRight");
     await page.getByRole("button", { name: "Quote to chat" }).click();
@@ -2295,6 +2296,7 @@ async function captureHeldProjectRouting(browser, viteUrl, driverUrl, platform) 
     held = null;
   } finally {
     held?.release();
+    await page.unrouteAll({ behavior: "ignoreErrors" });
     await context.close();
     await post(driverUrl, "close_project");
   }
