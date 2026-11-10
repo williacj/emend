@@ -11,7 +11,7 @@ if (Test-Path Env:WHISPER_DONT_GENERATE_BINDINGS) {
 $cmakeVersion = '3.31.12'
 $cmakeName = "cmake-$cmakeVersion-windows-x86_64.zip"
 $cmakeHash = '0c4baa40f28b3f8225eb3fdf6946c987b4fe901403b4eaf2fbbd9378100aaa0c'
-$cmakeRoot = Join-Path $env:RUNNER_TEMP "cowrite-cmake-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+$cmakeRoot = Join-Path $env:RUNNER_TEMP "emend-cmake-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
 New-Item -ItemType Directory -Path $cmakeRoot -Force | Out-Null
 $cmakeArchive = Join-Path $cmakeRoot $cmakeName
 Invoke-WebRequest -Uri "https://github.com/Kitware/CMake/releases/download/v$cmakeVersion/$cmakeName" -OutFile $cmakeArchive -UseBasicParsing
@@ -25,7 +25,7 @@ $reported = & $cmakeExe --version
 if ($LASTEXITCODE -ne 0 -or $reported[0] -ne "cmake version $cmakeVersion") { throw "Verified CMake executable did not report version $cmakeVersion" }
 $cmakeBin | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
 
-$clangRoot = Join-Path $env:RUNNER_TEMP "cowrite-libclang-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+$clangRoot = Join-Path $env:RUNNER_TEMP "emend-libclang-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
 New-Item -ItemType Directory -Path $clangRoot -Force | Out-Null
 $clangArchive = Join-Path $clangRoot 'libclang.22.1.8.zip'
 $clangHash = '676b4aa346bc793af2fa05d80a9933825202ba65f71230417d5f0bb191dc3662'
