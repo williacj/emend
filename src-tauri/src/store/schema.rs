@@ -6,7 +6,7 @@
 //!
 //! Mirrors the `provider-contract` crate's helper (same embed-at-build-time-via-`include_str!`,
 //! compile-once-via-`OnceLock` shape) but stays inside this crate rather than a sibling crate:
-//! nothing outside `cowrite`'s own test suite consumes it yet (TD-10 — a crate boundary is only
+//! nothing outside `emend`'s own test suite consumes it yet (TD-10 — a crate boundary is only
 //! worth paying for when something needs to depend on the helper without linking the app
 //! `cdylib`). `#[cfg(test)]`-gated in `store::mod` accordingly; `jsonschema` is a dev-dependency
 //! only.

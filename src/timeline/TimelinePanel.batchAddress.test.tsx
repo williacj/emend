@@ -255,7 +255,7 @@ describe("timeline/TimelinePanel — the batch-address header (P2b-3a, FR-CMT-5,
     // The batch instruction still leads the prompt; the envelope is reference data beneath it.
     expect(prompt.startsWith("Address the following 2 comment thread(s)")).toBe(true);
     expect(openDocumentsEnvelopeIn(prompt)).toEqual({
-      cowrite_context_version: 1,
+      emend_context_version: 1,
       kind: "open_documents",
       active: { path: "doc.md", unsaved: true, content: "live buffer" },
       also_open: [

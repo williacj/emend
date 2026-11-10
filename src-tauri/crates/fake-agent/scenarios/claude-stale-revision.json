@@ -9,7 +9,7 @@
         "cwd": "/tmp/project",
         "session_id": "51a1e000-0000-4000-8000-000000000004",
         "tools": ["Read", "Write"],
-        "mcp_servers": [{ "name": "cowrite", "status": "connected" }],
+        "mcp_servers": [{ "name": "emend", "status": "connected" }],
         "model": "claude-sonnet-4-5",
         "permissionMode": "default",
         "apiKeySource": "none",

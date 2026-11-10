@@ -465,7 +465,7 @@ fn append_manual_resolve_to_doc(
 /// Every reconciliation event [`reconcile_lost_runs`] writes is authored by this sentinel rather
 /// than any human/agent name — it records a system-observed fact ("this marker's run is no longer
 /// live"), not an action either of them took.
-const RECONCILED_AUTHOR: &str = "cowrite";
+const RECONCILED_AUTHOR: &str = "emend";
 
 /// Per-process record of which documents' `pending_run` markers [`load_comment_threads`] has
 /// already reconciled once (issue #1381: "reconcile a marker with no live run **at startup**") —
@@ -5060,7 +5060,7 @@ mod tests {
             root,
             "doc.md".into(),
             thread_id,
-            "cowrite".into(),
+            "emend".into(),
             2,
             "run-1".into(),
             comments::RunConclusion::Stopped,
@@ -5104,7 +5104,7 @@ mod tests {
             root,
             "doc.md".into(),
             thread_id,
-            "cowrite".into(),
+            "emend".into(),
             2,
             "run-1".into(),
             comments::RunConclusion::Failed,
@@ -5160,7 +5160,7 @@ mod tests {
             root,
             "doc.md".into(),
             thread_id,
-            "cowrite".into(),
+            "emend".into(),
             3,
             "run-1".into(),
             comments::RunConclusion::Stopped,
@@ -5385,7 +5385,7 @@ mod tests {
             root.clone(),
             "doc.md".into(),
             thread_id,
-            "cowrite".into(),
+            "emend".into(),
             3,
             "run-1".into(),
             comments::RunConclusion::Stopped,

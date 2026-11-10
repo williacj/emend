@@ -223,12 +223,12 @@ describe("comments/ipc — inside a Tauri webview", () => {
 
   it("concludeAddressRun invokes conclude_address_run with the run id and outcome", async () => {
     invokeMock.mockResolvedValueOnce([THREAD]);
-    await concludeAddressRun("/project", "doc.md", "c1", "cowrite", 109, "run-1", "stopped");
+    await concludeAddressRun("/project", "doc.md", "c1", "emend", 109, "run-1", "stopped");
     expect(invokeMock).toHaveBeenCalledWith("conclude_address_run", {
       root: "/project",
       path: "doc.md",
       threadId: "c1",
-      author: "cowrite",
+      author: "emend",
       timestamp: 109,
       runId: "run-1",
       outcome: "stopped",
@@ -388,7 +388,7 @@ describe("comments/ipc — outside a Tauri webview (D23 headless test driver)", 
   it("concludeAddressRun posts to the test driver's /conclude_address_run endpoint", async () => {
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify([THREAD]), { status: 200 }));
 
-    await concludeAddressRun("/project", "doc.md", "c1", "cowrite", 109, "run-1", "failed");
+    await concludeAddressRun("/project", "doc.md", "c1", "emend", 109, "run-1", "failed");
 
     expect(fetchMock).toHaveBeenCalledWith(
       "http://127.0.0.1:4711/conclude_address_run",
@@ -398,7 +398,7 @@ describe("comments/ipc — outside a Tauri webview (D23 headless test driver)", 
           root: "/project",
           path: "doc.md",
           threadId: "c1",
-          author: "cowrite",
+          author: "emend",
           timestamp: 109,
           runId: "run-1",
           outcome: "failed",

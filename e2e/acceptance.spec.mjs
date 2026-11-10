@@ -1266,9 +1266,9 @@ test.describe("#2537 reciprocal comments navigation", () => {
         content, utf16Offset: content.indexOf("target passage"), utf16Length: "target passage".length,
       }, 1);
       const [docId] = readdirSync(join(project.root, ".emend", "comments"));
-      appendFileSync(join(project.root, ".emend", "comments", docId, "cowrite.jsonl"), JSON.stringify({
+      appendFileSync(join(project.root, ".emend", "comments", docId, "emend.jsonl"), JSON.stringify({
         schema_version: 1, id: `publish-${created.id}`, parent_id: created.id,
-        author: "cowrite", timestamp: 2, type: "publish",
+        author: "emend", timestamp: 2, type: "publish",
       }) + "\n");
       project.overwrite(`New prefix. ${content}`);
       await page.goto("/");
@@ -1551,9 +1551,9 @@ test.describe("J10 own-comment correction", () => {
       // Review sync has no producer yet. Seed the durable D20 publication fact through its real
       // sidecar schema so the own-author Delete route retains the placeholder.
       const [docId] = readdirSync(join(project.root, ".emend", "comments"));
-      appendFileSync(join(project.root, ".emend", "comments", docId, "cowrite.jsonl"), JSON.stringify({
+      appendFileSync(join(project.root, ".emend", "comments", docId, "emend.jsonl"), JSON.stringify({
         schema_version: 1, id: `publish-${created.id}`, parent_id: created.id,
-        author: "cowrite", timestamp: 2, type: "publish",
+        author: "emend", timestamp: 2, type: "publish",
       }) + "\n");
       project.overwrite(`New prefix. ${content}`);
       await page.goto("/");
@@ -2470,7 +2470,7 @@ test.describe("P2a-2 walking skeleton", () => {
 
     const init = events.find((event) => event.type === "system" && event.subtype === "init");
     expect(init).toBeTruthy();
-    expect(init.mcp_servers).toContainEqual({ name: "cowrite", status: "connected" });
+    expect(init.mcp_servers).toContainEqual({ name: "emend", status: "connected" });
 
     const last = events.at(-1);
     expect(last.type).toBe("result");

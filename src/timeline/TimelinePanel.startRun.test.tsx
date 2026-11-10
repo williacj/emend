@@ -85,7 +85,7 @@ describe("timeline/TimelinePanel — composer submits actually start a run (#696
     expect(prompt.startsWith("draft the opening section\n\n")).toBe(true);
     expect(prompt).not.toContain('"kind":"quoted_selection"');
     expect(openDocumentsEnvelopeIn(prompt)).toEqual({
-      cowrite_context_version: 1,
+      emend_context_version: 1,
       kind: "open_documents",
       active: { path: "draft.md", unsaved: false },
       also_open: [],
@@ -112,7 +112,7 @@ describe("timeline/TimelinePanel — composer submits actually start a run (#696
 
     await waitFor(() => expect(startRunArgs()).toBeDefined());
     expect(openDocumentsEnvelopeIn(startRunArgs().prompt)).toEqual({
-      cowrite_context_version: 1,
+      emend_context_version: 1,
       kind: "open_documents",
       active: { path: "drafts/a-commandment.md", unsaved: true, content: "# A Commandment\n" },
       also_open: [{ path: "notes/outline.md", unsaved: false }],
@@ -291,7 +291,7 @@ describe("timeline/TimelinePanel — composer submits actually start a run (#696
     // Last in the block, after the statements that describe the ambient envelope.
     expect(quoted).toBe(lines.length - 1);
     expect(JSON.parse(lines[quoted])).toEqual({
-      cowrite_context_version: 1,
+      emend_context_version: 1,
       kind: "quoted_selection",
       document_path: "notes/elsewhere.md",
       quoted_text: "the quoted passage",
@@ -413,7 +413,7 @@ describe("timeline/TimelinePanel — a thread's [Address with AI] surfaces a rej
       return call![1] as { referenceData: string };
     });
     expect(openDocumentsEnvelopeIn(addressCall.referenceData)).toEqual({
-      cowrite_context_version: 1,
+      emend_context_version: 1,
       kind: "open_documents",
       active: { path: "doc.md", unsaved: false },
       also_open: [{ path: "notes/outline.md", unsaved: true }],

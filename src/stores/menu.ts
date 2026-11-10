@@ -9,8 +9,8 @@ import { listenForBackendEvent } from "./driverEvents";
  * fires — carries no payload (see that constant's own doc for why the picker itself stays here on
  * the frontend rather than in the Rust handler).
  */
-export const OPEN_DOCUMENT_MENU_EVENT = "cowrite://menu/open-document";
-export const SAVE_DOCUMENT_AS_MENU_EVENT = "cowrite://menu/save-document-as";
+export const OPEN_DOCUMENT_MENU_EVENT = "emend://menu/open-document";
+export const SAVE_DOCUMENT_AS_MENU_EVENT = "emend://menu/save-document-as";
 
 /**
  * Subscribes `handler` to every `File > Open…` menu fire, returning the unsubscribe function.

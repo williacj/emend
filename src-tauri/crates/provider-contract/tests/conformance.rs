@@ -101,14 +101,14 @@ fn td1_mcp_server_config_spike_example_validates() {
     // The exact config schema captured empirically in SPIKE-1 §4.3 (http + local peers).
     let config = json!({
         "mcpServers": {
-            "cowrite": {
+            "emend": {
                 "tools": ["*"],
                 "timeout": 5000,
                 "type": "http",
                 "url": "http://127.0.0.1:39999/mcp",
                 "headers": { "Authorization": "Bearer test-token-123" }
             },
-            "cowrite-stdio": {
+            "emend-stdio": {
                 "tools": ["*"],
                 "type": "local",
                 "command": "node",
@@ -125,7 +125,7 @@ fn td1_mcp_server_config_sse_transport_validates() {
     // `sse` shares the http `url`-required if/then branch; exercise it explicitly.
     let config = json!({
         "mcpServers": {
-            "cowrite": { "type": "sse", "url": "http://127.0.0.1:39999/sse" }
+            "emend": { "type": "sse", "url": "http://127.0.0.1:39999/sse" }
         }
     });
     assert_eq!(validate(Schema::McpServerConfig, &config), Ok(()));
@@ -134,7 +134,7 @@ fn td1_mcp_server_config_sse_transport_validates() {
 #[test]
 fn contract_parity_mcp_http_server_without_url_rejected() {
     let bad = json!({
-        "mcpServers": { "cowrite": { "type": "http", "headers": {} } }
+        "mcpServers": { "emend": { "type": "http", "headers": {} } }
     });
     assert!(validate(Schema::McpServerConfig, &bad).is_err());
 }

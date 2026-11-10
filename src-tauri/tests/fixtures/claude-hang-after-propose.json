@@ -21,7 +21,7 @@
             {
               "type": "tool_use",
               "id": "toolu_proposechanges01",
-              "name": "mcp__cowrite__propose_changes",
+              "name": "mcp__emend__propose_changes",
               "input": { "doc": "draft.md", "revision": "rev-1", "edits": [] }
             }
           ]

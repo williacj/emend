@@ -25,7 +25,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut client = HttpToolServer::from_mcp_config(&config)?;
     client.initialize()?;
     emit(
-        json!({"type":"system","subtype":"init","model":"permission-fixture","session_id":"permission-fixture","claude_code_version":"2.1.263","mcp_servers":[{"name":"cowrite","status":"connected"}]}),
+        json!({"type":"system","subtype":"init","model":"permission-fixture","session_id":"permission-fixture","claude_code_version":"2.1.263","mcp_servers":[{"name":"emend","status":"connected"}]}),
     )?;
     if mode == "script" {
         let path = std::env::current_dir()?.join("permission-witness.py");

@@ -261,7 +261,7 @@ function openDocumentsBlock(snapshot: OpenDocumentsSnapshot): string[] {
   const active = snapshot.active === null ? null : entryFor(snapshot.active);
   const alsoOpen = snapshot.alsoOpen.map(entryFor);
   const envelope = {
-    cowrite_context_version: 1,
+    emend_context_version: 1,
     kind: "open_documents",
     active: active === null ? null : active.entry,
     also_open: alsoOpen.map((b) => b.entry),
@@ -293,7 +293,7 @@ const QUOTE_OVER_BOUND_PATHLESS_STATEMENT =
 function quotedSelectionBlock(quote: QuotedExcerpt): string[] {
   const overBound = utf8ByteLength(quote.text) > QUOTE_BOUND_BYTES;
   const envelope = {
-    cowrite_context_version: 1,
+    emend_context_version: 1,
     kind: "quoted_selection",
     document_path: quote.documentPath,
     ...(quote.documentPath === null ? { label: quote.label } : {}),

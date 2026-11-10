@@ -33,8 +33,8 @@ pub fn binary() -> String {
 pub const MIN_SUPPORTED_VERSION: &str = "2.1.200";
 
 /// The Emend MCP server's name inside the injected `mcpServers` config — also the
-/// `mcp__cowrite__<tool>` prefix the stream carries for our own tool calls (`agent::activity`).
-pub const MCP_SERVER_NAME: &str = "cowrite";
+/// `mcp__emend__<tool>` prefix the stream carries for our own tool calls (`agent::activity`).
+pub const MCP_SERVER_NAME: &str = "emend";
 
 /// The P2a-12 loopback MCP server a spawned CLI should connect to: its bound address plus the
 /// per-session bearer token minted for this run (`agent::mcp::LoopbackMcpServer`).
@@ -81,7 +81,7 @@ pub struct SpawnRequest {
 
 /// The MCP tool `--permission-prompt-tool` delegates every headless tool-permission decision to
 /// (SPIKE-1 §3.3/§3.4, TD-5, J7 / FR-AGENT-3): the `permission_request` tool (TD-1 §3.2) on our own
-/// `cowrite` server, named with Claude Code's `mcp__<server>__<tool>` convention (line 25). Built
+/// `emend` server, named with Claude Code's `mcp__<server>__<tool>` convention (line 25). Built
 /// from [`MCP_SERVER_NAME`] so it can never drift from the server name we actually inject. Only
 /// meaningful when an [`McpServer`] is wired — the tool lives on that server — so [`build_args`]
 /// emits the flag alongside `--mcp-config`, never on its own (see #453: this is what makes D21
@@ -95,12 +95,12 @@ pub fn permission_prompt_tool() -> String {
 }
 
 /// Builds the `--mcp-config` payload (the published `McpServerConfig` schema): one `http` server
-/// named `cowrite`, pointing at the loopback address with the bearer token in its `Authorization`
+/// named `emend`, pointing at the loopback address with the bearer token in its `Authorization`
 /// header — the whole "user configures nothing" contract lives in this one value.
 pub fn mcp_config(server: &McpServer) -> Value {
     let mut headers = json!({"Authorization": format!("Bearer {}", server.token)});
     if let Some(run_id) = &server.run_id {
-        headers["X-Cowrite-Run"] = json!(run_id);
+        headers["X-Emend-Run"] = json!(run_id);
     }
     json!({
         "mcpServers": {
@@ -187,13 +187,13 @@ mod tests {
     #[test]
     fn mcp_config_matches_the_published_schema_shape() {
         let cfg = mcp_config(&server());
-        assert_eq!(cfg["mcpServers"]["cowrite"]["type"], "http");
+        assert_eq!(cfg["mcpServers"]["emend"]["type"], "http");
         assert_eq!(
-            cfg["mcpServers"]["cowrite"]["url"],
+            cfg["mcpServers"]["emend"]["url"],
             "http://127.0.0.1:39999/"
         );
         assert_eq!(
-            cfg["mcpServers"]["cowrite"]["headers"]["Authorization"],
+            cfg["mcpServers"]["emend"]["headers"]["Authorization"],
             "Bearer test-token-123"
         );
         assert!(
@@ -236,28 +236,28 @@ mod tests {
                 "--mcp-config",
                 &mcp_config(&server()).to_string(),
                 "--permission-prompt-tool",
-                "mcp__cowrite__permission_request",
+                "mcp__emend__permission_request",
             ],
             "the complete argv contains no prompt; the turn rides stdin instead"
         );
     }
 
     #[test]
-    fn permission_prompt_tool_targets_the_permission_request_tool_on_the_cowrite_server() {
+    fn permission_prompt_tool_targets_the_permission_request_tool_on_the_emend_server() {
         // Must track MCP_SERVER_NAME (the `mcp__<server>__<tool>` convention, line 25) so the
         // delegated tool name and the injected server name can never drift apart.
         assert_eq!(
             permission_prompt_tool(),
             format!("mcp__{MCP_SERVER_NAME}__permission_request")
         );
-        assert_eq!(permission_prompt_tool(), "mcp__cowrite__permission_request");
+        assert_eq!(permission_prompt_tool(), "mcp__emend__permission_request");
     }
 
     /// J7 / FR-AGENT-3 / TD-5: when an Emend MCP server is wired, every tool call the spawned CLI
     /// wants to make is delegated to our own `permission_request` tool rather than left to the
     /// provider CLI's non-interactive default (#453) — so D21 protection is Emend's enforcement.
     #[test]
-    fn build_args_delegates_permission_gating_to_the_cowrite_mcp_tool_when_a_server_is_wired() {
+    fn build_args_delegates_permission_gating_to_the_emend_mcp_tool_when_a_server_is_wired() {
         let request = SpawnRequest {
             project_dir: "/tmp/project".into(),
             mcp_server: Some(server()),
@@ -268,7 +268,7 @@ mod tests {
             .iter()
             .position(|a| a == "--permission-prompt-tool")
             .expect("a wired run delegates permission to the Emend MCP tool");
-        assert_eq!(args[idx + 1], "mcp__cowrite__permission_request");
+        assert_eq!(args[idx + 1], "mcp__emend__permission_request");
     }
 
     /// The delegation target is a tool served by our own MCP server, so with no server wired there
@@ -295,7 +295,7 @@ mod tests {
         let args = build_args(&request);
         let idx = args.iter().position(|a| a == "--mcp-config").unwrap();
         let inline: Value = serde_json::from_str(&args[idx + 1]).expect("inline JSON config");
-        assert_eq!(inline["mcpServers"]["cowrite"]["type"], "http");
+        assert_eq!(inline["mcpServers"]["emend"]["type"], "http");
     }
 
     /// P2a integration (#412): a run started before the server-bind card (#413) wires a real

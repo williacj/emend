@@ -9,7 +9,7 @@
         "cwd": "/tmp/project",
         "session_id": "e6639704-0d4d-497d-8898-ef5a938ef849",
         "tools": ["Task", "Bash", "Read", "Write"],
-        "mcp_servers": [{ "name": "cowrite", "status": "connected" }],
+        "mcp_servers": [{ "name": "emend", "status": "connected" }],
         "model": "claude-haiku-4-5-20251001",
         "permissionMode": "default",
         "apiKeySource": "none",

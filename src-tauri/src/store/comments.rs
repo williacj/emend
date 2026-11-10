@@ -228,7 +228,7 @@ mod correction_tests {
                 workflow_run: None,
             },
         );
-        let published = event("p1", Some("c1"), "cowrite", 0, EventKind::Publish);
+        let published = event("p1", Some("c1"), "emend", 0, EventKind::Publish);
         let withdrawn = event("w1", Some("c1"), "alice", 3, EventKind::Withdraw);
 
         let private = fold([create.clone(), withdrawn.clone()]);
@@ -364,7 +364,7 @@ mod correction_tests {
                 run_id: None,
             },
         );
-        let malformed_publication = event("p1", Some("r1"), "cowrite", 3, EventKind::Publish);
+        let malformed_publication = event("p1", Some("r1"), "emend", 3, EventKind::Publish);
         let fold = fold([create, reply, malformed_publication]);
         assert!(!fold.threads["c1"].published);
     }
@@ -1368,7 +1368,7 @@ mod conformance_tests {
             schema_version: SCHEMA_VERSION,
             id: "p1".into(),
             parent_id: Some("c1".into()),
-            author: "cowrite".into(),
+            author: "emend".into(),
             timestamp: 2,
             kind: EventKind::Publish,
         };

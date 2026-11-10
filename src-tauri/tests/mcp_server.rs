@@ -833,7 +833,7 @@ fn real_mcp_handshake_discovers_and_waits_for_a_provider_permission_callback() {
         definition["inputSchema"]["properties"]["tool_name"]["type"], "string",
         "discovery must publish the actual provider callback schema"
     );
-    let wire_token = format!("{token}\r\nX-Cowrite-Run: run-a");
+    let wire_token = format!("{token}\r\nX-Emend-Run: run-a");
     let worker = thread::spawn(move || {
         call(
             addr,
@@ -888,7 +888,7 @@ fn mcp_cancellation_denies_only_the_bound_pending_callback() {
     let token = server.token().to_owned();
     let ctx = McpContext::new(dir.path(), vec![]).with_permissions(Arc::clone(&broker));
     thread::spawn(move || server.serve(ctx));
-    let wire_token = format!("{token}\r\nX-Cowrite-Run: run-a");
+    let wire_token = format!("{token}\r\nX-Emend-Run: run-a");
     let callback_token = wire_token.clone();
     let (done_tx, done_rx) = mpsc::channel();
     let worker = thread::spawn(move || {
@@ -896,7 +896,7 @@ fn mcp_cancellation_denies_only_the_bound_pending_callback() {
     });
     rx.recv_timeout(Duration::from_secs(2)).unwrap();
     let cancellation = json!({"jsonrpc":"2.0","method":"notifications/cancelled","params":{"requestId":1,"reason":"Provider cancelled"}}).to_string();
-    let stale_token = format!("{token}\r\nX-Cowrite-Run: previous-run");
+    let stale_token = format!("{token}\r\nX-Emend-Run: previous-run");
     request(addr, Some(&stale_token), &cancellation);
     assert!(
         matches!(done_rx.try_recv(), Err(mpsc::TryRecvError::Empty)),
@@ -954,7 +954,7 @@ fn project_mcp_script_grants_reuse_changed_arguments_and_revoke_on_content_contr
         .iter()
         .any(|t| t["name"] == "permission_request"));
     let invoke = |run: &str, input: Value| {
-        let wire_token = format!("{token}\r\nX-Cowrite-Run: {run}");
+        let wire_token = format!("{token}\r\nX-Emend-Run: {run}");
         let (tx, rx) = mpsc::channel();
         let worker = thread::spawn(move || {
             let (_, result) = call(
@@ -1073,7 +1073,7 @@ fn script_changed_while_waiting_cannot_be_approved_from_stale_display() {
     })));
     broker.begin("run");
     let addr = server.local_addr();
-    let wire_token = format!("{}\r\nX-Cowrite-Run: run", server.mcp_server().token);
+    let wire_token = format!("{}\r\nX-Emend-Run: run", server.mcp_server().token);
     let worker = thread::spawn(move || {
         call(
             addr,

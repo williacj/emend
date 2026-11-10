@@ -35,7 +35,7 @@ describe("timeline/permission", () => {
     listenForBackendEventMock.mockResolvedValueOnce(unlisten);
 
     await expect(listenToPermissionState(handler)).resolves.toBe(unlisten);
-    expect(PERMISSION_EVENT).toBe("cowrite://agent/permission");
+    expect(PERMISSION_EVENT).toBe("emend://agent/permission");
     expect(listenForBackendEventMock).toHaveBeenCalledWith(PERMISSION_EVENT, handler);
   });
 

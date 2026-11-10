@@ -88,11 +88,11 @@ fn a_runs_invocation_carries_the_bound_servers_address_and_token() {
 
     let config = mcp_config_arg(&args);
     assert_eq!(
-        config["mcpServers"]["cowrite"]["url"],
+        config["mcpServers"]["emend"]["url"],
         format!("http://{}/", server.addr)
     );
     assert_eq!(
-        config["mcpServers"]["cowrite"]["headers"]["Authorization"],
+        config["mcpServers"]["emend"]["headers"]["Authorization"],
         format!("Bearer {}", server.token)
     );
     assert!(provider_contract::is_valid(
@@ -171,11 +171,11 @@ fn two_runs_against_the_same_project_share_one_binding() {
     // And that shared value is genuinely this project's live binding, not two copies of a default.
     let server = bound_server(&session);
     assert_eq!(
-        first_config["mcpServers"]["cowrite"]["url"],
+        first_config["mcpServers"]["emend"]["url"],
         format!("http://{}/", server.addr)
     );
     assert_eq!(
-        first_config["mcpServers"]["cowrite"]["headers"]["Authorization"],
+        first_config["mcpServers"]["emend"]["headers"]["Authorization"],
         format!("Bearer {}", server.token)
     );
 }
@@ -390,7 +390,7 @@ fn a_spawned_agent_with_the_wrong_bearer_token_is_refused_by_the_bound_server() 
         claude_invocation(&request(dir.path()), server.clone(), None);
 
     let mut config = mcp_config_arg(&args);
-    config["mcpServers"]["cowrite"]["headers"]["Authorization"] =
+    config["mcpServers"]["emend"]["headers"]["Authorization"] =
         json!("Bearer not-the-minted-token");
 
     // The bound server is up and it is the *token* that refuses — not a dead address, a malformed
@@ -479,8 +479,8 @@ fn mcp_binding_provider_subprocess() {
         "type": "system", "subtype": "init", "session_id": "11111111-2222-4333-8444-555555555555",
         "model": "provider-fixture", "claude_code_version": "2.1.200",
         "mcp_servers": [
-            {"name": "cowrite-other", "status": "failed"},
-            {"name": "cowrite", "status": if connected { "connected" } else { "failed" }},
+            {"name": "emend-other", "status": "failed"},
+            {"name": "emend", "status": if connected { "connected" } else { "failed" }},
             {"name": "calendar", "status": "needs-auth"}
         ]
     })).unwrap();
@@ -532,7 +532,7 @@ fn a_failed_real_mcp_handshake_fails_its_run_and_advances_to_a_connected_run() {
             let mut config = mcp_config_arg(&argv);
             let reject = request.prompt == "reject the binding";
             if reject {
-                config["mcpServers"]["cowrite"]["headers"]["Authorization"] =
+                config["mcpServers"]["emend"]["headers"]["Authorization"] =
                     json!("Bearer intentionally-invalid-cowrite-token");
             }
             let input = json!({
@@ -649,7 +649,7 @@ fn permission_provider_subprocess() {
     client.initialize().unwrap();
     println!(
         "{}",
-        json!({"type":"system","subtype":"init","session_id":"permission-fixture","mcp_servers":[{"name":"cowrite","status":"connected"}]})
+        json!({"type":"system","subtype":"init","session_id":"permission-fixture","mcp_servers":[{"name":"emend","status":"connected"}]})
     );
     std::io::stdout().flush().unwrap();
     let decision = client
