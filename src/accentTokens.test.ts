@@ -82,4 +82,17 @@ describe("accent tokens (tokens.md, Accent family, refresh 31)", () => {
     expect(declaration(dark, "--color-comment-gutter-selected-fg")).toBe("var(--color-accent-ink)");
     expect(declaration(dark, "--color-comment-gutter-resolved-fg")).toBe("var(--color-accent-ink)");
   });
+
+  it("keeps the light accent ring on panels that stay light in dark, where the dark accent fails 3:1", () => {
+    for (const [panel, background, ring] of [
+      [".comment-thread-card__menu", "#fff", ".comment-thread-card__menu button:focus-visible"],
+      [".comment-thread-card__linked-refusal", "#faf8f3", ".comment-thread-card__linked-refusal button:focus-visible"],
+    ]) {
+      // The panel's own light background is what makes the light ring right. If it gains a dark
+      // surface, this cell fails, and the ring should then follow the theme instead.
+      expect({ panel, background: declaration(ruleBody(panel), "background") }).toEqual({ panel, background });
+      expect(stylesheet).not.toMatch(new RegExp(`theme="dark"\\] \\${panel}[ ,{]`));
+      expect({ ring, outline: declaration(ruleBody(ring), "outline") }).toEqual({ ring, outline: "2px solid #4f46e5" });
+    }
+  });
 });

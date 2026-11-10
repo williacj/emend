@@ -2995,9 +2995,15 @@ button.chat-message-card__quote-link:hover {
 
 .comment-thread-card__edit:focus-visible,
 .comment-thread-card__menu-trigger:focus-visible,
-.comment-thread-card__menu button:focus-visible,
 .comment-thread-card__correction button:focus-visible {
   outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* The overflow menu keeps a light surface in both themes, so its ring keeps the light accent:
+   the dark accent on white would be 2.05:1, under a focus indicator's 3:1. */
+.comment-thread-card__menu button:focus-visible {
+  outline: 2px solid #4f46e5;
   outline-offset: 2px;
 }
 
@@ -3079,8 +3085,10 @@ button.chat-message-card__quote-link:hover {
   cursor: pointer;
 }
 
+/* The refusal box keeps a light surface in both themes (as its button text does), so its ring
+   keeps the light accent. */
 .comment-thread-card__linked-refusal button:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid #4f46e5;
   outline-offset: 2px;
 }
 
