@@ -1,5 +1,5 @@
 # ABOUTME: CI/CD pipeline matrices for shipped macOS/Windows and platform-independent Ubuntu checks.
-# ABOUTME: Runs fmt/clippy/eslint/tsc, Cargo/vitest suites, traceability, and the benchmark stub.
+# ABOUTME: Lint, the per-OS merge gate (all four suites plus matrix execution evidence), app builds, the benchmark stub.
 # Refs: test-plan §1,6; P0-2 acceptance: green on macOS + Windows for the scaffold.
 # Third-party actions are pinned to commit SHAs (supply-chain hygiene); the trailing comment is the human-readable tag.
 
@@ -81,24 +81,39 @@ jobs:
       - name: Rust clippy
         run: cargo clippy --manifest-path src-tauri/Cargo.toml --workspace --all-targets -- -D warnings
 
-  # Cargo tests. No frontend build here by design: tauri_build tolerates a
-  # missing frontendDist, so the Rust test job stays independent of the TS build.
-  test-cargo:
-    # D23 ships macOS + Windows only. Keep both results even if one platform fails.
+  # The merge gate (test-plan §8/§9; CJ, 2026-11-08, williacj/emend#2): every suite on each shipped
+  # OS (D23). Each leg uploads the results artifact every suite wrote; `matrix-evidence` below
+  # checks both legs together, because a platform-specific test runs on one OS only. A suite that
+  # did not run leaves no evidence, and the check fails rather than reading a missing artifact as
+  # a pass (#1814).
+  suites:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, windows-latest]
+        include:
+          - os: windows-latest
+            label: windows
+          - os: macos-latest
+            label: macos
     runs-on: ${{ matrix.os }}
-    name: Cargo tests (${{ matrix.os }})
+    name: Suites (${{ matrix.os }})
+    timeout-minutes: 75
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install Rust
-        # SHA-pinned, so the toolchain channel can't be read from the ref — set it explicitly.
         uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable @ 2026-07-09
         with:
           toolchain: 1.97.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+          cache: "npm"
 
       - name: Provision Windows Whisper tools
         if: matrix.os == 'windows-latest'
@@ -118,10 +133,74 @@ jobs:
         with:
           workspaces: src-tauri
 
-      # --workspace runs every crate's tests (incl. the crates/textops proptest
-      # suite), not just the root emend package.
+      # Each artifact is named `<kind>-...-<label>` (scripts/test-execution-results.mjs). The OS
+      # label keeps the two legs' files distinct when `matrix-evidence` merges them into one
+      # directory. A hosted runner starts empty, so no artifact from an earlier run can stand in
+      # for this one.
+      - name: Prepare test-matrix results directory
+        run: |
+          dir="$RUNNER_TEMP/matrix-results"
+          mkdir -p "$dir"
+          echo "EMEND_MATRIX_ARTIFACTS=$dir" >> "$GITHUB_ENV"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: tooling self-test
+        env:
+          EMEND_TEST_RESULTS_FILE: ${{ runner.temp }}/matrix-results/node-scripts-${{ matrix.label }}.jsonl
+        run: npm run test:scripts:ci
+
+      # Existence-only, and early: a mistyped test name fails in seconds. The execution half runs
+      # last, once every suite has written its results artifact.
+      - name: Validate docs/test-matrix.md
+        run: npm run matrix:check
+
+      - name: Validate vitest unhandled-errors invariant (test-plan §9b)
+        run: npm run check:vitest-unhandled-errors
+
+      - name: vitest
+        run: npm run test -- --reporter=default --reporter=json --outputFile.json="$EMEND_MATRIX_ARTIFACTS/vitest-${{ matrix.label }}.json"
+
+      # stdout and stderr share one pipe, so each target's `Running` header lands immediately
+      # before that target's own result lines in the transcript the execution check reads.
+      # bash runs with `-eo pipefail`, so cargo's exit code fails the step through `tee`.
       - name: Cargo test
-        run: cargo test --manifest-path src-tauri/Cargo.toml --workspace
+        run: cargo test --manifest-path src-tauri/Cargo.toml --workspace 2>&1 | tee "$EMEND_MATRIX_ARTIFACTS/rust-${{ matrix.label }}.txt"
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium
+
+      # Keeps compilation failure distinct from the driver's 120-second webServer startup budget.
+      - name: Pre-build the headless test driver
+        run: cargo build --manifest-path src-tauri/Cargo.toml -p test-driver
+
+      # The shared config retries CI runs; the gate overrides that so a first-attempt failure is red
+      # (#1403/#1595). `test:e2e:ci` leaves out @quarantine cases, which the execution check then
+      # reads as not executed in this run.
+      - name: Playwright acceptance suite
+        env:
+          EMEND_E2E_RESULTS_FILE: ${{ runner.temp }}/matrix-results/e2e-${{ matrix.label }}.json
+        run: |
+          npm run test:e2e:ci -- --retries=0
+
+      - name: Upload test-matrix results
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: matrix-results-${{ matrix.label }}
+          path: ${{ runner.temp }}/matrix-results/
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload Playwright report
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report-${{ matrix.label }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
 
   # A plain Tauri production build must include the default inference feature, leave a real
   # native executable, and produce an unsigned app bundle on each shipped OS. The first
@@ -214,40 +293,6 @@ jobs:
           test -x "$bundle_exe"
           file "$bundle_exe" | grep -q 'Mach-O'
 
-  # Frontend lint + tests (eslint/vitest). Owns the Node toolchain so the Rust
-  # lint job doesn't depend on npm.
-  test-npm:
-    strategy:
-      matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
-    runs-on: ${{ matrix.os }}
-    name: npm lint + tests (${{ matrix.os }})
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Setup Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      # A standalone typecheck step is redundant now that `npm test`'s own `pretest` hook (issue
-      # #486, package.json) runs `tsc --noEmit` on every platform in this matrix before vitest —
-      # a type error fails the "vitest" step below without a dedicated step needed here.
-
-      # --if-present skips the step cleanly until eslint is configured, but a
-      # configured-and-failing lint run still fails the job (no error masking).
-      - name: ESLint
-        run: npm run lint --if-present
-
-      # --if-present skips until vitest is configured; a real test failure still
-      # fails the job.
-      - name: vitest
-        run: npm run test --if-present
-
   # FR-traceability gate (test-plan §9): every FR/property has a matrix row and
   # every row that names a test names one that exists and would run. Runs on one
   # runner (platform-independent like rustfmt/typecheck). scripts/pretest-typecheck.test.mjs
@@ -273,15 +318,48 @@ jobs:
       - name: Enforcement script self-test
         run: npm run test:scripts
 
-      # Existence-only, and the run says so out loud (#1814): this workflow has no e2e job, so it
-      # cannot assemble all four suites' results artifacts in one place. The execution half of the
-      # §9 gate runs in windows-self-hosted.yml — the required merge gate, and the only venue where
-      # every suite runs inside a single job.
+      # Existence-only, and the run says so out loud (#1814). This is fast feedback on Linux; the
+      # execution half of the §9 gate runs at the end of each `suites` job, where every suite
+      # writes its results artifact.
       - name: Validate docs/test-matrix.md
         run: npm run matrix:check
 
       - name: Validate vitest unhandled-errors invariant (test-plan §9b)
         run: npm run check:vitest-unhandled-errors
+
+  # The strong half of the test-plan §9 gate (#1814): every matrix row's named test must appear as
+  # executed in the results of the Windows or the macOS leg. Results of one kind from several
+  # artifacts are read as one set (scripts/test-execution-results.mjs), so a Windows-only or
+  # Unix-only test counts once it ran on its own OS. `!cancelled()` rather than the default, because
+  # a job skipped after a failed leg would read as passing; this job fails instead.
+  matrix-evidence:
+    needs: suites
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    name: Test-matrix execution evidence
+    steps:
+      - name: Require both Suites legs to pass
+        if: ${{ needs.suites.result != 'success' }}
+        run: |
+          echo "Suites result: ${{ needs.suites.result }}; no execution evidence to check."
+          exit 1
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+
+      - name: Download both legs' results
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: matrix-results-*
+          path: ${{ runner.temp }}/matrix-results
+          merge-multiple: true
+
+      - name: Validate test-matrix execution evidence
+        run: node scripts/check-test-matrix.mjs --artifacts "$RUNNER_TEMP/matrix-results" --require-kinds vitest,e2e
 
   # Benchmark stub (implemented in P2b-10). Per test-plan §6, performance budgets
   # must run on a dedicated/consistent runner with relative regression thresholds

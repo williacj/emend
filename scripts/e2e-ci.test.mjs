@@ -1,11 +1,8 @@
-// ABOUTME: Pins the live self-hosted Windows e2e acceptance gate selected by #1388/#1403.
-// ABOUTME: Guards required-job execution, zero-retry failure visibility, billing safety, and quarantine tracking.
+// ABOUTME: Pins the e2e acceptance gate inside the hosted per-OS Suites job (ci.yml, williacj/emend#8).
+// ABOUTME: Guards both shipped OSes, zero-retry failure visibility, billing safety, and quarantine tracking.
 //
-// #1388 selected the live Windows workflow; #1399 tracks test-plan §4's still-missing macOS lane.
-// #1595 invalidated #1403's claimed clean sample and is repaired (PR #1602, merged 2026-08-16); that
-// repair restarted the observation boundary, which closed within its one-day cutoff at 20/20
-// qualifying PR-triggered runs, 20 overlaps (4 cross-run), and zero terminal or retry-masked
-// failures (docs/proposals/windows-suite-classification.md §7.1). E now folds into this gate.
+// The gate ran on a self-hosted Windows runner from #1388/#1403 until CJ moved CI to GitHub-hosted
+// runners (2026-11-08, williacj/emend#2). The hosted job also closes #1399's missing macOS lane.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -14,7 +11,7 @@ import { dirname, join } from 'node:path';
 import { createRequire } from 'node:module';
 
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const WORKFLOW_PATH = join(REPO_ROOT, '.github', 'workflows', 'windows-self-hosted.yml');
+const WORKFLOW_PATH = join(REPO_ROOT, '.github', 'workflows', 'ci.yml');
 const PLAYWRIGHT_CONFIG_PATH = join(REPO_ROOT, 'playwright.config.mjs');
 const SPEC_PATH = join(REPO_ROOT, 'e2e', 'acceptance.spec.mjs');
 const PACKAGE_PATH = join(REPO_ROOT, 'package.json');
@@ -48,7 +45,7 @@ function untrackedQuarantineTags(spec, { commentWindow = QUARANTINE_COMMENT_LINE
 }
 
 /**
- * The required Windows job's own YAML block, sliced off at the next top-level job key.
+ * The required Suites job's own YAML block, sliced off at the next top-level job key.
  *
  * Asserts rather than returning undefined on purpose: most of the checks below are negative
  * (`doesNotMatch`), so a slice that silently stopped matching would let every one of them pass
@@ -56,29 +53,33 @@ function untrackedQuarantineTags(spec, { commentWindow = QUARANTINE_COMMENT_LINE
  */
 function e2eJob() {
   const workflow = readFileSync(WORKFLOW_PATH, 'utf8');
-  const job = workflow.match(/\n  test-windows:\n([\s\S]*?)(?=\n  [a-z][a-z0-9-]*:\n|$)/)?.[1];
-  assert.ok(job, 'expected the required test-windows job in the live Windows workflow');
+  const job = workflow.match(/\n  suites:\n([\s\S]*?)(?=\n  [a-z][a-z0-9-]*:\n|$)/)?.[1];
+  assert.ok(job, 'expected the required suites job in ci.yml');
   return job;
 }
 
-test('the e2e gate uses the selected live self-hosted Windows venue (issue #1403)', () => {
+test('the e2e gate runs on hosted Windows and macOS runners (williacj/emend#8)', () => {
   const job = e2eJob();
 
-  assert.match(job, /runs-on:\s*\[self-hosted,\s*Windows,\s*cowrite-required\]/);
-  assert.doesNotMatch(job, /(?:macos|ubuntu)-latest/);
+  assert.match(job, /^\s+- os: windows-latest$/m);
+  assert.match(job, /^\s+- os: macos-latest$/m);
+  assert.match(job, /runs-on: \$\{\{ matrix\.os \}\}/);
+  assert.match(job, /fail-fast: false/);
+  assert.doesNotMatch(job, /self-hosted|ubuntu-latest/);
   assert.match(job, /npm run test:e2e:ci/);
 });
 
-test('the e2e gate is failure-visible inside the one stable merge check (#1403)', () => {
+test('the e2e gate is failure-visible inside each per-OS merge check (#1403)', () => {
   const job = e2eJob();
   const acceptance = job.match(/- name: Playwright acceptance suite\n([\s\S]*?)(?=\n\s+- name:|$)/)?.[0];
   assert.ok(acceptance, 'expected the Playwright acceptance step in the required job');
 
   assert.doesNotMatch(acceptance, /continue-on-error/);
   assert.doesNotMatch(acceptance, /\|\|\s*true/);
-  assert.match(acceptance, /steps\.classifier\.outputs\.run_e2e\s*==\s*'true'/);
-  assert.match(job, /name:\s*Suites \(Windows, self-hosted\)/);
-  assert.doesNotMatch(job, /name:\s*E2E acceptance burn-in \(Windows, self-hosted\)/);
+  // Unconditional: no path classifier or step condition can skip the suite.
+  assert.doesNotMatch(acceptance, /^\s+if:/m);
+  assert.match(job, /name: Suites \(\$\{\{ matrix\.os \}\}\)/);
+  assert.doesNotMatch(job, /continue-on-error/);
   assert.doesNotMatch(job, /\n    if:/);
 });
 
