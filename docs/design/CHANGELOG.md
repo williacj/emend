@@ -2,12 +2,20 @@
 
 Newest first. Each entry lists what changed in the specs since the previous refresh, so an implementer can work the delta.
 
+## 2026-11-10 (35) — Wording fixes to the (34) comment-anchor spec
+
+An independent review checked (34) against `../ux-design.md` and the code; every figure and token held. Specs only; no value changes, no state meaning changes, no J# delta.
+
+1. **Dismissed shares only Resolved's text highlight, not its gutter icon.** `comments.md` now says so and cites §2's direct authority: "The anchor highlight follows resolved's precedent rather than inventing one". Dismissed's gutter icon stays undrawn (UXR-Q12) and may never take Resolved's `✓` or fill, because §2's rule there is "never the other outcome's mark" (FR-CMT-15). (34) item 2 carries a clarification note.
+2. **"Darkens" corrected to "strengthens to hold 3:1"** for Selected + Resolved / Dismissed in both files. In light the line gets darker (`#8C8779` → `#6B665C`); in dark it gets lighter (`#6B7075` → `#9AA0A6`).
+3. **Stale labels.** The `tokens.md` heading and the `comments.md` label now cover (32)–(34). `#6B7075` is described as the dark line Resolved and Dismissed share, not as Resolved's alone.
+
 ## 2026-11-10 (34) — Three corrections to the (33) comment-anchor spec
 
 An independent review checked (33) against the shipped code (`src/editor/commentHighlights.ts`, `src/styles.css`). Specs only. No state's meaning changes; no J# delta.
 
 1. **Suggestion's wavy underline is specified.** The app draws `text-decoration: underline wavy` in the line colour, offset 2px, beside the 1px solid border; (32) and (33) left it out. It is now in both tables, in both themes and when selected. It is what separates Suggestion from Open by pattern, so (33)'s "known gap" bullet is replaced by a note that the gap is closed (dark Open and Suggestion fills are 1.00:1, so this matters most there). (33) item 3 carries a correction note.
-2. **Resolved and Dismissed get an anchor row and their own pattern.** No fill, 1px **dashed**: `#8C8779` light (3.46:1), `#6B7075` dark (3.30:1, new). The app drew Resolved 1px dotted, the pattern (32) gave Working. Selected: the indigo fill with the dashed line darkened to `#6B665C` / `#9AA0A6` (4.41:1 / 5.37:1). Dismissed shares the anchor, following §2's closed mechanics; its card appearance stays undrawn (UXR-Q12).
+2. **Resolved and Dismissed get an anchor row and their own pattern.** No fill, 1px **dashed**: `#8C8779` light (3.46:1), `#6B7075` dark (3.30:1, new). The app drew Resolved 1px dotted, the pattern (32) gave Working. Selected: the indigo fill with the dashed line darkened to `#6B665C` / `#9AA0A6` (4.41:1 / 5.37:1). Dismissed shares the anchor, following §2's closed mechanics; its card appearance stays undrawn (UXR-Q12). *(Clarified in (35): Dismissed shares only the text highlight, under §2's "follows resolved's precedent" bullet; its gutter icon stays undrawn and may never take Resolved's mark.)*
 3. **Dark selected icon `+` is `#B7C0FF`** (accent ink, 8.09:1 on `#23284D`), not `#A5B0FF`. Only the border is `#A5B0FF`. `comments.md` corrected.
 4. **`state.md`** records the comment anchors as a dark-mode carve-out, specified but not drawn, with the three colours this folder added for them.
 

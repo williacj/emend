@@ -12,9 +12,13 @@ Read `specs/` for the implementable detail. Each spec file covers one surface an
 
 Where the mocks and `docs/ux-design.md` disagree on **behavior**, `ux-design.md` wins. Where they disagree on **appearance**, the hi-fi mocks win. Where they disagree about the *same* thing, or a mock implies behavior `ux-design.md` does not record, **raise it with CJ** — neither document is amended by the reader (`CLAUDE.md`, "Reading `docs/design/`").
 
-## Current status (34)
+## Current status (35)
 
-**Refresh (34) is current**, three corrections to the (33) comment-anchor spec from an independent review against the shipped code. Suggestion's wavy underline is now specified, which closes the Open/Suggestion gap. Resolved and Dismissed get a 1px dashed anchor of their own, with no fill. The dark selected icon's `+` is `#B7C0FF`. `state.md` records the anchors as a dark-mode carve-out. See `CHANGELOG.md` (34).
+**Refresh (35) is current**, wording fixes to (34) from an independent review; no values change. Dismissed shares only Resolved's text highlight, never its gutter icon or mark. "Darkens" becomes "strengthens to hold 3:1", since the dark line gets lighter. Two stale labels are corrected. See `CHANGELOG.md` (35).
+
+## Status (34)
+
+**Refresh (34)**, three corrections to the (33) comment-anchor spec from an independent review against the shipped code. Suggestion's wavy underline is now specified, which closes the Open/Suggestion gap. Resolved and Dismissed get a 1px dashed anchor of their own, with no fill. The dark selected icon's `+` is `#B7C0FF`. `state.md` records the anchors as a dark-mode carve-out. See `CHANGELOG.md` (34).
 
 ## Status (33)
 

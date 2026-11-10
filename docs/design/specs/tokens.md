@@ -62,9 +62,9 @@ Emend's accent is the indigo of the Emend marketing page, replacing Cowrite's bl
 
 **Kept, deliberately.** `#E4E9EF` (Windows active-file tint) is listed with the neutrals and keeps its value, as the brief keeps neutrals. `#10131A` (label on a dark accent fill) is ink, not accent. The lo-fi wireframes' stand-in blue (`#2A78D6`, `#1B5AA6`, `#DFE8F4`, `#A9C4E4`, `#EAF2FC`) moves to `#4F46E5`, `#4338CA`, `#DCDAF9`, `#9F9AF3` and `#E8E7FF` so the two files agree.
 
-### Comment-anchor states (refreshes (32) and (33))
+### Comment-anchor states (refreshes (32)–(34))
 
-Anchor highlights in the document text (`comments.md` → *Anchor highlights in the text*). The fill carries selection; the line carries thread state by **pattern and weight**, so neither selection nor state depends on colour alone. Every value below is already in this file or in the app's dark palette (`src/styles.css`: warning `#78350F`/`#FCD34D`, Reopened `#3A3D42`/`#F87171`), except the two dark Suggestion values new in (33) and dark Resolved's `#6B7075`, new in (34).
+Anchor highlights in the document text (`comments.md` → *Anchor highlights in the text*). The fill carries selection; the line carries thread state by **pattern and weight**, so neither selection nor state depends on colour alone. Every value below is already in this file or in the app's dark palette (`src/styles.css`: warning `#78350F`/`#FCD34D`, Reopened `#3A3D42`/`#F87171`), except the two dark Suggestion values new in (33) and `#6B7075`, the dark line Resolved and Dismissed share, new in (34).
 
 | State | Fill (light / dark) | Line (light / dark) | Body text on the fill | Line on the fill |
 |---|---|---|---|---|
@@ -78,13 +78,13 @@ Anchor highlights in the document text (`comments.md` → *Anchor highlights in 
 | Selected + Working, Selected + Addressed — pending | `#E1E0F8` / `#23284D` | the state's own pattern, in `#4F46E5` / `#A5B0FF` | 10.2:1 / 11.5:1 | 4.86:1 / 6.92:1 |
 | Selected + Reopened (33) | `#E1E0F8` / `#23284D` | 3px double, own colour: `#CF5B22` / `#F87171` | 10.2:1 / 11.5:1 | 3.14:1 / 5.12:1 |
 | Selected + Suggestion (33) | `#E1E0F8` / `#23284D` | 1px solid + wavy, own colour: `#1A7F37` / `#86EFAC` | 10.2:1 / 11.5:1 | 3.92:1 / 10.1:1 |
-| Selected + Resolved / Dismissed (34) | `#E1E0F8` / `#23284D` | 1px dashed, darkened: `#6B665C` / `#9AA0A6` | 10.2:1 / 11.5:1 | 4.41:1 / 5.37:1 |
+| Selected + Resolved / Dismissed (34) | `#E1E0F8` / `#23284D` | 1px dashed, strengthened to hold 3:1: `#6B665C` / `#9AA0A6` | 10.2:1 / 11.5:1 | 4.41:1 / 5.37:1 |
 
 A dotted or dashed 1–2px line has to reach 3:1 against its fill to read as a pattern rather than a smudge, so the Working and Addressed — pending lines use the darker ink of their family (`#6B665C`, `#8A6614`) rather than the border shade. The dark Selected fill moves from the surface `#26282C` to the family's held-selection tint `#23284D`, so Selected and Working no longer share a dark fill. Fills sit close in lightness: in light, 1.06:1 (Open/Working), 1.11:1 (Working/Selected) and 1.17:1 (Open/Selected); in dark, 1.04:1 (Working/Selected). That is why the line pattern, not the fill, is the carrier. The solid lines of Open (1.47:1) and Selected + Open (1.92:1) are low-contrast by design and unchanged; neither carries a pattern.
 
 **(33) Dark Suggestion.** The app drew dark Suggestion on `#26282C` with 1px solid `#9AA0A6` and a wavy underline in the same grey (the wavy was omitted here until (34)), the same fill and colour as dark Working. It moves to `#14532D` with `#86EFAC` (green-900/green-300), built like the dark warning pair `#78350F`/`#FCD34D`. Against dark Working: fill 1.62:1, and the line differs in hue and pattern. Two new colours, both Suggestion's. **Dark Reopened confirmed** as the app draws it: `#3A3D42` (the dark line/edge token) with 3px double `#F87171` (the error ink), body 8.82:1, line 3.94:1.
 
-**(34) Resolved and Dismissed.** No fill and a 1px dashed neutral, so a closed thread no longer draws Working's dotted pattern. The light line reuses `#8C8779`. Dark needs a quiet grey that still reaches 3:1 on the pane: `#3A3D42` (the app's value) is 1.51:1 and `#9AA0A6` is as loud as Working's line, so `#6B7075` is new, between them. Selected, the line darkens to `#6B665C` / `#9AA0A6` to hold 3:1 on the indigo fill. **Retired:** Resolved 1px dotted `#C4C4C4` / `#3A3D42`.
+**(34) Resolved and Dismissed.** No fill and a 1px dashed neutral, so a closed thread no longer draws Working's dotted pattern. The light line reuses `#8C8779`. Dark needs a quiet grey that still reaches 3:1 on the pane: `#3A3D42` (the app's value) is 1.51:1 and `#9AA0A6` is as loud as Working's line, so `#6B7075` is new, between them. Selected, the line strengthens to `#6B665C` / `#9AA0A6` to hold 3:1 on the indigo fill (darker in light, lighter in dark). **Retired:** Resolved 1px dotted `#C4C4C4` / `#3A3D42`.
 
 **Retired:** Working `#E6E0FF` with `1px dashed #6F52D9` (light) and `1px dashed #A5B0FF` on `#26282C` (dark). Addressed — pending no longer reuses them.
 
