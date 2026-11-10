@@ -116,7 +116,7 @@ impl HttpToolServer {
             "initialize",
             json!({
                 "protocolVersion": "2025-06-18", "capabilities": {},
-                "clientInfo": { "name": "cowrite-fake-agent", "version": env!("CARGO_PKG_VERSION") }
+                "clientInfo": { "name": "emend-fake-agent", "version": env!("CARGO_PKG_VERSION") }
             }),
         )?;
         let version = result["protocolVersion"]

@@ -376,7 +376,7 @@ function assertUntracked(dir, relativePath) {
 }
 
 function makeRealRepo() {
-  const dir = mkdtempSync(join(tmpdir(), 'cowrite-scope-tests-'));
+  const dir = mkdtempSync(join(tmpdir(), 'emend-scope-tests-'));
   sh(['init', '-q', '-b', 'main'], dir);
   sh(['config', 'user.email', 'test@example.invalid'], dir);
   sh(['config', 'user.name', 'Scope Tests'], dir);
@@ -433,7 +433,7 @@ test('an untracked file is still repo-root-relative when scope-tests runs from a
   // A deliberately minimal, single-commit repo (not `makeRealRepo()`, whose own seed files would also
   // land in the merge-base diff and blur this test's one variable: whether cwd changes the reported
   // path of ONE untracked file).
-  const dir = mkdtempSync(join(tmpdir(), 'cowrite-scope-tests-cwd-'));
+  const dir = mkdtempSync(join(tmpdir(), 'emend-scope-tests-cwd-'));
   try {
     sh(['init', '-q', '-b', 'main'], dir);
     sh(['config', 'user.email', 'test@example.invalid'], dir);
@@ -477,7 +477,7 @@ test('an untracked file is still repo-root-relative when scope-tests runs from a
 // while the same command from the repo root returns it — the file silently vanishes from `paths`, and
 // with it the only signal that would have selected R.
 test('an untracked file OUTSIDE the cwd subtree is not dropped (#2467 review round 2 Important 1)', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'cowrite-scope-tests-cwd-disjoint-'));
+  const dir = mkdtempSync(join(tmpdir(), 'emend-scope-tests-cwd-disjoint-'));
   try {
     sh(['init', '-q', '-b', 'main'], dir);
     sh(['config', 'user.email', 'test@example.invalid'], dir);

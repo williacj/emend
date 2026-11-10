@@ -123,7 +123,7 @@ describe("listenForBackendEvent", () => {
       "Emend backend event handler failed for event/a",
       expect.any(Error),
     );
-    expect(sessionStorage.getItem("cowrite.driverEvents.cursor.v1")).toBe(
+    expect(sessionStorage.getItem("emend.driverEvents.cursor.v1")).toBe(
       JSON.stringify({ epoch: "process-1", cursor: 2 }),
     );
     stopThrowing();
@@ -134,7 +134,7 @@ describe("listenForBackendEvent", () => {
 
   it("persists the shared cursor across a reload and accepts a restarted driver's lower cursor", async () => {
     sessionStorage.setItem(
-      "cowrite.driverEvents.cursor.v1",
+      "emend.driverEvents.cursor.v1",
       JSON.stringify({ epoch: "old-process", cursor: 99 }),
     );
     callBackendMock.mockResolvedValueOnce({
@@ -153,7 +153,7 @@ describe("listenForBackendEvent", () => {
       epoch: "old-process",
       waitMs: 1_000,
     });
-    expect(sessionStorage.getItem("cowrite.driverEvents.cursor.v1")).toBe(
+    expect(sessionStorage.getItem("emend.driverEvents.cursor.v1")).toBe(
       JSON.stringify({ epoch: "new-process", cursor: 1 }),
     );
     stop();

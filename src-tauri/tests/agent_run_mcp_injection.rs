@@ -106,7 +106,7 @@ fn a_runs_invocation_carries_the_bound_servers_address_and_token() {
 /// detection. The subprocess keeps its `PATH` empty: reverting the override is a safe, deterministic
 /// spawn failure even on a developer machine with a real, authenticated `claude` installed.
 #[test]
-fn spawn_claude_run_starts_the_binary_named_by_cowrite_claude_bin() {
+fn spawn_claude_run_starts_the_binary_named_by_emend_claude_bin() {
     let status =
         Command::new(std::env::current_exe().expect("locate this integration test binary"))
             .args([
@@ -127,7 +127,7 @@ fn spawn_claude_run_starts_the_binary_named_by_cowrite_claude_bin() {
     );
 }
 
-/// Child half of [`spawn_claude_run_starts_the_binary_named_by_cowrite_claude_bin`]. Kept ignored
+/// Child half of [`spawn_claude_run_starts_the_binary_named_by_emend_claude_bin`]. Kept ignored
 /// so an ordinary test run executes it only through the parent that supplies the isolated env.
 #[test]
 #[ignore]
@@ -533,7 +533,7 @@ fn a_failed_real_mcp_handshake_fails_its_run_and_advances_to_a_connected_run() {
             let reject = request.prompt == "reject the binding";
             if reject {
                 config["mcpServers"]["emend"]["headers"]["Authorization"] =
-                    json!("Bearer intentionally-invalid-cowrite-token");
+                    json!("Bearer intentionally-invalid-emend-token");
             }
             let input = json!({
                 "config": config,

@@ -56,7 +56,7 @@ test('the reporter appends real node --test results, suites included, and skips 
   // The production edge: the live runner's own event stream, not a hand-built one. A parser
   // that agreed with a fixture but not with node:test would pass every cell above and report
   // an empty suite in CI.
-  const dir = mkdtempSync(join(tmpdir(), 'cowrite-results-reporter-'));
+  const dir = mkdtempSync(join(tmpdir(), 'emend-results-reporter-'));
   const spec = join(dir, 'sample.test.mjs');
   writeFileSync(
     spec,
@@ -94,7 +94,7 @@ test('the reporter appends real node --test results, suites included, and skips 
 test('two node --test invocations both land in one results file', () => {
   // A reporter that owned the destination file would keep only the last invocation's
   // evidence while the combined run itself was green.
-  const dir = mkdtempSync(join(tmpdir(), 'cowrite-results-append-'));
+  const dir = mkdtempSync(join(tmpdir(), 'emend-results-append-'));
   const results = join(dir, 'node-split.jsonl');
   const specs = ['first', 'second'].map((name, index) => {
     const path = join(dir, `part${index}.test.mjs`);
@@ -121,7 +121,7 @@ test('two node --test invocations both land in one results file', () => {
 test('with no results path configured the reporter writes nothing at all', () => {
   // The ordinary local `npm run test:scripts` loop carries this reporter and must stay a
   // no-op — otherwise every dev run would litter, or worse, half-write an artifact CI reads.
-  const dir = mkdtempSync(join(tmpdir(), 'cowrite-results-off-'));
+  const dir = mkdtempSync(join(tmpdir(), 'emend-results-off-'));
   const spec = join(dir, 'sample.test.mjs');
   writeFileSync(spec, "import { test } from 'node:test';\ntest('runs quietly', () => {});\n");
   const env = runnerEnv();

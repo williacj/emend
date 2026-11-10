@@ -40,14 +40,14 @@ impl RequesterActivation for SystemRequesterActivation {
         }
     }
 
-    fn owner_is_live_cowrite(&self, owner: &LockOwner) -> bool {
+    fn owner_is_live_emend(&self, owner: &LockOwner) -> bool {
         #[cfg(windows)]
         {
-            windows_owner_is_live_cowrite(owner)
+            windows_owner_is_live_emend(owner)
         }
         #[cfg(target_os = "macos")]
         {
-            macos_owner_is_live_cowrite(owner)
+            macos_owner_is_live_emend(owner)
         }
         #[cfg(not(any(windows, target_os = "macos")))]
         {
@@ -87,7 +87,7 @@ fn same_executable(expected: &std::path::Path, observed: &std::path::Path) -> bo
 }
 
 #[cfg(windows)]
-fn windows_owner_is_live_cowrite(owner: &LockOwner) -> bool {
+fn windows_owner_is_live_emend(owner: &LockOwner) -> bool {
     use std::os::windows::ffi::OsStringExt;
     use windows_sys::Win32::Foundation::{CloseHandle, STILL_ACTIVE};
     use windows_sys::Win32::System::Threading::{
@@ -214,7 +214,7 @@ mod macos_appkit {
 }
 
 #[cfg(target_os = "macos")]
-fn macos_owner_is_live_cowrite(owner: &LockOwner) -> bool {
+fn macos_owner_is_live_emend(owner: &LockOwner) -> bool {
     // NSRunningApplication makes both the liveness and bundle-identity check against the live OS
     // process, rather than trusting `owner.json`. `bundleIdentifier` is the shipped app identity.
     unsafe {
@@ -254,7 +254,7 @@ pub enum RequesterPlatform {
 /// verify a live PID and this-app executable/bundle identity before returning `true`.
 pub trait RequesterActivation {
     fn platform(&self) -> RequesterPlatform;
-    fn owner_is_live_cowrite(&self, owner: &LockOwner) -> bool;
+    fn owner_is_live_emend(&self, owner: &LockOwner) -> bool;
     fn establish_entitlement(&self, owner: &LockOwner) -> io::Result<()>;
 }
 
@@ -285,7 +285,7 @@ impl OwnerActivationService {
         let stopped = Arc::new(AtomicBool::new(false));
         let worker_stopped = Arc::clone(&stopped);
         let worker = thread::Builder::new()
-            .name("cowrite-owner-activation".to_string())
+            .name("emend-owner-activation".to_string())
             .spawn(move || {
                 let mut attempted = std::collections::HashSet::new();
                 let clock = SystemClock;
@@ -371,7 +371,7 @@ pub fn request_owner_focus(
     clock: &dyn Clock,
     activation: &dyn RequesterActivation,
 ) -> TerminalDisposition {
-    if !activation.owner_is_live_cowrite(owner) {
+    if !activation.owner_is_live_emend(owner) {
         return TerminalDisposition::Failed(RouteFailure::OwnerUnavailable);
     }
 
@@ -486,7 +486,7 @@ mod tests {
         fn platform(&self) -> RequesterPlatform {
             self.platform
         }
-        fn owner_is_live_cowrite(&self, _: &LockOwner) -> bool {
+        fn owner_is_live_emend(&self, _: &LockOwner) -> bool {
             self.events.borrow_mut().push("validate");
             self.valid
         }
@@ -800,12 +800,12 @@ mod tests {
     ) {
         let project = tempfile::TempDir::new().unwrap();
         let live = LockOwner::new("this-test-process", project.path());
-        assert!(SystemRequesterActivation.owner_is_live_cowrite(&live));
+        assert!(SystemRequesterActivation.owner_is_live_emend(&live));
 
         let recycled = LockOwner {
-            executable: Some(project.path().join("not-cowrite.exe")),
+            executable: Some(project.path().join("not-emend.exe")),
             ..live
         };
-        assert!(!SystemRequesterActivation.owner_is_live_cowrite(&recycled));
+        assert!(!SystemRequesterActivation.owner_is_live_emend(&recycled));
     }
 }

@@ -20,7 +20,7 @@ use serde_json::{json, Value};
 /// never about the real CLI's own flags).
 ///
 /// `CARGO_BIN_EXE_<name>` only resolves for binaries of the *same* package (fake-agent's own
-/// `tests/` use it directly) — cowrite is a different package, so it is built on demand here and
+/// `tests/` use it directly) — emend is a different package, so it is built on demand here and
 /// located via the workspace's shared `target/` dir (every member's binaries land alongside this
 /// test binary's own).
 pub fn fake_agent_bin() -> &'static Path {
@@ -93,7 +93,7 @@ pub fn mcp_call(
             json!({
                 "jsonrpc": "2.0", "id": 0, "method": "initialize", "params": {
                     "protocolVersion": "2025-06-18", "capabilities": {},
-                    "clientInfo": { "name": "cowrite-integration-test", "version": "1" }
+                    "clientInfo": { "name": "emend-integration-test", "version": "1" }
                 }
             }),
         );

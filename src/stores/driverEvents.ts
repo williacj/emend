@@ -23,7 +23,7 @@ interface StoredCursor {
 
 type Handler = (payload: unknown) => void;
 
-const CURSOR_KEY = "cowrite.driverEvents.cursor.v1";
+const CURSOR_KEY = "emend.driverEvents.cursor.v1";
 const WAIT_MS = 1_000;
 const RETRY_MS = 50;
 

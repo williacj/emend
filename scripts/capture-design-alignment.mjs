@@ -13,7 +13,7 @@ import { assertProjectOpenCapture } from "./capture-design-alignment-state.mjs";
 
 const repository = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const output = resolve(process.env.EMEND_ALIGNMENT_OUTPUT ?? join(repository, "docs/alignment-after"));
-const fixtureParent = mkdtempSync(join(tmpdir(), "cowrite-alignment-after-"));
+const fixtureParent = mkdtempSync(join(tmpdir(), "emend-alignment-after-"));
 const platformNames = [
   { id: "win", navigatorPlatform: "Win32" },
   { id: "mac", navigatorPlatform: "MacIntel" },
@@ -104,8 +104,8 @@ async function startServers() {
     ? await buildPermissionProvider() : null;
   const env = {
     ...process.env,
-    EMEND_CLAUDE_BIN: permissionProvider ?? "cowrite-test-no-claude-installed",
-    EMEND_COPILOT_BIN: "cowrite-test-no-copilot-installed",
+    EMEND_CLAUDE_BIN: permissionProvider ?? "emend-test-no-claude-installed",
+    EMEND_COPILOT_BIN: "emend-test-no-copilot-installed",
     ...(permissionProvider ? { EMEND_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN: "1" } : {}),
   };
   const vite = spawn("npm", ["run", "dev", "--", "--host", "127.0.0.1", "--port", String(vitePort), "--strictPort"], {
@@ -1465,7 +1465,7 @@ async function captureVoiceModelSettings(browser, viteUrl, driverUrl, platform, 
     await capture("cancelled", { download: { kind: "cancelled", downloaded: 42, total: 100 }, download_revision: 3 });
     await capture("failed", { download: { kind: "failed", reason: "transport" }, download_revision: 4 });
     const external = { model: "ready", model_origin: "external",
-      external_model_path: "/Users/writer/Very-long-project-name/Models/CoWrite/voice-model-file-with-long-name.bin",
+      external_model_path: "/Users/writer/Very-long-project-name/Models/Emend/voice-model-file-with-long-name.bin",
       download: { kind: "idle" }, download_revision: 5 };
     await capture("external", external);
     await capture("narrow-external", external, 520);

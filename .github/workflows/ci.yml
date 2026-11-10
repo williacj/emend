@@ -119,7 +119,7 @@ jobs:
           workspaces: src-tauri
 
       # --workspace runs every crate's tests (incl. the crates/textops proptest
-      # suite), not just the root cowrite package.
+      # suite), not just the root emend package.
       - name: Cargo test
         run: cargo test --manifest-path src-tauri/Cargo.toml --workspace
 

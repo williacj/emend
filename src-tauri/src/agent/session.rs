@@ -307,7 +307,7 @@ impl AgentSession {
             };
             fold_init_field(&value, "session_id", &mut self.session_id);
             fold_init_field(&value, "claude_code_version", &mut self.provider_version);
-            check_cowrite_binding(&value)?;
+            check_emend_binding(&value)?;
             if is_propose_changes_call(&value) {
                 self.saw_propose_changes = true;
             }
@@ -792,7 +792,7 @@ fn fold_init_field(event: &Value, field: &str, slot: &mut Option<String>) {
 
 /// The provider inventory is optional in the stream contract. Once advertised, every Emend
 /// entry must establish a connected binding before the required document tools can be used.
-fn check_cowrite_binding(event: &Value) -> std::io::Result<()> {
+fn check_emend_binding(event: &Value) -> std::io::Result<()> {
     if !is_system_init(event) {
         return Ok(());
     }
@@ -954,7 +954,7 @@ mod tests {
     }
 
     #[test]
-    fn advertised_cowrite_inventory_requires_a_connected_binding() {
+    fn advertised_emend_inventory_requires_a_connected_binding() {
         let inventories = [
             json!(null),
             json!({}),
@@ -974,7 +974,7 @@ mod tests {
         ];
         for inventory in inventories {
             assert!(
-                check_cowrite_binding(
+                check_emend_binding(
                     &json!({"type": "system", "subtype": "init", "mcp_servers": inventory})
                 )
                 .is_err(),
@@ -984,7 +984,7 @@ mod tests {
     }
 
     #[test]
-    fn connected_cowrite_ignores_unrelated_server_statuses() {
+    fn connected_emend_ignores_unrelated_server_statuses() {
         for unrelated in [
             json!({"name": "calendar", "status": "failed"}),
             json!({"name": "emend-other", "status": "needs-auth"}),
@@ -993,14 +993,14 @@ mod tests {
         ] {
             let event = json!({"type": "system", "subtype": "init", "mcp_servers": [unrelated, {"name": "emend", "status": "connected"}]});
             assert!(
-                check_cowrite_binding(&event).is_ok(),
+                check_emend_binding(&event).is_ok(),
                 "an unrelated server rejected a connected Emend binding"
             );
         }
     }
 
     #[test]
-    fn cowrite_binding_check_preserves_optional_inventory_and_event_discrimination() {
+    fn emend_binding_check_preserves_optional_inventory_and_event_discrimination() {
         for event in [
             json!({"type": "system", "subtype": "init"}),
             json!({"type": "assistant", "subtype": "init", "mcp_servers": []}),
@@ -1008,16 +1008,16 @@ mod tests {
             json!({"type": "result", "mcp_servers": []}),
         ] {
             assert!(
-                check_cowrite_binding(&event).is_ok(),
+                check_emend_binding(&event).is_ok(),
                 "optional inventory or a non-init event was rejected: {event}"
             );
         }
     }
 
     #[test]
-    fn cowrite_binding_failure_never_echoes_provider_inventory() {
+    fn emend_binding_failure_never_echoes_provider_inventory() {
         let event = json!({"type": "system", "subtype": "init", "mcp_servers": [{"name": "emend", "status": "Bearer secret-provider-inventory", "url": "https://credential@example.invalid"}]});
-        let error = check_cowrite_binding(&event).unwrap_err().to_string();
+        let error = check_emend_binding(&event).unwrap_err().to_string();
         assert_eq!(
             error, "The agent could not connect to Emend's document tools.",
             "provider-controlled inventory leaked into the run diagnostic"

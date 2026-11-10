@@ -870,8 +870,8 @@ mod io_tests {
     #[test]
     fn settings_file_is_named_settings_json_under_the_config_dir() {
         assert_eq!(
-            settings_file(Path::new("/cfg/cowrite")),
-            PathBuf::from("/cfg/cowrite/settings.json")
+            settings_file(Path::new("/cfg/emend")),
+            PathBuf::from("/cfg/emend/settings.json")
         );
     }
 

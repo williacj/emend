@@ -43,7 +43,7 @@ function createMaterializedAlias(root) {
 }
 
 function createGitFixture() {
-  const root = mkdtempSync(join(tmpdir(), "cowrite-repo-skill-alias-"));
+  const root = mkdtempSync(join(tmpdir(), "emend-repo-skill-alias-"));
   createMaterializedAlias(root);
   mustGit(root, ["init", "-q", "-b", "main"]);
   mustGit(root, ["config", "user.email", "test@example.com"]);
@@ -57,7 +57,7 @@ function createGitFixture() {
 }
 
 test("#2442: the check identifies Git's 17-byte materialized skill link as broken", () => {
-  const root = mkdtempSync(join(tmpdir(), "cowrite-repo-skill-check-"));
+  const root = mkdtempSync(join(tmpdir(), "emend-repo-skill-check-"));
   try {
     createMaterializedAlias(root);
     assert.deepEqual(inspectSkillAlias(root), {

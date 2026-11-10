@@ -97,7 +97,7 @@ export function createPersistentWriterId(
   createUuid: () => string = () => crypto.randomUUID(),
   windowScope = "browser",
 ): (root: string) => string {
-  const key = `cowrite:tab-session-writer:${windowScope}`;
+  const key = `emend:tab-session-writer:${windowScope}`;
   let fallback: string | undefined;
   return (_root) => {
     try {

@@ -649,7 +649,7 @@ mod tests {
             super::super::activator::RequesterPlatform::Windows
         }
 
-        fn owner_is_live_cowrite(&self, _owner: &crate::store::lock::LockOwner) -> bool {
+        fn owner_is_live_emend(&self, _owner: &crate::store::lock::LockOwner) -> bool {
             true
         }
 
