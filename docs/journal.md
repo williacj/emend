@@ -2,6 +2,14 @@
 
 > **Renamed 2026-11-08:** the app was Cowrite until D36 and TD-29. Entries dated before 2026-11-08 keep the old name, the old on-disk names (`.cowrite/`, `COWRITE_*`, `com.cowrite.desktop`) and bare `#NNNN` issue numbers, which refer to `williacj/cowrite`. They are left as written, because they record what was true then.
 
+# 2026-11-10 — design refresh (35) import: wording fixes to (34)
+
+- Imported refresh (35) wholesale. It changes wording only; no value changes and no hex differs. It makes the three fixes the (34) review asked the Designer for.
+  - Dismissed shares only Resolved's text highlight. Its gutter icon stays undrawn (UXR-Q12) and never takes Resolved's ✓ or fill.
+  - "Darkens" becomes "strengthens to hold 3:1".
+  - The headings now cover (32)–(34).
+- The stale ux-design §2 Dismissed line ("draws no closed-state highlight to inherit") is fixed in its own PR, as the Designer recommended.
+
 # 2026-11-10 — design refresh (34) import: corrections to (33)
 
 - Imported refresh (34) on top of (33), in the same PR. It answers all four review findings recorded under (33) below.
