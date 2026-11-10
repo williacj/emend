@@ -113,3 +113,79 @@ test('the hosted execution check reads both legs together and fails when a leg d
   // Enforced: vitest and e2e. rust and node stay observed: widening the gate is CJ's call (#2234).
   assert.match(check, /--require-kinds vitest,e2e$/);
 });
+
+test('hosted Lint pins one Rust toolchain with rustfmt and clippy, then enforces both checks (#817)', () => {
+  const workflow = readFileSync(WORKFLOW_PATH, 'utf8');
+  const lint = job(workflow, 'lint');
+  assert.match(lint, /toolchain: 1\.97\.0\n\s+components: rustfmt, clippy/);
+  assert.match(lint, /run: cargo fmt --manifest-path src-tauri\/Cargo\.toml --all -- --check/);
+  assert.match(lint, /run: cargo clippy --manifest-path src-tauri\/Cargo\.toml --workspace --all-targets -- -D warnings/);
+  assert.doesNotMatch(lint, /continue-on-error/);
+  // One toolchain across every hosted Rust job, so lint and the suites judge the same compiler.
+  const pins = [...workflow.matchAll(/^\s+toolchain: (\S+)$/gm)].map((match) => match[1]);
+  assert.ok(pins.length >= 3, `expected a pin in each Rust job, found ${pins.length}`);
+  const channel = readFileSync(join(HERE, '..', 'rust-toolchain.toml'), 'utf8').match(/^channel = "([^"]+)"$/m)?.[1];
+  assert.ok(channel, 'expected rust-toolchain.toml to pin a channel');
+  assert.deepEqual([...new Set(pins)], [channel]);
+});
+
+test('hosted CI validates the FR-traceability matrix and the vitest unhandled-errors invariant (test-plan §9/§9b)', () => {
+  const workflow = readFileSync(WORKFLOW_PATH, 'utf8');
+  for (const name of ['suites', 'test-matrix']) {
+    const block = job(workflow, name);
+    assert.match(block, /run: npm run matrix:check\n/, name);
+    assert.match(block, /run: npm run check:vitest-unhandled-errors\n/, name);
+  }
+});
+
+test('the Windows Suites leg runs default-feature workspace tests, CPAL capture and native Whisper included, into its Rust artifact (#2542/#2544)', () => {
+  const suites = job(readFileSync(WORKFLOW_PATH, 'utf8'), 'suites');
+  // The app's default feature is voice-inference, which enables voice-capture: a plain workspace
+  // test compiles and runs both, so the step must not narrow the feature set.
+  const manifest = readFileSync(join(HERE, '..', 'src-tauri', 'Cargo.toml'), 'utf8');
+  assert.match(manifest, /^default = \["voice-inference"\]$/m);
+  assert.match(manifest, /^voice-inference = \["voice-capture", "dep:whisper-rs"\]$/m);
+
+  const cargo = suites.match(/- name: Cargo test\n([\s\S]*?)(?=\n\s+- name:|$)/)?.[1];
+  assert.ok(cargo, 'expected the Cargo test step');
+  assert.match(cargo, /run: cargo test --manifest-path src-tauri\/Cargo\.toml --workspace 2>&1 \| tee "\$EMEND_MATRIX_ARTIFACTS\/rust-\$\{\{ matrix\.label \}\}\.txt"/);
+  assert.doesNotMatch(cargo, /--features|--no-default-features/);
+
+  // Windows provisions verified CMake and libclang before Cargo compiles Whisper.
+  const provision = suites.indexOf('- name: Provision Windows Whisper tools');
+  assert.ok(provision > 0 && provision < suites.indexOf('- name: Cargo test'));
+  assert.match(suites, /if: matrix\.os == 'windows-latest'\n\s+shell: pwsh\n\s+run: \.\/scripts\/provision-whisper-windows\.ps1/);
+});
+
+test('hosted CI checks every pull request and push to main, read-only, with every job bounded (williacj/emend#9)', () => {
+  const workflow = readFileSync(WORKFLOW_PATH, 'utf8');
+  // No path filter: a filtered trigger could leave a PR with no check at all.
+  const on = workflow.match(/\non:\n([\s\S]*?)\n(?=\S)/)?.[1];
+  assert.ok(on, 'expected the on: block');
+  assert.match(on, /^  pull_request:\n    branches: \[main\]$/m);
+  assert.match(on, /^  push:\n    branches: \[main\]$/m);
+  assert.doesNotMatch(on, /paths(-ignore)?:/);
+  assert.match(workflow, /\npermissions:\n  contents: read\n/);
+  assert.doesNotMatch(workflow, /: write/);
+
+  const jobs = [...workflow.matchAll(/\n  ([a-z][a-z-]+):\n/g)].map((match) => match[1])
+    .filter((name) => !['push', 'pull_request', 'contents'].includes(name));
+  assert.ok(jobs.length >= 6, `expected every job, found ${jobs.join(', ')}`);
+  for (const name of jobs) assert.match(job(workflow, name), /\n    timeout-minutes: \d+\n/, name);
+});
+
+test('rustfmt keeps its Ubuntu Lint leg, so the format check cannot silently stop running', () => {
+  const lint = job(readFileSync(WORKFLOW_PATH, 'utf8'), 'lint');
+  assert.match(lint, /os: \[macos-latest, windows-latest, ubuntu-latest\]/);
+  const fmt = lint.match(/- name: Rust fmt check\n([\s\S]*?)(?=\n\s+- name:|$)/)?.[1];
+  assert.ok(fmt, 'expected the fmt step');
+  assert.match(fmt, /if: matrix\.os == 'ubuntu-latest'/);
+});
+
+test('test:scripts uses no shell glob, so node:test discovery works the same through cmd.exe on Windows (#388)', () => {
+  const pkg = JSON.parse(readFileSync(join(HERE, '..', 'package.json'), 'utf8'));
+  // npm runs scripts through cmd.exe on Windows, which does not expand globs; node:test's own
+  // directory discovery is the portable form.
+  assert.equal(pkg.scripts['test:scripts'], 'cd scripts && node --test');
+  assert.doesNotMatch(pkg.scripts['test:scripts:ci'], /[*?]/);
+});

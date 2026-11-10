@@ -2,12 +2,10 @@
 // ABOUTME: base and prints which suites the ratified classifier selects, plus their run commands.
 //
 // This deliberately does NOT reimplement the path->suite rule table. The rules already live in, and
-// are already tested by, `./windows-ci-classifier.mjs` (`classifyChangedPaths`); a second copy here is
+// are already tested by, `./suite-classifier.mjs` (`classifyChangedPaths`); a second copy here is
 // exactly the defect this script exists to remove (#1124, #2281, #2247 all trace to a hand-maintained
-// prose copy of the same table drifting). This module's only job is the LOCAL seam the CI classifier
-// does not have: reading a live git worktree (merge base, uncommitted, untracked) instead of an
-// immutable PR event tree, and printing the result for a human at a prompt instead of writing
-// `GITHUB_OUTPUT`.
+// prose copy of the same table drifting). This module's only job is the local seam: reading a live
+// git worktree (merge base, uncommitted, untracked) and printing the result for a human at a prompt.
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
@@ -15,7 +13,7 @@ import {
   classifyChangedPaths,
   parseNameOnlyDiff,
   renderClassificationSummary,
-} from './windows-ci-classifier.mjs';
+} from './suite-classifier.mjs';
 import { readPackageScripts } from './package-scripts.mjs';
 
 const MAX_BUFFER = 4 * 1024 * 1024;
@@ -35,9 +33,7 @@ const RUST_TEST_COMMAND = 'cargo test --manifest-path src-tauri/Cargo.toml --wor
 // `buildSuiteCommands` reads the real script map rather than assuming its own copy of the command body.
 const SUITE_SCRIPT_NAMES = Object.freeze({ T: 'test:scripts', F: 'test', E: 'test:e2e' });
 
-// #2467 review round 1, Minor (Rule of Three; reviewer confirmed round 2 — this decline holds):
-// Keep this Git wrapper Buffer-based for `parseNameOnlyDiff`'s NUL-safe framing. The CI classifier
-// has its own Git invocation boundary and does not need the local working-tree view this tool reads.
+// Buffer-based for `parseNameOnlyDiff`'s NUL-safe framing.
 export function defaultRunGit(args, { cwd = process.cwd(), timeoutMs = DEFAULT_TIMEOUT_MS, maxBuffer = MAX_BUFFER } = {}) {
   return spawnSync('git', args, {
     cwd,
@@ -81,7 +77,7 @@ function isCleanRefMiss(res) {
 
 // A worktree may have no `origin` remote-tracking `main` (a from-scratch bare clone missing the
 // remote-tracking ref, an offline checkout) — falling back to the local branch keeps the tool usable
-// there instead of failing outright the way the CI classifier's stricter immutable-event contract may.
+// there instead of failing outright.
 export function resolveDefaultBranchRef({ runGit = defaultRunGit, cwd = process.cwd(), candidates = ['origin/main', 'main'] } = {}) {
   for (const ref of candidates) {
     const res = runGit(['rev-parse', '--verify', '-q', ref], { cwd });
@@ -166,20 +162,20 @@ export function renderBanner(lines) {
 }
 
 // `classification.failClosed` covers THREE distinct classifier conditions (classifyChangedPaths in
-// windows-ci-classifier.mjs): rule 9 (an unrecognized path), an empty changed-path result (nothing to
+// suite-classifier.mjs): rule 9 (an unrecognized path), an empty changed-path result (nothing to
 // classify — the common no-op case on a clean tree), and uncertain/malformed input. A single banner
 // worded for rule 9 alone renders false text ("no path-table rule matched") on the empty-diff case,
 // where nothing was ever offered to a rule in the first place — crying wolf on the MOST common no-op
 // invocation erodes exactly the signal requirement 4 exists to buy (#2467 review round 1, Important 3).
 //
 // #2467 review round 2, Important 2: round 1's dispatch matched on `classification.reason` — free prose
-// windows-ci-classifier.mjs owns and does not guarantee, and its own test suite pins none of it. That
+// suite-classifier.mjs owns and does not guarantee, and its own test suite pins none of it. That
 // reproduced this card's own central defect (depending on another module's un-pinned text) one level
 // down, inside the very fix meant to close it (proven by the reviewer: rewording only the classifier's
 // empty-case message left this file's tests 22/22 green while the real rendered banner silently reverted
 // to the wrong text). Dispatch now uses only stable, structurally-typed facts: `paths.length` is a value
 // THIS module computed itself (not parsed from another module's output), and `match.rule` is the
-// classifier's own tested integer contract (`windows-ci-classifier.test.mjs` asserts `.rule` values
+// classifier's own tested integer contract (`suite-classifier.test.mjs` asserts `.rule` values
 // directly, e.g. `assert.equal(rootConfig.matches[0].rule, 1)`) — not prose, and not owed to us by
 // promise alone the way `reason`'s wording is.
 function failClosedBannerLines(classification, paths) {

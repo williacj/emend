@@ -1,5 +1,5 @@
 // ABOUTME: node:test suite for check-test-matrix.mjs — proves the enforcement gate fails on a bad matrix and passes on a good one.
-// ABOUTME: Run with `npm run test:scripts` (the live gate is the Windows self-hosted workflow's tooling self-test step); no external test deps.
+// ABOUTME: Run with `npm run test:scripts` (the live gate is each hosted `Suites` leg's tooling self-test step in ci.yml); no external test deps.
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -1318,13 +1318,13 @@ test("the vitest parser reads a real JSON-reporter document, ancestry and skip s
 
 // --- Artifact encoding at the merge venue (#1814 review round 1) ----------------------------
 //
-// The cells above feed the parsers UTF-8 text captured on a dev box. The merge venue does not
-// write UTF-8: `.github/workflows/windows-self-hosted.yml` pipes `cargo test` through inbox
-// Windows PowerShell 5.1's `Tee-Object -FilePath`, which has no `-Encoding` parameter and emits
-// UTF-16LE with a BOM. Read as UTF-8 that transcript matches NOTHING — silently, zero names, no
-// error — so the kind stayed in the evidence map and all 1208 rust ids reported "did not
-// execute". CI run 33704545231 credited exactly 0 of them. Every cell here reads bytes shaped the
-// way the workflow writes them, which is the only shape that can go red for that defect.
+// The cells above feed the parsers UTF-8 text captured on a dev box, which is also what the hosted
+// gate writes (it tees through bash). The self-hosted Windows gate, deleted in williacj/emend#9,
+// piped `cargo test` through inbox Windows PowerShell 5.1's `Tee-Object -FilePath`, which has no
+// `-Encoding` parameter and emits UTF-16LE with a BOM. Read as UTF-8, such a transcript matches
+// NOTHING — silently, zero names, no error — so the kind stayed in the evidence map and all 1208
+// rust ids reported "did not execute"; CI run 33704545231 credited exactly 0 of them. The cells
+// below keep the decoder reading that shape, so a producer that writes it again cannot zero a kind.
 
 /** The exact byte sequence PS 5.1 `Tee-Object -FilePath` produces: UTF-16LE, BOM, CRLF. */
 function powershell51Transcript(lines) {
@@ -1399,12 +1399,12 @@ test("a UTF-16LE artifact of every JSON kind parses too, so the fix is not rust-
   rmSync(root, { recursive: true, force: true });
 });
 
-test("the live Windows PowerShell that CI uses still writes what the decoder assumes", (t) => {
+test("the live Windows PowerShell still writes what the decoder assumes", (t) => {
   // The byte-level cells above pin our MODEL of PS 5.1. This one pins the model to the real shell,
   // so a runner-image or PowerShell change that alters the encoding fails here rather than
-  // silently zeroing the rust kind again. Windows-only by nature; the merge gate is a Windows job.
+  // silently zeroing the rust kind again. Windows-only by nature; it runs on the Windows `Suites` leg.
   if (process.platform !== "win32") {
-    t.skip("inbox Windows PowerShell is Windows-only; the merge venue is a Windows job");
+    t.skip("inbox Windows PowerShell is Windows-only");
     return;
   }
   const root = mkdtempSync(join(tmpdir(), "emend-ps-encoding-"));

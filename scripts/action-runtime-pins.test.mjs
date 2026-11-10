@@ -9,7 +9,6 @@ import { dirname, join } from 'node:path';
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const WORKFLOW_PATHS = [
   '.github/workflows/ci.yml',
-  '.github/workflows/windows-self-hosted.yml',
 ];
 
 function readWorkflows() {

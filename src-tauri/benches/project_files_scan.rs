@@ -13,9 +13,8 @@
 //! cargo bench --bench project_files_scan
 //! ```
 //!
-//! Normal PR and scheduled CI do not run this filesystem benchmark. The self-hosted Windows workflow
-//! runs it only on `workflow_dispatch`, which gives operators a durable exact-revision path without
-//! turning machine-dependent wall-clock numbers into a merge gate (test-plan §6).
+//! CI does not run this filesystem benchmark: machine-dependent wall-clock numbers are tracked, not a
+//! merge gate (test-plan §6). Run it locally on the machine whose numbers you want.
 
 use std::fs;
 use std::hint::black_box;

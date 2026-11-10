@@ -12,8 +12,8 @@ import { createResultsRecorder, resultLine, RESULTS_PATH_ENV } from './node-test
 import { parseNodeResultsJsonl } from './test-execution-results.mjs';
 
 // A file:// URL, not an OS path: node's ESM loader rejects a bare `C:\…` reporter specifier
-// ("absolute paths must be valid file:// URLs"), and the self-hosted Windows runner is where
-// this gate actually runs. A backslash form fails *silently* — the run still exits 0 and the
+// ("absolute paths must be valid file:// URLs"), and the Windows `Suites` leg is where
+// this gate runs on Windows. A backslash form fails *silently* — the run still exits 0 and the
 // reporter simply never loads — which is why this is pinned here rather than left to CI.
 const REPORTER = new URL('./node-test-results-reporter.mjs', import.meta.url).href;
 

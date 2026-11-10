@@ -29,7 +29,7 @@ fn assert_available(root: &Path, relative: &Path) {
     assert_eq!(
         WindowsRecreateAdapter.capability(root, relative),
         RecreateCapabilityStatus::Available,
-        "the self-hosted Windows proof must run on a qualifying filesystem"
+        "the Windows proof must run on a qualifying filesystem"
     );
 }
 

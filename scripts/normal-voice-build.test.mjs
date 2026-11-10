@@ -18,21 +18,6 @@ test('the ordinary Emend app feature set links local Whisper', () => {
   assert.match(read('src-tauri/crates/test-driver/Cargo.toml'), /^emend = \{ path = "\.\.\/\.\.", default-features = false \}$/m);
 });
 
-test('self-hosted Windows provisions target-native Whisper tools before default-feature clippy and tests', () => {
-  const workflow = read('.github/workflows/windows-self-hosted.yml');
-  assert.equal((workflow.match(/GGML_CCACHE: "OFF"/g) ?? []).length, 3);
-  const cmake = workflow.indexOf('- name: Provision CMake for Whisper');
-  const clang = workflow.indexOf('- name: Provision libclang for Whisper');
-  const clippy = workflow.indexOf('- name: Rust clippy');
-  const cargo = namedStep(workflow, 'Cargo test');
-  assert.ok(cmake > 0 && clang > cmake && clippy > clang);
-  assert.ok(cargo);
-  assert.match(namedStep(workflow, 'Rust clippy')[0], /steps\.cmake\.outcome == 'success'[\s\S]*steps\.libclang\.outcome == 'success'/);
-  assert.match(cargo[0], /steps\.cmake\.outcome == 'success'[\s\S]*steps\.libclang\.outcome == 'success'/);
-  assert.match(cargo[0], /cargo test --manifest-path src-tauri\/Cargo\.toml --workspace 2>&1/);
-  assert.doesNotMatch(cargo[0], /--features voice-inference/);
-});
-
 test('hosted Ubuntu lint installs CPAL ALSA headers before default-feature clippy', () => {
   const workflow = read('.github/workflows/ci.yml');
   const lint = workflow.slice(workflow.indexOf('\n  lint:\n'), workflow.indexOf('\n  suites:\n'));
@@ -95,42 +80,4 @@ test('every hosted Rust job gets the proven Windows toolchain and target binding
   assert.match(provisioner, /676b4aa346bc793af2fa05d80a9933825202ba65f71230417d5f0bb191dc3662/);
   assert.match(provisioner, /Get-FileHash[\s\S]*Expand-Archive[\s\S]*LIBCLANG_PATH/);
   assert.doesNotMatch(provisioner, /WHISPER_DONT_GENERATE_BINDINGS\s*=/);
-});
-
-test('the operator Windows full-suite probe prepares Whisper before sampled default-feature builds', () => {
-  const workflow = read('.github/workflows/windows-runner-contention-benchmark.yml');
-  assert.match(workflow, /^      GGML_CCACHE: "OFF"$/m);
-  const provision = workflow.indexOf('- name: Provision Windows Whisper tools');
-  const sample = workflow.indexOf('- name: Start host sampler');
-  const clippy = namedStep(workflow, 'Rust clippy');
-  const cargo = namedStep(workflow, 'Cargo test');
-  assert.ok(provision > 0 && sample > provision);
-  assert.match(workflow, /run: \.\/scripts\/provision-whisper-windows\.ps1/);
-  assert.match(clippy[0], /steps\.whisper\.outcome == 'success'/);
-  assert.match(cargo[0], /steps\.whisper\.outcome == 'success'/);
-});
-
-test('on-demand self-hosted Windows NSIS build targets one immutable PR head without changing the required check', () => {
-  const workflow = read('.github/workflows/windows-self-hosted.yml');
-  const required = workflow.slice(workflow.indexOf('\n  test-windows:\n'), workflow.indexOf('\n  unsigned-nsis:\n'));
-  const start = workflow.indexOf('\n  unsigned-nsis:\n');
-  const end = workflow.indexOf('\n  e2e-focused-repeat:\n', start);
-  assert.ok(start > 0 && end > start, 'expected a separate operator NSIS job');
-  const bundle = workflow.slice(start, end);
-  assert.match(workflow, /options:\s*\n\s+- suites\s*\n\s+- focused-e2e-repeat\s*\n\s+- unsigned-nsis/);
-  assert.match(required, /inputs\.windows_mode != 'unsigned-nsis'/);
-  assert.match(bundle, /if:\s*\$\{\{ github\.event_name == 'workflow_dispatch' && inputs\.windows_mode == 'unsigned-nsis' \}\}/);
-  assert.match(bundle, /name: Unsigned NSIS \(Windows, self-hosted\)/);
-  assert.match(bundle, /runs-on: \[self-hosted, Windows, cowrite-required\]/);
-  assert.match(bundle, /EMEND_TARGET_SHA: \$\{\{ inputs\.target_sha \}\}/);
-  assert.match(bundle, /\^\[0-9a-fA-F\]\{40\}\$/);
-  assert.match(bundle, /ref: \$\{\{ inputs\.target_sha \}\}/);
-  assert.match(bundle, /git rev-parse HEAD/);
-  assert.match(bundle, /scripts\/provision-whisper-windows\.ps1/);
-  assert.match(bundle, /npm ci/);
-  assert.match(bundle, /npm run tauri -- build --ci --no-sign --bundles nsis/);
-  assert.doesNotMatch(bundle, /tauri -- build[^\n]*--features/);
-  assert.match(bundle, /target\/release\/emend\.exe/);
-  assert.match(bundle, /bundle\/nsis[\s\S]*\*-setup\.exe/);
-  assert.match(bundle, /actions\/upload-artifact@/);
 });
