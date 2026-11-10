@@ -79,10 +79,10 @@ test("turn 15 held chooser evidence shows the em dash, unchecked zero target, an
         theme === "dark" ? "rgb(58, 61, 66)" : "rgb(240, 237, 230)");
       assert.equal(frame.chooser.checkboxFill,
         choice === "checked" ?
-          (theme === "dark" ? "rgb(91, 141, 255)" : "rgb(47, 93, 140)") :
+          (theme === "dark" ? "rgb(165, 176, 255)" : "rgb(79, 70, 229)") :
           (theme === "dark" ? "rgb(30, 31, 34)" : "rgb(255, 255, 255)"));
       assert.equal(frame.chooser.runBackground,
-        theme === "dark" ? "rgb(91, 141, 255)" : "rgb(47, 93, 140)");
+        theme === "dark" ? "rgb(165, 176, 255)" : "rgb(79, 70, 229)");
       assert.equal(frame.chooser.checkboxSize, 14);
       assert.ok(frame.chooser.selectWidth >= 132);
       if (width === 900) {
@@ -120,7 +120,7 @@ test("14b model row keeps progress, action, copy and path within wide and narrow
       assert.equal(progress.bar.height, 4);
       assert.ok(Math.abs(progress.bar.fillWidth - 75.6) < 1);
       assert.equal(progress.bar.fill,
-        theme === "dark" ? "rgb(91, 141, 255)" : "rgb(47, 93, 140)");
+        theme === "dark" ? "rgb(165, 176, 255)" : "rgb(79, 70, 229)");
       const cancelling = frame("cancelling");
       assert.equal(cancelling.action, "Cancelling…");
       assert.equal(cancelling.actionDisabled, true);
@@ -133,13 +133,13 @@ test("14b model row keeps progress, action, copy and path within wide and narrow
       assert.equal(cancelled.bar.width, 180);
       const failed = frame("failed");
       assert.equal(failed.action, "Retry model download");
-      assert.equal(failed.alert, "Model download failed: Cowrite couldn’t complete the download over the network.");
+      assert.equal(failed.alert, "Model download failed: Emend couldn’t complete the download over the network.");
       assert.equal(failed.alertVisible, true);
       assert.equal(failed.alertColor,
         theme === "dark" ? "rgb(248, 113, 113)" : "rgb(163, 58, 46)");
       const external = frame("external");
       assert.equal(external.action, "Stop using this file");
-      assert.equal(external.note, "External file — Cowrite won’t delete it");
+      assert.equal(external.note, "External file — Emend won’t delete it");
       assert.equal(external.pathEllipsized, true);
       assert.equal(external.pathVisible, true);
       frame("narrow-external");
@@ -181,9 +181,9 @@ test("14d editor ghost wraps inline and holds the original selected range on bot
       const selected = evidence.captures[selectedName].ghostVisual;
       assert.equal(selected.heldText, "the first only sets it up");
       assert.equal(selected.ghostAfterHeld, true);
-      assert.equal(selected.heldBackground, theme === "dark" ? "rgb(38, 50, 74)" : "rgb(228, 235, 244)");
+      assert.equal(selected.heldBackground, theme === "dark" ? "rgb(35, 40, 77)" : "rgb(225, 224, 248)");
       assert.match(selected.heldBoxShadow,
-        theme === "dark" ? /rgb\(91, 141, 255\)/ : /rgb\(169, 192, 220\)/);
+        theme === "dark" ? /rgb\(165, 176, 255\)/ : /rgb\(161, 156, 233\)/);
       const compact = evidence.captures[compactName];
       assert.ok(compact, `missing ${compactName}`);
       assert.deepEqual(readFileSync(join(ghostOutput, `${compactName}.png`)).subarray(0, pngSignature.length),
@@ -267,14 +267,14 @@ test("refresh (22) dark mic phases use the specified palette on all three surfac
       const idle = frame("idle");
       assert.equal(idle.background, "rgb(30, 31, 34)");
       assert.equal(idle.color, "rgb(230, 231, 234)");
-      assert.equal(idle.outlineColor, "rgb(91, 141, 255)");
+      assert.equal(idle.outlineColor, "rgb(165, 176, 255)");
       assert.equal(idle.outlineWidth, "2px");
       if (platform === "win") assert.equal(idle.border, "rgb(58, 61, 66)");
       else assert.match(idle.boxShadow, /rgb\(58, 61, 66\)/);
 
       const downloading = frame("downloading");
       assert.equal(downloading.trackBackground, "rgb(58, 61, 66)");
-      assert.equal(downloading.progressBackground, "rgb(91, 141, 255)");
+      assert.equal(downloading.progressBackground, "rgb(165, 176, 255)");
       const cancelling = frame("cancelling");
       assert.equal(cancelling.background, "rgb(38, 40, 44)");
       assert.equal(cancelling.color, "rgb(154, 160, 166)");
@@ -323,7 +323,7 @@ test("14b Voice Settings controls keep switch, error, and heading geometry on bo
       assert.ok(device.width <= 260, `${name}: device picker stays within 260px`);
     }
     const on = evidence.captures[`${platform}-14b-controls-light-on`];
-    assert.equal(on.measured[".voice-settings__switch"].background, "rgb(47, 93, 140)");
+    assert.equal(on.measured[".voice-settings__switch"].background, "rgb(79, 70, 229)");
     assert.equal(on.measured[".voice-settings__switch-state"].text, "On");
     const active = evidence.captures[`${platform}-14b-controls-light-capture-active`];
     assert.equal(active.measured[".voice-settings__switch-control"].opacity, "0.55");
@@ -342,8 +342,8 @@ test("14b Voice Settings controls keep switch, error, and heading geometry on bo
     const remembered = evidence.captures[`${platform}-14b-controls-light-selected-unavailable`];
     assert.equal(remembered.selectedOption, "Unavailable: Travel USB microphone");
     const dark = evidence.captures[`${platform}-14b-controls-dark-device-error`];
-    assert.equal(dark.measured[".voice-settings__switch"].background, "rgb(91, 141, 255)");
-    assert.equal(dark.measured[".voice-settings__switch"].border, "rgb(91, 141, 255)");
+    assert.equal(dark.measured[".voice-settings__switch"].background, "rgb(165, 176, 255)");
+    assert.equal(dark.measured[".voice-settings__switch"].border, "rgb(165, 176, 255)");
     assert.equal(dark.measured[".voice-settings__device-control select"].border, "rgb(248, 113, 113)");
     assert.equal(dark.measured[".voice-settings__device-issue"].color, "rgb(248, 113, 113)");
     if (platform === "mac") assert.match(dark.measured[".voice-settings__device-control select"].boxShadow, /rgb\(248, 113, 113\)/);
@@ -675,7 +675,7 @@ test("J9 capture guard requires the real requesting line and focusable Dismiss",
 test("J9 capture guard requires retry-pending busy and a focusable inert Trying control", () => {
   const retry = {
     ...requesting,
-    text: "Cowrite couldn’t open partner-launch. That folder isn’t available to Cowrite.",
+    text: "Emend couldn’t open partner-launch. That folder isn’t available to Emend.",
     actionCount: 1,
     actionLabel: "Trying…",
     actionFocusable: true,
@@ -747,7 +747,7 @@ test("refresh (20) D27 evidence distinguishes retained text, clean refusal, omis
         const band = capture.measured[".shell-status--unsupported-refusal"];
         assert.ok(band, `${name}: refusal is absent`);
         assert.equal(band.height, 46);
-        assert.match(band.text, /can’t open as a Cowrite document/);
+        assert.match(band.text, /can’t open as an Emend document/);
       }
     }
     const clean = evidence.captures[`${platform}-9h-clean-refusal-1400`];

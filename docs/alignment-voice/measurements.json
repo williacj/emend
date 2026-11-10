@@ -1,5 +1,5 @@
 {
-  "sourceRevision": "0ed7279c589b2a4064565e78a8b0d1257abbba8e",
+  "sourceRevision": "6df9ac1ae2068eca914e5f36dbfb45a771c49ee3",
   "viewport": "1400x900 except named narrow cases",
   "deviceScaleFactor": 1,
   "colorScheme": "light",
@@ -40,7 +40,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -65,7 +65,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -190,7 +190,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -315,7 +315,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "Markdown 9 words Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -470,10 +470,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -490,7 +490,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -593,8 +593,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -619,13 +619,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -671,7 +680,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -696,7 +705,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -821,7 +830,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -946,7 +955,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "Markdown 9 words Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -1101,10 +1110,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -1121,7 +1130,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -1224,8 +1233,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -1250,13 +1259,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": false,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -1302,7 +1320,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -1327,7 +1345,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Downloading voice model · 42% Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Downloading voice model · 42% Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -1452,7 +1470,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Downloading voice model · 42% Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Downloading voice model · 42% Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -1577,7 +1595,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Downloading voice model · 42% Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "Markdown 9 words Downloading voice model · 42% Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -1732,10 +1750,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -1752,7 +1770,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -1880,8 +1898,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -1906,13 +1924,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate — downloading voice model, 42%",
         "micDisabled": true,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -1958,7 +1985,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -1983,7 +2010,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words No microphone found Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words No microphone found Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -2108,7 +2135,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words No microphone found Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words No microphone found Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -2233,7 +2260,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words No microphone found Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "Markdown 9 words No microphone found Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -2388,10 +2415,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -2408,7 +2435,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -2536,8 +2563,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -2562,13 +2589,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate — no microphone found",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -2614,7 +2650,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -2639,7 +2675,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Microphone access is off Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Microphone access is off Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -2764,7 +2800,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Microphone access is off Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Microphone access is off Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -2889,7 +2925,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Microphone access is off Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "Markdown 9 words Microphone access is off Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -3044,10 +3080,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -3064,7 +3100,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -3192,8 +3228,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -3218,13 +3254,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate — microphone permission denied",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -3270,7 +3315,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -3295,7 +3340,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Voice model is missing Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Voice model is missing Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -3420,7 +3465,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Voice model is missing Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Voice model is missing Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -3545,7 +3590,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Voice model is missing Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "Markdown 9 words Voice model is missing Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -3700,10 +3745,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -3720,7 +3765,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -3848,8 +3893,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -3874,13 +3919,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate — voice model missing",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -3926,7 +3980,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -3951,7 +4005,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. a provisional sentence Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for ch"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. a provisional sentence Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for ch"
         },
         ".project-rail": {
           "x": 0,
@@ -4076,7 +4130,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. a provisional sentence Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. a provisional sentence Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -4201,7 +4255,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -4356,10 +4410,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -4376,7 +4430,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -4529,8 +4583,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -4555,13 +4609,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Stop dictation — recording",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -4607,7 +4670,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -5037,10 +5100,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -5057,7 +5120,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 486,
@@ -5210,8 +5273,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 593,
-          "y": 890,
+          "x": 581,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -5236,13 +5299,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Stop dictation — recording",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 330,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -5288,7 +5360,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -5313,7 +5385,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. a provisional sentence Markdown 9 words Transcribing… Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for chang"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. a provisional sentence Markdown 9 words Transcribing… Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for chang"
         },
         ".project-rail": {
           "x": 0,
@@ -5438,7 +5510,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. a provisional sentence Markdown 9 words Transcribing… Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. a provisional sentence Markdown 9 words Transcribing… Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -5563,7 +5635,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Transcribing… Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "Markdown 9 words Transcribing… Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -5718,10 +5790,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -5738,7 +5810,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -5891,8 +5963,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -5917,13 +5989,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictation — transcribing",
         "micDisabled": true,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -5969,7 +6050,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -5994,7 +6075,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Provisional dictation: spoken chat draft Send win-voice DOCUMENTS notes.md SKILLS No skills found Refre"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Provisional dictation: spoken chat draft Send win-voice DOCUMENTS notes.md SKILLS No skills found Refre"
         },
         ".project-rail": {
           "x": 0,
@@ -6119,7 +6200,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -6244,7 +6325,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -6399,10 +6480,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -6419,7 +6500,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -6573,13 +6654,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Stop dictation — recording",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": false,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -6625,7 +6715,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -6650,7 +6740,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: spoken comment draft Cancel Comment # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOC"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: spoken comment draft Cancel Comment # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOC"
         },
         ".project-rail": {
           "x": 0,
@@ -6775,7 +6865,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: spoken comment draft Cancel Comment # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: spoken comment draft Cancel Comment # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -6900,7 +6990,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "Markdown 9 words Recording · 0:07 Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -7080,10 +7170,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -7100,7 +7190,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -7379,13 +7469,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Stop dictation — recording",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": false,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -7431,7 +7530,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -7456,7 +7555,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-voice DOCUMENTS notes.md SKILLS No skills found Refresh to check for changes"
         },
         ".project-rail": {
           "x": 0,
@@ -7581,7 +7680,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice layout A pending revision. A sentence for dictation. Markdown 9 words Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -7706,7 +7805,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 9 words Display: All Simple None Original Saved · 9:21 PM Claude Code · not installed"
+          "text": "Markdown 9 words Display: All Simple None Original Saved · 3:56 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -7861,10 +7960,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -7881,7 +7980,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -7984,8 +8083,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -8010,13 +8109,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate — unavailable while saving",
         "micDisabled": true,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": true,
         "mutableOpacity": "0.55",
         "micInOverflow": false,
@@ -8063,7 +8171,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -8616,8 +8724,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -8642,13 +8750,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -8694,7 +8811,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -9247,8 +9364,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -9273,13 +9390,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": false,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -9325,7 +9451,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -9903,8 +10029,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -9929,13 +10055,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate — downloading voice model, 42%",
         "micDisabled": true,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -9981,7 +10116,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -10559,8 +10694,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -10585,13 +10720,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate — no microphone found",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -10637,7 +10781,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -11215,8 +11359,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -11241,13 +11385,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate — microphone permission denied",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -11293,7 +11446,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -11871,8 +12024,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -11897,13 +12050,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate — voice model missing",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -11949,7 +12111,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -12552,8 +12714,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -12578,13 +12740,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Stop dictation — recording",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -12630,7 +12801,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -13233,8 +13404,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 593,
-          "y": 890,
+          "x": 581,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -13259,13 +13430,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Stop dictation — recording",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 330,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -13311,7 +13491,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -13914,8 +14094,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -13940,13 +14120,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictation — transcribing",
         "micDisabled": true,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -13992,7 +14181,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -14596,13 +14785,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Stop dictation — recording",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": false,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -14648,7 +14846,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -15402,13 +15600,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Stop dictation — recording",
         "micDisabled": false,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": false,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": false,
         "mutableOpacity": "1",
         "micInOverflow": false,
@@ -15454,7 +15661,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:21 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:56 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -16007,8 +16214,8 @@
           "text": "Send"
         },
         ".composer-dictation-partial": {
-          "x": 1054,
-          "y": 890,
+          "x": 1042,
+          "y": 886,
           "width": 1,
           "height": 1,
           "scrollWidth": 1,
@@ -16033,13 +16240,22 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate — unavailable while saving",
         "micDisabled": true,
         "micOpacity": "1",
         "toolbarWidth": 791,
+        "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": null,
         "toolbarWrap": "nowrap",
+        "micInsideToolbar": true,
+        "timelineWidth": null,
+        "timelineLabel": null,
+        "permissionBadgeVisible": false,
+        "editorViewOverflowed": false,
         "mutableInert": true,
         "mutableOpacity": "0.55",
         "micInOverflow": false,

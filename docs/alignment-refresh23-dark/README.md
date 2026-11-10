@@ -10,7 +10,7 @@ EMEND_ALIGNMENT_SCENARIO='refresh23 dark' EMEND_ALIGNMENT_OUTPUT=docs/alignment-
 node --test --test-name-pattern='refresh \(23\) dark' scripts/capture-design-alignment.test.mjs
 ```
 
-The [manifest](./measurements.json) records production source revision `d5ac19d4d8226bcefeb6b1351ec2c62186cb4af5`, loaded fonts, computed geometry and state for ten PNGs. The real Vite/React/CSS, CodeMirror, D23 project and J12 close routes run in headless Chromium. The D23 driver uses the deterministic `permission-provider` for the pending Bash request; a typed voice owner supplies only the microphone transport absent from D23.
+The [manifest](./measurements.json) records production source revision `6df9ac1ae2068eca914e5f36dbfb45a771c49ee3`, loaded fonts, computed geometry and state for ten PNGs. The real Vite/React/CSS, CodeMirror, D23 project and J12 close routes run in headless Chromium. The D23 driver uses the deterministic `permission-provider` for the pending Bash request; a typed voice owner supplies only the microphone transport absent from D23.
 
 | `docs/design/` reference | Windows browser style | macOS browser style |
 |---|---|---|

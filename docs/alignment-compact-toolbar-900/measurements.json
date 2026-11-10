@@ -1,5 +1,5 @@
 {
-  "sourceRevision": "28ab2da7a8b2cc0650bf6913ce25327a3822f887",
+  "sourceRevision": "6df9ac1ae2068eca914e5f36dbfb45a771c49ee3",
   "viewport": "1400x900 except named narrow cases",
   "deviceScaleFactor": 1,
   "colorScheme": "light",
@@ -40,7 +40,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -320,10 +320,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -340,7 +340,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 365,
@@ -369,6 +369,7 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate",
@@ -376,9 +377,13 @@
         "micOpacity": "1",
         "toolbarWidth": 263,
         "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": 400,
         "toolbarWrap": "nowrap",
         "micInsideToolbar": true,
         "timelineWidth": 44,
+        "timelineLabel": "Show Timeline",
+        "permissionBadgeVisible": false,
         "editorViewOverflowed": true,
         "mutableInert": false,
         "mutableOpacity": "1",
@@ -425,7 +430,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -705,10 +710,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -725,7 +730,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 365,
@@ -754,6 +759,7 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate",
@@ -761,9 +767,13 @@
         "micOpacity": "1",
         "toolbarWidth": 263,
         "toolbarHeight": 45,
+        "projectRailWidth": 236,
+        "commentsWidth": 400,
         "toolbarWrap": "nowrap",
         "micInsideToolbar": true,
         "timelineWidth": 44,
+        "timelineLabel": "Show Timeline",
+        "permissionBadgeVisible": false,
         "editorViewOverflowed": true,
         "mutableInert": false,
         "mutableOpacity": "1",
@@ -810,7 +820,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:34 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -1139,6 +1149,7 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate",
@@ -1146,9 +1157,13 @@
         "micOpacity": "1",
         "toolbarWidth": 263,
         "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": 400,
         "toolbarWrap": "nowrap",
         "micInsideToolbar": true,
         "timelineWidth": 44,
+        "timelineLabel": "Show Timeline",
+        "permissionBadgeVisible": false,
         "editorViewOverflowed": true,
         "mutableInert": false,
         "mutableOpacity": "1",
@@ -1195,7 +1210,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 9:34 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -1524,6 +1539,7 @@
         }
       },
       "voice": {
+        "theme": "light",
         "micWidth": 28,
         "micHeight": 26,
         "micLabel": "Dictate",
@@ -1531,9 +1547,13 @@
         "micOpacity": "1",
         "toolbarWidth": 263,
         "toolbarHeight": 47,
+        "projectRailWidth": 236,
+        "commentsWidth": 400,
         "toolbarWrap": "nowrap",
         "micInsideToolbar": true,
         "timelineWidth": 44,
+        "timelineLabel": "Show Timeline",
+        "permissionBadgeVisible": false,
         "editorViewOverflowed": true,
         "mutableInert": false,
         "mutableOpacity": "1",

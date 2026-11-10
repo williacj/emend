@@ -1,5 +1,5 @@
 {
-  "sourceRevision": "5764fcc670414471e38bffef55c8dc98c1ddbea5",
+  "sourceRevision": "6df9ac1ae2068eca914e5f36dbfb45a771c49ee3",
   "viewport": "1400x900 except named narrow cases",
   "deviceScaleFactor": 1,
   "colorScheme": "mixed",
@@ -40,7 +40,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -65,7 +65,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input "
         },
         ".project-rail": {
           "x": 0,
@@ -190,7 +190,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -315,7 +315,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -470,10 +470,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -490,7 +490,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -715,7 +715,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -740,7 +740,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Dictation error: Dictation failed Send win-light-timeline-voice-error DOCUMENTS notes.md SKILLS No skills found Refresh to ch"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Dictation error: Dictation failed Send win-light-timeline-voice-error DOCUMENTS notes.md SKILLS No skills found Refresh to che"
         },
         ".project-rail": {
           "x": 0,
@@ -865,7 +865,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -990,7 +990,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -1145,10 +1145,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -1165,7 +1165,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -1390,7 +1390,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -1415,7 +1415,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input column. Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed TIMELINE All Chat Comm"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input column. Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed TIMELINE All Chat Comme"
         },
         ".project-rail": {
           "x": 0,
@@ -1540,7 +1540,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input column. Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input column. Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -1665,7 +1665,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -1845,10 +1845,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -1865,7 +1865,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -2215,7 +2215,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -2240,7 +2240,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Dictation error: Recording could not be read Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-light-comment-voice-error DOCU"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Dictation error: Recording could not be read Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-light-comment-voice-error DOCUM"
         },
         ".project-rail": {
           "x": 0,
@@ -2365,7 +2365,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Dictation error: Recording could not be read Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Dictation error: Recording could not be read Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -2490,7 +2490,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -2670,10 +2670,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(74, 70, 62)",
           "border": "rgb(74, 70, 62)",
@@ -2690,7 +2690,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -3040,7 +3040,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -3065,7 +3065,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input "
         },
         ".project-rail": {
           "x": 0,
@@ -3190,7 +3190,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -3315,7 +3315,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -3470,10 +3470,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -3490,7 +3490,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -3715,7 +3715,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -3740,7 +3740,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Dictation error: Dictation failed Send win-dark-timeline-voice-error DOCUMENTS notes.md SKILLS No skills found Refresh to che"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Dictation error: Dictation failed Send win-dark-timeline-voice-error DOCUMENTS notes.md SKILLS No skills found Refresh to chec"
         },
         ".project-rail": {
           "x": 0,
@@ -3865,7 +3865,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -3990,7 +3990,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -4145,10 +4145,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -4165,7 +4165,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -4390,7 +4390,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -4415,7 +4415,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input column. Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed TIMELINE All Chat Comm"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input column. Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed TIMELINE All Chat Comme"
         },
         ".project-rail": {
           "x": 0,
@@ -4540,7 +4540,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input column. Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Provisional dictation: A provisional sentence that wraps across the composer so its second line remains inside the same input column. Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -4665,7 +4665,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -4845,10 +4845,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -4865,7 +4865,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -5215,7 +5215,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md Editor-only — no AI writing partner connected Settings"
+          "text": "Emend — notes.md Editor-only — no AI writing partner connected Settings"
         },
         ".app-body": {
           "x": 0,
@@ -5240,7 +5240,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Dictation error: Recording could not be read Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-dark-comment-voice-error DOCUM"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Dictation error: Recording could not be read Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed TIMELINE All Chat Comments Changes Findings Found 0 skills, 0 workflows Send win-dark-comment-voice-error DOCUME"
         },
         ".project-rail": {
           "x": 0,
@@ -5365,7 +5365,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": true,
-          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Dictation error: Recording could not be read Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "notes.md Rich text Markdown B I H1 ≔ Formatting state is still loading. × Commenting on: “# Voic” Dictation error: Recording could not be read Cancel Comment # Voice error A sentence to annotate. Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".tab-bar": {
           "x": 236,
@@ -5490,7 +5490,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 10:38 PM Claude Code · not installed"
+          "text": "Markdown 6 words Recording · 0:07 Display: All Simple None Original Saved · 3:57 PM Claude Code · not installed"
         },
         ".timeline-panel": {
           "x": 1028,
@@ -5670,10 +5670,10 @@
         ".app-header__title": {
           "x": 37,
           "y": 9.125,
-          "width": 113.875,
+          "width": 109.5,
           "height": 18.75,
-          "scrollWidth": 114,
-          "clientWidth": 114,
+          "scrollWidth": 110,
+          "clientWidth": 110,
           "background": "rgba(0, 0, 0, 0)",
           "color": "rgb(230, 231, 234)",
           "border": "rgb(230, 231, 234)",
@@ -5690,7 +5690,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Cowrite — notes.md"
+          "text": "Emend — notes.md"
         },
         ".dictation-mic": {
           "x": 985,
@@ -6040,7 +6040,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:39 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -6715,7 +6715,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:39 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -7390,7 +7390,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:39 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -8215,7 +8215,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:39 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -9040,7 +9040,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:39 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -9715,7 +9715,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:39 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -10390,7 +10390,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:39 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
@@ -11215,7 +11215,7 @@
           "ariaAtomic": null,
           "ariaBusy": null,
           "containsFocus": false,
-          "text": "Editor-only — no AI writing partner connected notes.md Saved · 10:39 PM Settings"
+          "text": "Editor-only — no AI writing partner connected notes.md Saved · 3:57 PM Settings"
         },
         ".app-body": {
           "x": 0,
