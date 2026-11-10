@@ -76,9 +76,9 @@ test('the e2e gate is failure-visible inside each per-OS merge check (#1403)', (
 
   assert.doesNotMatch(acceptance, /continue-on-error/);
   assert.doesNotMatch(acceptance, /\|\|\s*true/);
-  // Runs unless the whole run is cancelled: no path classifier, OS condition or earlier failure
+  // Runs once setup succeeded, whatever an earlier suite did: no path classifier or OS condition
   // can skip the suite.
-  assert.deepEqual(acceptance.match(/^\s+if:.*$/gm)?.map((line) => line.trim()), ['if: ${{ !cancelled() }}']);
+  assert.deepEqual(acceptance.match(/^\s+if:.*$/gm)?.map((line) => line.trim()), ["if: ${{ !cancelled() && steps.deps.outcome == 'success' }}"]);
   assert.match(job, /name: Suites \(\$\{\{ matrix\.os \}\}\)/);
   assert.doesNotMatch(job, /continue-on-error/);
   assert.doesNotMatch(job, /\n    if:/);

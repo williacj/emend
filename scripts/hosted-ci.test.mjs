@@ -61,10 +61,14 @@ test('every hosted suite step runs on both legs and after an earlier suite fails
   const first = names.indexOf('tooling self-test');
   const last = names.indexOf('Playwright acceptance suite');
   assert.ok(first > 0 && last > first, 'expected the suite steps in order');
+  // The gate step is the last setup step, so its success stands for every setup step before it.
+  assert.equal(names[first - 1], 'Install dependencies');
+  assert.match(steps[first - 1], /\n        id: deps\n/);
+  assert.doesNotMatch(steps[first - 1], /^\s+if:/m);
   // Any other condition could skip a suite on one OS, which reading both legs together cannot see.
   for (const step of steps.slice(first, last + 1)) {
     const conditions = step.match(/^\s+if:.*$/gm)?.map((line) => line.trim());
-    assert.deepEqual(conditions, ['if: ${{ !cancelled() }}'], step.split('\n')[0]);
+    assert.deepEqual(conditions, ["if: ${{ !cancelled() && steps.deps.outcome == 'success' }}"], step.split('\n')[0]);
   }
   assert.deepEqual(names.slice(first, last + 1), [
     'tooling self-test',

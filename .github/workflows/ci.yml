@@ -143,14 +143,17 @@ jobs:
           mkdir -p "$dir"
           echo "EMEND_MATRIX_ARTIFACTS=$dir" >> "$GITHUB_ENV"
 
+      # The last setup step, on the default `success()`: its outcome is `success` only when every
+      # setup step above it succeeded, so the suite steps gate on it alone.
       - name: Install dependencies
+        id: deps
         run: npm ci
 
-      # Every suite step below runs unless the run is cancelled, so one run reports every failing
-      # suite rather than stopping at the first. None may carry any other condition: a suite that
-      # can be skipped on one OS goes unnoticed once both legs' evidence is read together.
+      # Every suite step below runs once setup succeeded, even after an earlier suite failed, so one
+      # run reports every failing suite. None may carry any other condition: a suite that can be
+      # skipped on one OS goes unnoticed once both legs' evidence is read together.
       - name: tooling self-test
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         env:
           EMEND_TEST_RESULTS_FILE: ${{ runner.temp }}/matrix-results/node-scripts-${{ matrix.label }}.jsonl
         run: npm run test:scripts:ci
@@ -158,38 +161,38 @@ jobs:
       # Existence-only, and early: a mistyped test name fails in seconds. The execution half runs
       # last, once every suite has written its results artifact.
       - name: Validate docs/test-matrix.md
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         run: npm run matrix:check
 
       - name: Validate vitest unhandled-errors invariant (test-plan §9b)
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         run: npm run check:vitest-unhandled-errors
 
       - name: vitest
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         run: npm run test -- --reporter=default --reporter=json --outputFile.json="$EMEND_MATRIX_ARTIFACTS/vitest-${{ matrix.label }}.json"
 
       # stdout and stderr share one pipe, so each target's `Running` header lands immediately
       # before that target's own result lines in the transcript the execution check reads.
       # bash runs with `-eo pipefail`, so cargo's exit code fails the step through `tee`.
       - name: Cargo test
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         run: cargo test --manifest-path src-tauri/Cargo.toml --workspace 2>&1 | tee "$EMEND_MATRIX_ARTIFACTS/rust-${{ matrix.label }}.txt"
 
       - name: Install Playwright Chromium
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         run: npx playwright install chromium
 
       # Keeps compilation failure distinct from the driver's 120-second webServer startup budget.
       - name: Pre-build the headless test driver
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         run: cargo build --manifest-path src-tauri/Cargo.toml -p test-driver
 
       # The shared config retries CI runs; the gate overrides that so a first-attempt failure is red
       # (#1403/#1595). `test:e2e:ci` leaves out @quarantine cases, which the execution check then
       # reads as not executed in this run.
       - name: Playwright acceptance suite
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         env:
           EMEND_E2E_RESULTS_FILE: ${{ runner.temp }}/matrix-results/e2e-${{ matrix.label }}.json
         run: |
