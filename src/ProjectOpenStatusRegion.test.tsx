@@ -143,7 +143,7 @@ describe("ProjectOpenStatusRegion (J9, #1752)", () => {
       "--color-project-open-status-action-active-bg: #edeae2",
       "--color-project-open-status-action-pending-bg: #e8e4db",
       "--color-project-open-status-dismiss: #a39e92",
-      "--color-project-open-status-focus: #2f5d8c",
+      "--color-project-open-status-focus: #4f46e5",
       '--font-project-open-status: "IBM Plex Sans", system-ui, sans-serif',
     ]) {
       expect(root).toContain(declaration);

@@ -170,7 +170,7 @@ describe("timeline/ChatMessageCard — quoted excerpt (P2b-7)", () => {
         "--color-timeline-chat-meta: #8c8779;",
         "--color-timeline-chat-footer-border: #f0ede6;",
         "--color-timeline-chat-user-avatar: #dcd7cc;",
-        "--color-timeline-chat-agent-avatar: #2f5d8c;",
+        "--color-timeline-chat-agent-avatar: #4f46e5;",
         "--shadow-timeline-chat-mac: 0 1px 2px rgba(31, 29, 26, 0.07);",
       ].every((declaration) => STYLESHEET.includes(declaration)),
       derivedDarkTokens: [

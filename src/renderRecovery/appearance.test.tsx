@@ -68,7 +68,7 @@ describe("render-failure turn-12 appearance", () => {
       "--radius-render-failure-button-mac: 7px",
       "--shadow-render-failure-button-mac: 0 1px 2px rgba(31, 29, 26, 0.18)",
       "--outline-render-failure-focus-win: 2px solid var(--color-render-failure-heading)",
-      "--outline-render-failure-focus-mac: 3px solid rgba(47, 93, 140, 0.45)",
+      "--outline-render-failure-focus-mac: 3px solid rgba(79, 70, 229, 0.72)",
       "--outline-offset-render-failure-root: 6px",
       "--outline-offset-render-failure-button: 3px",
     ]) {
