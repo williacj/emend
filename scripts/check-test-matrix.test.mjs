@@ -23,7 +23,7 @@ const TEST_PLAN = `## 2. Properties
 `;
 
 function scaffold(matrixMd, { rust = "", vitest = "", perf = "", node = "", e2e = "", artifacts = null } = {}) {
-  const root = mkdtempSync(join(tmpdir(), "cowrite-matrix-"));
+  const root = mkdtempSync(join(tmpdir(), "emend-matrix-"));
   mkdirSync(join(root, "docs"), { recursive: true });
   writeFileSync(join(root, "docs/functional-spec.md"), SPEC);
   writeFileSync(join(root, "docs/test-plan.md"), TEST_PLAN);
@@ -1235,7 +1235,7 @@ test("the cargo parser reads a real libtest transcript: module paths, ignored te
       "test providers::tests::needs_a_real_shell ... ignored",
       "test rebase::tests::rejects_a_stale_base ... FAILED",
       "test result: FAILED. 2 passed; 1 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.03s",
-      "   Doc-tests cowrite",
+      "   Doc-tests emend",
       "running 1 test",
       "test src/lib.rs - anchor (line 3) ... ok",
       "",
@@ -1407,7 +1407,7 @@ test("the live Windows PowerShell that CI uses still writes what the decoder ass
     t.skip("inbox Windows PowerShell is Windows-only; the merge venue is a Windows job");
     return;
   }
-  const root = mkdtempSync(join(tmpdir(), "cowrite-ps-encoding-"));
+  const root = mkdtempSync(join(tmpdir(), "emend-ps-encoding-"));
   const results = join(root, "rust-windows.txt");
   // The workflow's own shell form (defaults.run.shell), and its own Tee-Object -FilePath call.
   const script = `'running 1 test','test editor::tests::written_by_powershell ... ok' | Tee-Object -FilePath '${results}' | Out-Null`;
@@ -1533,7 +1533,7 @@ test("an artifact whose records are unrecognisable is an error, whatever the enc
   // that changes format, or writes a log where results were expected, fails the same way.
   const root = scaffold(executionMatrix("| FR-ED-1 | editor | rust | alive | present | |\n"), {
     rust: "#[test]\nfn alive() {}\n",
-    artifacts: { "rust-windows.txt": "warning: unused variable\nerror: could not compile `cowrite`\n" },
+    artifacts: { "rust-windows.txt": "warning: unused variable\nerror: could not compile `emend`\n" },
   });
   const { errors } = checkWithArtifacts(root, ["rust"]);
   assert.ok(
@@ -2063,7 +2063,7 @@ test("findRustCrateManifests reads a real Cargo.toml's [package]/[lib]/[[bin]] n
   // Verified against this repo's real manifests (not assumed): the root crate's `[lib] name =
   // "emend_lib"` override, and `fake-agent`'s package-default lib/bin names, both show up on
   // cargo's own `Running` header exactly this way (a real `cargo test --workspace 2>&1` capture).
-  const root = mkdtempSync(join(tmpdir(), "cowrite-matrix-crate-"));
+  const root = mkdtempSync(join(tmpdir(), "emend-matrix-crate-"));
   writeCrateManifest(root, "src-tauri", { name: "emend", lib: { name: "emend_lib" } });
   writeCrateManifest(root, "src-tauri/crates/fake-agent", {
     name: "fake-agent",

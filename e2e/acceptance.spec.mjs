@@ -6053,7 +6053,7 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     expect(existsSync(join(project.root, project.path))).toBe(false);
 
     // A chosen path outside the project is refused before the backend and leaves the same state.
-    const outside = join(project.root, "..", "cowrite-1516-outside.md");
+    const outside = join(project.root, "..", "emend-1516-outside.md");
     await chooseNextSaveAsDestination(page, outside);
     await saveAs.click();
     await expect(page.locator(".shell-status")).toContainText("outside the open project");

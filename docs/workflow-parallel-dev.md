@@ -13,20 +13,20 @@ ABOUTME: Documents coder/reviewer separation, review loops, and model preference
 
 - Use one worktree per active feature branch.
 - Keep the main checkout dedicated to `main` synchronization and merge operations.
-- Keep all linked worktrees in the persistent `cowrite-worktrees/` directory beside the main `cowrite` checkout. Find the main checkout with `git worktree list` when starting from a linked checkout.
-- Do not use `/private/tmp` or another directory cleared on reboot, or create `cowrite-*` worktree siblings directly in the GitHub folder.
+- Keep all linked worktrees in the persistent `emend-worktrees/` directory beside the main `emend` checkout. Find the main checkout with `git worktree list` when starting from a linked checkout.
+- Do not use `/private/tmp` or another directory cleared on reboot, or create `emend-*` worktree siblings directly in the GitHub folder.
 
 ### Recommended naming
 
 - Branch: `feature/<topic>`
-- Worktree path: `../cowrite-worktrees/<issue-number>-<slug>` (relative to the main checkout)
+- Worktree path: `../emend-worktrees/<issue-number>-<slug>` (relative to the main checkout)
 
 ### Create a worktree
 
 1. From the main checkout, make sure `main` is up to date.
 2. Add a feature worktree from `main`:
-   - `mkdir -p ../cowrite-worktrees`
-   - `git worktree add ../cowrite-worktrees/<issue-number>-<slug> -b feature/<topic> main`
+   - `mkdir -p ../emend-worktrees`
+   - `git worktree add ../emend-worktrees/<issue-number>-<slug> -b feature/<topic> main`
 3. Enter that worktree and install/update dependencies as needed.
 
 ### Daily usage
@@ -43,7 +43,7 @@ ABOUTME: Documents coder/reviewer separation, review loops, and model preference
 0. Confirm the worktree is clean with `git status --short`. A clean worktree can still be the only copy of committed work (#1288/#1206).
 1. Confirm all branch work is on `main`: check `git merge-base --is-ancestor feature/<topic> main`, or verify that the merged PR included the branch's current tip when GitHub used a squash or rebase merge. A pushed branch or an empty `git log feature/<topic> --not --remotes=origin` does not prove its work reached `main`. Preserve the worktree and branch if any work is unmerged or uncertain.
 2. Remove the merged, clean feature worktree:
-   - `git worktree remove ../cowrite-worktrees/<issue-number>-<slug>`
+   - `git worktree remove ../emend-worktrees/<issue-number>-<slug>`
 3. Delete the local feature branch if still present.
 4. Run `git worktree prune --dry-run --verbose` and prune only stale records whose directories no longer exist.
 

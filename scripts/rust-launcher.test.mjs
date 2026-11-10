@@ -145,10 +145,10 @@ test('shared target resolves a relative Git common directory against the worktre
 test('shared target for a bare repository stays inside the Git directory', () => {
   assert.equal(
     resolveSharedTargetDir({
-      cwd: '/repos/cowrite-feature',
-      gitCommonDir: '/repos/cowrite.git',
+      cwd: '/repos/emend-feature',
+      gitCommonDir: '/repos/emend.git',
     }),
-    join('/repos/cowrite.git', '.emend-cache', 'rust-target'),
+    join('/repos/emend.git', '.emend-cache', 'rust-target'),
   );
 });
 
@@ -174,7 +174,7 @@ test('child launch propagates args cwd environment and inherited stdio', async (
   let invocation;
   const status = runChild({
     command: 'cargo',
-    args: ['build', '--package', 'cowrite'],
+    args: ['build', '--package', 'emend'],
     cwd: '/repo/src-tauri',
     env: { SENTINEL: 'present' },
     spawnChild(command, args, options) {
@@ -188,7 +188,7 @@ test('child launch propagates args cwd environment and inherited stdio', async (
   assert.equal(await status, 23);
   assert.deepEqual(invocation, {
     command: 'cargo',
-    args: ['build', '--package', 'cowrite'],
+    args: ['build', '--package', 'emend'],
     options: {
       cwd: '/repo/src-tauri',
       env: { SENTINEL: 'present' },

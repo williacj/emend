@@ -19,7 +19,7 @@ import {
 // content (e.g. "vitest.config.ts"); `scripts` is the package.json `scripts` object; `workflows` is
 // a map of `.github/workflows/<name>.yml` filename -> content.
 function scaffold({ configs = {}, scripts = { test: "vitest run" }, workflows = {} } = {}) {
-  const root = mkdtempSync(join(tmpdir(), "cowrite-unhandled-"));
+  const root = mkdtempSync(join(tmpdir(), "emend-unhandled-"));
   for (const [name, content] of Object.entries(configs)) {
     writeFileSync(join(root, name), content);
   }
@@ -281,7 +281,7 @@ test("findWorkflowFiles only looks at .github/workflows", () => {
 });
 
 test("an empty repo root (no vitest configs at all) is a hard error, not a silent pass", () => {
-  const root = mkdtempSync(join(tmpdir(), "cowrite-unhandled-empty-"));
+  const root = mkdtempSync(join(tmpdir(), "emend-unhandled-empty-"));
   writeFileSync(join(root, "package.json"), JSON.stringify({ scripts: {} }));
   try {
     const { errors } = checkUnhandledErrors({ repoRoot: root });
@@ -307,7 +307,7 @@ test("an unparseable package.json is a hard error, not a silent pass", () => {
 });
 
 test("zero workflow files under .github/workflows is a hard error, not a silent pass", () => {
-  const root = mkdtempSync(join(tmpdir(), "cowrite-unhandled-noworkflows-"));
+  const root = mkdtempSync(join(tmpdir(), "emend-unhandled-noworkflows-"));
   writeFileSync(join(root, "vitest.config.ts"), CLEAN_VITEST_CONFIG);
   writeFileSync(join(root, "package.json"), JSON.stringify({ scripts: { test: "vitest run" } }));
   try {

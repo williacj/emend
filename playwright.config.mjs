@@ -78,8 +78,8 @@ export default defineConfig({
         // guaranteed absent everywhere, so `detect_providers` deterministically reports zero
         // providers without touching the real PATH or mocking the detection logic (P2a-22,
         // NI-provider-detect; CLAUDE.md: never mock in e2e).
-        EMEND_CLAUDE_BIN: "cowrite-test-no-claude-installed",
-        EMEND_COPILOT_BIN: "cowrite-test-no-copilot-installed",
+        EMEND_CLAUDE_BIN: "emend-test-no-claude-installed",
+        EMEND_COPILOT_BIN: "emend-test-no-copilot-installed",
       },
       port: TEST_DRIVER_PORT,
       reuseExistingServer: false,

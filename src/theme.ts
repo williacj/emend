@@ -9,7 +9,7 @@ export type EffectiveTheme = "light" | "dark";
 type EffectiveThemeListener = (theme: EffectiveTheme) => void;
 
 const DARK_QUERY = "(prefers-color-scheme: dark)";
-const STORAGE_KEY = "cowrite.theme";
+const STORAGE_KEY = "emend.theme";
 
 function browserStorage(): Storage | null {
   // Vitest's jsdom window is the Node global; Node 26's localStorage getter warns before it throws.

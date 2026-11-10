@@ -13,7 +13,7 @@ export async function permissionDriver(page) {
       ...process.env,
       EMEND_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN: "1",
       EMEND_CLAUDE_BIN: binary("permission-provider"),
-      EMEND_COPILOT_BIN: "cowrite-test-no-copilot-installed",
+      EMEND_COPILOT_BIN: "emend-test-no-copilot-installed",
     },
     stdio: ["ignore", "ignore", "pipe"],
   });

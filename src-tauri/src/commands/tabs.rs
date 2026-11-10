@@ -624,7 +624,7 @@ mod tests {
     }
 
     fn coordinator() -> TabSessionCoordinator {
-        TabSessionCoordinator::new(std::env::temp_dir().join("cowrite-tab-session-tests"))
+        TabSessionCoordinator::new(std::env::temp_dir().join("emend-tab-session-tests"))
     }
 
     fn retain_lease_descriptor(lease: &std::fs::File) -> std::fs::File {

@@ -139,7 +139,7 @@ async function cleanupStep(completed, root, name, run) {
  * }}
  */
 export function createFixtureProject(initialContent) {
-  const root = mkdtempSync(path.join(tmpdir(), "cowrite-e2e-"));
+  const root = mkdtempSync(path.join(tmpdir(), "emend-e2e-"));
   const relPath = "notes.md";
   writeFileSync(path.join(root, relPath), initialContent);
 

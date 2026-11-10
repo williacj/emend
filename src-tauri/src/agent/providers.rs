@@ -500,7 +500,7 @@ mod tests {
     #[test]
     fn a_nonexistent_binary_returns_none_rather_than_panicking() {
         assert!(run_bounded(
-            "cowrite-test-binary-does-not-exist",
+            "emend-test-binary-does-not-exist",
             &[],
             Duration::from_millis(200)
         )

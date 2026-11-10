@@ -565,27 +565,27 @@ export const structuralDecorationsPlugin = ViewPlugin.fromClass(StructuralDecora
  * visible. Final reveal-transition feel remains the CJ hands-on check SPIKE-3 flags as a residual
  * headless tests cannot close. */
 const structuralTheme = EditorView.baseTheme({
-  '&:not([data-cowrite-source-view="true"]) .cm-heading1': {
+  '&:not([data-emend-source-view="true"]) .cm-heading1': {
     fontSize: "1.8em",
     fontWeight: "bold",
   },
-  '&:not([data-cowrite-source-view="true"]) .cm-heading2': {
+  '&:not([data-emend-source-view="true"]) .cm-heading2': {
     fontSize: "1.5em",
     fontWeight: "bold",
   },
-  '&:not([data-cowrite-source-view="true"]) .cm-heading3': {
+  '&:not([data-emend-source-view="true"]) .cm-heading3': {
     fontSize: "1.3em",
     fontWeight: "bold",
   },
-  '&:not([data-cowrite-source-view="true"]) .cm-heading4': {
+  '&:not([data-emend-source-view="true"]) .cm-heading4': {
     fontSize: "1.15em",
     fontWeight: "bold",
   },
-  '&:not([data-cowrite-source-view="true"]) .cm-heading5': {
+  '&:not([data-emend-source-view="true"]) .cm-heading5': {
     fontSize: "1.05em",
     fontWeight: "bold",
   },
-  '&:not([data-cowrite-source-view="true"]) .cm-heading6': {
+  '&:not([data-emend-source-view="true"]) .cm-heading6': {
     fontSize: "1em",
     fontWeight: "bold",
   },

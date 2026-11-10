@@ -103,7 +103,7 @@ const displayModeReadOnly: Extension = [
 
 /** A live root attribute lets projection CSS follow the same source-view state as decoration code. */
 const sourceViewEditorAttributes = EditorView.editorAttributes.from(viewModeField, (value) => ({
-  "data-cowrite-source-view": String(value.sourceView),
+  "data-emend-source-view": String(value.sourceView),
 }));
 
 /** The full view-mode extension bundle `editor/` wires into a document's `EditorState`. */
