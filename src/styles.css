@@ -17,6 +17,8 @@
   --color-border: #e3dfd6;
   --color-accent: #4f46e5;
   --color-accent-ink: #4f46e5;
+  /* The softened focus ring (tokens.md, macOS 12a–12d); dark rings take the dark accent. */
+  --color-accent-ring-soft: rgba(79, 70, 229, 0.72);
   --color-accent-contrast: #ffffff;
   --color-comment-resolve-hover: #f0ede6;
   --color-app-titlebar-win-bg: #e8e4db;
@@ -407,6 +409,7 @@
   --color-border: #3a3d42;
   --color-accent: #a5b0ff;
   --color-accent-ink: #b7c0ff;
+  --color-accent-ring-soft: #a5b0ff;
   --color-accent-contrast: #10131a;
   --color-comment-resolve-hover: var(--color-surface);
   --color-app-titlebar-win-bg: var(--color-surface);
@@ -2994,7 +2997,7 @@ button.chat-message-card__quote-link:hover {
 .comment-thread-card__menu-trigger:focus-visible,
 .comment-thread-card__menu button:focus-visible,
 .comment-thread-card__correction button:focus-visible {
-  outline: 2px solid #4f46e5;
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
@@ -3077,7 +3080,7 @@ button.chat-message-card__quote-link:hover {
 }
 
 .comment-thread-card__linked-refusal button:focus-visible {
-  outline: 2px solid #4f46e5;
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
@@ -3103,8 +3106,8 @@ button.chat-message-card__quote-link:hover {
 }
 
 .comment-thread-card__correction textarea:focus-visible {
-  border-color: #4f46e5;
-  outline: 2px solid rgba(79, 70, 229, 0.72);
+  border-color: var(--color-accent);
+  outline: 2px solid var(--color-accent-ring-soft);
 }
 
 .comment-thread-card__correction strong {
@@ -3407,7 +3410,7 @@ button.comment-thread-card__anchor {
 }
 
 button.comment-thread-card__anchor--withdrawn {
-  color: #4f46e5;
+  color: var(--color-accent-ink);
   font-size: 12px;
   text-decoration: none;
 }
@@ -3551,7 +3554,7 @@ button.comment-thread-card__anchor--withdrawn {
   font-weight: 500;
 }
 
-.agent-working-card__outbound-marker { color: #4f46e5; }
+.agent-working-card__outbound-marker { color: var(--color-accent-ink); }
 .agent-working-card__inbound-marker { color: #8c8779; }
 
 .agent-working-card__expanded-header {
@@ -5757,7 +5760,7 @@ button.comment-thread-card__anchor--withdrawn {
   outline: none;
   box-shadow:
     0 0 0 1px var(--color-editor-format-mac-border),
-    0 0 0 3px rgba(79, 70, 229, 0.72);
+    0 0 0 3px var(--color-accent-ring-soft);
 }
 
 .display-mode-control {

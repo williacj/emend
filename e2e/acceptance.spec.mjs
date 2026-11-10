@@ -1161,7 +1161,7 @@ test.describe("#2594 selection-time gutter add", () => {
       await expect(add).toBeVisible();
       await expect(add).toHaveText("+");
       await expect(add).toHaveCSS("border-color", "rgb(79, 70, 229)");
-      await expect(add).toHaveCSS("background-color", "rgb(228, 235, 244)");
+      await expect(add).toHaveCSS("background-color", "rgb(225, 224, 248)");
       const [addBox, existingBox] = await Promise.all([add.boundingBox(), existingIcon.boundingBox()]);
       expect(addBox.width).toBe(24);
       expect(addBox.height).toBe(22);
@@ -4435,8 +4435,8 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
     const popover = await openCommentThread(page, "second");
     await expect(popover).toContainText("Check this word.");
     await expect(highlight).toHaveClass(/cm-commentHighlight-selected/);
-    await expect(highlight).toHaveCSS("background-color", "rgb(228, 235, 244)");
-    await expect(highlight).toHaveCSS("box-shadow", "rgb(169, 192, 220) 0px 1px 0px 0px");
+    await expect(highlight).toHaveCSS("background-color", "rgb(225, 224, 248)");
+    await expect(highlight).toHaveCSS("box-shadow", "rgb(161, 156, 233) 0px 1px 0px 0px");
 
     await popover.getByRole("button", { name: "Close" }).click();
 

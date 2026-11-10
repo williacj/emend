@@ -11,10 +11,11 @@ const stylesheet = readFileSync(join(root, "src", "styles.css"), "utf8");
 
 /** The declarations of the first rule whose selector list is exactly `selector`. */
 function ruleBody(selector: string): string {
-  const start = stylesheet.indexOf(`\n${selector} {\n`);
+  const start = stylesheet.indexOf(`\n${selector} {`);
   if (start < 0) throw new Error(`Missing CSS rule: ${selector}`);
   const open = stylesheet.indexOf("{", start);
-  return stylesheet.slice(open + 1, stylesheet.indexOf("\n}", open));
+  // A rule may sit on one line (`a { color: x; }`) or span several.
+  return `\n${stylesheet.slice(open + 1, stylesheet.indexOf("}", open))}`;
 }
 
 function declaration(body: string, property: string): string | undefined {
@@ -44,10 +45,12 @@ describe("accent tokens (tokens.md, Accent family, refresh 31)", () => {
     });
   });
 
-  it("leaves none of the old blue anywhere in src/", () => {
+  it("leaves none of the old blue in src/ or e2e/, as hex or as the rgb() a browser reports", () => {
+    const hex = "2F5D8C|22456A|5B8DFF|E4EBF4|EAF0F6|B9CBDD|A9C0DC|26324A|CFDDEC";
+    const decimal = ["47, ?93, ?140", "34, ?69, ?106", "91, ?141, ?255", "228, ?235, ?244", "234, ?240, ?246",
+      "185, ?203, ?221", "169, ?192, ?220", "207, ?221, ?236", "38, ?50, ?74"].join("|");
     // This file names the old values in its own pattern, so it is the one path left out.
-    const args = ["grep", "-n", "-i", "-E", "2F5D8C|22456A|5B8DFF|E4EBF4|EAF0F6|B9CBDD|A9C0DC|26324A|CFDDEC|47, ?93, ?140",
-      "--", "src", ":!src/accentTokens.test.ts"];
+    const args = ["grep", "-n", "-i", "-E", `${hex}|${decimal}`, "--", "src", "e2e", ":!src/accentTokens.test.ts"];
     let hits = "";
     try {
       hits = execFileSync("git", args, { cwd: root, encoding: "utf8" });
@@ -60,6 +63,8 @@ describe("accent tokens (tokens.md, Accent family, refresh 31)", () => {
 
   it("sets accent-coloured text in the ink token, which is lighter than the fill in dark", () => {
     const textRules = [
+      "button.comment-thread-card__anchor--withdrawn",
+      ".agent-working-card__outbound-marker",
       ".comment-thread-card__badge",
       ".comment-thread-card__run-link button",
       ".comment-thread-card__replies summary",
@@ -72,6 +77,8 @@ describe("accent tokens (tokens.md, Accent family, refresh 31)", () => {
         .toEqual({ selector, color: "var(--color-accent-ink)" });
     }
     const dark = ruleBody(':root[data-theme="dark"]');
+    expect(declaration(ruleBody(":root"), "--color-accent-ring-soft")).toBe("rgba(79, 70, 229, 0.72)");
+    expect(declaration(dark, "--color-accent-ring-soft")).toBe("#a5b0ff");
     expect(declaration(dark, "--color-comment-gutter-selected-fg")).toBe("var(--color-accent-ink)");
     expect(declaration(dark, "--color-comment-gutter-resolved-fg")).toBe("var(--color-accent-ink)");
   });
