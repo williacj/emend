@@ -2,8 +2,10 @@
 # executed-spike findings are preserved under docs/spikes/.
 /spikes/
 
-# Local Codex linked worktrees and review/test scratch artifacts
-/.codex/
+# Local Codex linked worktrees and review/test scratch artifacts. Codex's config for Rigger's
+# dispatches is the one tracked file under .codex/.
+/.codex/*
+!/.codex/config.toml
 /.codex-artifacts/
 /.codex-worktrees/
 /.codex-test-tmp/
@@ -44,3 +46,10 @@ src/__pretest_typecheck_probe.*.ts
 *.log
 .env
 .env.*
+
+# Rigger's local event stream, and the escalation note a role writes in its working directory.
+/.rigger/
+.rigger-escalation.md
+
+# Claude Code's per-user settings beside the project's .claude/settings.json.
+.claude/settings.local.json
