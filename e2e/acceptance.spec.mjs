@@ -4402,6 +4402,70 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
     };
   }
 
+  /** The thread's TD-4 `address` events from the human author's sidecar log: the durable record
+   * that [Address with AI] was made, however briefly its run then stays in flight. */
+  function addressEvents(threadId) {
+    const commentsDir = join(project.root, ".emend", "comments");
+    if (!existsSync(commentsDir)) return [];
+    const [docId] = readdirSync(commentsDir);
+    const authorLog = join(commentsDir, docId, "you.jsonl");
+    if (!existsSync(authorLog)) return [];
+    // Every record ends in a newline; the final segment is empty or an append still in progress.
+    return readFileSync(authorLog, "utf8").split("\n").slice(0, -1)
+      .map((line) => JSON.parse(line))
+      .filter((event) => event.type === "address" && event.parent_id === threadId);
+  }
+
+  /** Holds every `/run_state` response until `release()`. The real RunQueue still produces each
+   * projection and the production poller still folds it; only the response cadence changes
+   * (test-plan §7b). `held` resolves once the frontend has asked. `release()` lets every held
+   * request through and waits for every held handler to forward its request; it removes every page
+   * route, and the tests using it install no other. */
+  async function holdRunStatePolls(page) {
+    let releasePolls;
+    let markHeld;
+    const released = new Promise((resolve) => { releasePolls = resolve; });
+    const held = new Promise((resolve) => { markHeld = resolve; });
+    await page.route("**/run_state", async (route) => {
+      markHeld();
+      await released;
+      await route.continue();
+    });
+    return {
+      held,
+      async release() {
+        releasePolls();
+        await page.unrouteAll({ behavior: "wait" });
+      },
+    };
+  }
+
+  /**
+   * Clicks [Address with AI] on one thread and runs `assertInFlight` while its run is provably still
+   * in flight. No agent CLI exists under e2e, so D23's provider fails every address run; the
+   * frontend observes that one `/run_state` poll (50 ms) after `start_run` acknowledges, and the
+   * terminal fold clears the Working-only line. An unheld DOM assertion races that (#58), so the
+   * poll is held until the in-flight assertions have read the UI. Afterwards this waits for the
+   * run's durable `failed` conclusion, so later steps start from one settled state.
+   */
+  async function addressWithAIWhileInFlight(page, popover, threadId, assertInFlight) {
+    const polls = await holdRunStatePolls(page);
+    try {
+      await popover.getByRole("button", { name: "Address with AI" }).click();
+      await expect.poll(() => addressEvents(threadId).length).toBe(1);
+      await assertInFlight();
+      // The poll was parked while the assertions read the UI; a hold that matches nothing fails here.
+      await polls.held;
+    } finally {
+      await polls.release();
+    }
+    const [address] = addressEvents(threadId);
+    await expect.poll(async () => (await loadCommentThreads(project.root, project.path))
+      .find((thread) => thread.id === threadId).concluded_run)
+      .toMatchObject({ run_id: address.run_id, outcome: "failed" });
+    return address;
+  }
+
   test("a CRLF document kept unnormalized draws and re-seeds its anchored comment on the exact word (#1799)", async ({
     page,
   }) => {
@@ -4484,20 +4548,21 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
     await expect(popover).toContainText("Open");
 
     const addressedAt = await clock.advance();
-    await popover.getByRole("button", { name: "Address with AI" }).click();
-    // #1122/#1131: a run in flight with nothing delivered yet reads Working, never the completed
-    // Addressed — pending claim — that claim is only true once a delivery lands (below). The
-    // negative assertions are the ones that would have caught #1122 in the first place: no
-    // "Addressed" claim, no count, while nothing has been delivered.
-    await expect(popover).toContainText(
-      "Addressing with AI — you can edit or delete this comment once the run finishes.",
-    );
-    await expect(popover).not.toContainText("Addressed");
-    await expect(popover).not.toContainText("pending review");
-    // #1380: this thread has no earlier delivery, so no linked-change count or [Go to →] renders
-    // at all while Working — not just unattributed text, no attributed block either.
-    await expect(popover).not.toContainText("from Agent");
-    await expect(popover.getByRole("button", { name: "Go to →" })).toHaveCount(0);
+    await addressWithAIWhileInFlight(page, popover, threadId, async () => {
+      // #1122/#1131: a run in flight with nothing delivered yet reads Working, never the completed
+      // Addressed — pending claim — that claim is only true once a delivery lands (below). The
+      // negative assertions are the ones that would have caught #1122 in the first place: no
+      // "Addressed" claim, no count, while nothing has been delivered.
+      await expect(popover).toContainText(
+        "Addressing with AI — you can edit or delete this comment once the run finishes.",
+      );
+      await expect(popover).not.toContainText("Addressed");
+      await expect(popover).not.toContainText("pending review");
+      // #1380: this thread has no earlier delivery, so no linked-change count or [Go to →] renders
+      // at all while Working — not just unattributed text, no attributed block either.
+      await expect(popover).not.toContainText("from Agent");
+      await expect(popover.getByRole("button", { name: "Go to →" })).toHaveCount(0);
+    });
 
     await linkChanges(project.root, project.path, threadId, "agent", addressedAt + 1, [
       "chg-e2e-1",
@@ -4588,12 +4653,13 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
     const clock = commentClock(page);
     const addressPopover = await openCommentThread(page, "cheerful");
     const addressedAt = await clock.advance();
-    await addressPopover.getByRole("button", { name: "Address with AI" }).click();
-    // #1122: nothing delivered yet — Working, not the completed Addressed — pending claim.
-    await expect(addressPopover).toContainText(
-      "Addressing with AI — you can edit or delete this comment once the run finishes.",
-    );
-    await expect(addressPopover).not.toContainText("Addressed — pending review.");
+    const firstAddress = await addressWithAIWhileInFlight(page, addressPopover, threadId, async () => {
+      // #1122: nothing delivered yet — Working, not the completed Addressed — pending claim.
+      await expect(addressPopover).toContainText(
+        "Addressing with AI — you can edit or delete this comment once the run finishes.",
+      );
+      await expect(addressPopover).not.toContainText("Addressed — pending review.");
+    });
 
     await linkChanges(project.root, project.path, threadId, "agent", addressedAt + 1, ["chg-e2e-3"]);
     await replyToComment(
@@ -4624,13 +4690,9 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
     // The D23 provider can fail between two DOM assertions. Its terminal transition correctly
     // clears the Working-only guidance line, so prove re-delegation at the durable TD-4 event seam.
     // This also distinguishes a fresh Address from the old run's failure note still on the card.
-    const [docId] = readdirSync(join(project.root, ".emend", "comments"));
-    const authorLog = join(project.root, ".emend", "comments", docId, "you.jsonl");
-    const addresses = () => readFileSync(authorLog, "utf8").trim().split("\n")
-      .map((line) => JSON.parse(line))
-      .filter((event) => event.type === "address" && event.parent_id === threadId);
-    await expect.poll(() => addresses().length).toBe(2);
-    const [firstAddress, reDelegation] = addresses();
+    await expect.poll(() => addressEvents(threadId).length).toBe(2);
+    const [recordedFirst, reDelegation] = addressEvents(threadId);
+    expect(recordedFirst.run_id).toBe(firstAddress.run_id);
     expect(reDelegation.guidance).toBe("Keep 'cheerful' — just fix the comma splice.");
     expect(reDelegation.run_id).not.toBe(firstAddress.run_id);
     await expect.poll(async () => (await loadCommentThreads(project.root, project.path))[0].concluded_run)
@@ -4659,12 +4721,13 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
     const clock = commentClock(page);
     const addressPopover = await openCommentThread(page, "cheerful");
     const addressedAt = await clock.advance();
-    await addressPopover.getByRole("button", { name: "Address with AI" }).click();
-    // #1122: nothing delivered yet — Working, not the completed Addressed — pending claim.
-    await expect(addressPopover).toContainText(
-      "Addressing with AI — you can edit or delete this comment once the run finishes.",
-    );
-    await expect(addressPopover).not.toContainText("Addressed — pending review.");
+    await addressWithAIWhileInFlight(page, addressPopover, threadId, async () => {
+      // #1122: nothing delivered yet — Working, not the completed Addressed — pending claim.
+      await expect(addressPopover).toContainText(
+        "Addressing with AI — you can edit or delete this comment once the run finishes.",
+      );
+      await expect(addressPopover).not.toContainText("Addressed — pending review.");
+    });
 
     // The agent judges the text correct and defends instead of editing (FR-CMT-4) — no
     // `linkChanges` call, published so an external reviewer would see it too (D20).
@@ -4833,20 +4896,12 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
     // nonqueued run and the real frontend still renders its response. This replaces push cadence
     // with a controlled HTTP cadence (test-plan §7b), keeping D23's fast provider failure from
     // erasing the transient targeted rung before the assertions can read it.
-    let releasePoll;
-    let markPollHeld;
-    const pollReleased = new Promise((resolve) => { releasePoll = resolve; });
-    const pollHeld = new Promise((resolve) => { markPollHeld = resolve; });
-    await page.route("**/run_state", async (route) => {
-      markPollHeld();
-      await pollReleased;
-      await route.continue();
-    });
+    const polls = await holdRunStatePolls(page);
     try {
       await page.getByRole("button", { name: /Address all/ }).click();
       await page.getByRole("button", { name: /^Address \d+ comments?$/ }).click();
       await expect(page.locator(".batch-address-status")).toContainText("2 addressed");
-      await pollHeld;
+      await polls.held;
       const rung2 = "In an agent run — it already has this comment as written; you can edit or delete it once the run finishes.";
       const rung1 = "Queued behind an agent run — it already has this comment as written; you can edit or delete it once the run finishes.";
       await expect(page.locator('.timeline-panel [data-card-kind="comment"] [data-ladder-rung="targeted"]')).toHaveCount(2);
@@ -4855,7 +4910,7 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
       const popover = await openCommentThread(page, "brave");
       await expect(popover).toContainText(rung2);
     } finally {
-      releasePoll();
+      await polls.release();
     }
   });
 
