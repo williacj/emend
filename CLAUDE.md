@@ -83,18 +83,34 @@ Do implementation tasks completely (including obvious follow-ups). For design/pl
 - **Naming:** what code does, not how or its history. No "New/Legacy/V2/enhanced" names. **Comments:** what/why, never how-it-changed. All files start with a two-line `ABOUTME:` summary — **except `docs/design/`**, which is generated outside the repo and may not be hand-edited, so its files carry the folder's own `README.md` as their collective header instead (CJ, 2026-08-04).
 - **After implementation:** delete obsolete code, update references, extract duplicates, update docs.
 
+## Cards and Rigger
+
+[Rigger](https://github.com/williacj/rigger) runs Emend's cards. Its [operating guide](https://github.com/williacj/rigger/blob/main/docs/guide.md) owns how the loop works, `rigger.config.mjs` owns Emend's board, roles and kinds of work, and `AGENTS.md` owns the process rules every session follows here. CJ is the owner Rigger's documents refer to.
+
+- **A card is a GitHub issue with acceptance.** Its author writes an `## Acceptance` section of plain bullets before any work starts, loading `.claude/skills/acceptance/` first. Only the author changes the acceptance afterwards; the maker is judged against it.
+- **Its kind label decides who makes it and who judges it.** `type:change` is a code change: the Engineer makes it and the Reviewer judges it. `type:spec` is a proposal to the constitution: the PM makes it, the Reviewer, Engineer and Architect judge it, and CJ rules last. Rigger never pulls a `type:epic` card, or a card no kind selects. `rigger.config.mjs` is the authority for each kind's label, maker, judges and rounds.
+- **The board holds a card's state.** Its columns are Ready, Coding, Review, Owner and Done. CJ puts a card in Ready and sets its priority. Rigger pulls Ready cards in priority order and moves each one as it progresses.
+- **Made.** Rigger claims the card into Coding and dispatches its maker, which works in its own worktree and delivers a pull request. The card moves to Review once that pull request is open.
+- **Judged.** Each judge reads the work on its own, rules on every acceptance item as met or unmet, and posts its verdict on the pull request: `sound`, `needs revision` or `critical`. A maker never judges its own work. A new commit or an acceptance change sends every judge back and spends one of the card's bounded rounds. Where the kind names CJ as a judge, the card waits in Owner once every agent judge is sound, and CJ posts a verdict with `rigger verdict`.
+- **Merged.** Work reaches `main` only through the merge gate, which admits a pull request only when every judge its kind names has returned `sound` on its current head and acceptance. The card then moves to Done.
+- **Escalated.** Every escalation goes to CJ. A maker escalates as `ambiguous` when it cannot meet an acceptance item, and as `recorded-decision` when the work needs a recorded decision changed. A `critical` verdict escalates as `critical`, and a card whose rounds run out escalates as `ambiguous`. Rigger comments on the issue, moves the card to Owner and labels it `rigger:escalated`, then dispatches nothing for it. CJ answers by making the decision and removing the label; Rigger never removes it. The guide's "Answering escalations" has the detail.
+
+Work CJ coordinates by hand with an interactive agent follows the same review and merge rules, and stays apart from the engine as `AGENTS.md` sets out. Claude Code loads `AGENTS.md` into every session through this import: @AGENTS.md
+
 ## Code Review
 
 - Review every PR against the Emend constitution before merge. Review is separate from implementation.
+- A card's judges are its reviewers. Hand-coordinated work gets an independent reviewer the same way: `AGENTS.md`, "Review and merge".
 - Review the branch diff before creating the PR, address findings, and review changes added afterward.
 - Any Critical invariant or constitution violation blocks merge. Record and resolve lesser findings deliberately.
 - Before merging, the maintainer checks that the CI checks that ran (the `Lint` and `Suites` jobs on each OS, and any other `ci.yml` job) passed for the current PR head. Branch protection does not enforce this, so it is a manual merge prerequisite.
 
 ## Version Control
 
-- Major updates on dedicated branches (never directly on `main` unless CJ permits). Open PRs for major work.
+- Every change is made on its own branch and reaches `main` only by merging its pull request. Nobody pushes to `main`; the pre-push hook refuses it.
 - Commit frequently, atomically, meaningful messages. `git status` before `git add -A`. Never commit `*.backup`, `*-copy`, `*~` files. Commit journal entries.
-- Worktrees: one feature per worktree, with a descriptive branch tied to one issue or bounded card. Create them under the persistent `emend-worktrees/<issue-number>-<slug>` directory beside the main `emend` checkout (find the main path with `git worktree list`), not under `/private/tmp` or as `emend-*` siblings in the GitHub folder. After merge, remove a worktree only when its work is represented on `main` and its working tree is clean; preserve uncommitted or unmerged work.
+- Worktrees, updating a branch behind `main`, and cleaning up after a merge: `AGENTS.md`, "Version control".
+- Force pushes, branch deletion and skipping hooks are CJ's alone: `AGENTS.md`, "Git operations reserved to CJ".
 
 ## Issue Tracking
 

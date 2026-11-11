@@ -215,7 +215,7 @@ describe("timeline/facets — every card kind exercised, not just the three that
    * The facet each kind resolves to today — `undefined` for a kind no ratified facet claims.
    * `document-birth` and `project-grounding` are deliberately `undefined`: which facet (if any)
    * should claim them is a J#/Designer call the issue raises, not an Engineer's guess to bake in
-   * here (issue #1727's "Needs CJ/Designer, not an Engineer's guess"). This table pins the current,
+   * here (issue #1727 left it to CJ and the Designer). This table pins the current,
    * honest state — two orphans — so a future facet assignment is a deliberate edit to this table,
    * not a silent behavior change nobody noticed.
    */
