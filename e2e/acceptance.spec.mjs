@@ -1430,10 +1430,14 @@ test.describe("#2537 reciprocal comments navigation", () => {
       await page.locator(".cm-content").evaluate((content) => { content.style.fontSize = "24px"; });
       await expect.poll(() => page.locator(".cm-line", { hasText: "First and second" }).first()
         .evaluate((line) => line.getBoundingClientRect().height)).toBeGreaterThan(wideLineHeight);
-      const afterFontChange = await page.locator(`[data-comment-gutter-thread="${ids[3]}"]`)
-        .evaluate((icon) => ({ iconTop: icon.getBoundingClientRect().top,
-          lineTop: icon.closest(".cm-line").getBoundingClientRect().top }));
-      expect(afterFontChange.iconTop - afterFontChange.lineTop).toBeCloseTo(2, 0);
+      // The browser lays out the larger font before CodeMirror's next measure frame updates its
+      // height map, and only that measure re-places the gutter widgets (replacing their DOM), so the
+      // offset is polled in one atomic read rather than sampled once.
+      await expect.poll(() => page.locator(".cm-editor").evaluate((editor, id) => {
+        const icon = editor.querySelector(`[data-comment-gutter-thread="${id}"]`);
+        const line = icon?.closest(".cm-line");
+        return line ? icon.getBoundingClientRect().top - line.getBoundingClientRect().top : null;
+      }, ids[3])).toBeCloseTo(2, 0);
     } finally {
       await project.cleanup(page);
     }
