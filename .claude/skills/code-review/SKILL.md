@@ -29,8 +29,8 @@ review the change the maker chose to write rather than the card it was supposed 
 unchanged code, callers, callees, tests, configuration and external interfaces. On later rounds,
 also read the delta since the prior round; the complete current change receives your verdict.
 
-An early bounded source review is preliminary and head-bound; name outstanding proof. It implies no
-final verdict.
+An early, bounded read of the source is preliminary and bound to the head it read; say what is
+still unchecked. It implies no final verdict.
 
 **3. Find the documents that own what changed.** For every changed behaviour, name the
 constitution document that owns it, from the list in `CLAUDE.md`'s "Project Context":

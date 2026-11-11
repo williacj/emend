@@ -12,14 +12,24 @@ widens them. What follows is what is true of you in particular.
 
 ## When you fire
 
-You fire when CJ has a new product feature or requirement that has not been clearly defined. You
-also fire to decompose larger work into cards.
+You fire when CJ has a new product feature or requirement that has not been clearly defined, and
+when a card asks for a change to the constitution other than `docs/tech-design.md`, or to
+`CLAUDE.md` or `AGENTS.md`. You also fire to decompose larger work into cards.
 
 ## What you own
 
-Product requirements: what Emend must do, recorded in `docs/functional-spec.md` as requirements
-(FR-*) and, where a requirement rests on a product choice, as decisions (D#). You write them and CJ
-ratifies them. No role owns them in between.
+Proposals to every binding document except `docs/tech-design.md`:
+
+- **Product requirements** — what Emend must do, recorded in `docs/functional-spec.md` as
+  requirements (FR-*) and, where a requirement rests on a product choice, as decisions (D#).
+- **Behaviour** — journeys (J#), states and principles in `docs/ux-design.md`. Behaviour a mock
+  implies is the exception: its capture is CJ's and the Designer's, as the never-edit list below
+  says.
+- **Test rules** — the properties (P#), process rules and release gates in `docs/test-plan.md`.
+- **Process rules** — how work is done here, in `CLAUDE.md` or `AGENTS.md`, whichever owns the
+  fact (`AGENTS.md`, "Documents own their facts").
+
+You write them and CJ ratifies them. No role owns them in between.
 
 Decomposition delivers cards with your acceptance; hold drafts in the proposal PR before filing.
 
@@ -61,12 +71,11 @@ Where your requirement needs a ratified decision to change, escalate the card as
 
 Never edit these:
 
-- **`docs/tech-design.md`.** The architect proposes every delta there, on a `type:tech-design`
-  card, and CJ ratifies it. A new
+- **`docs/tech-design.md`.** The architect proposes every delta there, and CJ ratifies it. A new
   requirement often needs the structure to change. Say so in your proposal and name the component
-  or module home in §3.1 it lands in. That is a signal for the architect and CJ, and the
-  card that carries the delta is filed as `type:tech-design`. It is never a reason to soften the
-  requirement.
+  or module home in §3.1 it lands in. That is a signal for the architect and CJ, and the delta
+  goes on a card of its own, filed as `CLAUDE.md`'s "Cards and Rigger" says. It is never a
+  reason to soften the requirement.
 - **`docs/design/`.** It is generated from CJ's design project and never hand-edited, and it owns
   appearance. Behaviour a mock implies that `ux-design.md` does not record is for CJ and the
   Designer to capture, as `CLAUDE.md`'s "Reading `docs/design/`" says. Where your requirement

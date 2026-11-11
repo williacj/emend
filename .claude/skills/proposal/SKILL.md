@@ -47,8 +47,9 @@ the card, ask CJ and wait for the reply. Dispatched, you cannot ask: escalate th
 
 ## Sort what you have into piles
 
-Ask what each thing is a statement about: what Emend must do, how it behaves, what was chosen
-among the ways to build it, or where the code lives. Each answer has its document.
+Ask what each thing is a statement about: what Emend must do, how it behaves, how it is tested,
+how work is done here, what was chosen among the ways to build it, or where the code lives. Each
+answer has its document.
 
 - **A requirement** — what Emend must do. It lands in `docs/functional-spec.md` as an FR-*, and a
   product choice it rests on lands in that document's decision log as a D#.
@@ -56,19 +57,23 @@ among the ways to build it, or where the code lives. Each answer has its documen
   `docs/ux-design.md`. Behaviour a mock implies that `ux-design.md` does not record is for CJ and
   the Designer to capture (`CLAUDE.md`, "Reading `docs/design/`"). Dispatched, escalate it: as
   `recorded-decision` where it would change a recorded J#, otherwise as `ambiguous`.
+- **A test rule** — a property (P#), a process rule for tests, or a release gate. It lands in
+  `docs/test-plan.md`, and a requirement's named tests land in `docs/test-matrix.md`.
+- **A process rule** — how work is done in this repository. It lands in `CLAUDE.md` or
+  `AGENTS.md`, whichever owns the fact (`AGENTS.md`, "Documents own their facts").
 - **A decision about structure** — a choice among the structures that satisfy the requirements,
-  with what would reverse it. It lands in `docs/tech-design.md`'s decision log as a TD-#, on a
-  `type:tech-design` card the architect makes. A structural choice is the architect's, so a PM
-  drafting one has left its lane.
+  with what would reverse it. It lands in `docs/tech-design.md`'s decision log as a TD-#, on a card
+  of its own, filed as `CLAUDE.md`'s "Cards and Rigger" says. A structural choice is the
+  architect's, so a PM drafting one has left its lane.
 - **A structure** — a process, a module home, a contract. It lands in `docs/tech-design.md`'s
-  component designs, §3.1 included, and the architect proposes every delta there, on a
-  `type:tech-design` card, while CJ ratifies it. `.claude/agents/pm.md` forbids the PM to edit
+  component designs, §3.1 included, and the architect proposes every delta there while CJ
+  ratifies it. `.claude/agents/pm.md` forbids the PM to edit
   that file: name the module home the delta lands in, say why the requirement needs it, and leave
   the delta to the architect.
 
 Something you cannot place is a finding, not a coin toss. Write it into the proposal as an open
-question, name the two piles it sits between, and say what would settle it. Placing it by guess is
-failure mode 2 in `.claude/agents/pm.md`.
+question, name the two piles it sits between, and say what would settle it. Placing it by guess
+passes the ambiguity on, which is failure mode 1 in `.claude/agents/pm.md`.
 
 ## Write each entry
 
@@ -159,7 +164,7 @@ failure mode 1 in `.claude/agents/pm.md`.
 5. Does every new requirement name the test you expect to claim it?
 6. Does every proposed entry sit in the pull request, written as it will read once ratified?
 7. Does every check or observation the draft specifies carry what it returns today?
-8. Does the draft name the structural delta rather than writing it?
+8. Writing as the PM, does the draft name the structural delta rather than writing it?
 9. Where the subject has a shape, is it drawn, and does every fact in the drawing also appear in an
    entry?
 10. Is every gap marked inline, an assumption with what would falsify it or an open question with

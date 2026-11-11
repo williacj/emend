@@ -79,8 +79,8 @@ to look precise — derive it from the card, or from a source you cite, such as 
 **Say what done means, never how to do it.** The maker chooses the mechanism. An item that names
 one bars a better route and is not a statement about done.
 
-Every item is mandatory — one left unmet is not sound — so order them for reading rather than for
-priority.
+Every item is mandatory — one left unmet is not sound — so order them for reading rather than
+for priority.
 
 ## Choose a format
 
@@ -127,8 +127,7 @@ and on what evidence, and what would reverse the recommendation.
 card; follow-ups cover only outside work. An undone item leaves this card unfinished.
 
 Ask for every case to be proved, never for a test per case: one table-driven or generated test
-may prove a dimension. A mutation is evidence that an existing test discriminates; never ask
-for a test per mutation. Ask for a probe a judge used to find a defect as a case in an existing
+may prove a dimension. Ask for a probe a judge used to find a defect as a case in an existing
 test of the invariant it broke, where one exists, and otherwise as one test of that invariant.
 
 **Split work into cards.** Map every part of the larger work to a card's acceptance item, not
@@ -142,11 +141,9 @@ Its acceptance covers its own work.
 write to the wrong path. Give each axis the card varies on its own item.
 
 **Changing it after admission is expensive, and it stays yours.** Only its author changes an
-acceptance after admission, never the maker it is judged against, and Rigger records who made
-each change. A change to the acceptance, like a change to the work, sends every judge back and
-spends one of the card's rounds; a card that exhausts its rounds escalates as ambiguous; and the
-change stales every verdict already returned. Settle the bar with whoever will help you before
-you file.
+acceptance after admission, never the maker it is judged against. What a change costs in rounds
+and verdicts is the "Judged" and "Escalated" bullets of `CLAUDE.md`'s "Cards and Rigger".
+Settle the bar with whoever will help you before you file.
 
 Before filing, remove items dependent on this card's verdict, marker, required check or
 merge; `AGENTS.md`'s "Review and merge" still applies.
