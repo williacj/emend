@@ -1,0 +1,24 @@
+#!/bin/sh
+# ABOUTME: Refuses pushes to the remote's default branch, or all pushes when it is unknown.
+
+set -u
+
+remote=$1
+refuse_unknown() {
+  printf 'refused: the default branch for remote %s is unknown; run git remote set-head <remote> -a.\n' "$remote" >&2
+  exit 1
+}
+
+default_ref=$(git symbolic-ref -q "refs/remotes/$remote/HEAD") || refuse_unknown
+prefix="refs/remotes/$remote/"
+case $default_ref in
+  "$prefix"*) default_branch=${default_ref#"$prefix"} ;;
+  *) refuse_unknown ;;
+esac
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  if [ "$remote_ref" = "refs/heads/$default_branch" ]; then
+    printf 'refused: a push to the default branch %s is not allowed.\n' "$default_branch" >&2
+    exit 1
+  fi
+done
