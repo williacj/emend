@@ -176,9 +176,22 @@ mod script_tests {
         path.to_string_lossy().replace('\\', "/")
     }
 
+    // A temp folder under the long, canonical temp path. Hosted Windows runners give %TEMP% as an
+    // 8.3 short name (RUNNER~1), whose '~' the literal grammar refuses, and canonicalize adds a
+    // \\?\ prefix whose '?' it refuses too; projects are opened by their ordinary long path (#54).
+    fn tempdir() -> tempfile::TempDir {
+        let base = fs::canonicalize(std::env::temp_dir()).unwrap();
+        let base = base
+            .to_str()
+            .and_then(|path| path.strip_prefix(r"\\?\"))
+            .map(std::path::PathBuf::from)
+            .unwrap_or(base);
+        tempfile::tempdir_in(base).unwrap()
+    }
+
     #[test]
     fn script_identity_allows_changed_literal_arguments_but_binds_content_path_and_controls() {
-        let root = tempfile::tempdir().unwrap();
+        let root = tempdir();
         let script = root.path().join("check citations.py");
         fs::write(&script, "print('original')\n").unwrap();
         let key = |args: &str| json!({"command":format!("python3 '{}' {args}", callback_path(&script)), "timeout":1000});
@@ -221,8 +234,8 @@ mod script_tests {
 
     #[test]
     fn script_identity_refuses_relative_compound_dynamic_outside_and_unreadable_targets() {
-        let root = tempfile::tempdir().unwrap();
-        let outside = tempfile::tempdir().unwrap();
+        let root = tempdir();
+        let outside = tempdir();
         let script = root.path().join("check.py");
         fs::write(&script, "print('ok')\n").unwrap();
         let external = outside.path().join("check.py");
@@ -258,7 +271,7 @@ mod script_tests {
 
     #[test]
     fn script_identity_requires_literal_invocation_and_bounded_regular_script() {
-        let root = tempfile::tempdir().unwrap();
+        let root = tempdir();
         let script = root.path().join("check.sh");
         std::fs::write(&script, "#!/bin/sh\necho ok\n").unwrap();
         let direct = json!({"command":format!("'{}' first",callback_path(&script))});
@@ -290,8 +303,8 @@ mod script_tests {
     #[cfg(unix)]
     #[test]
     fn script_identity_rechecks_symlink_containment_and_target() {
-        let root = tempfile::tempdir().unwrap();
-        let outside = tempfile::tempdir().unwrap();
+        let root = tempdir();
+        let outside = tempdir();
         let target = root.path().join("check.py");
         let link = root.path().join("link.py");
         fs::write(&target, "print('ok')\n").unwrap();

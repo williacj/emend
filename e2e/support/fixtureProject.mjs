@@ -1,6 +1,6 @@
 // ABOUTME: Creates a throwaway project folder with one markdown file for the e2e walking
 // ABOUTME: skeleton (test-plan §4) — a real directory on real disk, never a mocked filesystem.
-import { mkdtempSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readdirSync, readFileSync, realpathSync, unlinkSync, writeFileSync } from "node:fs";
 import { rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -139,7 +139,9 @@ async function cleanupStep(completed, root, name, run) {
  * }}
  */
 export function createFixtureProject(initialContent) {
-  const root = mkdtempSync(path.join(tmpdir(), "emend-e2e-"));
+  // The canonical long path: hosted Windows runners give tmpdir() as an 8.3 short name
+  // (RUNNER~1), which the app canonicalizes away and J7's literal command grammar refuses (#54).
+  const root = realpathSync.native(mkdtempSync(path.join(tmpdir(), "emend-e2e-")));
   const relPath = "notes.md";
   writeFileSync(path.join(root, relPath), initialContent);
 

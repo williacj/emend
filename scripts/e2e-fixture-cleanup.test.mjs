@@ -1,5 +1,5 @@
-// ABOUTME: Pins the e2e fixture teardown's bounded, step-naming cleanup (#1554) against real
-// ABOUTME: sockets, a real directory, and a real concurrent writer — no stubbed filesystem or fetch.
+// ABOUTME: Pins e2e fixture projects: a canonical root (#54) and bounded, step-naming teardown (#1554),
+// ABOUTME: against real sockets, a real directory, and a real concurrent writer — no stubbed filesystem or fetch.
 //
 // #1383 made teardown await `close_project`, close the page, then retry real directory removal.
 // Each of those three awaits was unbounded, so a stall consumed Playwright's whole 30s test bound
@@ -8,7 +8,7 @@
 // `post()`/`fetch` seam and assert every stall fails inside its own budget carrying the step name.
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { chmodSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, readdirSync, realpathSync, rmSync, writeFileSync } from "node:fs";
 import { createServer } from "node:net";
 import path from "node:path";
 import test, { after } from "node:test";
@@ -230,6 +230,18 @@ test("a removal error that is not the retried race surfaces instead of consuming
     assert.ok(Date.now() - startedAt < 5_000, "expected the error to surface without retrying");
   } finally {
     chmodSync(locked, 0o700);
+    rmSync(project.root, { recursive: true, force: true });
+  }
+});
+
+// The app reports and compares canonical paths. A fixture root left as tmpdir() gave it differs on
+// hosted Windows (an 8.3 RUNNER~1 short name) and on macOS (/var -> /private/var), and J7's literal
+// command grammar refuses the short name's "~" (#54).
+test("a fixture project's root is already its canonical path", () => {
+  const project = createFixtureProject("# fixture\n");
+  try {
+    assert.equal(project.root, realpathSync.native(project.root));
+  } finally {
     rmSync(project.root, { recursive: true, force: true });
   }
 });
