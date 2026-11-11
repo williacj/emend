@@ -38,7 +38,7 @@ npm run tauri build    # produce a release build
 npm run build:rust     # build only the Emend package (not every workspace utility)
 ```
 
-Checks: `npm run build` (frontend type-check + bundle); from `src-tauri/`, `cargo fmt`, `cargo clippy`, and `cargo test`.
+Checks: `npm run build` (frontend type-check + bundle); from `src-tauri/`, `cargo fmt`, `cargo clippy`, and `cargo test --workspace`.
 
 The ordinary Windows and macOS app builds include local Whisper inference. Windows builds need CMake, the MSVC C++ build tools, and a Windows `libclang.dll` directory in `LIBCLANG_PATH`; [the CI provisioner](scripts/provision-whisper-windows.ps1) records the pinned, hash-verified CMake and libclang packages used by the exact-head build gate. Leave `WHISPER_DONT_GENERATE_BINDINGS` unset: pinned `whisper-rs-sys 0.15.0` bundles Linux bindings whose structure layouts fail on Windows. A local Windows shell may install equivalent tools and set `LIBCLANG_PATH` before `npm run tauri build`. macOS needs CMake and Xcode Command Line Tools; CI sets `LIBCLANG_PATH` to Xcode's target-native `libclang.dylib`. Set `GGML_CCACHE=OFF` for a local build when no running C/C++ sccache daemon is available; CI sets it explicitly, independently of Emend's Rust compiler cache. The build includes inference code but downloads no model: voice readiness still requires verified local model bytes, microphone access, and an enabled setting.
 
