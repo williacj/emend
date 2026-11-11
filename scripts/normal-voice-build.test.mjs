@@ -83,7 +83,7 @@ test('every hosted Rust job gets the proven Windows toolchain and target binding
   assert.doesNotMatch(provisioner, /WHISPER_DONT_GENERATE_BINDINGS\s*=/);
 });
 
-test('macOS app builds target 10.15, the minimum that whisper.cpp std::filesystem needs (#53)', () => {
+test('macOS app builds target 10.15 for whisper.cpp std::filesystem (#53)', () => {
   // tauri build exports bundle.macOS.minimumSystemVersion as MACOSX_DEPLOYMENT_TARGET; below 10.15
   // libc++ marks std::filesystem unavailable and ggml fails to compile.
   const config = JSON.parse(read('src-tauri/tauri.macos.conf.json'));
