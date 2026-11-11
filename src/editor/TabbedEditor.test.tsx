@@ -2485,11 +2485,13 @@ describe("editor/TabbedEditor — external path transitions", () => {
         // the guard is busy and its Save As is disabled, so the second attempt below must wait for
         // the cancelled one to finish; a click before then is ignored (#44).
         let cancelPicker: (chosen: string | null) => void = () => {};
+        // Calls from earlier tests in this file are not reset, so count from here.
+        const picksBefore = pickSaveAsPathMock.mock.calls.length;
         pickSaveAsPathMock.mockImplementationOnce(
           () => new Promise<string | null>((resolve) => { cancelPicker = resolve; }),
         );
         fireEvent.click(within(guard).getByRole("button", { name: "Save As…" }));
-        await waitFor(() => expect(pickSaveAsPathMock).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(pickSaveAsPathMock).toHaveBeenCalledTimes(picksBefore + 1));
         expect(within(guard).getByRole("button", { name: "Save As…" })).toBeDisabled();
         cancelPicker(null);
         await waitFor(() =>
@@ -2503,7 +2505,7 @@ describe("editor/TabbedEditor — external path transitions", () => {
         fireEvent.click(
           within(screen.getByRole("alertdialog")).getByRole("button", { name: "Save As…" }),
         );
-        expect(pickSaveAsPathMock).toHaveBeenCalledTimes(2);
+        expect(pickSaveAsPathMock).toHaveBeenCalledTimes(picksBefore + 2);
         const failedGuard = screen.getByRole("alertdialog");
         expect(await within(failedGuard).findByRole("status")).toHaveTextContent(
           "Couldn’t save to drafts/rescued.md — disk full. Nothing was written, and this document is unchanged.",
