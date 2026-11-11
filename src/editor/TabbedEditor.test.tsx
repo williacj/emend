@@ -2482,8 +2482,9 @@ describe("editor/TabbedEditor — external path transitions", () => {
         const guard = await screen.findByRole("alertdialog");
 
         // The picker stays open until the test answers it, as a real dialog does. While it is open
-        // the guard is busy and its Save As is disabled, so the second attempt below must wait for
-        // the cancelled one to finish; a click before then is ignored (#44).
+        // the guard is busy and its Save As is disabled. React re-enables the button in a scheduled
+        // render after the cancel, not synchronously, so the second attempt must wait for that; a
+        // click on the still-disabled button is dropped (#44).
         let cancelPicker: (chosen: string | null) => void = () => {};
         // Calls from earlier tests in this file are not reset, so count from here.
         const picksBefore = pickSaveAsPathMock.mock.calls.length;
