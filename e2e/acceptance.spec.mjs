@@ -1167,6 +1167,9 @@ test.describe("#2594 selection-time gutter add", () => {
       await expect(add).toHaveText("+");
       await expect(add).toHaveCSS("border-color", "rgb(79, 70, 229)");
       await expect(add).toHaveCSS("background-color", "rgb(225, 224, 248)");
+      // Threads load asynchronously, so the add can be drawn before the existing icon it must stack
+      // below; the stacking rule is only measurable once both targets are in the gutter.
+      await expect(existingIcon).toBeVisible();
       const [addBox, existingBox] = await Promise.all([add.boundingBox(), existingIcon.boundingBox()]);
       expect(addBox.width).toBe(24);
       expect(addBox.height).toBe(22);
