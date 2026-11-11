@@ -4412,8 +4412,8 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
   /** Holds every `/run_state` response until `release()`. The real RunQueue still produces each
    * projection and the production poller still folds it; only the response cadence changes
    * (test-plan §7b). `held` resolves once the frontend has asked. `release()` lets every held
-   * request through and waits for those handlers before returning, so nothing is left in flight
-   * across a later reload; it removes every page route, and the tests using it install no other. */
+   * request through and waits for every held handler to forward its request; it removes every page
+   * route, and the tests using it install no other. */
   async function holdRunStatePolls(page) {
     let releasePolls;
     let markHeld;
@@ -4447,6 +4447,8 @@ test.describe("P2b-11c J4 — address a comment with AI (single, batch, defense,
       await popover.getByRole("button", { name: "Address with AI" }).click();
       await expect.poll(() => addressEvents(threadId).length).toBe(1);
       await assertInFlight();
+      // The poll was parked while the assertions read the UI; a hold that matches nothing fails here.
+      await polls.held;
     } finally {
       await polls.release();
     }
