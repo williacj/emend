@@ -2481,9 +2481,20 @@ describe("editor/TabbedEditor — external path transitions", () => {
         await requestCloseOfRecoveredTab();
         const guard = await screen.findByRole("alertdialog");
 
-        pickSaveAsPathMock.mockResolvedValueOnce(null);
+        // The picker stays open until the test answers it, as a real dialog does. While it is open
+        // the guard is busy and its Save As is disabled, so the second attempt below must wait for
+        // the cancelled one to finish; a click before then is ignored (#44).
+        let cancelPicker: (chosen: string | null) => void = () => {};
+        pickSaveAsPathMock.mockImplementationOnce(
+          () => new Promise<string | null>((resolve) => { cancelPicker = resolve; }),
+        );
         fireEvent.click(within(guard).getByRole("button", { name: "Save As…" }));
-        await waitFor(() => expect(pickSaveAsPathMock).toHaveBeenCalled());
+        await waitFor(() => expect(pickSaveAsPathMock).toHaveBeenCalledTimes(1));
+        expect(within(guard).getByRole("button", { name: "Save As…" })).toBeDisabled();
+        cancelPicker(null);
+        await waitFor(() =>
+          expect(within(screen.getByRole("alertdialog")).getByRole("button", { name: "Save As…" })).toBeEnabled(),
+        );
         expect(screen.getByRole("alertdialog")).toBeInTheDocument();
         expectActiveTextbox("DISPLACED-UNSAVED-WORK");
 
@@ -2492,6 +2503,7 @@ describe("editor/TabbedEditor — external path transitions", () => {
         fireEvent.click(
           within(screen.getByRole("alertdialog")).getByRole("button", { name: "Save As…" }),
         );
+        expect(pickSaveAsPathMock).toHaveBeenCalledTimes(2);
         const failedGuard = screen.getByRole("alertdialog");
         expect(await within(failedGuard).findByRole("status")).toHaveTextContent(
           "Couldn’t save to drafts/rescued.md — disk full. Nothing was written, and this document is unchanged.",
