@@ -1,10 +1,11 @@
 // ABOUTME: Tests the hosted CI gate: shipped-platform Suites legs and their cross-OS execution evidence.
-// ABOUTME: Pins independent macOS and Windows results, per-leg artifacts, and a check that cannot pass by skipping.
+// ABOUTME: Pins per-leg results and artifacts, a check that cannot pass by skipping, and a bounded apt install.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { namedStep } from './workflow-step-assertions.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const WORKFLOW_PATH = join(HERE, '..', '.github', 'workflows', 'ci.yml');
@@ -188,4 +189,23 @@ test('test:scripts uses no shell glob, so node:test discovery works the same thr
   // directory discovery is the portable form.
   assert.equal(pkg.scripts['test:scripts'], 'cd scripts && node --test');
   assert.doesNotMatch(pkg.scripts['test:scripts:ci'], /[*?]/);
+});
+
+test('hosted Ubuntu lint bounds and retries its apt install so a mirror outage fails fast (#60)', () => {
+  const workflow = readFileSync(WORKFLOW_PATH, 'utf8');
+  const lint = workflow.slice(workflow.indexOf('\n  lint:\n'), workflow.indexOf('\n  suites:\n'));
+  const [step] = namedStep(lint, 'Install Linux deps');
+  const stepMinutes = Number(step.match(/^\s*timeout-minutes: (\d+)$/m)?.[1]);
+  const jobMinutes = Number(lint.match(/^    timeout-minutes: (\d+)$/m)?.[1]);
+  assert.ok(stepMinutes > 0 && stepMinutes < jobMinutes, 'the apt step needs its own timeout, shorter than the job');
+  // Each attempt sits in an `if` condition, so a failure retries instead of tripping bash -e.
+  assert.match(step, /\bif timeout -k \d+ \d+ sudo apt-get update\b/, 'each apt-get update attempt is bounded');
+  assert.match(step, /\btimeout -k \d+ \d+ sudo apt-get install -y\b/, 'each apt-get install attempt is bounded');
+  assert.match(step, /\bfor attempt in 1 2 3\b/, 'a transient mirror failure is retried');
+  assert.match(step, /\n\s*done\n\s*exit 1\s*$/, 'exhausting every attempt fails the step');
+  // Every attempt, its kill grace, and the pauses between attempts fit inside the step's timeout.
+  const perAttempt = [...step.matchAll(/\btimeout -k (\d+) (\d+) sudo apt-get/g)]
+    .reduce((sum, m) => sum + Number(m[1]) + Number(m[2]), 0);
+  const pause = Number(step.match(/\bsleep (\d+)\b/)?.[1] ?? 0);
+  assert.ok(3 * perAttempt + 2 * pause < stepMinutes * 60, 'retries must finish before the step timeout');
 });

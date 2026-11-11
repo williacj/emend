@@ -51,12 +51,22 @@ jobs:
 
       # Tauri's -sys crates need the system webkit/gtk libs to link during clippy.
       # macOS/Windows ship the WebView system libs; only Linux needs them installed.
+      # apt-get update only warns when a mirror is unreachable, after which install can hang until
+      # the job timeout. Bound each attempt and retry, so an outage recovers or fails in minutes (#60).
       - name: Install Linux deps
         if: matrix.os == 'ubuntu-latest'
+        timeout-minutes: 25
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev \
-            libayatana-appindicator3-dev librsvg2-dev libclang-dev cmake libasound2-dev
+          for attempt in 1 2 3; do
+            if timeout -k 10 120 sudo apt-get update -o Acquire::Retries=3 &&
+              timeout -k 10 240 sudo apt-get install -y -o Acquire::Retries=3 libwebkit2gtk-4.1-dev libgtk-3-dev \
+                libayatana-appindicator3-dev librsvg2-dev libclang-dev cmake libasound2-dev; then
+              exit 0
+            fi
+            echo "apt attempt $attempt of 3 failed"
+            [ "$attempt" = 3 ] || sleep 30
+          done
+          exit 1
 
       - name: Provision Windows Whisper tools
         if: matrix.os == 'windows-latest'
