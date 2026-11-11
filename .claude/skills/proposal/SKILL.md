@@ -26,7 +26,8 @@ and is not written down is lost.
 ## Establish these before you draft
 
 Draft no entry until you can answer all four. Where the answer is neither in the repository nor in
-the card, ask CJ and wait for the reply.
+the card, ask CJ and wait for the reply. Dispatched, you cannot ask: escalate the card as
+`ambiguous`, naming what is missing.
 
 - **The problem, in observable terms.** What goes wrong today, to whom, and how often. "Emend has
   no X" names a missing feature, not a problem. You have it when you can say what the absence costs
@@ -52,15 +53,18 @@ among the ways to build it, or where the code lives. Each answer has its documen
 - **A requirement** — what Emend must do. It lands in `docs/functional-spec.md` as an FR-*, and a
   product choice it rests on lands in that document's decision log as a D#.
 - **Behaviour and flow** — a journey (J#), a state, or a principle. It lands in
-  `docs/ux-design.md`. A mock that implies behaviour `ux-design.md` does not record goes to the
-  Designer and CJ (`CLAUDE.md`, "Reading `docs/design/`").
+  `docs/ux-design.md`. Behaviour a mock implies that `ux-design.md` does not record is for CJ and
+  the Designer to capture (`CLAUDE.md`, "Reading `docs/design/`"). Dispatched, escalate it: as
+  `recorded-decision` where it would change a recorded J#, otherwise as `ambiguous`.
 - **A decision about structure** — a choice among the structures that satisfy the requirements,
-  with what would reverse it. It lands in `docs/tech-design.md`'s decision log as a TD-#. A
-  structural choice is the architect's, so a PM drafting one has left its lane.
+  with what would reverse it. It lands in `docs/tech-design.md`'s decision log as a TD-#, on a
+  `type:tech-design` card the architect makes. A structural choice is the architect's, so a PM
+  drafting one has left its lane.
 - **A structure** — a process, a module home, a contract. It lands in `docs/tech-design.md`'s
-  component designs, §3.1 included, and the architect proposes every delta there while CJ
-  ratifies it. `.claude/agents/pm.md` forbids the PM to edit that file: name the module home the
-  delta lands in, say why the requirement needs it, and leave the delta to the architect.
+  component designs, §3.1 included, and the architect proposes every delta there, on a
+  `type:tech-design` card, while CJ ratifies it. `.claude/agents/pm.md` forbids the PM to edit
+  that file: name the module home the delta lands in, say why the requirement needs it, and leave
+  the delta to the architect.
 
 Something you cannot place is a finding, not a coin toss. Write it into the proposal as an open
 question, name the two piles it sits between, and say what would settle it. Placing it by guess is

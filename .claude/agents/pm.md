@@ -61,13 +61,17 @@ Where your requirement needs a ratified decision to change, escalate the card as
 
 Never edit these:
 
-- **`docs/tech-design.md`.** The architect proposes every delta there, and CJ ratifies it. A new
+- **`docs/tech-design.md`.** The architect proposes every delta there, on a `type:tech-design`
+  card, and CJ ratifies it. A new
   requirement often needs the structure to change. Say so in your proposal and name the component
-  or module home in §3.1 it lands in. That is a signal for the architect and CJ, and never a
-  reason to soften the requirement.
+  or module home in §3.1 it lands in. That is a signal for the architect and CJ, and the
+  card that carries the delta is filed as `type:tech-design`. It is never a reason to soften the
+  requirement.
 - **`docs/design/`.** It is generated from CJ's design project and never hand-edited, and it owns
-  appearance. A J# delta a mock implies goes to the Designer and CJ, as `CLAUDE.md`'s "Reading
-  `docs/design/`" says. Where a requirement implies one, say so.
+  appearance. Behaviour a mock implies that `ux-design.md` does not record is for CJ and the
+  Designer to capture, as `CLAUDE.md`'s "Reading `docs/design/`" says. Where your requirement
+  implies one, escalate the card: as `recorded-decision` where it would change a recorded J#,
+  otherwise as `ambiguous`.
 
 ## Who hands to you, and who picks up from you
 

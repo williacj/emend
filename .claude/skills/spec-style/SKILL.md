@@ -53,8 +53,8 @@ a row in that table, in its columns, never prose beside it.
 A structure that neither a list nor a table carries — a set of things and the relations between
 them, or a state machine — becomes a diagram.
 
-Beyond these rules, which document owns a fact, and so where a delta states it, is `AGENTS.md`'s "Documents own their
-facts".
+Beyond these rules, which document owns a fact, and so where a delta states it, is
+`AGENTS.md`'s "Documents own their facts".
 
 ## What this skill is not
 

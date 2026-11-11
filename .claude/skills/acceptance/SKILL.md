@@ -101,10 +101,13 @@ compound result. Example acceptance:
 ## Acceptance
 
 - Given a document with YAML frontmatter is open, when the user saves it without editing the
-  frontmatter, then the frontmatter bytes on disk are unchanged.
-- Given a document with YAML frontmatter is open, when the user saves it, then the editor shows
-  no frontmatter text in the document body.
+  frontmatter, then the frontmatter bytes on disk are unchanged (FR-ED-1).
+- Given a document with YAML frontmatter is open, when the user switches to the raw source view,
+  then the source view shows the frontmatter exactly as it is on disk (FR-ED-1).
 ```
+
+Both items trace to FR-ED-1, which makes round-trip fidelity, YAML frontmatter included, a P0
+requirement.
 
 Each bullet repeats its own context rather than borrowing it from the one above: standing alone
 is worth the words it costs.
@@ -123,7 +126,7 @@ and on what evidence, and what would reverse the recommendation.
 **Bound the card.** Put all requested work in acceptance. Found work outside it gets its own
 card; follow-ups cover only outside work. An undone item leaves this card unfinished.
 
-Ask for every cell to be proved, never for a test per cell: one table-driven or generated test
+Ask for every case to be proved, never for a test per case: one table-driven or generated test
 may prove a dimension. A mutation is evidence that an existing test discriminates; never ask
 for a test per mutation. Ask for a probe a judge used to find a defect as a case in an existing
 test of the invariant it broke, where one exists, and otherwise as one test of that invariant.
@@ -147,9 +150,6 @@ you file.
 
 Before filing, remove items dependent on this card's verdict, marker, required check or
 merge; `AGENTS.md`'s "Review and merge" still applies.
-
-Classify cited prior attempts as offered proof, context, or unresolved/noncredit; later
-results grant no retroactive credit.
 
 ## Work outside the repository
 

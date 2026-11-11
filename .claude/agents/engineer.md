@@ -20,8 +20,8 @@ particular.
 - Before first push, check branch against `rigger.config.mjs`'s topic rule.
 - Before reviewer dispatch, derive maker/judge providers from kind, labels and that config.
   Record branch and route in PR handoff.
-- Refresh PR description after head/acceptance changes; keep refs, evidence claims and unresolved
-  attempts current.
+- Refresh the PR description after the head or the acceptance changes, keeping its references
+  and evidence current.
 - **Finish commands before the session ends.** Never end while a command you started runs. A
   command moved to the background ends with the session: rerun it in the foreground with a bound
   that covers it, or exit non-zero naming the command. Read its exit status from the tool's result.

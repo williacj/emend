@@ -41,12 +41,13 @@ resolve (`CLAUDE.md`, "Project Context"). Where the card belongs to a phase,
 `docs/implementation-plan.md` carries its milestone; read that too.
 
 **4. Verify yourself.** Independently run the suites `CLAUDE.md`'s "Starting Work & Testing"
-names for every layer the change touches, and any other check the acceptance relies on. Apply the
-[tdd skill](../tdd/SKILL.md) to the tests the change adds. Maker reports are context, never
-proof; read acceptance/implementation.
+names for every layer the change touches, and any other check the acceptance relies on. Judge
+the tests the change adds against the [tdd skill's](../tdd/SKILL.md) "Make the assertion
+discriminate"; the skill's workflow is the maker's, not yours. Maker reports are context, never
+proof; read the acceptance and the implementation.
 
-Record exact denials of required commands or mutations. Unrun work earns zero proof credit,
-even under an exception. Only CJ's exception for this head and acceptance permits a verdict
+Record exactly which required command you could not run, and why. A check you did not run proves
+nothing, even under an exception. Only CJ's exception for this head and acceptance permits a verdict
 with required reviewer work outstanding (`CLAUDE.md`, "Rule #1").
 
 **5. Sweep the lenses** for every constitution document the change touches.
@@ -80,7 +81,7 @@ any Critical invariant or constitution violation block merge.
 | `docs/ux-design.md` | Does each state and flow the change reaches match its journey (J#) and state inventory? Does it build behaviour a mock implies but `ux-design.md` does not record? |
 | `docs/tech-design.md` | Is the code where §3.1 says it lives, and does it keep every TD-# contract it touches? |
 | `docs/test-plan.md` | Are the properties P1–P6 and the substitution discipline (§7b) still held, and does every FR the change touches still have named tests in `docs/test-matrix.md`? |
-| `docs/design/` | Does the appearance match the mock and spec it cites, `specs/tokens.md` and `specs/platform-variants.md` included? Does it answer a question `specs/state.md` lists under "Known gaps"? |
+| `docs/design/` | Does the appearance match the mock and spec it cites, `specs/tokens.md` and `specs/platform-variants.md` included? Does it answer a question `specs/state.md` lists under "Known gaps"? Does it edit anything under `docs/design/`, which is never hand-edited (`CLAUDE.md`, "Reading `docs/design/`")? |
 
 Then the rules that bind every change in this repository, whatever it touches:
 
@@ -88,7 +89,7 @@ Then the rules that bind every change in this repository, whatever it touches:
   does it reach through a boundary for something two layers down?
 - **Test-first evidence.** Is there a test, does it discriminate as the `tdd` skill's "Make the
   assertion discriminate" asks, does it sleep, and was a failing test deleted or weakened
-  (`CLAUDE.md`, "Starting Work & Testing"; the `tdd` skill)? Independent oracles and meaningful
+  (`CLAUDE.md`, "Starting Work & Testing")? Independent oracles and meaningful
   red/green apply.
 - **Traceability.** Does every FR, property or TD invariant the change's behaviour traces to have
   its `docs/test-matrix.md` row, and does `npm run matrix:check` pass?
@@ -134,9 +135,9 @@ Give every blocking finding all of these:
 - **where** — path and line;
 - **what fails** — the observable failure, or the path that reproduces it;
 - **the evidence** — a code trace, a test result, command output;
-- **the probe** — an exact command, or a mutation with the evidence that it applied, showing the
-  failure and output at the head ruled on; rerunnable by the maker changing only the checkout
-  path;
+- **the probe** — an exact command, or a temporary code change and the output showing it applied,
+  that reproduces the failure at the head ruled on; rerunnable by the maker changing only the
+  checkout path;
 - **why it matters**;
 - **what binds it** — a D#, FR-*, J#, TD-# or P# id, a `docs/design/` mock or spec, or a
   `CLAUDE.md` or `AGENTS.md` section — **or a plain statement that it is your judgement and binds
