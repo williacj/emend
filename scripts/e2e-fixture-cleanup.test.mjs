@@ -1,5 +1,5 @@
-// ABOUTME: Pins the e2e fixture teardown's bounded, step-naming cleanup (#1554) against real
-// ABOUTME: sockets, a real directory, and a real concurrent writer — no stubbed filesystem or fetch.
+// ABOUTME: Pins e2e fixture projects: a canonical root (#54) and bounded, step-naming teardown (#1554),
+// ABOUTME: against real sockets, a real directory, and a real concurrent writer — no stubbed filesystem or fetch.
 //
 // #1383 made teardown await `close_project`, close the page, then retry real directory removal.
 // Each of those three awaits was unbounded, so a stall consumed Playwright's whole 30s test bound
