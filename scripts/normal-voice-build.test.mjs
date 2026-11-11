@@ -74,10 +74,18 @@ test('every hosted Rust job gets the proven Windows toolchain and target binding
     assert.ok(provision > 0 && compile > provision, `${job} must provision target libclang before Cargo`);
   }
   const provisioner = read('scripts/provision-whisper-windows.ps1');
-  assert.match(provisioner, /3\.31\.12/);
-  assert.match(provisioner, /0c4baa40f28b3f8225eb3fdf6946c987b4fe901403b4eaf2fbbd9378100aaa0c/);
+  // Hosted windows-latest ships Visual Studio 2026; CMake supports its generator from 4.2 (#53).
+  assert.match(provisioner, /\$cmakeVersion = '4\.4\.5'/);
+  assert.match(provisioner, /326c826486d46a23cf9d5a1c9ee3a567d427bdd02c4a34071937a2a675cff004/);
   assert.match(provisioner, /libclang\.runtime\.win-x64\/22\.1\.8/);
   assert.match(provisioner, /676b4aa346bc793af2fa05d80a9933825202ba65f71230417d5f0bb191dc3662/);
   assert.match(provisioner, /Get-FileHash[\s\S]*Expand-Archive[\s\S]*LIBCLANG_PATH/);
   assert.doesNotMatch(provisioner, /WHISPER_DONT_GENERATE_BINDINGS\s*=/);
+});
+
+test('macOS app builds target 10.15 for whisper.cpp std::filesystem (#53)', () => {
+  // tauri build exports bundle.macOS.minimumSystemVersion as MACOSX_DEPLOYMENT_TARGET; below 10.15
+  // libc++ marks std::filesystem unavailable and ggml fails to compile.
+  const config = JSON.parse(read('src-tauri/tauri.macos.conf.json'));
+  assert.equal(config.bundle?.macOS?.minimumSystemVersion, '10.15');
 });
