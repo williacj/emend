@@ -40,7 +40,8 @@ outright. Work these out before you write any:
 - **The constraints that already bind.** Where something outside the card fixes part of the
   answer, cite it: a D#, FR-*, J#, TD-# or P# id, a `docs/design/` mock id and spec, or a
   `CLAUDE.md` or `AGENTS.md` section. A constraint with no source behind it is you prescribing the
-  implementation.
+  implementation. Cite the owning document rather than restating it (`AGENTS.md`, "Documents own
+  their facts").
 - **The boundary and failure states that apply.** Empty input, invalid input, limits,
   permissions, a dependency failing, partial completion. Consider each; carry over only the ones
   this card can actually reach. A documentation card owes no error criterion, and one invented to
@@ -149,9 +150,6 @@ merge; `AGENTS.md`'s "Review and merge" still applies.
 
 Classify cited prior attempts as offered proof, context, or unresolved/noncredit; later
 results grant no retroactive credit.
-<!-- CJ decision pending (#62): Rigger's author also predeclares retained originals, names
-bounded grant classes for predictable edits to existing test lines, and admits claimless harness
-diagnostics against the tdd skill. Emend has none of these bars. -->
 
 ## Work outside the repository
 
@@ -162,9 +160,6 @@ Require controlled proof for algorithmic behaviour and real-boundary proof for e
 as `docs/test-plan.md` §7b's substitution discipline and the `tdd` skill's "Make the assertion
 discriminate" set out. A fake agent or an injected clock cannot establish real OS behaviour or a
 real deadline. Keep these obligations independently ruleable.
-<!-- CJ decision pending (#62): Rigger's author also maps each external boundary's finite contract
-states and writes an interleaving table for concurrent actors ("Systems outside Rigger's code").
-Emend's bar is the substitution discipline above. -->
 
 ## What is checked, and what is not
 
@@ -174,9 +169,6 @@ no items it counts, naming the reason, or one whose counted items only restate t
 So the bar being right is yours. No check proves an acceptance adequate, and a sound verdict is
 never a warranty that the card asked for the right things. A judge rules on whether the acceptance
 covered what the card asked, and returns the card to you with the reason rather than rewriting it.
-<!-- CJ decision pending (#62): Rigger has a second agent attack every card's acceptance before
-dispatch (the architect where it spans layers, otherwise the reviewer), with a "Lands in" scope
-bullet, `npm run check:card` and `npm run preflight`. Emend has no such step or tooling. -->
 
 ## Before you file
 

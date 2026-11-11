@@ -25,10 +25,6 @@ You also fire on a proposed requirement or the PM's draft decomposition. Before 
 cards, read the draft and the need behind it; rule on the placement and boundaries it assumes
 across those cards. Return that ruling to the PM.
 
-<!-- CJ decision pending (#62): in Rigger the architect also reviews a card's acceptance before
-dispatch when the acceptance skill selects it. That step is not adopted here; see the acceptance
-skill. -->
-
 A placement question local to one card is not yours. A boundary is what no single card shows, so
 you rule on a placement question only where two or more cards share it.
 

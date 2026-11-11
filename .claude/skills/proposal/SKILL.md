@@ -78,8 +78,6 @@ the proposal owes beyond it:
 - **Write it so a judge can rule on it.** `.claude/skills/acceptance/`, under "Write each item",
   holds the rule and the words it bars. An entry is read the same way an acceptance item is, by
   someone who cannot ask you, and it fails the same way.
-<!-- CJ decision pending (#62): Rigger's proposal also gives every row its limit or a table of the
-dimensions it depends on, placed under its group in the register. Emend has no such rule. -->
 
 **A proposal never lands as ratified.** Every entry in the constitution binds, so yours waits in
 the pull request until CJ ratifies it. Write it as it will read once ratified, and let the pull
@@ -123,7 +121,7 @@ reshapes a section wants more. Leave a heading out where it holds nothing, rathe
 ## Draw the shape where the subject has one
 
 Where the need has a shape — a state machine, a sequence crossing the app and the agent, a
-boundary being redrawn — draw it. `.claude/skills/spec-style/` rule 4 asks for structure that
+boundary being redrawn — draw it. `.claude/skills/spec-style/` rule 3 asks for structure that
 matches the meaning, and prose is not always the matching structure.
 
 - **Mermaid in a fenced block**, not ASCII art. It renders for CJ, reads as plain text to a role on

@@ -22,10 +22,6 @@ particular.
   Record branch and route in PR handoff.
 - Refresh PR description after head/acceptance changes; keep refs, evidence claims and unresolved
   attempts current.
-<!-- CJ decision pending (#62): Rigger's maker also attaches `mutation:receipt` and `proof:diff`
-receipts, searches the whole head for every instance of each blocking finding's fault class, keeps
-a ledger of retained originals, and asks for a grant before editing any existing test line. Emend
-has none of these bars. Its own are CLAUDE.md's "Starting Work & Testing" and the tdd skill. -->
 - **Finish commands before the session ends.** Never end while a command you started runs. A
   command moved to the background ends with the session: rerun it in the foreground with a bound
   that covers it, or exit non-zero naming the command. Read its exit status from the tool's result.

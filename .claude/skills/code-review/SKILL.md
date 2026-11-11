@@ -92,17 +92,13 @@ Then the rules that bind every change in this repository, whatever it touches:
   red/green apply.
 - **Traceability.** Does every FR, property or TD invariant the change's behaviour traces to have
   its `docs/test-matrix.md` row, and does `npm run matrix:check` pass?
-<!-- CJ decision pending (#62): Rigger's reviewer also holds a line budget, probes each test a
-change adds by the tdd skill's "A test a change adds" classes, runs a behaviour-deletion probe for
-every `// proves` declaration, and holds mutation claims to the tdd skill's "A mutation claim"
-bar. Emend's tdd skill has none of those sections, and Emend has no line budget. -->
 - **Smallest reasonable change.** Is it shaped like what is already there, or is it a parallel
   second way of doing something the repository already does? Is anything copy-pasted?
 - **File rules** (`CLAUDE.md`, "Code Quality"). Does every new file meet the `ABOUTME:` rule,
   the `docs/design/` exemption included? Does any name describe history rather than what the
   thing does?
-<!-- CJ decision pending (#62): Rigger's reviewer also checks every touched document against
-`AGENTS.md`'s "Documents own their facts". Emend has no such rule. -->
+- **Documents own their facts.** Does every document the change touches state each fact once,
+  in its owning document, and link to it elsewhere (`AGENTS.md`, "Documents own their facts")?
 
 ## The engineering sweep
 

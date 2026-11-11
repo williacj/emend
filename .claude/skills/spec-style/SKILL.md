@@ -6,10 +6,6 @@ description: The form rules for a delta to Emend's constitution — docs/functio
 ABOUTME: The form rules a delta to Emend's constitution is written under, and the test behind
 each, for anyone drafting or reviewing one.
 
-<!-- CJ decision pending (#62): this skill is Rigger's register for Rigger's own binding documents.
-Whether Emend adopts it for its constitution, and which rules, is CJ's. Rule 2's sentence ceiling
-and rule 5's ownership split have no counterpart in Emend today. -->
-
 # The constitution's register
 
 These rules constrain **form only**. Content is never negotiable: every bound, exception and
@@ -36,16 +32,7 @@ that can fill it (`rigger.config.mjs`, `judges`). In the product, a **comment** 
 change** are different things. Editing one into the other destroys a distinction something depends
 on.
 
-### 2. Short sentences
-
-Split a compound. Use an em-dash aside sparingly, and never nested. A sentence carrying an
-ordered sequence wants to be a list — that is rule 4.
-
-A requirement is a thing a judge rules on and a maker builds against, and a long sentence hides
-its own conditions.
-<!-- CJ decision pending (#62): Rigger sets this rule at about 25 words and never past 40. -->
-
-### 3. Active voice, actor named
+### 2. Active voice, actor named
 
 The user, the agent, the app, the backend, the maker, the judge, CJ. Passive only where the actor
 is genuinely unknown, or genuinely does not matter.
@@ -53,7 +40,7 @@ is genuinely unknown, or genuinely does not matter.
 Where authority is the subject — who may accept a change, who may ratify, who may withdraw an
 entry — an ambiguous "it" is a defect rather than a style choice.
 
-### 4. Structure that matches the meaning
+### 3. Structure that matches the meaning
 
 A sequence of more than three steps, or a rule with three or more conditions, becomes a numbered
 or bulleted list. State the discriminating test before the list it governs, so that a reader
@@ -66,8 +53,8 @@ a row in that table, in its columns, never prose beside it.
 A structure that neither a list nor a table carries — a set of things and the relations between
 them, or a state machine — becomes a diagram.
 
-<!-- CJ decision pending (#62): Rigger's rule 5, "Own it, refer to it, or cut it", rests on
-`AGENTS.md`'s "Documents own their facts", which Emend does not have. -->
+Beyond these rules, which document owns a fact, and so where a delta states it, is `AGENTS.md`'s "Documents own their
+facts".
 
 ## What this skill is not
 
@@ -82,7 +69,7 @@ them, or a state machine — becomes a diagram.
 
 1. Does every concept use the constitution's existing word, and does every existing distinction
    survive?
-2. Is any sentence long enough to hide a condition?
-3. Does every sentence about authority name its actor?
-4. Is anything ordered or conditional still buried in prose?
+2. Does every sentence about authority name its actor?
+3. Is anything ordered or conditional still buried in prose?
+4. Does the delta state each fact in the document that owns it?
 5. Did you change what a ratified clause means? That is a proposal, not a restyle.

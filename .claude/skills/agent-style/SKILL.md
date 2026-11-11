@@ -24,7 +24,7 @@ Restating a repo-wide rule in a prompt does not emphasise it. It re-scopes it. T
 as this role's particular duty, and the rule looks narrower than it is. Leaving it out assigns
 nothing, because the prompt's opening keeps the whole of `CLAUDE.md` and `AGENTS.md` binding.
 
-This is `CLAUDE.md`'s "Duplication: never copy-paste" applied to prompts.
+This is `AGENTS.md`'s "Documents own their facts" applied to prompts.
 
 ## The sections
 
