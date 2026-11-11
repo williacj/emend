@@ -81,12 +81,16 @@ test('the guard finds the old name in copy, comments and protocol values', () =>
 // Files that are dated records of the Cowrite era and keep the old name as written: the journal
 // (its header says so), the generated design CHANGELOG, the spike findings, the rebrand brief,
 // the pre-rename alignment baseline, and this guard's own patterns and fixtures.
-const HISTORICAL_PATHS = [
+const HISTORICAL_FILES = [
   'docs/journal.md',
   'docs/design/CHANGELOG.md',
-  'docs/spikes/',
+  'docs/spikes/1137-e2e-production-wiring.md',
+  'docs/spikes/spike1-provider-contract.md',
+  'docs/spikes/spike2-git2.md',
+  'docs/spikes/spike5-cm6-ghost.md',
+  'docs/spikes/spike6-second-instance-activation.md',
   'docs/emend-rebrand-design-brief.md',
-  'docs/alignment-baseline/',
+  'docs/alignment-baseline/README.md',
   'scripts/product-name.test.mjs',
 ];
 
@@ -103,25 +107,40 @@ const RENAME_RECORDS = [
   { file: 'docs/test-matrix.md', marker: '| NI-project-lock |' },
 ];
 
-// The pre-rename sidecar folder, which TD-29's clean-break tests and format docs name because
-// Emend must leave it untouched.
-const OLD_SIDECAR = /\.cowrite\b|dot_cowrite/g;
+// The pre-rename sidecar folder `.cowrite/`, named only where TD-29's clean-break tests, the
+// lock-relocation history (TD-12, TD-20) and the format docs say Emend leaves it untouched.
+const OLD_SIDECAR = /(?<![\w.])\.cowrite\b|dot_cowrite/g;
+const OLD_SIDECAR_FILES = [
+  'docs/formats/sidecar/README.md',
+  'docs/formats/tab-session.md',
+  'docs/tech-design.md',
+  'docs/test-matrix.md',
+  'src-tauri/src/agent/project.rs',
+  'src-tauri/src/store/gitignore.rs',
+  'src-tauri/src/store/lock.rs',
+  'src-tauri/src/store/service.rs',
+];
 
 // Takes `git grep -n` lines ("file:line:text") and returns those naming Cowrite outside the allowlist.
 export function unallowedOldNameLines(grepLines) {
   return grepLines.filter((entry) => {
     const [file, , ...rest] = entry.split(':');
     const text = rest.join(':');
-    if (HISTORICAL_PATHS.some((path) => (path.endsWith('/') ? file.startsWith(path) : file === path))) return false;
+    if (HISTORICAL_FILES.includes(file)) return false;
     if (RENAME_RECORDS.some((record) => record.file === file && text.includes(record.marker))) return false;
-    return /cowrite/i.test(text.replace(OLD_SIDECAR, ''));
+    const checked = OLD_SIDECAR_FILES.includes(file) ? text.replace(OLD_SIDECAR, '') : text;
+    return /cowrite/i.test(checked);
   });
 }
 
 test('nothing outside the historical allowlist names Cowrite', () => {
   let output = '';
   try {
-    output = execFileSync('git', ['grep', '-I', '-n', '-i', 'cowrite'], { cwd: ROOT, encoding: 'utf8' });
+    output = execFileSync('git', ['grep', '-I', '-n', '-i', 'cowrite'], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      maxBuffer: 16 * 1024 * 1024,
+    });
   } catch (error) {
     if (error.status !== 1) throw error; // git grep exits 1 when nothing matches
   }
@@ -144,6 +163,10 @@ test('the repository guard allows only historical files, rename records and the 
     'CLAUDE.md:9:Cowrite v2: cross-platform desktop app',
     'AGENTS.md:8:under `cowrite-worktrees/<issue-number>-<slug>`',
     'docs/journal.md.bak:1:Cowrite',
+    'CLAUDE.md:3:| D36 | Cowrite',
+    'src-tauri/tauri.conf.json:5:  "identifier": "com.cowrite.desktop",',
+    'src/x.ts:1:const dir = ".cowrite/comments";',
+    'docs/spikes/spike9-new.md:1:Cowrite',
   ];
   assert.deepEqual(unallowedOldNameLines(lines), [
     'docs/functional-spec.md:74:| D37 | 2026-11-09 | Cowrite opens faster.',
@@ -152,5 +175,9 @@ test('the repository guard allows only historical files, rename records and the 
     'CLAUDE.md:9:Cowrite v2: cross-platform desktop app',
     'AGENTS.md:8:under `cowrite-worktrees/<issue-number>-<slug>`',
     'docs/journal.md.bak:1:Cowrite',
+    'CLAUDE.md:3:| D36 | Cowrite',
+    'src-tauri/tauri.conf.json:5:  "identifier": "com.cowrite.desktop",',
+    'src/x.ts:1:const dir = ".cowrite/comments";',
+    'docs/spikes/spike9-new.md:1:Cowrite',
   ]);
 });
