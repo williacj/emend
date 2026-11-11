@@ -25,7 +25,7 @@ Cite decision IDs (D#, TD#, FR-*, J#, P#) when work traces to them; cite `docs/d
 
 **Conflicts between constitution documents go to CJ.** Any of the five contradicting another, or an ambiguity none of them resolves, is escalated — not resolved by whoever noticed it. (CJ, 2026-08-04.)
 
-**The v1 application lives on branch `legacy/v1` (tag `v1-legacy`)** — reference material only; port nothing without checking the constitution first.
+**The v1 application lives on branch `legacy/v1` (tag `v1-legacy`) of the private `williacj/cowrite` repository**, not in this one — reference material only; port nothing without checking the constitution first.
 
 **Non-negotiable invariants** (from the constitution, repeated because they are P0):
 - The markdown file is the source of truth. Round-trip fidelity (incl. YAML frontmatter) is structural — the editor is source-as-model (TD-2); never introduce a serializer between view and file.
@@ -88,7 +88,7 @@ Do implementation tasks completely (including obvious follow-ups). For design/pl
 - Review every PR against the Emend constitution before merge. Review is separate from implementation.
 - Review the branch diff before creating the PR, address findings, and review changes added afterward.
 - Any Critical invariant or constitution violation blocks merge. Record and resolve lesser findings deliberately.
-- Before merging, the maintainer checks that the Windows PR job and any other checks that ran passed for the current PR head. GitHub branch protection is unavailable on this private repository, so this is a manual merge prerequisite.
+- Before merging, the maintainer checks that the CI checks that ran (the `Lint` and `Suites` jobs on each OS, and any other `ci.yml` job) passed for the current PR head. Branch protection does not enforce this, so it is a manual merge prerequisite.
 
 ## Version Control
 

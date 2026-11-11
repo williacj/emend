@@ -96,8 +96,10 @@ const HISTORICAL_FILES = [
 
 // Lines in live documents that record the rename itself: its decision-log entries (D36, its D30
 // amendment, TD-29), the design refresh that carried it, and the test-matrix rows for TD-29's
-// clean break, which name pre-rename tests. Each is the line holding the marker, in that file only.
+// clean break, which name pre-rename tests; and CLAUDE.md's pointer to v1, which lives in the
+// cowrite repository. Each is the line holding the marker, in that file only.
 const RENAME_RECORDS = [
+  { file: 'CLAUDE.md', marker: 'The v1 application lives on branch `legacy/v1`' },
   { file: 'docs/functional-spec.md', marker: '| D36 |' },
   { file: 'docs/functional-spec.md', marker: 'D36 log entry' },
   { file: 'docs/tech-design.md', marker: '| TD-29 |' },
