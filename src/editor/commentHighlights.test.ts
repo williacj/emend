@@ -563,24 +563,41 @@ describe("editor/commentHighlights — click deep-links to the thread (Principle
     expect(view.dom.querySelector(".cm-commentHighlight-selected")).toBeNull();
   });
 
-  it("does not replace a non-open thread state's treatment with Selected (#1781)", () => {
-    const view = new EditorView({
-      state: EditorState.create({ doc: DOC, extensions: commentHighlightExtensions(vi.fn()) }),
-      parent: document.body.appendChild(document.createElement("div")),
-    });
-    mounted.push(view);
-    view.dispatch({
-      effects: seedEffects([
-        thread("t1", anchorOn(DOC, "brown fox"), { pending_run: "run-7", pending_run_started: true }),
-      ]),
-    });
+  it("composes Selected with every thread state and keeps the state's own class (comments.md anchor highlights)", () => {
+    // comments.md: "Selected composes with every state; it is not an Open-only style." Each
+    // derivable state is checked unselected and selected; Suggestion is not derivable yet (P2b-3),
+    // so its selected rule is covered by the theme cell below.
+    const overrides: [string, Partial<CommentThread>][] = [
+      ["open", {}],
+      ["working", { pending_run: "run-7", pending_run_started: true }],
+      [
+        "addressed-pending",
+        { linked_changes: [{ change_id: "c1", decision: null, delivery_id: "d1", run_id: "run-1", delivered_at: 0 }] },
+      ],
+      ["reopened", { reopened: true }],
+      ["resolved", { resolved: true }],
+    ];
+    for (const [state, fields] of overrides) {
+      const view = new EditorView({
+        state: EditorState.create({ doc: DOC, extensions: commentHighlightExtensions(vi.fn()) }),
+        parent: document.body.appendChild(document.createElement("div")),
+      });
+      mounted.push(view);
+      view.dispatch({ effects: seedEffects([thread("t1", anchorOn(DOC, "brown fox"), fields)]) });
+      const classes = () => [...(view.dom.querySelector(".cm-commentHighlight")?.classList ?? [])].sort();
 
-    clickHighlight(view);
+      expect({ state, classes: classes() }).toEqual({
+        state,
+        classes: ["cm-commentHighlight", `cm-commentHighlight-${state}`].sort(),
+      });
 
-    const working = view.dom.querySelector(".cm-commentHighlight-working");
-    expect(working).not.toBeNull();
-    expect(view.dom.querySelector(".cm-commentHighlight-selected")).toBeNull();
-    expect(getComputedStyle(working as Element).boxShadow).toBe("");
+      view.dispatch({ effects: setSelectedCommentThread.of("t1") });
+
+      expect({ state, classes: classes() }).toEqual({
+        state,
+        classes: ["cm-commentHighlight", `cm-commentHighlight-${state}`, "cm-commentHighlight-selected"].sort(),
+      });
+    }
   });
 
   it("leaves focus with the editor caret rather than stealing it (Principle 2)", () => {
@@ -823,7 +840,7 @@ describe("editor/commentHighlights — theme colours resolve through tokens, not
     );
   });
 
-  it("gives addressed-pending the same background token as working — one shared treatment", () => {
+  it("gives addressed-pending its own background token rather than working's (refresh (32))", () => {
     // `deriveThreadState` reaches "addressed-pending" from a non-empty `linked_changes` with no run
     // currently in flight (`pending_run` outranks it, per that function's own precedence order).
     const view = mount([
@@ -833,8 +850,105 @@ describe("editor/commentHighlights — theme colours resolve through tokens, not
     ]);
 
     expect(getComputedStyle(element(view, ".cm-commentHighlight-addressed-pending")).backgroundColor).toBe(
-      "var(--color-comment-highlight-working-bg)",
+      "var(--color-comment-highlight-addressed-pending-bg)",
     );
+  });
+
+  /** The anchor-relevant computed style of a span carrying `classes`, placed inside the mounted
+   * editor so the scoped theme rules match it. Suggestion is not derivable from a thread yet
+   * (P2b-3), so a span is the one way to reach its rules; using it for every state keeps the table
+   * below uniform. */
+  function anchorStyle(view: EditorView, classes: string[]) {
+    const span = view.dom.appendChild(document.createElement("span"));
+    span.className = ["cm-commentHighlight", ...classes].join(" ");
+    const style = getComputedStyle(span);
+    const result = {
+      background: style.backgroundColor,
+      shadow: style.boxShadow,
+      // jsdom reports CSS initial values for unset properties; "" stands for "this state draws none".
+      line: style.borderBottomStyle === "none"
+        ? ""
+        : [style.borderBottomWidth, style.borderBottomStyle, style.borderBottomColor].join(" "),
+      decoration: style.textDecorationLine === "none"
+        ? ""
+        : [style.textDecorationLine, style.textDecorationStyle, style.textDecorationColor].join(" "),
+    };
+    span.remove();
+    return result;
+  }
+
+  const token = (name: string) => `var(--color-comment-highlight-${name})`;
+
+  it("draws each state's line by pattern and weight and keeps it when selected (comments.md anchor highlights)", () => {
+    // Oracle: comments.md *Anchor highlights in the text* table. The fill carries selection; the
+    // line carries state. Working and Addressed — pending redraw their pattern in the accent when
+    // selected; Reopened and Suggestion keep their own colour; Resolved's line darkens.
+    const view = mount([]);
+    const selectedFill = token("selected-bg");
+    const expected: Record<string, ReturnType<typeof anchorStyle>> = {
+      open: { background: token("open-bg"), shadow: `0 1px 0 ${token("open-border")}`, line: "", decoration: "" },
+      working: { background: token("working-bg"), shadow: "", line: `1px dotted ${token("working-border")}`, decoration: "" },
+      "addressed-pending": {
+        background: token("addressed-pending-bg"),
+        shadow: "",
+        line: `2px dashed ${token("addressed-pending-border")}`,
+        decoration: "",
+      },
+      reopened: { background: token("reopened-bg"), shadow: "", line: `3px double ${token("reopened-border")}`, decoration: "" },
+      suggestion: {
+        background: token("suggestion-bg"),
+        shadow: "",
+        line: `1px solid ${token("suggestion-border")}`,
+        decoration: `underline wavy ${token("suggestion-border")}`,
+      },
+      resolved: { background: "rgba(0, 0, 0, 0)", shadow: "", line: `1px dashed ${token("resolved-border")}`, decoration: "" },
+    };
+    const expectedSelected: Record<string, ReturnType<typeof anchorStyle>> = {
+      open: { background: selectedFill, shadow: `0 1px 0 ${token("selected-border")}`, line: "", decoration: "" },
+      working: { background: selectedFill, shadow: "", line: `1px dotted ${token("selected-pattern-border")}`, decoration: "" },
+      "addressed-pending": {
+        background: selectedFill,
+        shadow: "",
+        line: `2px dashed ${token("selected-pattern-border")}`,
+        decoration: "",
+      },
+      reopened: { background: selectedFill, shadow: "", line: `3px double ${token("reopened-border")}`, decoration: "" },
+      suggestion: {
+        background: selectedFill,
+        shadow: "",
+        line: `1px solid ${token("suggestion-border")}`,
+        decoration: `underline wavy ${token("suggestion-border")}`,
+      },
+      resolved: { background: selectedFill, shadow: "", line: `1px dashed ${token("selected-resolved-border")}`, decoration: "" },
+    };
+
+    for (const state of Object.keys(expected)) {
+      expect({ state, ...anchorStyle(view, [`cm-commentHighlight-${state}`]) }).toEqual({ state, ...expected[state] });
+      expect({ state, selected: true, ...anchorStyle(view, [`cm-commentHighlight-${state}`, "cm-commentHighlight-selected"]) })
+        .toEqual({ state, selected: true, ...expectedSelected[state] });
+    }
+  });
+
+  it("tells Working from Addressed — pending by line pattern and weight, not colour alone, selected or not (ux-design §2 carrier 4)", () => {
+    const view = mount([]);
+    for (const selected of [[], ["cm-commentHighlight-selected"]]) {
+      const lineOf = (state: string) => {
+        const span = view.dom.appendChild(document.createElement("span"));
+        span.className = ["cm-commentHighlight", `cm-commentHighlight-${state}`, ...selected].join(" ");
+        const style = getComputedStyle(span);
+        const line = { width: style.borderBottomWidth, style: style.borderBottomStyle };
+        span.remove();
+        return line;
+      };
+      const working = lineOf("working");
+      const pending = lineOf("addressed-pending");
+
+      expect({ selected: selected.length > 0, differ: working.style !== pending.style && working.width !== pending.width })
+        .toEqual({ selected: selected.length > 0, differ: true });
+      // Neither may fall back to the shadow line, which Windows High Contrast drops (comments.md
+      // *Forced colours*): both must draw a real border.
+      expect([working.style, pending.style].every((style) => style && style !== "none")).toBe(true);
+    }
   });
 
   it("resolves the open state's background through its own token", () => {
@@ -868,6 +982,9 @@ describe("editor/commentHighlights — theme colours resolve through tokens, not
       "--color-comment-highlight-open-border",
       "--color-comment-highlight-selected-border",
       "--color-comment-highlight-working-border",
+      "--color-comment-highlight-addressed-pending-border",
+      "--color-comment-highlight-selected-pattern-border",
+      "--color-comment-highlight-selected-resolved-border",
       "--color-comment-highlight-reopened-border",
       "--color-comment-highlight-suggestion-border",
       "--color-comment-highlight-resolved-border",
@@ -881,63 +998,40 @@ describe("editor/commentHighlights — theme colours resolve through tokens, not
     const lightBlock = APP_STYLESHEET.slice(0, darkStart);
     const darkBlock = APP_STYLESHEET.slice(darkStart);
 
-    // #1781 restores the exact binding light-mode open and Selected treatments. Dark remains
-    // derived from the existing app palette (CJ's #931 disposition), because the binding mocks
-    // leave dark mode unspecified.
+    // Oracle: tokens.md *Comment-anchor states* (refreshes (32)–(34)), which specifies both themes.
+    // A token may name another core token (`var(--color-warning-bg)`); it is resolved within its
+    // own theme block, so the cell pins the colour drawn rather than how it is spelled.
     //
-    // All eleven tokens (five bg + six border — resolved has no bg, its wash is the bare
-    // `transparent` keyword) are checked in both blocks. A prior version of this test asserted
-    // only the four `-bg` tokens; a deleted dark `-border` override (the #1719 defect shape
-    // itself — the light literal silently wins by inheritance) went undetected because no
-    // assertion here covered it.
-    for (const [light, dark] of [
-      ["--color-comment-highlight-open-bg: #fbf3e1", "--color-comment-highlight-open-bg: var(--color-warning-bg)"],
-      [
-        "--color-comment-highlight-open-border: #e0c98c",
-        "--color-comment-highlight-open-border: var(--color-warning-fg)",
-      ],
-      [
-        "--color-comment-highlight-selected-bg: #e1e0f8",
-        "--color-comment-highlight-selected-bg: var(--color-surface)",
-      ],
-      [
-        "--color-comment-highlight-selected-border: #a19ce9",
-        "--color-comment-highlight-selected-border: var(--color-accent)",
-      ],
-      [
-        "--color-comment-highlight-working-bg: #e6e0ff",
-        "--color-comment-highlight-working-bg: var(--color-surface)",
-      ],
-      [
-        "--color-comment-highlight-working-border: #6f52d9",
-        "--color-comment-highlight-working-border: var(--color-accent)",
-      ],
-      [
-        "--color-comment-highlight-reopened-bg: #ffe0d6",
-        "--color-comment-highlight-reopened-bg: var(--color-border)",
-      ],
-      [
-        "--color-comment-highlight-reopened-border: #cf5b22",
-        "--color-comment-highlight-reopened-border: var(--color-danger-fg)",
-      ],
-      [
-        "--color-comment-highlight-suggestion-bg: #d8f0dd",
-        "--color-comment-highlight-suggestion-bg: var(--color-surface)",
-      ],
-      [
-        "--color-comment-highlight-suggestion-border: #1a7f37",
-        "--color-comment-highlight-suggestion-border: var(--color-muted)",
-      ],
-      [
-        "--color-comment-highlight-resolved-border: #c4c4c4",
-        "--color-comment-highlight-resolved-border: var(--color-border)",
-      ],
-    ]) {
-      expect(lightBlock).toContain(light);
-      // Dark derives from the existing app palette (CJ's #931 disposition) rather than a
-      // hand-picked hue: every dark value is a `var(--color-*)` reference to a core token, never
-      // a literal.
-      expect(darkBlock).toContain(dark);
+    // Every token is checked in both blocks: a deleted dark override (the #1719 defect shape — the
+    // light literal silently wins by inheritance) fails here rather than going unnoticed.
+    function resolved(block: string, name: string): string | undefined {
+      const value = block.match(new RegExp(`\\n\\s*${name}:\\s*([^;]+);`))?.[1].trim();
+      const reference = value?.match(/^var\((--[a-z0-9-]+)\)$/)?.[1];
+      return reference ? resolved(block, reference) : value;
+    }
+    const spec: [string, string, string][] = [
+      ["open-bg", "#fbf3e1", "#78350f"],
+      ["open-border", "#e0c98c", "#fcd34d"],
+      ["working-bg", "#f0ede6", "#26282c"],
+      ["working-border", "#6b665c", "#9aa0a6"],
+      ["addressed-pending-bg", "#fbf3e1", "#78350f"],
+      ["addressed-pending-border", "#8a6614", "#fcd34d"],
+      ["reopened-bg", "#ffe0d6", "#3a3d42"],
+      ["reopened-border", "#cf5b22", "#f87171"],
+      ["suggestion-bg", "#d8f0dd", "#14532d"],
+      ["suggestion-border", "#1a7f37", "#86efac"],
+      ["resolved-border", "#8c8779", "#6b7075"],
+      ["selected-bg", "#e1e0f8", "#23284d"],
+      ["selected-border", "#a19ce9", "#a5b0ff"],
+      ["selected-pattern-border", "#4f46e5", "#a5b0ff"],
+      ["selected-resolved-border", "#6b665c", "#9aa0a6"],
+    ];
+    const darkDeclared = (name: string) =>
+      new RegExp(`\\n\\s*--color-comment-highlight-${name}:`).test(darkBlock);
+    for (const [name, light, dark] of spec) {
+      const token = `--color-comment-highlight-${name}`;
+      expect({ token, light: resolved(lightBlock, token), dark: resolved(darkBlock, token), darkDeclared: darkDeclared(name) })
+        .toEqual({ token, light, dark, darkDeclared: true });
     }
   });
 });

@@ -96,11 +96,11 @@ export function commentThreadSeedFromDisk(
 export const setCommentThreads = StateEffect.define<CommentThreadSeed>();
 
 /**
- * Selects one thread's open anchor, or clears the selection with `null`. This is deliberately an
+ * Selects one thread's anchor, or clears the selection with `null`. This is deliberately an
  * editor-state effect rather than module-global/DOM state: the thread card and gutter interactions
  * specified by `docs/design/specs/comments.md` can drive the same per-view seam, while a document
- * switch starts with no selection. Non-open states keep their established treatments even when
- * their id is selected — the binding selected-anchor treatment is specified only for open/add-here.
+ * switch starts with no selection. Selection composes with every thread state: the anchor keeps its
+ * state class and gains the selected one (`comments.md` → *Anchor highlights in the text*).
  */
 export const setSelectedCommentThread = StateEffect.define<string | null>();
 
@@ -291,7 +291,8 @@ const THREAD_ATTRIBUTE = "data-comment-thread";
 
 /**
  * The `Decoration.mark` for one anchor, classed by its ux-design.md §2 *thread state* (open /
- * addressed-pending / reopened / resolved) and tagged with its thread id for the click deep-link.
+ * working / addressed-pending / reopened / resolved), plus `cm-commentHighlight-selected` when it is
+ * the selected thread whatever its state, and tagged with its thread id for the click deep-link.
  *
  * Deliberately **not** J3 Phase A's severity encoding: that channel maps colour to a finding's
  * C/H/M/L severity and owes §2's "always colour + letter chip" accessibility rule a non-colour
@@ -308,7 +309,7 @@ const THREAD_ATTRIBUTE = "data-comment-thread";
  * (D19), and is styled ahead of that so the state it names renders when it arrives.
  */
 function highlightFor(anchor: CommentAnchor, selectedThreadId: string | null) {
-  const selected = anchor.state === "open" && anchor.threadId === selectedThreadId;
+  const selected = anchor.threadId === selectedThreadId;
   return Decoration.mark({
     class: `cm-commentHighlight cm-commentHighlight-${anchor.state}${selected ? " cm-commentHighlight-selected" : ""}`,
     attributes: { [THREAD_ATTRIBUTE]: anchor.threadId },
@@ -537,38 +538,39 @@ function deepLinkHandler(onSelectThread: (threadId: string) => void) {
   });
 }
 
+/** A state's patterned line as `border-bottom` longhands. A border survives Windows High Contrast,
+ * which drops box shadows (comments.md *Forced colours*); longhands let a selected rule recolour the
+ * line without restating its pattern. */
+function bottomLine(width: string, style: string, color: string) {
+  return { borderBottomWidth: width, borderBottomStyle: style, borderBottomColor: color };
+}
+
 /**
  * State colours for the highlight (ux-design.md §2's thread states — see `highlightFor` on why this
- * is not J3's severity channel). Kept to a soft background wash plus a thin underline rather than a
+ * is not J3's severity channel). Kept to a soft background wash plus a thin line rather than a
  * strong fill: the highlight sits *under* live, editable prose that must stay comfortably readable
- * (Principle 1 — the document is the centre of gravity, not the annotation). Resolved is
- * deliberately faint — the thread is done, but the reader can still see where it was.
+ * (Principle 1 — the document is the centre of gravity, not the annotation).
  *
- * Every non-open state also differs in **underline style**, not hue alone: dashed (working —
- * an address run is in flight and has delivered nothing yet, UXR-Q10/#1122 — and, sharing the same
- * treatment, addressed-pending — a delivered proposal awaiting your decision), double (reopened —
- * the loudest, it is back on the user's plate), dotted (resolved), wavy (suggestion). §2's
- * letter-chip rule governs severity and so does not bind here, but a colour-blind reader should
- * still be able to tell two adjacent highlights apart, which hue alone would not give them.
+ * The rule is `docs/design/specs/comments.md` → *Anchor highlights in the text*: **the fill says
+ * whether the thread is selected; the line says its state**, by pattern and weight as well as
+ * colour. Open draws a 1px solid shadow line; Working 1px dotted; Addressed — pending 2px dashed;
+ * Reopened 3px double; Suggestion 1px solid plus a wavy underline; Resolved 1px dashed on no fill.
+ * Selection swaps in the selected fill and keeps the state's pattern and weight: Working and
+ * Addressed — pending redraw theirs in the accent, Open's shadow line takes the selected border,
+ * Resolved's line strengthens to hold 3:1, and Reopened and Suggestion keep their own line colour. That is how ux-design.md §2's fourth carrier holds —
+ * Working and Addressed — pending never differ by colour alone, selected or not. Patterned lines
+ * are borders rather than shadows so they survive forced colours.
  *
  * Every colour below is a `--color-comment-highlight-*` token (`styles.css`), never a literal, for
  * the identical reason `structuralTheme`'s frontmatter fold and `severityMarginTheme` already read
  * palette tokens rather than hex: CSS custom properties cross the stylesheet boundary freely, so a
  * `baseTheme` colocated with its own decoration module can share the app's palette without
- * duplicating its values. #1781 restores the binding light-mode open and selected treatments from
- * `docs/design/specs/comments.md:20`: `styles.css` owns their exact colours, while the rules below
- * use the specified non-layout-consuming one-pixel box shadow. Dark values follow CJ's #931
- * disposition (also applied to the
- * files-rail/tab-strip/frontmatter-fold/comments-status tokens there) of deriving strictly from the
- * *existing* app palette — `--color-warning-bg/-fg`, `--color-surface`, `--color-border`,
- * `--color-accent`, `--color-danger-fg`, `--color-muted` — rather than hand-picking new dark hues
- * (`docs/design/specs/state.md:47` records dark mode itself as a known gap the mocks never answer,
- * so a hand-picked hue would be exactly the free choice CLAUDE.md forbids for a gap). #1719: the old
- * literal washes were tuned against the light `#FCFBF8` column and sat at 1.01–1.11:1 against dark
- * mode's near-white `--color-fg`, painting near-invisible text; every dark value below resolves to a
- * core token already dark enough to keep body text legible. Final colour feel is a CJ hands-on
- * check, as with the redline palette; jsdom renders none of this, so it is unexecutable in tests by
- * nature — what *is* assertable, and pinned below, is that no rule here falls back to a raw literal.
+ * duplicating its values, and each token carries a light and a dark value. Both themes' values
+ * come from `docs/design/specs/tokens.md` → *Comment-anchor states* (refreshes (32)–(34)), which
+ * specifies dark for this surface; `docs/design/specs/state.md` records that carve-out from the
+ * folder's otherwise-unspecified dark mode. jsdom resolves no custom property, so the drawn colour
+ * is a CJ hands-on check; what the tests pin is each rule's token, pattern and weight, and each
+ * token's declared value in both themes.
  */
 const commentHighlightTheme = EditorView.baseTheme({
   ".cm-commentHighlight": {
@@ -578,32 +580,46 @@ const commentHighlightTheme = EditorView.baseTheme({
     backgroundColor: "var(--color-comment-highlight-open-bg)",
     boxShadow: "0 1px 0 var(--color-comment-highlight-open-border)",
   },
-  ".cm-commentHighlight-selected": {
-    backgroundColor: "var(--color-comment-highlight-selected-bg)",
-    boxShadow: "0 1px 0 var(--color-comment-highlight-selected-border)",
-  },
   ".cm-commentHighlight-working": {
     backgroundColor: "var(--color-comment-highlight-working-bg)",
-    borderBottom: "1px dashed var(--color-comment-highlight-working-border)",
+    ...bottomLine("1px", "dotted", "var(--color-comment-highlight-working-border)"),
   },
   ".cm-commentHighlight-addressed-pending": {
-    backgroundColor: "var(--color-comment-highlight-working-bg)",
-    borderBottom: "1px dashed var(--color-comment-highlight-working-border)",
+    backgroundColor: "var(--color-comment-highlight-addressed-pending-bg)",
+    ...bottomLine("2px", "dashed", "var(--color-comment-highlight-addressed-pending-border)"),
   },
   ".cm-commentHighlight-reopened": {
     backgroundColor: "var(--color-comment-highlight-reopened-bg)",
-    borderBottom: "3px double var(--color-comment-highlight-reopened-border)",
+    ...bottomLine("3px", "double", "var(--color-comment-highlight-reopened-border)"),
   },
   ".cm-commentHighlight-suggestion": {
     backgroundColor: "var(--color-comment-highlight-suggestion-bg)",
-    borderBottom: "1px solid var(--color-comment-highlight-suggestion-border)",
-    textDecoration: "underline wavy var(--color-comment-highlight-suggestion-border)",
+    ...bottomLine("1px", "solid", "var(--color-comment-highlight-suggestion-border)"),
+    textDecorationLine: "underline",
+    textDecorationStyle: "wavy",
+    textDecorationColor: "var(--color-comment-highlight-suggestion-border)",
     textUnderlineOffset: "2px",
   },
   ".cm-commentHighlight-resolved": {
     backgroundColor: "transparent",
-    borderBottom: "1px dotted var(--color-comment-highlight-resolved-border)",
-    cursor: "pointer",
+    ...bottomLine("1px", "dashed", "var(--color-comment-highlight-resolved-border)"),
+  },
+  // Selection: the compound selectors outrank each single state class, so the selected fill wins
+  // over every state's fill while the state's line pattern and weight stay as drawn above.
+  ".cm-commentHighlight.cm-commentHighlight-selected": {
+    backgroundColor: "var(--color-comment-highlight-selected-bg)",
+  },
+  ".cm-commentHighlight-open.cm-commentHighlight-selected": {
+    boxShadow: "0 1px 0 var(--color-comment-highlight-selected-border)",
+  },
+  ".cm-commentHighlight-working.cm-commentHighlight-selected": {
+    borderBottomColor: "var(--color-comment-highlight-selected-pattern-border)",
+  },
+  ".cm-commentHighlight-addressed-pending.cm-commentHighlight-selected": {
+    borderBottomColor: "var(--color-comment-highlight-selected-pattern-border)",
+  },
+  ".cm-commentHighlight-resolved.cm-commentHighlight-selected": {
+    borderBottomColor: "var(--color-comment-highlight-selected-resolved-border)",
   },
 });
 

@@ -2,6 +2,12 @@
 
 > **Renamed 2026-11-08:** the app was Cowrite until D36 and TD-29. Entries dated before 2026-11-08 keep the old name, the old on-disk names (`.cowrite/`, `COWRITE_*`, `com.cowrite.desktop`) and bare `#NNNN` issue numbers, which refer to `williacj/cowrite`. They are left as written, because they record what was true then.
 
+# 2026-11-10 — williacj/emend#41 comment-anchor states
+
+- Built refreshes (32)–(34)'s anchors: selection now composes with every state (compound `.state.selected` rules recolour only the line), Working is neutral 1px dotted, Addressed — pending has its own 2px dashed amber anchor, Resolved is 1px dashed, and dark values follow `tokens.md`. Dismissed is not built; the app has no such state.
+- **jsdom and `var()` in shorthands.** jsdom's `getComputedStyle` drops a `border-bottom` or `text-decoration` shorthand whose value holds a `var()`, but keeps longhands. The theme now writes longhands, so the tests read each state's width, pattern and colour token per element instead of grepping injected CSS text. Longhands also let the selected rule change only `border-bottom-color`.
+- **Behaviour visible in e2e.** A thread resolved while its popover is open stays selected, so it now draws Selected + Resolved (`#E1E0F8`, 1px dashed `#6B665C`). The C4 journey asserted no selected anchor there; it now asserts that treatment in Chromium, which also checks the compound selectors win in a real cascade.
+
 # 2026-11-10 — design refresh (35) import: wording fixes to (34)
 
 - Imported refresh (35) wholesale. It changes wording only; no value changes and no hex differs. It makes the three fixes the (34) review asked the Designer for.

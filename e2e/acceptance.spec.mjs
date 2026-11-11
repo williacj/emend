@@ -975,7 +975,12 @@ test.describe("C4 existing comment card", () => {
         await popover.getByRole("button", { name: "Resolve" }).click();
         await popover.getByRole("button", { name: /^Expand/ }).click();
         await expect(page.locator(".cm-commentHighlight-resolved")).toHaveCount(1);
-        await expect(page.locator(".cm-commentHighlight-selected")).toHaveCount(0);
+        // comments.md: Selected composes with every state. The still-selected resolved anchor takes
+        // the selected fill and keeps Resolved's 1px dashed line, darkened for the selected fill.
+        const selectedResolved = page.locator(".cm-commentHighlight-resolved.cm-commentHighlight-selected");
+        await expect(selectedResolved).toHaveCount(1);
+        await expect(selectedResolved).toHaveCSS("background-color", "rgb(225, 224, 248)");
+        await expect(selectedResolved).toHaveCSS("border-bottom", "1px dashed rgb(107, 102, 92)");
         await expect(popover.getByRole("textbox", { name: "Reply to alice's comment" })).toHaveCount(0);
         await expect(card.locator('.comment-thread-card__state[data-thread-state="resolved"] .lucide-check')).toBeVisible();
         const resolved = await card.evaluate((element) => {
