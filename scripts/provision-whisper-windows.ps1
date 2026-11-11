@@ -1,5 +1,5 @@
 # ABOUTME: Per-job CMake and target-native libclang setup for ordinary Windows app builds.
-# ABOUTME: Pinned archives match the native toolchain that passed #2544 exact-head Windows CI.
+# ABOUTME: Pinned archives: CMake 4.4.5 (the first line supporting VS 2026 is 4.2) and libclang 22.1.8.
 $ErrorActionPreference = 'Stop'
 if (-not $env:RUNNER_TEMP -or -not $env:GITHUB_PATH -or -not $env:GITHUB_ENV) {
   throw 'Whisper provisioning requires GitHub Actions runner paths'
@@ -8,9 +8,9 @@ if (Test-Path Env:WHISPER_DONT_GENERATE_BINDINGS) {
   throw 'Unset WHISPER_DONT_GENERATE_BINDINGS: bundled Linux bindings are invalid on Windows'
 }
 
-$cmakeVersion = '3.31.12'
+$cmakeVersion = '4.4.5'
 $cmakeName = "cmake-$cmakeVersion-windows-x86_64.zip"
-$cmakeHash = '0c4baa40f28b3f8225eb3fdf6946c987b4fe901403b4eaf2fbbd9378100aaa0c'
+$cmakeHash = '326c826486d46a23cf9d5a1c9ee3a567d427bdd02c4a34071937a2a675cff004'
 $cmakeRoot = Join-Path $env:RUNNER_TEMP "emend-cmake-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
 New-Item -ItemType Directory -Path $cmakeRoot -Force | Out-Null
 $cmakeArchive = Join-Path $cmakeRoot $cmakeName

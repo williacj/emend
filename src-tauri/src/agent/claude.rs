@@ -188,10 +188,7 @@ mod tests {
     fn mcp_config_matches_the_published_schema_shape() {
         let cfg = mcp_config(&server());
         assert_eq!(cfg["mcpServers"]["emend"]["type"], "http");
-        assert_eq!(
-            cfg["mcpServers"]["emend"]["url"],
-            "http://127.0.0.1:39999/"
-        );
+        assert_eq!(cfg["mcpServers"]["emend"]["url"], "http://127.0.0.1:39999/");
         assert_eq!(
             cfg["mcpServers"]["emend"]["headers"]["Authorization"],
             "Bearer test-token-123"
