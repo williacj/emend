@@ -43,6 +43,14 @@ export default {
       // A proposal changes documents, so its workspaces skip the Rust build.
       provisioning: ['npm-ci'],
     },
+    // A change to docs/tech-design.md: the architect makes it, the reviewer judges it, and CJ rules
+    // last (CJ, 2026-11-11, #16). It changes documents, so its workspaces skip the Rust build.
+    'tech-design': {
+      select: { labels: ['type:tech-design'] },
+      maker: 'architect',
+      judges: ['reviewer', 'owner'],
+      provisioning: ['npm-ci'],
+    },
   },
   // A card carrying this label is an epic: no kind selects it, whatever else it carries, so Rigger
   // never pulls it (`R-SCHED-11`). No kind may select this label itself.
