@@ -169,6 +169,7 @@ test('the repository guard allows only historical files, rename records and the 
     'src-tauri/tauri.conf.json:5:  "identifier": "com.cowrite.desktop",',
     'src/x.ts:1:const dir = ".cowrite/comments";',
     'docs/spikes/spike9-new.md:1:Cowrite',
+    'src-tauri/src/store/lock.rs:1:let id = "com.cowrite.desktop";',
   ];
   assert.deepEqual(unallowedOldNameLines(lines), [
     'docs/functional-spec.md:74:| D37 | 2026-11-09 | Cowrite opens faster.',
@@ -181,5 +182,6 @@ test('the repository guard allows only historical files, rename records and the 
     'src-tauri/tauri.conf.json:5:  "identifier": "com.cowrite.desktop",',
     'src/x.ts:1:const dir = ".cowrite/comments";',
     'docs/spikes/spike9-new.md:1:Cowrite',
+    'src-tauri/src/store/lock.rs:1:let id = "com.cowrite.desktop";',
   ]);
 });
