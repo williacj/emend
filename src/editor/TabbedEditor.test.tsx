@@ -2481,9 +2481,23 @@ describe("editor/TabbedEditor — external path transitions", () => {
         await requestCloseOfRecoveredTab();
         const guard = await screen.findByRole("alertdialog");
 
-        pickSaveAsPathMock.mockResolvedValueOnce(null);
+        // The picker stays open until the test answers it, as a real dialog does. While it is open
+        // the guard is busy and its Save As is disabled. React re-enables the button in a scheduled
+        // render after the cancel, not synchronously, so the second attempt must wait for that; a
+        // click on the still-disabled button is dropped (#44).
+        let cancelPicker: (chosen: string | null) => void = () => {};
+        // Calls from earlier tests in this file are not reset, so count from here.
+        const picksBefore = pickSaveAsPathMock.mock.calls.length;
+        pickSaveAsPathMock.mockImplementationOnce(
+          () => new Promise<string | null>((resolve) => { cancelPicker = resolve; }),
+        );
         fireEvent.click(within(guard).getByRole("button", { name: "Save As…" }));
-        await waitFor(() => expect(pickSaveAsPathMock).toHaveBeenCalled());
+        await waitFor(() => expect(pickSaveAsPathMock).toHaveBeenCalledTimes(picksBefore + 1));
+        expect(within(guard).getByRole("button", { name: "Save As…" })).toBeDisabled();
+        cancelPicker(null);
+        await waitFor(() =>
+          expect(within(screen.getByRole("alertdialog")).getByRole("button", { name: "Save As…" })).toBeEnabled(),
+        );
         expect(screen.getByRole("alertdialog")).toBeInTheDocument();
         expectActiveTextbox("DISPLACED-UNSAVED-WORK");
 
@@ -2492,6 +2506,7 @@ describe("editor/TabbedEditor — external path transitions", () => {
         fireEvent.click(
           within(screen.getByRole("alertdialog")).getByRole("button", { name: "Save As…" }),
         );
+        expect(pickSaveAsPathMock).toHaveBeenCalledTimes(picksBefore + 2);
         const failedGuard = screen.getByRole("alertdialog");
         expect(await within(failedGuard).findByRole("status")).toHaveTextContent(
           "Couldn’t save to drafts/rescued.md — disk full. Nothing was written, and this document is unchanged.",
