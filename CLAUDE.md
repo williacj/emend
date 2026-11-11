@@ -6,7 +6,7 @@ You are an experienced, pragmatic software engineer. Simple solutions over over-
 
 ## Project Context
 
-Cowrite v2: cross-platform desktop app (macOS + Windows) built with Tauri 2.x (Rust + React/TS). A Word-like experience for writing/reviewing markdown, powered by agentic CLIs (Claude Code, GitHub Copilot). **Desktop app, not a web service — no server, ever.**
+Emend: cross-platform desktop app (macOS + Windows) built with Tauri 2.x (Rust + React/TS). A Word-like experience for writing/reviewing markdown, powered by agentic CLIs (Claude Code, GitHub Copilot). **Desktop app, not a web service — no server, ever.**
 
 **The constitution — read before designing or building anything:**
 - `docs/functional-spec.md` — decisions D1–D23, requirements FR-*. Binding.
@@ -85,7 +85,7 @@ Do implementation tasks completely (including obvious follow-ups). For design/pl
 
 ## Code Review
 
-- Review every PR against the Cowrite constitution before merge. Review is separate from implementation.
+- Review every PR against the Emend constitution before merge. Review is separate from implementation.
 - Review the branch diff before creating the PR, address findings, and review changes added afterward.
 - Any Critical invariant or constitution violation blocks merge. Record and resolve lesser findings deliberately.
 - Before merging, the maintainer checks that the Windows PR job and any other checks that ran passed for the current PR head. GitHub branch protection is unavailable on this private repository, so this is a manual merge prerequisite.
@@ -94,7 +94,7 @@ Do implementation tasks completely (including obvious follow-ups). For design/pl
 
 - Major updates on dedicated branches (never directly on `main` unless CJ permits). Open PRs for major work.
 - Commit frequently, atomically, meaningful messages. `git status` before `git add -A`. Never commit `*.backup`, `*-copy`, `*~` files. Commit journal entries.
-- Worktrees: one feature per worktree, with a descriptive branch tied to one issue or bounded card. Create them under the persistent `cowrite-worktrees/<issue-number>-<slug>` directory beside the main `cowrite` checkout (find the main path with `git worktree list`), not under `/private/tmp` or as `cowrite-*` siblings in the GitHub folder. After merge, remove a worktree only when its work is represented on `main` and its working tree is clean; preserve uncommitted or unmerged work.
+- Worktrees: one feature per worktree, with a descriptive branch tied to one issue or bounded card. Create them under the persistent `emend-worktrees/<issue-number>-<slug>` directory beside the main `emend` checkout (find the main path with `git worktree list`), not under `/private/tmp` or as `emend-*` siblings in the GitHub folder. After merge, remove a worktree only when its work is represented on `main` and its working tree is clean; preserve uncommitted or unmerged work.
 
 ## Issue Tracking
 
