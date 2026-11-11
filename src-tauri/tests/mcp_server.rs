@@ -921,13 +921,26 @@ fn mcp_cancellation_denies_only_the_bound_pending_callback() {
     );
 }
 
+// A project folder under the long, canonical temp path. Hosted Windows runners give %TEMP% as an
+// 8.3 short name (RUNNER~1), whose '~' the literal script grammar refuses, and canonicalize adds a
+// \\?\ prefix whose '?' it refuses too; projects are opened by their ordinary long path (#54).
+fn script_project_dir() -> TempDir {
+    let base = std::fs::canonicalize(std::env::temp_dir()).unwrap();
+    let base = base
+        .to_str()
+        .and_then(|path| path.strip_prefix(r"\\?\"))
+        .map(std::path::PathBuf::from)
+        .unwrap_or(base);
+    tempfile::tempdir_in(base).unwrap()
+}
+
 #[test]
 fn project_mcp_script_grants_reuse_changed_arguments_and_revoke_on_content_controls_and_run() {
     use emend_lib::agent::mcp::ProjectMcpServer;
     use emend_lib::agent::permission::{PermissionDecision, PermissionState};
     use std::sync::{mpsc, Arc};
     use std::time::Duration;
-    let dir = TempDir::new().unwrap();
+    let dir = script_project_dir();
     let script = dir.path().join("citations.py");
     std::fs::write(&script, "print('citations')\n").unwrap();
     let server = ProjectMcpServer::open(dir.path()).unwrap();
@@ -1060,7 +1073,7 @@ fn script_changed_while_waiting_cannot_be_approved_from_stale_display() {
     use emend_lib::agent::permission::{PermissionDecision, PermissionState};
     use std::sync::{mpsc, Arc};
     use std::time::Duration;
-    let dir = TempDir::new().unwrap();
+    let dir = script_project_dir();
     let script = dir.path().join("check.py");
     std::fs::write(&script, "print('original')\n").unwrap();
     let server = ProjectMcpServer::open(dir.path()).unwrap();
