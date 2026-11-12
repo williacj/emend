@@ -57,6 +57,11 @@ way is a role the prompt has not described.
 - **A rule `CLAUDE.md` or `AGENTS.md` already carries.** The one test above.
 - **Engine or board mechanics.** How a card moves, how a dispatch is recorded, what the gate
   admits. Those are Rigger's, and its guide owns them.
+- **A tool only one provider has.** `rigger.config.mjs` may run a role on Claude Code or on Codex,
+  so its prompt has to read the same on both. Name a skill by its directory under `.claude/skills/`:
+  Claude Code finds it there, Codex finds it through the `.agents/skills` link
+  (`.agents/README.md`), and either can read its `SKILL.md` at that path. Name no tool, subagent,
+  slash command or settings file that only one provider has.
 - **A claim about the repository a reader cannot check.** A line count, a file that does not exist
   yet, a convention nothing records.
 
@@ -77,3 +82,4 @@ what it means.
 4. Does every path and id in it resolve?
 5. Would the "ways you go wrong" section be wrong in another role's prompt?
 6. Could someone read the description alone and know when to reach for this role?
+7. Would it read the same to a session on Claude Code and one on Codex?

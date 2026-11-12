@@ -26,12 +26,15 @@ export default {
     pmReviewer: { agent: '.claude/agents/pm-reviewer.md', provider: 'claude', tier: 'high' },
     architect: { agent: '.claude/agents/architect.md', provider: 'claude', tier: 'high' },
   },
+  // Every agent judge runs on the other provider from its kind's maker, so a second model reads
+  // the work (#77). Each judge's `provider` maps the maker's provider to the judge's, as Rigger's
+  // ARCHITECTURE.md, "Extension points", gives the rule. The owner has no provider.
   kinds: {
     // One judge. `rounds` omitted, so the default of three applies (`R-LOOP-9`).
     change: {
       select: { labels: ['type:change'] },
       maker: 'engineer',
-      judges: ['reviewer'],
+      judges: [{ role: 'reviewer', provider: { claude: 'codex', codex: 'claude' } }],
       provisioning: ['npm-ci', 'cargo-build'],
     },
     // A requirements proposal: the PM makes it, a panel of agent judges rules concurrently, and
@@ -39,7 +42,13 @@ export default {
     spec: {
       select: { labels: ['type:spec'] },
       maker: 'pm',
-      judges: ['reviewer', 'pmReviewer', 'engineer', 'architect', 'owner'],
+      judges: [
+        { role: 'reviewer', provider: { claude: 'codex', codex: 'claude' } },
+        { role: 'pmReviewer', provider: { claude: 'codex', codex: 'claude' } },
+        { role: 'engineer', provider: { claude: 'codex', codex: 'claude' } },
+        { role: 'architect', provider: { claude: 'codex', codex: 'claude' } },
+        'owner',
+      ],
       rounds: 2,
       // A proposal changes documents, so its workspaces skip the Rust build.
       provisioning: ['npm-ci'],
@@ -49,7 +58,7 @@ export default {
     'tech-design': {
       select: { labels: ['type:tech-design'] },
       maker: 'architect',
-      judges: ['reviewer', 'owner'],
+      judges: [{ role: 'reviewer', provider: { claude: 'codex', codex: 'claude' } }, 'owner'],
       provisioning: ['npm-ci'],
     },
   },
