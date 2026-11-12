@@ -167,6 +167,9 @@ function AuthorWorkspace({
   // current even before React commits the next project render so their callbacks cannot append
   // an old root's run card to the new root's incoming-card list.
   const currentProjectRoot = useRef(project);
+  // Counts project entries, so the startup `currentProject()` read can tell that a project was
+  // entered while it was in flight and that its answer is therefore stale (#72).
+  const projectEntries = useRef(0);
   const [projectOpenStatus, setProjectOpenStatus] = useState<ProjectOpenStatus | null>(null);
   // Dismissing an in-flight J9 line hides its request updates, not its terminal outcome.
   const dismissedProjectOpenInFlight = useRef<{
@@ -467,14 +470,23 @@ function AuthorWorkspace({
 
   useEffect(() => {
     let cancelled = false;
+    // An entry made while this read is in flight is newer than its answer, so the answer is
+    // dropped (#72). Adopting it anyway ran `enterProjectRoot`'s reset branch against the pending
+    // `project` this effect captured at mount, and queued a `(root, null)` request.
+    // `TabbedEditor` ignores that request for the root it already has open, but the `hasOpenTabs`
+    // seed below reads it as "no tab", so the shell switched to workshop mode and hid the document.
+    // No user reaches this today (startup intents bind before the window shows, and Open folder
+    // goes through a native picker); the D23 harness can, by opening a project during this read.
+    const entriesAtStartup = projectEntries.current;
+    const superseded = () => cancelled || projectEntries.current !== entriesAtStartup;
     currentProject()
       .then((root) => {
-        if (cancelled) return;
+        if (superseded()) return;
         enterProjectRoot(root);
         if (root !== null) enqueueOpenRequest(root, null);
       })
       .catch((error) => {
-        if (cancelled) return;
+        if (superseded()) return;
         currentProjectRoot.current = null;
         setProject(null);
         reportProjectOpenFailure(error);
@@ -528,6 +540,7 @@ function AuthorWorkspace({
 
   // One boundary for every project entry keeps all project-scoped producer queues in lockstep.
   function enterProjectRoot(root: string | null) {
+    projectEntries.current += 1;
     currentProjectRoot.current = root;
     if (root !== project) {
       pendingProjectFileGenerations.current = [];

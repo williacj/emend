@@ -1648,6 +1648,7 @@ struct DriverState {
     data_dir: std::path::PathBuf,
     tab_sessions: Arc<TabSessionCoordinator>,
     adoptions: Arc<AdoptionCoordinator>,
+    trace: Option<Arc<ConnectionTrace>>,
 }
 
 /// [`serve_with_queue`] against a caller-supplied open-project session — what [`serve`] uses so the
@@ -1694,6 +1695,7 @@ fn serve_with_queue_in(
         data_dir: data_dir.path().to_path_buf(),
         tab_sessions,
         adoptions,
+        trace: ConnectionTrace::from_env().map(Arc::new),
     });
     for stream in listener.incoming() {
         match stream {
@@ -1709,22 +1711,30 @@ fn handle(mut stream: TcpStream, state: &Arc<DriverState>) {
     // OPTIONS request, and refuses the real response too unless it carries the same CORS headers.
     // A loopback test-only surface has no meaningful "origin" to restrict, so it allows any.
     //
-    let request = match read_request(&stream) {
+    let span = state.trace.as_ref().map(|trace| trace.accepted(&stream));
+    let parsed = read_request(&stream);
+    if let Some(span) = &span {
+        span.request(&parsed);
+    }
+    let request = match parsed {
         Ok((method, _, _)) if method == "OPTIONS" => (204, String::new()),
         Ok((method, _, _)) if method != "POST" => (405, error_body("method not allowed")),
         Ok((_, path, body)) if path == "/events" => {
             let Some(permit) = state.events.try_acquire_waiter() else {
-                let _ = write_response(
-                    &mut stream,
-                    503,
-                    &error_body("event waiter capacity reached"),
-                );
+                let body = error_body("event waiter capacity reached");
+                let written = write_response(&mut stream, 503, &body);
+                if let Some(span) = &span {
+                    span.response(503, &written);
+                }
                 return;
             };
             let state = Arc::clone(state);
             std::thread::spawn(move || {
                 let (status, body) = dispatch(&path, &body, &state);
-                let _ = write_event_response(stream, permit, status, &body);
+                let written = write_event_response(stream, permit, status, &body);
+                if let Some(span) = &span {
+                    span.response(status, &written);
+                }
             });
             return;
         }
@@ -1734,7 +1744,10 @@ fn handle(mut stream: TcpStream, state: &Arc<DriverState>) {
             let state = Arc::clone(state);
             std::thread::spawn(move || {
                 let (status, body) = dispatch(&path, &body, &state);
-                let _ = write_response(&mut stream, status, &body);
+                let written = write_response(&mut stream, status, &body);
+                if let Some(span) = &span {
+                    span.response(status, &written);
+                }
             });
             return;
         }
@@ -1742,7 +1755,119 @@ fn handle(mut stream: TcpStream, state: &Arc<DriverState>) {
         Err(error) if is_timeout(&error) => (408, error_body("request read timed out")),
         Err(_) => (400, error_body("malformed request")),
     };
-    let _ = write_response(&mut stream, request.0, &request.1);
+    let written = write_response(&mut stream, request.0, &request.1);
+    if let Some(span) = &span {
+        span.response(request.0, &written);
+    }
+}
+
+/// The variable naming the file [`ConnectionTrace`] appends to (#72). Unset, nothing is recorded.
+const TRACE_ENV: &str = "EMEND_TEST_DRIVER_TRACE";
+
+/// An opt-in, append-only record of every connection this driver accepts, one JSON object per line
+/// (#72). Hosted Windows e2e runs lost document actions to "Failed to fetch" or to a request that
+/// never answered, and the driver kept no evidence of either. Each connection writes three events:
+/// `accepted` (when the serial lane took it, and from which client port), `request` (what it asked
+/// for, or why reading it failed), and `response` (the status sent and whether the write
+/// succeeded). Every event carries `t_ms`, milliseconds since the driver started, and
+/// `since_accept_ms`, so a stalled lane, a silent connection or a failed write can be told apart
+/// and lined up against the browser's own network log.
+struct ConnectionTrace {
+    file: Mutex<fs::File>,
+    started: Instant,
+    next: AtomicUsize,
+}
+
+/// One connection's handle on [`ConnectionTrace`], created when the connection is accepted.
+struct TraceSpan {
+    trace: Arc<ConnectionTrace>,
+    conn: usize,
+    accepted: Instant,
+}
+
+impl ConnectionTrace {
+    fn from_env() -> Option<Self> {
+        let path = std::env::var_os(TRACE_ENV)?;
+        let file = fs::OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(&path)
+            .unwrap_or_else(|error| {
+                panic!(
+                    "open {TRACE_ENV} file {}: {error}",
+                    Path::new(&path).display()
+                )
+            });
+        Some(Self {
+            file: Mutex::new(file),
+            started: Instant::now(),
+            next: AtomicUsize::new(1),
+        })
+    }
+
+    fn accepted(self: &Arc<Self>, stream: &TcpStream) -> TraceSpan {
+        let span = TraceSpan {
+            trace: Arc::clone(self),
+            conn: self.next.fetch_add(1, Ordering::Relaxed),
+            accepted: Instant::now(),
+        };
+        let peer_port = stream.peer_addr().ok().map(|address| address.port());
+        span.write("accepted", serde_json::json!({ "peer_port": peer_port }));
+        span
+    }
+}
+
+impl TraceSpan {
+    fn request(&self, parsed: &std::io::Result<(String, String, String)>) {
+        let fields = match parsed {
+            Ok((method, path, body)) => {
+                serde_json::json!({ "method": method, "path": path, "body_bytes": body.len() })
+            }
+            Err(error) if is_timeout(error) => serde_json::json!({ "read_error": "timed out" }),
+            Err(error) => serde_json::json!({ "read_error": error.to_string() }),
+        };
+        self.write("request", fields);
+    }
+
+    fn response(&self, status: u16, written: &std::io::Result<()>) {
+        let write = match written {
+            Ok(()) => "ok".to_string(),
+            Err(error) => error.to_string(),
+        };
+        self.write(
+            "response",
+            serde_json::json!({ "status": status, "write": write }),
+        );
+    }
+
+    fn write(&self, event: &str, fields: serde_json::Value) {
+        let now = Instant::now();
+        let mut record = serde_json::json!({
+            "event": event,
+            "conn": self.conn,
+            "t_ms": millis(now.duration_since(self.trace.started)),
+            "since_accept_ms": millis(now.duration_since(self.accepted)),
+        });
+        if let (Some(record), serde_json::Value::Object(fields)) = (record.as_object_mut(), fields)
+        {
+            record.extend(fields);
+        }
+        // One serialized line and one write per record: `File` is unbuffered, and `writeln!`
+        // through `Display` would issue many small writes on the serial accept lane.
+        let mut line = record.to_string();
+        line.push('\n');
+        let mut file = self
+            .trace
+            .file
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        // A trace that cannot be written must not change what the driver answers.
+        let _ = file.write_all(line.as_bytes());
+    }
+}
+
+fn millis(duration: Duration) -> f64 {
+    (duration.as_secs_f64() * 1_000_000.0).round() / 1_000.0
 }
 
 #[derive(serde::Deserialize)]

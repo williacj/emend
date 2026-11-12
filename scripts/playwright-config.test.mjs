@@ -2,6 +2,8 @@
 // ABOUTME: Evaluates the real config in isolated processes so independent e2e runs cannot share it.
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { existsSync, mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import test from "node:test";
@@ -97,4 +99,55 @@ test("the allocated ports feed every consumer and both servers refuse foreign re
   assert.match(config.driverCommand, new RegExp(`(?:^|\\s)${config.driverPort}(?:\\s|$)`));
   assert.equal(config.viteReuse, false);
   assert.equal(config.driverReuse, false);
+});
+
+/** The resolved config's #72 diagnostics wiring, evaluated with `diagnosticsDir` set or unset. */
+function inspectDiagnostics(diagnosticsDir) {
+  const env = { ...process.env };
+  delete env.EMEND_E2E_VITE_PORT;
+  delete env.EMEND_E2E_TEST_DRIVER_PORT;
+  delete env.EMEND_E2E_TEST_DRIVER_URL;
+  delete env.EMEND_E2E_DIAGNOSTICS_DIR;
+  if (diagnosticsDir !== undefined) env.EMEND_E2E_DIAGNOSTICS_DIR = diagnosticsDir;
+  const result = spawnSync(
+    process.execPath,
+    [
+      "--input-type=module",
+      "--eval",
+      `const config = (await import("./playwright.config.mjs")).default;
+       const driver = config.webServer[1];
+       process.stdout.write(JSON.stringify({
+         driverPort: driver.port,
+         driverTrace: driver.env.EMEND_TEST_DRIVER_TRACE ?? null,
+         trace: config.use.trace ?? null,
+       }));`,
+    ],
+    { cwd: repoRoot, encoding: "utf8", env },
+  );
+  assert.equal(result.status, 0, result.stderr);
+  return JSON.parse(result.stdout);
+}
+
+test("a diagnostics directory gives the driver a per-run trace file and keeps failed tests' traces (#72)", () => {
+  const dir = mkdtempSync(path.join(tmpdir(), "emend-e2e-diagnostics-"));
+  try {
+    const diagnostics = path.join(dir, "not-yet-created");
+    const config = inspectDiagnostics(diagnostics);
+
+    assert.equal(
+      config.driverTrace,
+      path.join(diagnostics, `test-driver-trace-${config.driverPort}.jsonl`),
+    );
+    assert.ok(existsSync(diagnostics), "the driver can only create its file in an existing directory");
+    assert.equal(config.trace?.mode, "retain-on-failure");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("without a diagnostics directory the driver keeps no trace and Playwright records none (#72)", () => {
+  const config = inspectDiagnostics(undefined);
+
+  assert.equal(config.driverTrace, null);
+  assert.ok(config.trace === null || config.trace === "off", JSON.stringify(config.trace));
 });
