@@ -475,6 +475,8 @@ function AuthorWorkspace({
     // `project` this effect captured at mount, and queued a `(root, null)` request.
     // `TabbedEditor` ignores that request for the root it already has open, but the `hasOpenTabs`
     // seed below reads it as "no tab", so the shell switched to workshop mode and hid the document.
+    // No user reaches this today (startup intents bind before the window shows, and Open folder
+    // goes through a native picker); the D23 harness can, by opening a project during this read.
     const entriesAtStartup = projectEntries.current;
     const superseded = () => cancelled || projectEntries.current !== entriesAtStartup;
     currentProject()
