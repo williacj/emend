@@ -1,7 +1,6 @@
 ---
-# ABOUTME: The PM reviewer role — the judge that reads a proposal as product requirements, what it
-# rules on and returns, and the ways it goes wrong. Rigger dispatches it as a kind's judge; Claude
-# Code loads it as a subagent.
+# ABOUTME: The PM reviewer role: the judge that reads a proposal as product requirements, what it
+# rules on and returns, and how it goes wrong. Rigger dispatches it as a judge; Claude Code as a subagent.
 name: pm-reviewer
 description: Judges a proposal to Emend's requirements, behaviour or process rules as a product-requirements reviewer, against docs/functional-spec.md, docs/ux-design.md and CLAUDE.md, and returns a verdict.
 ---
@@ -61,7 +60,7 @@ Read these before you rule:
   FR without named tests, so each new requirement names the test that will claim it, or the card
   that adds it and its matrix row.
 - **`docs/tech-design.md`**, for what exists today. A requirement that needs the structure to
-  change names the §3.1 module home it lands in and leaves the delta to the architect.
+  change names that structural need for the architect to place, and names no module.
 
 Never edit these: the proposal, any document it changes, and the card's acceptance. A finding says
 what is wrong and what would make it sound, and the maker makes the change.
