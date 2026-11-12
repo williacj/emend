@@ -456,6 +456,67 @@ describe("App", () => {
     expect(openProjectMock).not.toHaveBeenCalled();
   });
 
+  describe("a startup project read that answers after a newer project entry (#72)", () => {
+    function deferStartupRead() {
+      let resolveStartup!: (root: string | null) => void;
+      let rejectStartup!: (error: unknown) => void;
+      currentProjectMock.mockReturnValueOnce(
+        new Promise<string | null>((resolve, reject) => {
+          resolveStartup = resolve;
+          rejectStartup = reject;
+        }),
+      );
+      return { resolveStartup, rejectStartup };
+    }
+
+    it("leaves the opened document's authoring layout and tab session alone when it answers the same root", async () => {
+      const { resolveStartup } = deferStartupRead();
+      render(<App />);
+      await act(async () => {
+        await testHarness.openProject?.("/project", "notes/outline.md");
+      });
+      await waitFor(() => expect(beginTabSessionMock).toHaveBeenCalledTimes(1));
+      expect(document.querySelector(".app-body")).not.toHaveClass("app-body--workshop");
+
+      await act(async () => {
+        resolveStartup("/project");
+      });
+
+      expect(document.querySelector(".app-body")).not.toHaveClass("app-body--workshop");
+      expect(beginTabSessionMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("reports nothing and keeps the entered project when it fails", async () => {
+      const { rejectStartup } = deferStartupRead();
+      render(<App />);
+      await act(async () => {
+        await testHarness.openProject?.("/project", "notes/outline.md");
+      });
+      await waitFor(() => expect(beginTabSessionMock).toHaveBeenCalledTimes(1));
+
+      await act(async () => {
+        rejectStartup({ kind: "Io", message: "startup read failed" });
+      });
+
+      expect(screen.queryByText(/startup read failed/)).not.toBeInTheDocument();
+      expect(document.querySelector(".app-body")).not.toHaveClass("app-body--workshop");
+      expect(screen.queryByRole("button", { name: "Open a folder…" })).not.toBeInTheDocument();
+    });
+
+    it("still reports a startup read failure when no project was entered meanwhile", async () => {
+      const { rejectStartup } = deferStartupRead();
+      render(<App />);
+
+      await act(async () => {
+        rejectStartup({ kind: "Io", message: "startup read failed" });
+      });
+
+      expect(
+        await screen.findByText("Emend couldn’t complete the requested action. startup read failed"),
+      ).toBeInTheDocument();
+    });
+  });
+
   it("shares one live provider probe across onboarding, header, and the document connection chip", async () => {
     detectProvidersMock.mockResolvedValueOnce([
       { provider: "claude_code", state: "signed_in", account: "cj@example.com" },
