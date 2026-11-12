@@ -29,12 +29,17 @@
       "Bash(git push:*)",
       "Bash(npm test:*)",
       "Bash(npm run:*)",
+      "Bash(cargo test:*)",
+      "Bash(cargo build:*)",
+      "Bash(cargo fmt:*)",
+      "Bash(cargo clippy:*)",
       "Bash(gh issue create:*)",
       "Bash(gh issue view:*)",
       "Bash(gh pr create:*)",
       "Bash(gh pr diff:*)",
       "Bash(gh pr view:*)",
       "Bash(gh pr comment:*)",
+      "Bash(gh pr checks:*)",
       "Edit(./**)"
     ],
     "deny": [

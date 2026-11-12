@@ -3,7 +3,7 @@
 
 # Emend agent instructions
 
-Read [CLAUDE.md](CLAUDE.md) before changing this repository. It contains Emend's project rules, design authorities, test gates, and review process, and its "Cards and Rigger" section says how a card is made, judged and merged by [Rigger](https://github.com/williacj/rigger). This file holds the rules that process puts on every session. Both files bind every session.
+Read [CLAUDE.md](CLAUDE.md) in full at the start of every session, whether or not you will change anything: Claude Code loads it for you, and Codex loads only this file. It contains Emend's project rules, design authorities, test gates, and review process, and its "Cards and Rigger" section says how a card is made, judged and merged by [Rigger](https://github.com/williacj/rigger). This file holds the rules that process puts on every session. Both files bind every session.
 
 ## Sessions and roles
 

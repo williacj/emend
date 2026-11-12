@@ -41,14 +41,35 @@ resolve (`CLAUDE.md`, "Project Context"). Where the card belongs to a phase,
 `docs/implementation-plan.md` carries its milestone; read that too.
 
 **4. Verify yourself.** Independently run the suites `CLAUDE.md`'s "Starting Work & Testing"
-names for every layer the change touches, and any other check the acceptance relies on. Judge
+names for every layer the change touches, and any other check the acceptance relies on. Run
+each of these that your sandbox allows: `npm test`, `npm run test:scripts`,
+`npm run matrix:check`, `cargo test --workspace` in `src-tauri/`, and `npm run test:e2e`. Judge
 the tests the change adds against the [tdd skill's](../tdd/SKILL.md) "Make the assertion
 discriminate"; the skill's workflow is the maker's, not yours. Maker reports are context, never
 proof; read the acceptance and the implementation.
 
-Record exactly which required command you could not run, and why. A check you did not run proves
-nothing, even under an exception. Only the owner's exception for this head and acceptance permits a
-verdict with required reviewer work outstanding (`CLAUDE.md`, "Rule #1").
+Some of that work your sandbox cannot do. It can refuse a browser launch or a file watch, and
+you never run on Windows. A local failure is your sandbox's only where its error names an
+operation the sandbox refused, such as `Operation not permitted` or a denied launch. Any other
+failure is the work's. For a suite your sandbox blocks, and always for Windows, take the result
+from the pull request's own CI run on the head you rule on:
+
+- **Wait for CI to finish.** A pending or missing check is not a pass.
+  `gh pr checks <number> --watch` waits until every check ends, and
+  `gh pr view <number> --json headRefOid,statusCheckRollup` shows each check's state.
+- **Check that the results are for your head.** `headRefOid` is the head you rule on. A result
+  for another head proves nothing about this one.
+- **A failed check is evidence**, as a failed local run is.
+- **CI is the forge's own run**, not the maker's report, so it counts as evidence where a maker's
+  report does not.
+
+This binds fully once #14 makes the CI checks required on `main`.
+
+Record which suites you ran locally and which you took from CI, naming each check and its
+result. Record exactly which required command you neither ran nor took from CI, and why. A check
+you did not run proves nothing, even under an exception. Only the owner's exception for this head
+and acceptance permits a verdict with required reviewer work outstanding (`CLAUDE.md`, "Rule
+#1").
 
 **5. Sweep the lenses** for every constitution document the change touches.
 
@@ -178,7 +199,8 @@ verdict marker owns what a marker carries.
 3. Whether the acceptance covered what the card asked, and why.
 4. The blocking findings.
 5. Non-blocking observations, where they are materially useful.
-6. The verification you ran: the exact commands, and what they returned.
+6. The verification you ran: the exact commands, and what they returned. Then the suites you
+   took from CI: each check's name, the head it ran on, and its result.
 7. The verdict, and where it is not sound, what would make it sound.
 
 ## The verdict

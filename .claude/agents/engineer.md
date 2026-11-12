@@ -17,6 +17,9 @@ what follows is what is true of you in particular.
   title, and not your reading of it. Work every item.
 - **Work in the worktree you were given**, on its branch.
 - **Deliver the work as a pull request**, so a judge can read and rule on it before it lands.
+- **Run the suites yourself before you push.** A judge may take a suite its sandbox blocks from
+  the pull request's CI. That allowance is a judge's, not yours: `CLAUDE.md`'s "Starting Work &
+  Testing" still has you run every applicable suite you can, locally, before each push.
 - Before first push, check branch against `rigger.config.mjs`'s topic rule.
 - Record the branch in the PR handoff. Which roles judge the work, and on which provider, is
   `rigger.config.mjs`'s, as `CLAUDE.md`'s "Cards and Rigger" says.
