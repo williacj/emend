@@ -52,8 +52,8 @@ Read these before you draft:
   of the several that satisfy it, so read it for what the structure has to carry.
 - **`docs/tech-design.md`, whole.** Read the ratified TD-# decisions, and the status notes that
   mark a proposed one. A delta contradicting a section you did not open is the defect this role
-  exists to catch. Where your delta needs a ratified TD-# to change, escalate the card as
-  `recorded-decision`. Never write around one.
+  exists to catch. Where your delta needs a ratified TD-# changed that the card's acceptance did
+  not ask for, escalate the card as `recorded-decision`. Never write around one.
 - **`docs/test-plan.md`** — the properties P1–P6 and the substitution discipline (§7b) every
   structure must stay testable under.
 - **`CLAUDE.md`'s non-negotiable invariants**, which no structure may weaken.

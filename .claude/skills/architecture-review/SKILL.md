@@ -25,8 +25,10 @@ D# or FR-* an invariant carries, or a property P1–P6. A finding with no id is 
   "The engineering sweep" admits it: you can show the failure path.
 - **A decision nobody has recorded.** The proposal needs a structural choice that
   `docs/tech-design.md` does not make. That is a finding, and it traces to `docs/tech-design.md`
-  §3.1 or §2 as the place the missing decision belongs. The finding names the delta needed. The
-  owner, or the architect as a maker, files that delta as a `type:tech-design` card; you do not.
+  §3.1 or §2 as the place the missing decision belongs. Where the card's acceptance names a
+  `type:tech-design` card for that choice and the proposal cites it, the choice is in scope and is
+  no finding. Otherwise the finding names the delta needed. You never file a card; the owner
+  files it.
 
 ## Read these first
 
@@ -48,10 +50,12 @@ Ask each question of every structure the proposal names or assumes.
 2. **Does it keep the boundary?** The Rust backend and the frontend, the app and the agent behind
    the MCP contract (TD-1), and the workspace crates (TD-10). A requirement that reaches through a
    boundary for something on the far side is a finding against the decision that drew it.
-3. **Does it keep every TD-# contract it touches?** Read the row, not your memory of it. A
-   proposal that needs a ratified TD-# to change declares the change and names the companion
-   `type:tech-design` card that will make it, because a `docs/tech-design.md` change is a card of
-   its own (`CLAUDE.md`, "Cards and Rigger"). One that changes a TD-# silently is a finding.
+3. **Does it keep every TD-# contract it touches?** Read the row, not your memory of it. A TD-#
+   change the proposal relies on is in scope only as a citation of the `type:tech-design` card the
+   card's acceptance names for it, and the proposal writes no TD-# content (`CLAUDE.md`, "Cards and
+   Rigger"). A TD-# change with no such card, whether relied on silently or written into the
+   proposal, is a finding: the acceptance item it falls under is unmet, or the verdict is
+   `critical` where only the owner can resolve it.
 4. **Does it name a mechanism?** A requirement, journey or test rule that names a module, crate or
    data structure has written structure in the PM's lane (`.claude/agents/pm.md`, "The ways you go
    wrong"). The finding asks for the requirement without the mechanism, and the structural choice

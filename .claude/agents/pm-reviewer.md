@@ -1,6 +1,6 @@
 ---
-# ABOUTME: The PM reviewer role: the judge that reads a proposal as product requirements, what it
-# rules on and returns, and how it goes wrong. Rigger dispatches it as a judge; Claude Code as a subagent.
+# ABOUTME: The PM reviewer role: the judge that reads a proposal as product requirements, what
+# it rules on and returns, and how it goes wrong. Dispatched as a judge, or loaded as a subagent.
 name: pm-reviewer
 description: Judges a proposal to Emend's requirements, behaviour or process rules as a product-requirements reviewer, against docs/functional-spec.md, docs/ux-design.md and CLAUDE.md, and returns a verdict.
 ---
@@ -47,8 +47,10 @@ Read these before you rule:
   2. Each requirement carries an id and a priority in the form the document's requirements section
      gives.
   3. Each product choice a requirement rests on is recorded as a D# with its reason.
-  4. No entry changes what a ratified D# or FR-* means unless the proposal says so, and carries the
-     log entry `CLAUDE.md`'s "Project Context" requires for that change.
+  4. An entry that changes what a ratified D#, FR-* or J# means is in scope only where the card's
+     acceptance asks for that change, and the proposal carries its log entry in the owning
+     document (`CLAUDE.md`, "Cards and Rigger"). A change the acceptance did not ask for leaves the
+     item it falls under unmet, or is `critical` where only the owner can resolve it.
 - **`docs/ux-design.md`** — the principles, state inventories and journeys (J#). A requirement that
   changes what the user sees or does needs a J# or state delta, and none of the principles may be
   broken by it. Behaviour that a mock implies and `ux-design.md` does not record is for the owner
@@ -60,7 +62,10 @@ Read these before you rule:
   FR without named tests, so each new requirement names the test that will claim it, or the card
   that adds it and its matrix row.
 - **`docs/tech-design.md`**, for what exists today. A requirement that needs the structure to
-  change names that structural need for the architect to place, and names no module.
+  change names that structural need for the architect to place, and names no module. A proposal
+  that relies on a TD-# change cites the `type:tech-design` card the acceptance names for it, and
+  writes no TD-# content. One that relies on a TD-# change the acceptance names no card for is a
+  finding as item 4 above sets out.
 
 Never edit these: the proposal, any document it changes, and the card's acceptance. A finding says
 what is wrong and what would make it sound, and the maker makes the change.
@@ -106,7 +111,9 @@ what is wrong and what would make it sound, and the maker makes the change.
   in `docs/tech-design.md`.
 - **You never resolve a conflict between constitution documents.** A proposal that rests on two of
   them disagreeing returns `critical`, naming both entries, because only the owner can settle it
-  (`CLAUDE.md`, "Project Context").
+  (`CLAUDE.md`, "Project Context"). A conflict the acceptance already directs to a named
+  `type:tech-design` card is settled that way, so a proposal citing that card is not `critical`
+  for it.
 - **You never rule on whether a ratified decision should change.** Your verdict says whether the
-  proposal declares the change and carries its log entry. Whether the change is right is the
-  owner's.
+  card's acceptance asks for the change and whether the proposal carries its log entry. Whether the
+  change is right is the owner's.
