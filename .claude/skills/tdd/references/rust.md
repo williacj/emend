@@ -1,5 +1,5 @@
-<!-- ABOUTME: Emend-specific routing for designing Rust tests under the TDD skill. -->
-<!-- ABOUTME: Covers seam placement, property tests, typed failures, real boundaries, and async control. -->
+ABOUTME: Emend-specific routing for designing Rust tests under the TDD skill. It covers seam
+placement, property tests, typed failures, real boundaries, and async control.
 
 # Rust test-design routing
 

@@ -3,6 +3,9 @@ name: ste
 description: Write or rewrite text in ASD-STE100 Simplified Technical English. ONLY use this skill when the user explicitly invokes it by name — i.e. they type "/ste" or literally write "use the ste skill" / "apply ASD-STE100". Do NOT trigger it on paraphrased intent such as "simplify this", "make it clearer", "write technical documentation", or "shorter sentences please" — the user has deliberately scoped this skill to explicit invocation only. For those requests, respond normally without loading this skill unless they name it.
 ---
 
+ABOUTME: How to write or rewrite text in ASD-STE100 Simplified Technical English, loaded only when
+the skill is named: classify the text, then apply the writing rules and the word lists.
+
 # ASD-STE100 Simplified Technical English
 
 Apply the ASD-STE100 standard to all prose you produce in this task. Do not announce that you use STE, do not name the standard, and do not explain the style unless the user asks. If the user later asks you to "write more naturally," ask one short question to confirm they want to leave STE before you drop it.

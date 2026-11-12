@@ -3,8 +3,8 @@ name: tdd
 description: "Design discriminating tests while implementing an Emend feature or bugfix, or while writing or changing tests. Load before the first test body. Do not use for independent review, pre-handoff-only checking, prose-only cards, or throwaway spikes."
 ---
 
-<!-- ABOUTME: Emend's test-design workflow for discriminating red-green-refactor cycles. -->
-<!-- ABOUTME: Moves oracle, seam, variation, and valid-RED decisions to the moment each test is designed. -->
+ABOUTME: Emend's test-design workflow for discriminating red-green-refactor cycles. It moves
+oracle, seam, variation, and valid-RED decisions to the moment each test is designed.
 
 # Discriminating TDD
 

@@ -1,3 +1,6 @@
+ABOUTME: The ste skill's word list: unapproved words with their approved substitutes, and the
+one-meaning rulings, compiled from public secondary sources.
+
 # Word substitutions and one-meaning rulings
 
 Compiled from public secondary sources (STEMG/ASD public pages, TechScribe, Acrolinx, training materials). This is a working approximation, not the official ASD dictionary. When a word is not listed here and feels formal or Latin-derived, prefer the shortest common alternative.
