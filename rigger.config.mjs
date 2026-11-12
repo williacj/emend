@@ -34,13 +34,21 @@ export default {
       provisioning: ['npm-ci', 'cargo-build'],
     },
     // A requirements proposal: the PM makes it, a panel of agent judges rules concurrently, and
-    // CJ rules last.
+    // the owner rules last.
     spec: {
       select: { labels: ['type:spec'] },
       maker: 'pm',
       judges: ['reviewer', 'engineer', 'architect', 'owner'],
       rounds: 2,
       // A proposal changes documents, so its workspaces skip the Rust build.
+      provisioning: ['npm-ci'],
+    },
+    // A change to docs/tech-design.md: the architect makes it, the reviewer judges it, and the
+    // owner rules last (#16). It changes documents, so its workspaces skip the Rust build.
+    'tech-design': {
+      select: { labels: ['type:tech-design'] },
+      maker: 'architect',
+      judges: ['reviewer', 'owner'],
       provisioning: ['npm-ci'],
     },
   },

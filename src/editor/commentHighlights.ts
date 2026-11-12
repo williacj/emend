@@ -569,7 +569,7 @@ function bottomLine(width: string, style: string, color: string) {
  * come from `docs/design/specs/tokens.md` → *Comment-anchor states* (refreshes (32)–(34)), which
  * specifies dark for this surface; `docs/design/specs/state.md` records that carve-out from the
  * folder's otherwise-unspecified dark mode. jsdom resolves no custom property, so the drawn colour
- * is a CJ hands-on check; what the tests pin is each rule's token, pattern and weight, and each
+ * is an owner hands-on check; what the tests pin is each rule's token, pattern and weight, and each
  * token's declared value in both themes.
  */
 const commentHighlightTheme = EditorView.baseTheme({
