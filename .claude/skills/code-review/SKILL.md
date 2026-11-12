@@ -36,7 +36,7 @@ still unchecked. It implies no final verdict.
 constitution document that owns it, from the list in `CLAUDE.md`'s "Project Context":
 `docs/functional-spec.md` (D#, FR-*), `docs/ux-design.md` (J#), `docs/tech-design.md` (TD-#,
 §3.1), `docs/test-plan.md` (P#), and `docs/design/` for appearance, by mock id. Read what each
-says about the change. Where two of them disagree, that is a finding for CJ, never yours to
+says about the change. Where two of them disagree, that is a finding for the owner, never yours to
 resolve (`CLAUDE.md`, "Project Context"). Where the card belongs to a phase,
 `docs/implementation-plan.md` carries its milestone; read that too.
 
@@ -47,8 +47,8 @@ discriminate"; the skill's workflow is the maker's, not yours. Maker reports are
 proof; read the acceptance and the implementation.
 
 Record exactly which required command you could not run, and why. A check you did not run proves
-nothing, even under an exception. Only CJ's exception for this head and acceptance permits a verdict
-with required reviewer work outstanding (`CLAUDE.md`, "Rule #1").
+nothing, even under an exception. Only the owner's exception for this head and acceptance permits a
+verdict with required reviewer work outstanding (`CLAUDE.md`, "Rule #1").
 
 **5. Sweep the lenses** for every constitution document the change touches.
 
@@ -155,7 +155,7 @@ Separate what blocks from what does not, and do not pad. A long list of preferen
 one thing that must change. A finding a maker cannot act on is not a finding.
 
 Authority comes from Emend's constitution and from what you can observe, never from who is making
-the claim — including when the claim is the maker's, or CJ's, or your own prior round's.
+the claim — including when the claim is the maker's, or the owner's, or your own prior round's.
 
 ## When you are not sure
 
@@ -190,7 +190,7 @@ Three values, and Rigger fixes them:
 - **critical** — the work has a fault that must not merge. The loop escalates the card in that
   category rather than spending its rounds.
 
-Use `critical` only for a fault no maker revision could resolve without CJ's decision;
+Use `critical` only for a fault no maker revision could resolve without the owner's decision;
 a fault a maker revision could resolve is `needs revision`.
 
 A verdict that is not sound names what would make it sound. A verdict leaving any acceptance item

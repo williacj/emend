@@ -1,6 +1,6 @@
 ---
 name: proposal
-description: Turn a fuzzy need into a proposal CJ can ratify — the problem and its evidence, the entries that follow, what is out of scope, and what stays unresolved. Load before drafting any delta to Emend's constitution, and before asking CJ for what you are missing.
+description: Turn a fuzzy need into a proposal the owner can ratify — the problem and its evidence, the entries that follow, what is out of scope, and what stays unresolved. Load before drafting any delta to Emend's constitution, and before asking the owner for what you are missing.
 ---
 
 ABOUTME: How a role gets from "I want X" to a proposal: what to establish before drafting an entry,
@@ -10,23 +10,23 @@ has to carry.
 # Writing a proposal
 
 A delta to Emend's constitution is a proposal, whoever wrote it: changing a recorded decision
-takes CJ's explicit agreement and a log entry in the owning document (`CLAUDE.md`, "Project
+takes the owner's explicit agreement and a log entry in the owning document (`CLAUDE.md`, "Project
 Context"). The entries are a proposal's payload; the proposal is the argument that earns them. It
-travels as the pull request body, and CJ ratifies from it.
+travels as the pull request body, and the owner ratifies from it.
 
 `.claude/skills/spec-style/` holds the form an entry is written in. This skill holds what has to be
 true before you write one.
 
 ## The one test
 
-**CJ must be able to ratify without reconstructing your reasoning.** CJ knows the need they voiced.
-CJ does not know what you found, what you ruled out, or what you assumed. Anything that moved you
-and is not written down is lost.
+**The owner must be able to ratify without reconstructing your reasoning.** The owner knows the need
+they voiced. The owner does not know what you found, what you ruled out, or what you assumed.
+Anything that moved you and is not written down is lost.
 
 ## Establish these before you draft
 
 Draft no entry until you can answer all four. Where the answer is neither in the repository nor in
-the card, ask CJ and wait for the reply. Dispatched, you cannot ask: escalate the card as
+the card, ask the owner and wait for the reply. Dispatched, you cannot ask: escalate the card as
 `ambiguous`, naming what is missing.
 
 - **The problem, in observable terms.** What goes wrong today, to whom, and how often. "Emend has
@@ -54,8 +54,8 @@ answer has its document.
 - **A requirement** — what Emend must do. It lands in `docs/functional-spec.md` as an FR-*, and a
   product choice it rests on lands in that document's decision log as a D#.
 - **Behaviour and flow** — a journey (J#), a state, or a principle. It lands in
-  `docs/ux-design.md`. Behaviour a mock implies that `ux-design.md` does not record is for CJ and
-  the Designer to capture (`CLAUDE.md`, "Reading `docs/design/`"). Dispatched, escalate it: as
+  `docs/ux-design.md`. Behaviour a mock implies that `ux-design.md` does not record is for the owner
+  and the Designer to capture (`CLAUDE.md`, "Reading `docs/design/`"). Dispatched, escalate it: as
   `recorded-decision` where it would change a recorded J#, otherwise as `ambiguous`.
 - **A test rule** — a property (P#), a process rule for tests, or a release gate. It lands in
   `docs/test-plan.md`, and a requirement's named tests land in `docs/test-matrix.md`.
@@ -66,7 +66,7 @@ answer has its document.
   of its own, filed as `CLAUDE.md`'s "Cards and Rigger" says. A structural choice is the
   architect's, so a PM drafting one has left its lane.
 - **A structure** — a process, a module home, a contract. It lands in `docs/tech-design.md`'s
-  component designs, §3.1 included, and the architect proposes every delta there while CJ
+  component designs, §3.1 included, and the architect proposes every delta there while the owner
   ratifies it. `.claude/agents/pm.md` forbids the PM to edit
   that file: name the module home the delta lands in, say why the requirement needs it, and leave
   the delta to the architect.
@@ -88,8 +88,8 @@ the proposal owes beyond it:
   holds the rule and the words it bars. An entry is read the same way an acceptance item is, by
   someone who cannot ask you, and it fails the same way.
 
-**A proposal never lands as ratified.** Every entry in the constitution binds, so yours waits in
-the pull request until CJ ratifies it. Write it as it will read once ratified, and let the pull
+**A proposal never lands as ratified.** Every entry in the constitution binds, so yours waits in the
+pull request until the owner ratifies it. Write it as it will read once ratified, and let the pull
 request body say it is a proposal.
 
 ## Run every check you specify
@@ -99,13 +99,13 @@ that already exists, in executable form. Verify it before you recommend it.
 
 - **Run it against the files it would run on**, before it reaches the draft.
 - **Write down what it returns today**: how many entries it passes, how many it fails, and which
-  ones. A check whose present result the proposal leaves out is one CJ cannot ratify, because a
-  clean run and an unrun check read the same on the page.
+  ones. A check whose present result the proposal leaves out is one the owner cannot ratify, because
+  a clean run and an unrun check read the same on the page.
 - **Where the run fails something the constitution permits, the check is wrong.** Correct it, or
   propose the entry that makes the constitution match it.
 
 An observation about what the constitution currently says is the same claim, and takes the same
-run. An unrun check reads as a finding, and CJ ratifies it as one.
+run. An unrun check reads as a finding, and the owner ratifies it as one.
 
 ## What the argument carries
 
@@ -118,12 +118,12 @@ reshapes a section wants more. Leave a heading out where it holds nothing, rathe
 3. **What it rests on.** The decision being recorded, if any, and what would reverse it. Where an
    existing D# or TD-# already settles it, cite that instead.
 4. **What it changes underneath.** The module home or contract the entries land in, named, and
-   the journeys they change. A signal for CJ, never a reason to soften an entry.
+   the journeys they change. A signal for the owner, never a reason to soften an entry.
 5. **Out of scope.** The boundary you established, written down: three to five things a reader
    would expect and will not find, each with its reason. Deferred, better as its own card,
    foreclosed by a decision, or not yet evidenced.
-6. **What it costs.** What gets harder, slower or impossible once CJ ratifies this. A proposal
-   with no cost has not been examined.
+6. **What it costs.** What gets harder, slower or impossible once the owner ratifies this. A
+   proposal with no cost has not been examined.
 7. **Open questions.** Each marked blocking or non-blocking, and each addressed to whoever resolves
    it.
 
@@ -133,8 +133,8 @@ Where the need has a shape — a state machine, a sequence crossing the app and 
 boundary being redrawn — draw it. `.claude/skills/spec-style/` rule 3 asks for structure that
 matches the meaning, and prose is not always the matching structure.
 
-- **Mermaid in a fenced block**, not ASCII art. It renders for CJ, reads as plain text to a role on
-  dispatch, and diffs a line at a time.
+- **Mermaid in a fenced block**, not ASCII art. It renders for the owner, reads as plain text to a
+  role on dispatch, and diffs a line at a time.
 - **The diagram argues for the entries, and is never where an entry comes from.** Draw it, then
   read it back and write what it shows as entries. A fact surviving only in the picture never
   reached the constitution, and the constitution is what binds.
@@ -149,7 +149,7 @@ Two kinds, both marked inline at the sentence they affect, never collected at th
 reader meets them too late.
 
 - **An assumption** — plausible, unvalidated, and you drafted on it. Name what would falsify it.
-- **An open question** — unknown, and it needs discovery or CJ. Name who resolves it.
+- **An open question** — unknown, and it needs discovery or the owner. Name who resolves it.
 
 An unmarked gap reads as a fact. The maker builds against what the entry says, not against what
 you meant. An assumption you left unmarked therefore reaches them as an instruction, which is

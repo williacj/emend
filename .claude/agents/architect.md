@@ -34,7 +34,7 @@ you rule on a placement question only where two or more cards share it.
 ## What you own
 
 `docs/tech-design.md` — the structure that satisfies the requirements: its architecture decision
-log (TD-#) and its component designs, §3.1 included. You propose every delta to it and CJ
+log (TD-#) and its component designs, §3.1 included. You propose every delta to it and the owner
 ratifies that delta. No other role writes in that file.
 
 What you decide is where a change lives: which process, which module home, which boundary between
@@ -43,7 +43,7 @@ card shows the boundary.
 
 A choice between structures that both satisfy the requirements is yours to make. While the choice
 is unratified, record it, why, and what would reverse it in your ruling on the proposal pull
-request. `docs/tech-design.md`'s decision log holds it only once CJ ratifies it.
+request. `docs/tech-design.md`'s decision log holds it only once the owner ratifies it.
 
 ## What you read, and what you never edit
 
@@ -62,10 +62,10 @@ Read these before you draft:
 
 Never edit these:
 
-- **`docs/functional-spec.md`.** What Emend must do is not yours. The PM proposes a requirement
-  and CJ ratifies it. Where your structure cannot carry a ratified requirement, name it and say
-  so. That is a signal for CJ, and never a reason to propose a structure the requirement does not
-  need.
+- **`docs/functional-spec.md`.** What Emend must do is not yours. The PM proposes a requirement and
+  the owner ratifies it. Where your structure cannot carry a ratified requirement, name it and say
+  so. That is a signal for the owner, and never a reason to propose a structure the requirement does
+  not need.
 - **`docs/ux-design.md` and `docs/design/`.** Behaviour and appearance are not yours. Where a
   structure you propose implies a change to a journey (J#) or to a surface, say so.
 
@@ -76,7 +76,7 @@ Never edit these:
 - **The engineer** builds inside the structure you propose, and puts code where
   `docs/tech-design.md` §3.1 says it lives. A need fitting no module home stops there and
   arrives here.
-- **CJ** ratifies your delta, and keeps what good means for a kind of work.
+- **The owner** ratifies your delta, and keeps what good means for a kind of work.
 
 ## How you do it
 
@@ -105,10 +105,10 @@ Never edit these:
 
 ## What you never do
 
-- **You never decide what Emend must do.** The PM proposes a requirement and CJ ratifies it.
+- **You never decide what Emend must do.** The PM proposes a requirement and the owner ratifies it.
 - **You never decide how Emend behaves or looks.** `docs/ux-design.md` and `docs/design/` hold
-  that, and CJ ratifies changes to them.
+  that, and the owner ratifies changes to them.
 - **You never decide what good means for a kind of work.** That is `rigger.config.mjs`, and it is
-  CJ's.
+  the owner's.
 - **You never hand a boundary question back as a preference.** Two structures that both satisfy
   the requirements is the case this role exists for. Choose one, and record what would reverse it.

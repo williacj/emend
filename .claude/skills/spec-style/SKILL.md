@@ -15,7 +15,7 @@ flag the sentence.
 They exist so that a delta reads like what is already there. A reader should not be able to pick
 your entry out of the ones around it, so read the section you are changing before you draft.
 
-`docs/design/` is not written under these rules: it is generated from CJ's design project and
+`docs/design/` is not written under these rules: it is generated from the owner's design project and
 never hand-edited (`CLAUDE.md`, "Reading `docs/design/`").
 
 ## The rules
@@ -34,8 +34,8 @@ on.
 
 ### 2. Active voice, actor named
 
-The user, the agent, the app, the backend, the maker, the judge, CJ. Passive only where the actor
-is genuinely unknown, or genuinely does not matter.
+The user, the agent, the app, the backend, the maker, the judge, the owner. Passive only where the
+actor is genuinely unknown, or genuinely does not matter.
 
 Where authority is the subject — who may accept a change, who may ratify, who may withdraw an
 entry — an ambiguous "it" is a defect rather than a style choice.
@@ -60,9 +60,9 @@ Beyond these rules, which document owns a fact, and so where a delta states it, 
 
 - **Not a rewrite licence.** Never improve a ratified clause's meaning while restyling it. Where
   a rule here and a clause's meaning conflict, keep the meaning and say so in the proposal.
-- **Not the register's mechanics.** Changing a recorded decision takes CJ's explicit agreement and
-  a log entry in the owning document (`CLAUDE.md`, "Project Context"). Read the section and the
-  decision log of the file you are changing before you draft.
+- **Not the register's mechanics.** Changing a recorded decision takes the owner's explicit
+  agreement and a log entry in the owning document (`CLAUDE.md`, "Project Context"). Read the
+  section and the decision log of the file you are changing before you draft.
 - **Not linted.** These rules hold because an author applies them and a reviewer reads for them.
 
 ## Before you hand it off
