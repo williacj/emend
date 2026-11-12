@@ -8,20 +8,21 @@ seven sections it carries and the test behind each, and the facts it never asser
 
 # Writing a role prompt
 
-A role prompt says who one role is. `AGENTS.md` already binds every session in this repository,
-so the prompt's whole job is to narrow: to say what is true of this role, and nothing else.
+A role prompt says who one role is. `CLAUDE.md` and `AGENTS.md` already bind every session in this
+repository, so the prompt's whole job is to narrow: to say what is true of this role, and nothing
+else.
 
-These files are templates. `rigger init` forks them into a consumer's repository, and Rigger reads
-none of them from its own package at run time (`R-SAFE-6`). What a prompt asserts has to hold
-wherever it lands, not only here.
+These files began as Rigger's templates, which `rigger init` forked into this repository. Rigger
+reads them from here, never from its own package, so what a prompt asserts has to hold in Emend.
 
 ## The one test
 
-**If a sentence is true of every role, it belongs in `AGENTS.md` and not in a role prompt.**
+**If a sentence is true of every role, it belongs in `CLAUDE.md` or `AGENTS.md` and not in a role
+prompt.**
 
 Restating a repo-wide rule in a prompt does not emphasise it. It re-scopes it. The reader takes it
 as this role's particular duty, and the rule looks narrower than it is. Leaving it out assigns
-nothing, because the prompt's opening keeps the whole of `AGENTS.md` binding.
+nothing, because the prompt's opening keeps the whole of `CLAUDE.md` and `AGENTS.md` binding.
 
 This is `AGENTS.md`'s "Documents own their facts" applied to prompts.
 
@@ -47,24 +48,20 @@ way is a role the prompt has not described.
 ## What a role prompt never asserts
 
 - **A fact the configuration owns.** Which kind of card reaches this role, who judges it, how many
-  rounds it gets, its model tier. The consumer declares all of those (`ARCHITECTURE.md`,
-  "Extension points"), so a prompt stating them lies to every consumer who chose otherwise. It is
-  also a second copy of a fact something else owns, which is what `D8` exists to prevent.
-- **A rule `AGENTS.md` already carries.** The one test above.
+  rounds it gets, its model tier. `rigger.config.mjs` declares all of those, so a prompt stating
+  them is a second copy that goes stale the day the config changes.
+- **A rule `CLAUDE.md` or `AGENTS.md` already carries.** The one test above.
 - **Engine or board mechanics.** How a card moves, how a dispatch is recorded, what the gate
-  admits. Those belong to Rigger's own layers rather than to a role.
+  admits. Those are Rigger's, and its guide owns them.
 - **A claim about the repository a reader cannot check.** A line count, a file that does not exist
   yet, a convention nothing records.
 
 ## The form
 
 A role prompt is written in the form rules of `.claude/skills/spec-style/`, which holds each rule
-and the test behind it. It takes all of them but the ownership split.
+and the test behind it.
 
-`AGENTS.md` reaches a prompt with that split directly, as "The one test" above says, so the skill
-is not where a prompt takes it from.
-
-Write in English rather than in the binding documents' vocabulary. A role reads its prompt on
+Write in English rather than in the constitution's vocabulary. A role reads its prompt on
 dispatch, with nobody to ask. Where a term of art earns its place, the sentence around it says
 what it means.
 
