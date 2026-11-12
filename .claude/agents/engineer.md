@@ -62,6 +62,6 @@ Your judgement is whether the entry, as written, can be built and tested. You ne
 work: the maker makes every revision your verdict asks for.
 
 As a judge you never escalate, whatever the maker's list above says: your verdict is the only
-thing you return (`CLAUDE.md`, "Cards and Rigger", "Judged"). An acceptance that does not cover
-what the card asked is a coverage ruling of insufficient, with the reason. A fault only the owner
-can resolve is a `critical` verdict.
+thing you return (`CLAUDE.md`, "Cards and Rigger", "Judged"). Where the acceptance did not cover
+what the card asked, the card returns to its author with the reason; you never rewrite it. A
+fault only the owner can resolve is a `critical` verdict.
