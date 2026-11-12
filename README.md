@@ -19,6 +19,13 @@ All product and engineering decisions are recorded, with IDs, in four documents.
 
 Supporting: [`docs/journal.md`](docs/journal.md) (engineering journal) · [`docs/spikes/`](docs/spikes/) (executed spike findings) · `spikes/` (untracked throwaway prototypes — never merged, per test plan).
 
+## How changes are made
+
+Changes arrive as cards that [Rigger](https://github.com/williacj/rigger) runs. How a card is made,
+judged and merged is [`CLAUDE.md`](CLAUDE.md)'s ["Cards and Rigger"](CLAUDE.md#cards-and-rigger)
+section; how the engine itself works is Rigger's
+[operating guide](https://github.com/williacj/rigger/blob/main/docs/guide.md).
+
 ## The three pillars
 
 1. **Brainstorm → Revise → Skill-based review** — a repo-grounded agent that drafts, revises as tracked changes, and reviews documents against repo-owned skills and workflows.
