@@ -42,6 +42,10 @@ rather than padded.
 | The ways you go wrong | The mistakes this role in particular makes | The section would be false or pointless in another prompt |
 | What you never do | Prohibitions particular to this role, each with its source | No line survives being pasted into another prompt unchanged |
 
+The role's key under `roles` in `rigger.config.mjs`, such as `pmReviewer`, is the name Rigger
+dispatches it by and writes as `role` in a verdict marker. The frontmatter `name` may be its
+hyphenated form, such as `pm-reviewer`, because Claude Code names agents that way.
+
 The last two are where a prompt earns its keep. A role a reader cannot get wrong in some specific
 way is a role the prompt has not described.
 

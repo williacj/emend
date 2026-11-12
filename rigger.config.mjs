@@ -23,6 +23,7 @@ export default {
     engineer: { agent: '.claude/agents/engineer.md', provider: 'claude', tier: 'standard' },
     reviewer: { agent: '.claude/agents/reviewer.md', provider: 'claude', tier: 'high' },
     pm: { agent: '.claude/agents/pm.md', provider: 'claude', tier: 'high' },
+    pmReviewer: { agent: '.claude/agents/pm-reviewer.md', provider: 'claude', tier: 'high' },
     architect: { agent: '.claude/agents/architect.md', provider: 'claude', tier: 'high' },
   },
   kinds: {
@@ -34,11 +35,11 @@ export default {
       provisioning: ['npm-ci', 'cargo-build'],
     },
     // A requirements proposal: the PM makes it, a panel of agent judges rules concurrently, and
-    // the owner rules last.
+    // the owner rules last. The PM reviewer reads it as product requirements (#17).
     spec: {
       select: { labels: ['type:spec'] },
       maker: 'pm',
-      judges: ['reviewer', 'engineer', 'architect', 'owner'],
+      judges: ['reviewer', 'pmReviewer', 'engineer', 'architect', 'owner'],
       rounds: 2,
       // A proposal changes documents, so its workspaces skip the Rust build.
       provisioning: ['npm-ci'],
