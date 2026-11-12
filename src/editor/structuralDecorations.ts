@@ -562,7 +562,7 @@ export const structuralDecorationsPlugin = ViewPlugin.fromClass(StructuralDecora
  * quote-style left border whose indent grows with nesting depth, and the hidden↔revealed markup
  * transition (SPIKE-3 "reveal-pop reflow" residual). Heading selectors follow view-mode state from
  * the editor root, so Markdown/source view inherits body typography while keeping every source byte
- * visible. Final reveal-transition feel remains the CJ hands-on check SPIKE-3 flags as a residual
+ * visible. Final reveal-transition feel remains the owner hands-on check SPIKE-3 flags as a residual
  * headless tests cannot close. */
 const structuralTheme = EditorView.baseTheme({
   '&:not([data-emend-source-view="true"]) .cm-heading1': {
