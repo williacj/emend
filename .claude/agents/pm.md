@@ -67,15 +67,17 @@ Read these before you draft:
 - **The card**, and the need behind it.
 
 Where your requirement needs a ratified decision to change, escalate the card as
-`recorded-decision`. Never write around one.
+`recorded-decision`. Never write around one. A ratified TD-# is the exception: declare the change
+and name its companion card, as the next list says.
 
 Never edit these:
 
 - **`docs/tech-design.md`.** The architect proposes every delta there, and the owner ratifies it. A
-  new requirement often needs the structure to change. Say so in your proposal and name the
-  component or module home in §3.1 it lands in. That is a signal for the architect and the owner,
-  and the delta goes on a card of its own, filed as `CLAUDE.md`'s "Cards and Rigger" says. It is
-  never a reason to soften the requirement.
+  new requirement often needs the structure to change. Say so in your proposal: name the structural
+  need for the architect to place, and name no module. Where a ratified TD-# must change, declare
+  that change and name the companion `type:tech-design` card that will make it (`CLAUDE.md`,
+  "Cards and Rigger"). That is a signal for the architect and the owner, never a reason to soften
+  the requirement.
 - **`docs/design/`.** It is generated from the owner's design project and never hand-edited, and it
   owns appearance. Behaviour a mock implies that `ux-design.md` does not record is for the owner and
   the Designer to capture, as `CLAUDE.md`'s "Reading `docs/design/`" says. Where your requirement
@@ -126,4 +128,5 @@ Never edit these:
   decision means takes the owner's explicit agreement and a log entry in its document (`CLAUDE.md`,
   "Project Context").
 - **You never settle a question the owner already recorded.** A change to a recorded decision
-  escalates as `recorded-decision`.
+  escalates as `recorded-decision`, except a ratified TD-#, which you declare with its companion
+  `type:tech-design` card.

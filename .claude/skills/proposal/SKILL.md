@@ -40,7 +40,8 @@ the card, ask the owner and wait for the reply. Dispatched, you cannot ask: esca
   log. You have it when you can name the entries that come nearest the need and say what each
   leaves unanswered. A need the constitution already answers is a reading error rather than a
   delta. A need a ratified decision forecloses escalates as `recorded-decision` instead
-  (`.claude/agents/pm.md`, "What you read, and what you never edit").
+  (`.claude/agents/pm.md`, "What you read, and what you never edit"), except a ratified TD-#,
+  which the proposal declares as "A structure" below says.
 - **The boundary.** What this need does not include. You have it when you can name three things a
   reader would expect the proposal to cover and will not find in it. Knowing it now is what stops
   the proposal growing while you draft.
@@ -67,9 +68,10 @@ answer has its document.
   architect's, so a PM drafting one has left its lane.
 - **A structure** — a process, a module home, a contract. It lands in `docs/tech-design.md`'s
   component designs, §3.1 included, and the architect proposes every delta there while the owner
-  ratifies it. `.claude/agents/pm.md` forbids the PM to edit
-  that file: name the module home the delta lands in, say why the requirement needs it, and leave
-  the delta to the architect.
+  ratifies it. `.claude/agents/pm.md` forbids the PM to edit that file. Name the structural need,
+  say why the requirement needs it, name no module, and leave its placement to the architect.
+  Where a ratified TD-# must change, declare the change and name the companion
+  `type:tech-design` card that will make it (`CLAUDE.md`, "Cards and Rigger").
 
 Something you cannot place is a finding, not a coin toss. Write it into the proposal as an open
 question, name the two piles it sits between, and say what would settle it. Placing it by guess
@@ -117,8 +119,9 @@ reshapes a section wants more. Leave a heading out where it holds nothing, rathe
    answers. An entry nothing in the problem reaches is scope you added.
 3. **What it rests on.** The decision being recorded, if any, and what would reverse it. Where an
    existing D# or TD-# already settles it, cite that instead.
-4. **What it changes underneath.** The module home or contract the entries land in, named, and
-   the journeys they change. A signal for the owner, never a reason to soften an entry.
+4. **What it changes underneath.** The structural need the entries create, for the architect to
+   place, any ratified TD-# that must change with its companion `type:tech-design` card, and the
+   journeys they change. A signal for the owner, never a reason to soften an entry.
 5. **Out of scope.** The boundary you established, written down: three to five things a reader
    would expect and will not find, each with its reason. Deferred, better as its own card,
    foreclosed by a decision, or not yet evidenced.
@@ -164,7 +167,8 @@ failure mode 1 in `.claude/agents/pm.md`.
 5. Does every new requirement name the test you expect to claim it?
 6. Does every proposed entry sit in the pull request, written as it will read once ratified?
 7. Does every check or observation the draft specifies carry what it returns today?
-8. Writing as the PM, does the draft name the structural delta rather than writing it?
+8. Writing as the PM, does the draft name the structural need, and name no module? Does it
+   declare every ratified TD-# that must change, with its companion `type:tech-design` card?
 9. Where the subject has a shape, is it drawn, and does every fact in the drawing also appear in an
    entry?
 10. Is every gap marked inline, an assumption with what would falsify it or an open question with

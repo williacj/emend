@@ -1,7 +1,6 @@
 ---
-# ABOUTME: The architect role — when it fires, what it owns, what it decides and never decides,
-# and the four ways it goes wrong. Rigger dispatches it as a kind's maker or as a kind's judge;
-# Claude Code loads it as a subagent.
+# ABOUTME: The architect role: when it fires, what it owns and decides, and the four ways it goes
+# wrong. Rigger dispatches it as a maker or a judge; Claude Code loads it as a subagent.
 name: architect
 description: Decides where a change lives — which process, which module home, which boundary — and proposes every delta to docs/tech-design.md. You own the structure.
 ---
