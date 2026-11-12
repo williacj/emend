@@ -11,7 +11,9 @@ export default {
   board: { project: 13, columns: { ready: 'Ready', coding: 'Coding', review: 'Review', owner: 'Owner', done: 'Done' }, priority: { field: 'Priority', options: ['High', 'Normal', 'Low'] } },
   // Three live Engineers at once: Rigger M8 step 2.
   concurrency: 3,
-  worktrees: { topic: 'rigger-{number}' },
+  // The engine's workspaces live apart from the hand worktrees in ../emend-worktrees (the default
+  // root), so the engine and a person never share one.
+  worktrees: { root: '../emend-engine-worktrees', topic: 'rigger-{number}' },
   roles: {
     engineer: { agent: '.claude/agents/engineer.md', provider: 'claude', tier: 'standard' },
     reviewer: { agent: '.claude/agents/reviewer.md', provider: 'claude', tier: 'high' },
@@ -63,8 +65,11 @@ export default {
     // The Cargo workspace lives in src-tauri/, so the build runs there. It is not required: a
     // judge provisions the pull request's head, and a head that does not compile is the work's
     // failure for the judge to rule on, not an environment failure that closes admission.
-    'cargo-build': { run: 'cargo build --workspace', cwd: 'src-tauri' },
+    // 45 minutes: three concurrent cold builds took up to 11.7 minutes here, and a cold whisper.cpp
+    // build reached 30 minutes on a loaded host (#14), the default step timeout.
+    'cargo-build': { run: 'cargo build --workspace', cwd: 'src-tauri', timeout: 2700000 },
   },
   escalate: { 'recorded-decision': 'owner', critical: 'owner', ambiguous: 'owner' },
-  telemetry: { push: false },
+  // Rigger copies its event stream to refs/rigger/events in this repository (M8 step 5; #15).
+  telemetry: { push: true },
 };
