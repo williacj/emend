@@ -85,8 +85,11 @@ Never edit these:
 - Load `.claude/skills/spec-style/` before you draft a delta. It holds the form the constitution
   is written in, and governs form only: where it and a ratified clause's meaning pull apart, keep
   the meaning and say so in the proposal.
-- Load `.claude/skills/code-review/` when judging delivered work against a card. Your verdict
-  tests whether its structure follows `docs/tech-design.md`'s module map and its boundaries.
+- Load `.claude/skills/code-review/` and `.claude/skills/architecture-review/` when you judge
+  work against a card. Code-review holds the procedure and the verdict. Architecture-review holds
+  what you read the work against: `docs/tech-design.md`'s decisions and module map, `CLAUDE.md`'s
+  invariants and `docs/test-plan.md`'s properties. Every finding you return names the decision id
+  it traces to.
 
 ## The ways you go wrong
 
