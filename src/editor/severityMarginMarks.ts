@@ -111,7 +111,7 @@ const severityMarginGutter = gutter({
  * freely (they cascade from `:root` regardless of which sheet references them), so this
  * `baseTheme` — colocated with its own decoration module, matching `commentHighlightTheme`'s and
  * `structuralTheme`'s precedent — can share the app's palette tokens without duplicating their
- * values. Final colour feel is a CJ hands-on check like every other palette in this file; jsdom
+ * values. Final colour feel is an owner hands-on check like every other palette in this file; jsdom
  * applies no stylesheet, so this rule itself is inherently unexecutable in tests by nature (the
  * same caveat `NI-a11y-severity`'s notes already record for the timeline-dot half). */
 const severityMarginTheme = EditorView.baseTheme({

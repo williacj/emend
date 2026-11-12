@@ -111,7 +111,7 @@ test('the hosted execution check reads both legs together and fails when a leg d
   const check = evidence.match(/node scripts\/check-test-matrix\.mjs[^\n]*/)?.[0];
   assert.ok(check, 'expected the execution check');
   assert.match(check, /--artifacts "\$RUNNER_TEMP\/matrix-results"/);
-  // Enforced: vitest and e2e. rust and node stay observed: widening the gate is CJ's call (#2234).
+  // Enforced: vitest and e2e. rust and node stay observed: widening the gate is the owner's call (#2234).
   assert.match(check, /--require-kinds vitest,e2e$/);
 });
 
