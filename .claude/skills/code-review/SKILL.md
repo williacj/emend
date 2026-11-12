@@ -41,14 +41,72 @@ resolve (`CLAUDE.md`, "Project Context"). Where the card belongs to a phase,
 `docs/implementation-plan.md` carries its milestone; read that too.
 
 **4. Verify yourself.** Independently run the suites `CLAUDE.md`'s "Starting Work & Testing"
-names for every layer the change touches, and any other check the acceptance relies on. Judge
-the tests the change adds against the [tdd skill's](../tdd/SKILL.md) "Make the assertion
-discriminate"; the skill's workflow is the maker's, not yours. Maker reports are context, never
-proof; read the acceptance and the implementation.
+names for every layer the change touches, and any other check the acceptance relies on. By
+layer, those are:
 
-Record exactly which required command you could not run, and why. A check you did not run proves
-nothing, even under an exception. Only the owner's exception for this head and acceptance permits a
-verdict with required reviewer work outstanding (`CLAUDE.md`, "Rule #1").
+- `npm test`, for a change under `src/`;
+- `npm run test:scripts`, for a change under `scripts/`;
+- `cargo test --workspace` in `src-tauri/`, for a change under `src-tauri/`;
+- `npm run test:e2e`, for a change under `e2e/` or to the app wiring a journey drives;
+- `npm run matrix:check`, for every change.
+
+A change that touches none of those layers, such as one to documents alone, runs
+`npm run matrix:check` and nothing else. Judge the tests the change adds against the
+[tdd skill's](../tdd/SKILL.md) "Make the assertion discriminate"; the skill's workflow is the
+maker's, not yours. Maker reports are context, never proof; read the acceptance and the
+implementation.
+
+**What your sandbox cannot run.** The Codex sandbox on macOS blocks exactly this, measured on
+#80:
+
+- `npm run test:e2e`, because Chromium cannot start;
+- in `cargo test --workspace`, these ten file-watch, settings-publication and second-instance
+  tests, and no others:
+  - `store::settings::io_tests::a_patch_in_one_service_is_published_by_another_service_watching_the_shared_file`
+  - `store::settings::io_tests::service_keeps_an_initial_load_failure_honest_until_a_valid_replacement`
+  - `store::settings::io_tests::service_watches_a_valid_external_replacement_and_retains_last_good_on_invalid_input`
+  - `store::lock::second_instance_tests::a_second_instance_opening_the_same_project_focuses_the_first_instances_window`
+  - `store::lock::second_instance_tests::request_focus_can_be_called_directly_without_going_through_acquire`
+  - `store::service::watch_tests::watching_the_store_reports_an_externally_landed_comment_append`
+  - `store::watch::live_watch_tests::a_write_under_the_watched_directory_is_reported`
+  - `agent::watchdog::watchdog_tests::a_real_rename_reaches_the_project_files_sink_as_rename_class_evidence`
+  - `agent::watchdog::watchdog_tests::one_real_native_notification_reaches_both_the_watchdog_and_the_project_files_sink`
+  - `agent::watchdog::watchdog_tests::the_real_doc_watcher_advances_an_out_of_run_write_baseline`
+
+No judge runs on Windows. For that list and for Windows, and nothing else, take the result from
+the pull request's own CI. Any other local failure, an `Operation not permitted` included, is
+investigated as possibly the work's, and is never skipped as the sandbox's.
+
+**Taking a result from CI.** CI is the forge's own run, not the maker's report, so it counts as
+evidence where a maker's report does not. A failed check is evidence, as a failed local run is.
+Where you take any result from CI, the head you rule on needs every check the "main" ruleset
+requires, which `gh api repos/williacj/emend/rulesets` lists, to have passed. Today those are:
+
+- `Lint (macos-latest)`, `Lint (ubuntu-latest)` and `Lint (windows-latest)`;
+- `Suites (macos-latest)` and `Suites (windows-latest)`, which run the suites;
+- `Unsigned app build (macos-latest)` and `Unsigned app build (windows-latest)`;
+- `Test-matrix traceability`;
+- `Test-matrix execution evidence`, which proves each suite ran.
+
+Only `Benchmark (stub)` may be `skipping`. A check that is `cancelled`, `pending`, `skipping` or
+missing is not a pass.
+
+1. **Wait for CI to finish.** `gh pr checks <number> --watch` waits for the checks that exist.
+   `Test-matrix execution evidence` appears only once both `Suites` checks finish, so the watch can
+   end before it exists. While any check is pending, `gh pr checks` exits 8, which is not an
+   error. If the watch ends or times out before every required check has completed, run it again,
+   or poll `gh pr view <number> --json headRefOid,statusCheckRollup`, until all of them complete.
+2. **Read the head and the results together.** After the wait, read both in one call:
+   `gh pr view <number> --json headRefOid,statusCheckRollup`. `headRefOid` must equal the head you
+   rule on. A result read for a newer head never counts for an older one.
+
+The same rule applies now, before #14 sets up the gate.
+
+Record which suites you ran locally and which you took from CI, naming each check and its
+result. Record exactly which required command you neither ran nor took from CI, and why. A check
+you did not run proves nothing, even under an exception. Only the owner's exception for this head
+and acceptance permits a verdict with required reviewer work outstanding (`CLAUDE.md`, "Rule
+#1").
 
 **5. Sweep the lenses** for every constitution document the change touches.
 
@@ -178,7 +236,8 @@ verdict marker owns what a marker carries.
 3. Whether the acceptance covered what the card asked, and why.
 4. The blocking findings.
 5. Non-blocking observations, where they are materially useful.
-6. The verification you ran: the exact commands, and what they returned.
+6. The verification you ran: the exact commands, and what they returned. Then the suites you
+   took from CI: each check's name, the head it ran on, and its result.
 7. The verdict, and where it is not sound, what would make it sound.
 
 ## The verdict
