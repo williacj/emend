@@ -103,7 +103,7 @@ Work the owner coordinates by hand with an interactive agent is reviewed, merged
 - A card's judges are its reviewers. Hand-coordinated work gets an independent reviewer the same way: `AGENTS.md`, "Review and merge".
 - Review the branch diff before creating the PR, address findings, and review changes added afterward.
 - Any Critical invariant or constitution violation blocks merge. Record and resolve lesser findings deliberately.
-- Before merging, the maintainer checks that the CI checks that ran (the `Lint` and `Suites` jobs on each OS, and any other `ci.yml` job) passed for the current PR head. Branch protection does not enforce this, so it is a manual merge prerequisite.
+- The forge enforces the CI checks: the `main` ruleset (`gh api repos/williacj/emend/rulesets/27139015`) requires nine `ci.yml` checks to pass on a pull request's head before it merges, and admits only merge commits. `rigger/gate` joins those required checks once the owner adds it. Before merging, the maintainer also checks that any other check that ran passed for the current PR head.
 
 ## Version Control
 

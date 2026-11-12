@@ -100,8 +100,6 @@ missing is not a pass.
    `gh pr view <number> --json headRefOid,statusCheckRollup`. `headRefOid` must equal the head you
    rule on. A result read for a newer head never counts for an older one.
 
-The same rule applies now, before #14 sets up the gate.
-
 Record which suites you ran locally and which you took from CI, naming each check and its
 result. Record exactly which required command you neither ran nor took from CI, and why. A check
 you did not run proves nothing, even under an exception. Only the owner's exception for this head
