@@ -470,9 +470,11 @@ function AuthorWorkspace({
 
   useEffect(() => {
     let cancelled = false;
-    // An entry made while this read is in flight is newer than its answer. Adopting the answer
-    // anyway queued a session restore behind that entry's own open request and replaced the
-    // document it had just opened (#72).
+    // An entry made while this read is in flight is newer than its answer, so the answer is
+    // dropped (#72). Adopting it anyway ran `enterProjectRoot`'s reset branch against the pending
+    // `project` this effect captured at mount, and queued a `(root, null)` request.
+    // `TabbedEditor` ignores that request for the root it already has open, but the `hasOpenTabs`
+    // seed below reads it as "no tab", so the shell switched to workshop mode and hid the document.
     const entriesAtStartup = projectEntries.current;
     const superseded = () => cancelled || projectEntries.current !== entriesAtStartup;
     currentProject()

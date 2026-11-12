@@ -1780,39 +1780,43 @@ test.describe("P2a-2 walking skeleton", () => {
     await project.cleanup(page);
   });
 
-  // #72: the page's startup `current_project` read races the first project open. Hosted Windows
-  // CI answered it after the test's own open had already bound the project, and the stale answer
-  // queued a session restore that replaced the opened document with the empty workshop. Only the
-  // startup answer's arrival is delayed here; the frontend and the D23 backend both stay real.
-  test("a startup project answer that arrives after a newer open keeps the opened document (#72)", async ({
+  // #72: the page's startup `current_project` read races the first project open. When the read
+  // completes after the test's own open has entered the project, the stale answer must not switch
+  // the shell to workshop mode and hide the opened document. The test holds only the startup
+  // request until the document is showing, then lets it through to the real D23 backend
+  // (test-plan §7b: transport cadence, both ends production).
+  test("a startup project request that completes after a newer open keeps the opened document (#72)", async ({
     page,
   }) => {
-    let releaseStartupAnswer;
-    const startupAnswerHeld = new Promise((resolve) => {
-      releaseStartupAnswer = resolve;
+    let releaseStartupRequest;
+    const startupRequestHeld = new Promise((resolve) => {
+      releaseStartupRequest = resolve;
     });
     await page.route("**/current_project", async (route) => {
-      if (route.request().method() === "POST") await startupAnswerHeld;
+      if (route.request().method() === "POST") await startupRequestHeld;
       await route.continue();
     });
-    const projectBound = page.waitForResponse(
-      (response) => response.url().endsWith("/open_project") && response.request().method() === "POST",
-    );
 
     await page.goto("/");
-    const opening = page.evaluate(
+    await page.evaluate(
       ({ root, documentPath }) => window.__EMEND_E2E__?.openProject(root, documentPath),
       { root: project.root, documentPath: project.path },
     );
-    await projectBound;
-    const startupAnswered = page.waitForResponse(
-      (response) => response.url().endsWith("/current_project") && response.request().method() === "POST",
-    );
-    releaseStartupAnswer();
-    await opening;
-    await startupAnswered;
+    const editor = page.locator(".cm-content:visible");
+    await expect(editor).toContainText("Walking skeleton");
 
-    await expect(page.locator(".cm-content:visible")).toContainText("Walking skeleton");
+    const startupFinished = page.waitForEvent(
+      "requestfinished",
+      (request) => request.url().endsWith("/current_project") && request.method() === "POST",
+    );
+    releaseStartupRequest();
+    await startupFinished;
+    // One page task and one frame, so the late answer's handler and the render it causes have run
+    // before the layout is read again.
+    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0))));
+
+    await expect(page.locator(".app-body")).not.toHaveClass(/app-body--workshop/);
+    await expect(editor).toContainText("Walking skeleton");
     await expect(page.getByRole("tab", { name: /notes\.md/ })).toBeVisible();
   });
 

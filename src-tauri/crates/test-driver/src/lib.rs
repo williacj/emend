@@ -1852,13 +1852,17 @@ impl TraceSpan {
         {
             record.extend(fields);
         }
+        // One serialized line and one write per record: `File` is unbuffered, and `writeln!`
+        // through `Display` would issue many small writes on the serial accept lane.
+        let mut line = record.to_string();
+        line.push('\n');
         let mut file = self
             .trace
             .file
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
         // A trace that cannot be written must not change what the driver answers.
-        let _ = writeln!(file, "{record}");
+        let _ = file.write_all(line.as_bytes());
     }
 }
 
