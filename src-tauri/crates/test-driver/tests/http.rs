@@ -157,9 +157,15 @@ impl ChildDriver {
     /// (`src/main.rs`) rather than guessing a port and racing the child for it. `path` becomes
     /// *that child's* `PATH` and nothing else's.
     fn spawn(path: impl AsRef<std::ffi::OsStr>) -> Self {
+        Self::spawn_with_env(path, &[])
+    }
+
+    /// [`Self::spawn`] with extra variables set in *that child's* environment only.
+    fn spawn_with_env(path: impl AsRef<std::ffi::OsStr>, env: &[(&str, &std::ffi::OsStr)]) -> Self {
         let mut child = Command::new(env!("CARGO_BIN_EXE_test-driver"))
             .arg("0")
             .env("PATH", path)
+            .envs(env.iter().copied())
             .stderr(std::process::Stdio::piped())
             .spawn()
             .expect("spawn the real test-driver binary");
@@ -2471,4 +2477,104 @@ fn close_project_succeeds_whether_or_not_a_project_is_open_through_http() {
         200
     );
     assert_eq!(post(addr, "/close_project", "{}").0, 200);
+}
+
+/// Reads the driver's connection trace once it holds `count` records, polling the file the child
+/// appends to rather than sleeping a fixed time. Each record is written before its connection is
+/// closed, so a caller that has already read a response to EOF needs no wait for that record.
+fn trace_records(path: &std::path::Path, count: usize) -> Vec<serde_json::Value> {
+    let deadline = Instant::now() + Duration::from_secs(10);
+    loop {
+        let records: Vec<serde_json::Value> = fs::read_to_string(path)
+            .unwrap_or_default()
+            .lines()
+            .map(|line| serde_json::from_str(line).expect("each trace line is one JSON record"))
+            .collect();
+        if records.len() >= count || Instant::now() >= deadline {
+            return records;
+        }
+        thread::yield_now();
+    }
+}
+
+/// #72: hosted Windows e2e runs lose a document action with no driver-side evidence at all. With
+/// `EMEND_TEST_DRIVER_TRACE` set, the driver records every connection it accepts: when it was
+/// accepted, what it asked for, how long reading and answering took, and what status went back —
+/// including a connection that never sent a request, the case the serial lane bounds at 2 s.
+#[test]
+fn the_connection_trace_records_each_request_and_a_silent_connection_with_timings() {
+    let dir = TempDir::new().unwrap();
+    let trace = dir.path().join("trace.jsonl");
+    let driver = ChildDriver::spawn_with_env(
+        std::env::var_os("PATH").unwrap_or_default(),
+        &[("EMEND_TEST_DRIVER_TRACE", trace.as_os_str())],
+    );
+
+    assert_eq!(post(driver.addr, "/close_project", "{}").0, 200);
+    let (status, _, _) = request("OPTIONS", driver.addr, "/open_document", "");
+    assert_eq!(status, 204);
+    let mut silent = TcpStream::connect(driver.addr).expect("open a silent connection");
+    silent
+        .set_read_timeout(Some(Duration::from_secs(20)))
+        .expect("bound the silent client's wait");
+    let mut answer = String::new();
+    silent
+        .read_to_string(&mut answer)
+        .expect("read the timeout answer");
+    assert!(answer.starts_with("HTTP/1.1 408"), "{answer}");
+
+    let records = trace_records(&trace, 6);
+    let by_connection = |id: u64| -> Vec<&serde_json::Value> {
+        records.iter().filter(|r| r["conn"] == id).collect()
+    };
+    let ids: Vec<u64> = records
+        .iter()
+        .filter(|r| r["event"] == "accepted")
+        .map(|r| r["conn"].as_u64().expect("numeric connection id"))
+        .collect();
+    assert_eq!(
+        ids.len(),
+        3,
+        "one accepted record per connection: {records:#?}"
+    );
+
+    let close = by_connection(ids[0]);
+    let request_record = close
+        .iter()
+        .find(|r| r["event"] == "request")
+        .expect("request record");
+    assert_eq!(request_record["method"], "POST");
+    assert_eq!(request_record["path"], "/close_project");
+    let response = close
+        .iter()
+        .find(|r| r["event"] == "response")
+        .expect("response record");
+    assert_eq!(response["status"], 200);
+    assert_eq!(response["write"], "ok");
+    assert!(response["since_accept_ms"].as_f64().is_some(), "{response}");
+    assert!(response["t_ms"].as_f64().is_some(), "{response}");
+
+    let preflight = by_connection(ids[1]);
+    assert!(preflight.iter().any(|r| r["event"] == "request"
+        && r["method"] == "OPTIONS"
+        && r["path"] == "/open_document"));
+    assert!(preflight
+        .iter()
+        .any(|r| r["event"] == "response" && r["status"] == 204));
+
+    let quiet = by_connection(ids[2]);
+    let failed_read = quiet
+        .iter()
+        .find(|r| r["event"] == "request")
+        .expect("read outcome");
+    assert_eq!(failed_read["read_error"], "timed out", "{failed_read}");
+    let timed_out = quiet
+        .iter()
+        .find(|r| r["event"] == "response")
+        .expect("answer record");
+    assert_eq!(timed_out["status"], 408);
+    assert!(
+        timed_out["since_accept_ms"].as_f64().expect("elapsed") >= 1_900.0,
+        "the 408 comes from the start bound, not an early failure: {timed_out}"
+    );
 }

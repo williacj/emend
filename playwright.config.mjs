@@ -3,6 +3,8 @@
 // ABOUTME: D23 headless test driver (crates/test-driver) rather than the Tauri IPC bridge, since a
 // ABOUTME: plain Chromium page has no Tauri webview runtime — no application logic is mocked, only
 // ABOUTME: the transport is substituted (see src/editor/ipc.ts).
+import { mkdirSync } from "node:fs";
+import path from "node:path";
 import { defineConfig, devices } from "@playwright/test";
 import { allocateLoopbackPorts } from "./scripts/e2e-ports.mjs";
 
@@ -44,6 +46,16 @@ process.env.EMEND_E2E_TEST_DRIVER_URL = TEST_DRIVER_URL;
 // every `npm run test:e2e` — leaves `reporter` undefined and the default reporter in place.
 const E2E_RESULTS_FILE = process.env.EMEND_E2E_RESULTS_FILE;
 
+// #72: when set, the run keeps the evidence a lost document action needs: the test driver's own
+// per-connection trace (`crates/test-driver`, `EMEND_TEST_DRIVER_TRACE`) in this directory, and
+// for each failed test a Playwright trace in its `test-results/` folder carrying the page's
+// network log. CI sets it and uploads both; an unset run records neither.
+const E2E_DIAGNOSTICS_DIR = process.env.EMEND_E2E_DIAGNOSTICS_DIR;
+const TEST_DRIVER_TRACE = E2E_DIAGNOSTICS_DIR
+  ? path.join(E2E_DIAGNOSTICS_DIR, `test-driver-trace-${TEST_DRIVER_PORT}.jsonl`)
+  : undefined;
+if (E2E_DIAGNOSTICS_DIR) mkdirSync(E2E_DIAGNOSTICS_DIR, { recursive: true });
+
 export default defineConfig({
   testDir: "./e2e",
   timeout: 30_000,
@@ -80,6 +92,7 @@ export default defineConfig({
         // NI-provider-detect; CLAUDE.md: never mock in e2e).
         EMEND_CLAUDE_BIN: "emend-test-no-claude-installed",
         EMEND_COPILOT_BIN: "emend-test-no-copilot-installed",
+        ...(TEST_DRIVER_TRACE ? { EMEND_TEST_DRIVER_TRACE: TEST_DRIVER_TRACE } : {}),
       },
       port: TEST_DRIVER_PORT,
       reuseExistingServer: false,
@@ -89,6 +102,12 @@ export default defineConfig({
   ],
   use: {
     baseURL: VITE_URL,
+    // The page-side question a lost document action leaves is what its fetch returned, and
+    // Playwright records the network log only alongside DOM snapshots. Screenshots add per-step
+    // work without answering it, so they stay off.
+    trace: E2E_DIAGNOSTICS_DIR
+      ? { mode: "retain-on-failure", snapshots: true, screenshots: false, sources: false }
+      : "off",
   },
   projects: [
     {

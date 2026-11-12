@@ -195,3 +195,19 @@ test('every quarantined e2e test names the issue tracking it (issue #1124 item 2
     'every @quarantine tag in the real spec must name a tracking issue in the comment block above it',
   );
 });
+
+test('the e2e gate keeps the test driver trace for every finished run, failed or not (#72)', () => {
+  const job = e2eJob();
+  const acceptance = job.match(/- name: Playwright acceptance suite\n([\s\S]*?)(?=\n\s+- name:|$)/)?.[0];
+  assert.ok(acceptance, 'expected the Playwright acceptance step in the required job');
+  const directory = acceptance.match(/^\s+EMEND_E2E_DIAGNOSTICS_DIR: (.+)$/m)?.[1];
+  assert.ok(directory, 'the acceptance step must name a diagnostics directory');
+
+  const upload = job.match(/- name: Upload e2e diagnostics\n([\s\S]*?)(?=\n\s+- name:|$)/)?.[0];
+  assert.ok(upload, 'expected a step uploading the e2e diagnostics');
+  assert.match(upload, /uses: actions\/upload-artifact@/);
+  assert.match(upload, /name: e2e-diagnostics-\$\{\{ matrix\.label \}\}/);
+  assert.equal(upload.match(/^\s+path: (.+?)\/?$/m)?.[1], directory);
+  // A passing run's near misses are evidence too, so the upload is not limited to failure().
+  assert.doesNotMatch(upload, /failure\(\)/);
+});
