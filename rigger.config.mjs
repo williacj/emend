@@ -15,7 +15,7 @@
 // what you changed.
 export default {
   repo: 'williacj/emend',
-  board: { project: 'PROJECT_NUMBER', columns: { ready: 'Ready', coding: 'Coding', review: 'Review', owner: 'Owner', done: 'Done' }, priority: { field: 'Priority', options: ['High', 'Normal', 'Low'] } },
+  board: { project: 13, columns: { ready: 'Ready', coding: 'Coding', review: 'Review', owner: 'Owner', done: 'Done' }, priority: { field: 'Priority', options: ['High', 'Normal', 'Low'] } },
   // Three live Engineers at once: Rigger M8 step 2.
   concurrency: 3,
   worktrees: { topic: 'rigger-{number}' },
