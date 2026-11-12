@@ -1,3 +1,6 @@
+ABOUTME: The project layer over the ste skill's word list: protected terms that keep one form and
+one meaning, and the rulings that override a general substitution.
+
 # Project terms and rulings — Rigger
 
 This file is the project layer over `word-substitutions.md`. If the two disagree, this file

@@ -1,3 +1,6 @@
+ABOUTME: Worked before-and-after examples for the ste skill, grouped by the writing rule each one
+shows, such as verb forms.
+
 # Worked before/after examples
 
 ## Verb forms
