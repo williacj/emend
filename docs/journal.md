@@ -2,6 +2,23 @@
 
 > **Renamed 2026-11-08:** the app was Cowrite until D36 and TD-29. Entries dated before 2026-11-08 keep the old name, the old on-disk names (`.cowrite/`, `COWRITE_*`, `com.cowrite.desktop`) and bare `#NNNN` issue numbers, which refer to `williacj/cowrite`. They are left as written, because they record what was true then. Links to cowrite issues, PRs and runs were made relative by CJ's ruling of 2026-11-10 (#12), so they now resolve within `williacj/emend`.
 
+# 2026-11-12 — williacj/emend#14: the hand-coordinated pull request procedure
+
+- **Architectural Decisions (the owner's ruling B on #16, and rulings 1 to 3 on #14 of 2026-11-12).** `AGENTS.md` now has "Hand-coordinated pull requests". A hand PR is made by hand on `rigger-<N>`. Once it is open, the card moves to Review, and the engine dispatches the judges and merges. If a judge returns needs revision, the engine's maker takes over the branch. Once `rigger/gate` is required, the gate alone is the bar for `type:change`, and the owner gets a say by filing `type:spec` or `type:tech-design`. Until the owner adds `rigger/gate` to the required checks, ruling B's interim stands: independent review, green CI and the owner's approval. `CLAUDE.md`'s Code Review bullet points at the `main` ruleset instead of saying branch protection enforces nothing. A first draft had hand sessions run Codex judges themselves. The owner replaced that with ruling 1, so no session runs a judge by hand.
+- **Technical Insights: an unclaimed Review card with an open PR is judged as it is, read at Rigger's pin `7a2c8f95`.** Claims are an in-memory set per run (`src/scheduling/loop.mjs:184,218`), and no label marks one.
+  - `factsCall` reads each card in Ready, Coding, Review or Owner (`src/workflow/facts.mjs:73-75`). For a non-Ready card with exactly one open PR from its topic branch, it also reads that PR's review facts (`:49`). `pullOrder` offers only those four columns, treating Coding, Review and Owner as redos (`src/scheduling/pull-order.mjs:30-35`), so a card with no Status is never offered.
+  - `nextAction` asks `fromTheForge` (`next-action.mjs:127-129`), which answers `judge` for a Review card with one open PR and none merged (`:180-183`). `reviewAnswer` then dispatches every judge still owed (`judges.mjs:387`). After that it continues the maker on needs revision (`:397`), moves the card to Owner where the kind names the owner (`:398`), or merges (`:399`).
+  - So no claim or label is needed.
+- **Technical Insights: what the gate rule demands.** These are the refusals in `scripts/gate-check.mjs` `rule()`:
+  - a fork's PR, or one that is not open;
+  - a branch the topic rule does not name;
+  - a card that no kind, or more than one kind, selects, or an epic;
+  - an acceptance that fails the form check. That check skips task-list items, so an acceptance written only as `- [ ]` boxes reads as missing, and it also refuses an acceptance that only restates the title.
+
+  The gate and `rigger verdict` read the config from `main`.
+- **Technical Insights: where the run summary is.** The workflow writes each `rule` run to `$GITHUB_STEP_SUMMARY` and to the log of the step "Run the gate check on each pull request". `gh run view <id> --log` shows the summary text, as it did for PR #86's run 43315605718. Runs carry the PR's or the card's title, not its number. A comment on the card starts no run.
+- **Deferred Fixes.** `rigger verdict` pushes telemetry from whichever checkout it runs in while `telemetry.push` is on (williacj/rigger#1410).
+
 # 2026-11-12 — williacj/emend#77 follow-up: judges lean on CI, Claude roles may run cargo
 
 - **Architectural Decisions (owner's rulings on #77).** A judge runs locally every suite its sandbox allows. For a suite the sandbox blocks, and always for Windows, it takes the pull request's own CI result on the head it rules on. It waits for CI to finish, because a pending or missing check is not a pass. It records which suites came from CI. Makers still run every applicable suite before each push.
