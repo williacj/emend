@@ -5442,6 +5442,15 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
       join(project.root, ".claude/skills/audit/SKILL.md"),
       "---\nname: Audit\ndescription: Audit sources.\n---\n\n# Audit body\n",
     );
+    const startedEventIndex = (text) => {
+      try {
+        return JSON.parse(text).events.findIndex(
+          (event) => event.event === "emend://project/files" && event.payload?.status === "started",
+        );
+      } catch {
+        return -1;
+      }
+    };
     let holding = false;
     let startedWasHeld = false;
     let markStartedHeld;
@@ -5452,8 +5461,14 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     const completedGate = new Promise((resolve) => { releaseCompleted = resolve; });
     await page.route("**/events", async (route) => {
       const response = await route.fetch();
-      const body = await response.text();
-      if (holding && !startedWasHeld && body.includes('"status":"started"')) {
+      let body = await response.text();
+      const startedIndex = holding && !startedWasHeld ? startedEventIndex(body) : -1;
+      if (startedIndex >= 0) {
+        // The poll may batch `completed` behind `started`. Deliver only up to `started`; the
+        // cursor then makes the next poll fetch `completed`, which is held below.
+        const batch = JSON.parse(body);
+        const kept = batch.events.slice(0, startedIndex + 1);
+        body = JSON.stringify({ ...batch, events: kept, cursor: kept[kept.length - 1].cursor });
         startedWasHeld = true;
         markStartedHeld();
         await startedGate;
