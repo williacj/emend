@@ -120,6 +120,8 @@ function inspectDiagnostics(diagnosticsDir) {
          driverPort: driver.port,
          driverTrace: driver.env.EMEND_TEST_DRIVER_TRACE ?? null,
          trace: config.use.trace ?? null,
+         driverStdout: driver.stdout ?? null,
+         driverStderr: driver.stderr ?? null,
        }));`,
     ],
     { cwd: repoRoot, encoding: "utf8", env },
@@ -150,4 +152,11 @@ test("without a diagnostics directory the driver keeps no trace and Playwright r
 
   assert.equal(config.driverTrace, null);
   assert.ok(config.trace === null || config.trace === "off", JSON.stringify(config.trace));
+});
+
+test("the test driver stdout and stderr are relayed to the Playwright report (#72)", () => {
+  const config = inspectDiagnostics(undefined);
+
+  assert.equal(config.driverStdout, "pipe");
+  assert.equal(config.driverStderr, "pipe");
 });
