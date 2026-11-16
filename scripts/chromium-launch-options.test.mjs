@@ -3,6 +3,8 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { mkdtempSync, rmSync } from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { chromium } from "@playwright/test";
@@ -29,11 +31,13 @@ async function playwrightLaunchArgv(launchOptions = {}) {
   }
   const line = message?.split("\n").find((l) => l.startsWith("<launching> "));
   assert.ok(line, `no <launching> line in the launch error:\n${message}`);
-  // Chromium's switches contain no spaces; the per-launch profile directory differs on each run.
+  // Chromium's switches contain no spaces. The per-launch profile directory differs on each run and
+  // may contain spaces (a spaced temporary directory), so it is cut out up to the next switch.
   return line
     .slice("<launching> ".length + process.execPath.length + 1)
+    .replace(/--user-data-dir=.*?(?= --|$)/, "")
     .split(" ")
-    .filter((arg) => !arg.startsWith("--user-data-dir="));
+    .filter((arg) => arg !== "");
 }
 
 function disableFeaturesSwitches(argv) {
@@ -84,6 +88,22 @@ test("on macOS and Linux the e2e Chromium launches with Playwright's default swi
   const defaults = await playwrightLaunchArgv();
   for (const platform of ["darwin", "linux"]) {
     assert.deepEqual(await playwrightLaunchArgv(configLaunchOptions(platform)), defaults, platform);
+  }
+});
+
+test("the argv read holds when the temporary directory has spaces in its path (#72)", async () => {
+  const spaced = mkdtempSync(path.join(os.tmpdir(), "emend spaced tmp "));
+  const saved = { TMPDIR: process.env.TMPDIR, TEMP: process.env.TEMP, TMP: process.env.TMP };
+  const defaults = await playwrightLaunchArgv();
+  try {
+    Object.assign(process.env, { TMPDIR: spaced, TEMP: spaced, TMP: spaced });
+    assert.deepEqual(await playwrightLaunchArgv(), defaults);
+  } finally {
+    for (const [key, value] of Object.entries(saved)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+    rmSync(spaced, { recursive: true, force: true });
   }
 });
 
