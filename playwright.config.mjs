@@ -7,6 +7,7 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 import { defineConfig, devices } from "@playwright/test";
 import { allocateLoopbackPorts } from "./scripts/e2e-ports.mjs";
+import { chromiumLaunchOptions } from "./e2e/support/chromiumLaunchOptions.mjs";
 
 const VITE_PORT_ENV = "EMEND_E2E_VITE_PORT";
 const TEST_DRIVER_PORT_ENV = "EMEND_E2E_TEST_DRIVER_PORT";
@@ -116,7 +117,9 @@ export default defineConfig({
       // app instance. The per-project cap remains authoritative when a caller raises the global
       // worker budget with `--workers`, so fixture roots cannot replace one another (#1581).
       workers: 1,
-      use: { ...devices["Desktop Chrome"] },
+      // #72: on Windows, Chromium's TCP port randomization intermittently fails loopback fetches;
+      // the helper turns it off inside Playwright's own --disable-features list.
+      use: { ...devices["Desktop Chrome"], launchOptions: chromiumLaunchOptions() },
     },
   ],
 });
