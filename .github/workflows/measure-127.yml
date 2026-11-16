@@ -30,7 +30,11 @@ jobs:
       run:
         shell: bash
     steps:
+      # The PR head itself, not the default merge-with-main ref, so the tree under test is #133's head.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable @ 2026-07-09
@@ -71,7 +75,7 @@ jobs:
         run: cargo build --manifest-path src-tauri/Cargo.toml -p test-driver
 
       - name: Show tested commit
-        run: git rev-parse HEAD^ HEAD && git diff --stat HEAD^ HEAD
+        run: git log --oneline -2 && git diff --stat c06df0b4c38794b973168e80a3ae41ad89babbab HEAD
 
       # --reporter=list overrides the config's reporter; the log is the per-execution record.
       - name: D27 cases, 20 repeats each, no retries
