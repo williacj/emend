@@ -15,6 +15,7 @@ import {
   useRef,
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
 } from "react";
 import { errorDetail } from "../backend";
 import { isMac } from "../editor/keymap";
@@ -125,11 +126,19 @@ interface RailRowsProps {
   registerItem: (id: string, item: HTMLLIElement | null) => void;
   onFocusId: (id: string) => void;
   onKeyDown: (event: ReactKeyboardEvent<HTMLLIElement>, entry: RailNode) => void;
-  onActivate: (entry: RailNode) => void;
+  onPress: (event: ReactMouseEvent, entry: RailNode) => void;
+  onRowClick: (event: ReactMouseEvent, entry: RailNode | null) => void;
   depth?: number;
   retained?: boolean;
   setSize?: number;
   positionOffset?: number;
+}
+
+/** Whether a pointer event on a row's `<li>` belongs to that row rather than a nested child's. */
+function ownRowEvent(event: ReactMouseEvent<HTMLLIElement>): boolean {
+  const target = event.target as Element;
+  return target === event.currentTarget ||
+    target.closest(".project-rail__row")?.parentElement === event.currentTarget;
 }
 
 function RailRows({
@@ -140,7 +149,8 @@ function RailRows({
   registerItem,
   onFocusId,
   onKeyDown,
-  onActivate,
+  onPress,
+  onRowClick,
   depth = 0,
   retained = false,
   setSize = entries.length,
@@ -177,15 +187,11 @@ function RailRows({
             aria-current={active ? "page" : undefined}
             onFocus={() => onFocusId(entry.id)}
             onKeyDown={(event) => onKeyDown(event, entry)}
+            onMouseDown={(event) => {
+              if (ownRowEvent(event)) onPress(event, entry);
+            }}
             onClick={(event) => {
-              const target = event.target as Element;
-              const targetRow = target.closest(".project-rail__row");
-              if (
-                target === event.currentTarget ||
-                targetRow?.parentElement === event.currentTarget
-              ) {
-                onActivate(entry);
-              }
+              if (ownRowEvent(event)) onRowClick(event, entry);
             }}
           >
             <div
@@ -247,7 +253,8 @@ function RailRows({
                   registerItem={registerItem}
                   onFocusId={onFocusId}
                   onKeyDown={onKeyDown}
-                  onActivate={onActivate}
+                  onPress={onPress}
+                  onRowClick={onRowClick}
                   depth={depth + 1}
                 />
               </ul>
@@ -328,6 +335,10 @@ export function ProjectRail({
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
   const [focusedId, setFocusedId] = useState<string | null>(null);
   const treeItems = useRef(new Map<string, HTMLLIElement>());
+  // The row under the latest press and where the pointer was (#127). A refresh can re-lay the tree
+  // between press and release — `Updating documents…` appears above Skills — so a pointer that never
+  // moved releases over a different row, and the browser sends `click` to the rows' common ancestor.
+  const pressedRow = useRef<{ id: string; x: number; y: number } | null>(null);
   // The newest generation already on screen. Held in a ref, not read off `snapshot`, because it
   // gates side effects (the expansion remap and the `onGeneration` funnel) that must happen once
   // per generation — a state read inside an event handler can lag, and a state *updater* is the
@@ -576,6 +587,26 @@ export function ProjectRail({
     } else if (entry.kind === "document" || entry.kind === "workflow") onOpen(entry.path);
   }
 
+  function pressRow(event: ReactMouseEvent, entry: RailNode) {
+    pressedRow.current = { id: entry.id, x: event.clientX, y: event.clientY };
+  }
+
+  /**
+   * Activates the row a click belongs to. A release at the exact point of the press is the author
+   * clicking the row they pressed, even when a refresh moved the rows in between; otherwise the
+   * click's own row, if any, decides — a press dragged elsewhere activates nothing, as natively.
+   */
+  function clickRow(event: ReactMouseEvent, entry: RailNode | null) {
+    const pressed = pressedRow.current;
+    pressedRow.current = null;
+    if (pressed !== null && pressed.x === event.clientX && pressed.y === event.clientY) {
+      const pressedEntry = visibleItems.find(({ entry: visible }) => visible.id === pressed.id);
+      if (pressedEntry) activateTreeItem(pressedEntry.entry);
+      return;
+    }
+    if (entry !== null) activateTreeItem(entry);
+  }
+
   function handleTreeKeyDown(
     event: ReactKeyboardEvent<HTMLLIElement>,
     entry: RailNode,
@@ -663,7 +694,8 @@ export function ProjectRail({
     registerItem,
     onFocusId: setFocusedId,
     onKeyDown: handleTreeKeyDown,
-    onActivate: activateTreeItem,
+    onPress: pressRow,
+    onRowClick: clickRow,
   };
   return (
     <aside className="project-rail" aria-label="Project files" data-platform={platform}>
@@ -701,7 +733,18 @@ export function ProjectRail({
           </div>
         )}
         {!unavailable && (
-          <ul className="project-rail__tree" role="tree" aria-label="Project files">
+          <ul
+            className="project-rail__tree"
+            role="tree"
+            aria-label="Project files"
+            onMouseDownCapture={() => {
+              pressedRow.current = null;
+            }}
+            onClick={(event) => {
+              // Only a click retargeted past every row reaches the tree as its own target.
+              if (event.target === event.currentTarget) clickRow(event, null);
+            }}
+          >
             <li role="presentation" className="project-rail__section-label">DOCUMENTS</li>
             <RailRows
               {...rowProps}
