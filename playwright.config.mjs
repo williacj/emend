@@ -7,6 +7,7 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 import { defineConfig, devices } from "@playwright/test";
 import { allocateLoopbackPorts } from "./scripts/e2e-ports.mjs";
+import { measureChromiumArgs } from "./.github/measure-72/chromium-args.mjs";
 
 const VITE_PORT_ENV = "EMEND_E2E_VITE_PORT";
 const TEST_DRIVER_PORT_ENV = "EMEND_E2E_TEST_DRIVER_PORT";
@@ -116,7 +117,9 @@ export default defineConfig({
       // app instance. The per-project cap remains authoritative when a caller raises the global
       // worker budget with `--workers`, so fixture roots cannot replace one another (#1581).
       workers: 1,
-      use: { ...devices["Desktop Chrome"] },
+      // MEASUREMENT ONLY (#72): EMEND_E2E_CHROMIUM_DISABLE_FEATURES adds Chromium features to
+      // disable; unset, the launch args are Playwright's defaults, unchanged.
+      use: { ...devices["Desktop Chrome"], launchOptions: { args: measureChromiumArgs() } },
     },
   ],
 });

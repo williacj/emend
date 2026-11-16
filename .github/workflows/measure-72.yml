@@ -1,0 +1,176 @@
+# ABOUTME: MEASUREMENT ONLY (#72, never merged): hosted-Windows e2e failure rate with Chromium's default
+# ABOUTME: TCP port randomization (arm A) against TcpPortRandomizationWin disabled (arm B), plus a loopback stress job.
+# Setup steps and action pins copy ci.yml's Suites job exactly.
+
+name: measure-72
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  GGML_CCACHE: "OFF"
+
+jobs:
+  # Named like ci.yml's job so rust-cache can restore the same key.
+  suites:
+    if: github.head_ref == 'measure/72-port-randomization'
+    strategy:
+      fail-fast: false
+      matrix:
+        arm: [A, B]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8]
+    runs-on: windows-latest
+    name: e2e arm ${{ matrix.arm }} shard ${{ matrix.shard }}
+    timeout-minutes: 110
+    env:
+      MEASURE_ARM: ${{ matrix.arm }}
+      MEASURE_REPEATS: "6"
+      EMEND_E2E_CHROMIUM_DISABLE_FEATURES: ${{ matrix.arm == 'B' && 'TcpPortRandomizationWin' || '' }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable @ 2026-07-09
+        with:
+          toolchain: 1.97.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Provision Windows Whisper tools
+        shell: pwsh
+        run: ./scripts/provision-whisper-windows.ps1
+
+      - name: Cache cargo build
+        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+        with:
+          workspaces: src-tauri
+          save-if: false
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium
+
+      - name: Pre-build the headless test driver
+        run: cargo build --manifest-path src-tauri/Cargo.toml -p test-driver
+
+      - name: Network state at start
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "$env:RUNNER_TEMP/m72" | Out-Null
+          $log = "$env:RUNNER_TEMP/m72/netstate-start.txt"
+          & { cmd /c ver; "--- dynamicport"; netsh int ipv4 show dynamicport tcp; "--- excludedportrange"; netsh int ipv4 show excludedportrange protocol=tcp; "--- TIME_WAIT"; (netstat -ano | Select-String TIME_WAIT | Measure-Object).Count } *>&1 | Tee-Object -FilePath $log
+
+      - name: Repeated Playwright acceptance suite
+        run: |
+          root="$RUNNER_TEMP/m72"
+          for i in $(seq 1 "$MEASURE_REPEATS"); do
+            d="$root/rep-$i"
+            mkdir -p "$d"
+            tw_before=$(netstat -ano -p tcp | grep -c TIME_WAIT || true)
+            start=$(date +%s)
+            code=0
+            EMEND_E2E_DIAGNOSTICS_DIR="$d/diag" EMEND_E2E_RESULTS_FILE="$d/results.json" \
+              npm run test:e2e:ci -- --retries=0 --output="$d/test-results" > "$d/stdout.txt" 2>&1 || code=$?
+            end=$(date +%s)
+            tw_after=$(netstat -ano -p tcp | grep -c TIME_WAIT || true)
+            line="{\"arm\":\"$MEASURE_ARM\",\"shard\":${{ matrix.shard }},\"rep\":$i,\"exit\":$code,\"seconds\":$((end-start)),\"timeWaitBefore\":$tw_before,\"timeWaitAfter\":$tw_after}"
+            echo "$line" | tee -a "$root/reps.jsonl"
+            tail -n 40 "$d/stdout.txt"
+          done
+
+      - name: Network state at end
+        if: always()
+        shell: pwsh
+        run: |
+          $log = "$env:RUNNER_TEMP/m72/netstate-end.txt"
+          & { "--- excludedportrange"; netsh int ipv4 show excludedportrange protocol=tcp; "--- TIME_WAIT"; (netstat -ano | Select-String TIME_WAIT | Measure-Object).Count } *>&1 | Tee-Object -FilePath $log
+
+      - name: Upload measurement
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: m72-e2e-${{ matrix.arm }}-${{ matrix.shard }}
+          path: ${{ runner.temp }}/m72/
+          if-no-files-found: warn
+          retention-days: 14
+
+  stress:
+    if: github.head_ref == 'measure/72-port-randomization'
+    strategy:
+      fail-fast: false
+      matrix:
+        arm: [A, B]
+        mode: [burst, paced]
+        include:
+          - mode: burst
+            calls: "30000"
+            gap: "0"
+          - mode: paced
+            calls: "20000"
+            gap: "25"
+    runs-on: windows-latest
+    name: stress arm ${{ matrix.arm }} ${{ matrix.mode }}
+    timeout-minutes: 60
+    env:
+      MEASURE_ARM: ${{ matrix.arm }}
+      EMEND_E2E_CHROMIUM_DISABLE_FEATURES: ${{ matrix.arm == 'B' && 'TcpPortRandomizationWin' || '' }}
+      STRESS_CALLS: ${{ matrix.calls }}
+      STRESS_GAP_MS: ${{ matrix.gap }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium
+
+      - name: Network state at start
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "$env:RUNNER_TEMP/m72" | Out-Null
+          $log = "$env:RUNNER_TEMP/m72/netstate-start.txt"
+          & { cmd /c ver; "--- dynamicport"; netsh int ipv4 show dynamicport tcp; "--- excludedportrange"; netsh int ipv4 show excludedportrange protocol=tcp; "--- TIME_WAIT"; (netstat -ano | Select-String TIME_WAIT | Measure-Object).Count } *>&1 | Tee-Object -FilePath $log
+
+      - name: Loopback stress
+        env:
+          STRESS_OUT: ${{ runner.temp }}/m72/stress-summary.json
+        run: node .github/measure-72/loopback-stress.mjs 2>&1 | tee "$RUNNER_TEMP/m72/stress-stdout.txt"
+
+      - name: Network state at end
+        if: always()
+        shell: pwsh
+        run: |
+          $log = "$env:RUNNER_TEMP/m72/netstate-end.txt"
+          & { "--- excludedportrange"; netsh int ipv4 show excludedportrange protocol=tcp; "--- TIME_WAIT"; (netstat -ano | Select-String TIME_WAIT | Measure-Object).Count } *>&1 | Tee-Object -FilePath $log
+
+      - name: Upload measurement
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: m72-stress-${{ matrix.arm }}-${{ matrix.mode }}
+          path: ${{ runner.temp }}/m72/
+          if-no-files-found: warn
+          retention-days: 14
