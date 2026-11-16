@@ -1,0 +1,94 @@
+# ABOUTME: Evidence-only workflow: repeats #133's two D27 e2e cases 20 times each on Windows and macOS.
+# ABOUTME: Setup steps are copied from ci.yml's Suites job; this file never merges.
+
+name: Measure 127 repeats
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  GGML_CCACHE: "OFF"
+
+jobs:
+  repeat:
+    if: github.head_ref == 'measure/127-repeat'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            label: windows
+          - os: macos-latest
+            label: macos
+    runs-on: ${{ matrix.os }}
+    name: D27 x20 (${{ matrix.os }})
+    timeout-minutes: 120
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable @ 2026-07-09
+        with:
+          toolchain: 1.97.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Provision Windows Whisper tools
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: ./scripts/provision-whisper-windows.ps1
+
+      - name: Verify macOS Whisper tools
+        if: matrix.os == 'macos-latest'
+        run: |
+          cmake --version
+          clang_dir="$(dirname "$(dirname "$(xcrun --find clang)")")/lib"
+          test -f "$clang_dir/libclang.dylib"
+          echo "LIBCLANG_PATH=$clang_dir" >> "$GITHUB_ENV"
+
+      - name: Cache cargo build
+        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium
+
+      - name: Pre-build the headless test driver
+        run: cargo build --manifest-path src-tauri/Cargo.toml -p test-driver
+
+      - name: Show tested commit
+        run: git rev-parse HEAD^ HEAD && git diff --stat HEAD^ HEAD
+
+      # --reporter=list overrides the config's reporter; the log is the per-execution record.
+      - name: D27 cases, 20 repeats each, no retries
+        env:
+          EMEND_E2E_DIAGNOSTICS_DIR: ${{ runner.temp }}/e2e-diagnostics
+        run: |
+          mkdir -p measure-out
+          npx playwright test e2e/acceptance.spec.mjs --grep "D27 rail (opens discovered skill material and workflow from one tree|expands the pressed skill when an automatic refresh starts mid-click)" --repeat-each=20 --retries=0 --reporter=list 2>&1 | tee measure-out/playwright-list-${{ matrix.label }}.txt
+
+      - name: Upload Playwright report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report-${{ matrix.label }}
+          path: |
+            measure-out/
+            playwright-report/
+            test-results/
+            ${{ runner.temp }}/e2e-diagnostics/
+          retention-days: 14
