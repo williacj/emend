@@ -97,6 +97,10 @@ export default defineConfig({
       },
       port: TEST_DRIVER_PORT,
       reuseExistingServer: false,
+      // #72: the driver's own stdout and stderr go through Playwright's reporter (as `[WebServer]`
+      // lines) rather than being dropped — Playwright ignores a webServer's stdout by default.
+      stdout: "pipe",
+      stderr: "pipe",
       // First run compiles the crate; can be slow on a cold cache.
       timeout: 120_000,
     },
