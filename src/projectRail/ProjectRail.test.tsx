@@ -462,6 +462,91 @@ describe("projectRail/ProjectRail", () => {
     expect(await screen.findByRole("treeitem", { name: "skills/review/latest.md" })).toBeInTheDocument();
   });
 
+  it("D27 activates the pressed row when an automatic refresh re-lays the tree before release (#127)", async () => {
+    // A `started` notice inserts `Updating documents…` above Skills, sliding the rows down under a
+    // pointer that has not moved. The press lands on one row and the release on another, so the
+    // browser dispatches `click` to their common ancestor, the tree itself (the Windows e2e trace's
+    // mousedown → label, mouseup → neighbouring row, click → tree). jsdom has no layout, so the test
+    // replays that event sequence directly.
+    const bus = announcer();
+    const snapshot: ProjectFilesSnapshot = {
+      generation: 1,
+      moves: [],
+      entries: [
+        markdown("notes.md"),
+        directory("skills", [
+          directory("skills/audit", [markdown("skills/audit/SKILL.md")]),
+          directory("skills/review", [markdown("skills/review/SKILL.md")]),
+        ]),
+      ],
+    };
+    render(
+      <ProjectRail
+        projectRoot="/project"
+        activePath={null}
+        onOpen={vi.fn()}
+        refresh={vi.fn().mockResolvedValue(snapshot)}
+        discover={vi.fn().mockResolvedValue({
+          skills: [
+            { name: "Audit", description: "Audit sources.", path: "skills/audit/SKILL.md" },
+            { name: "Review", description: "Review drafts.", path: "skills/review/SKILL.md" },
+          ],
+          workflows: [],
+          instructionFile: null,
+        })}
+        subscribe={bus.subscribe}
+      />,
+    );
+    const review = await screen.findByRole("treeitem", { name: "Review. Review drafts." });
+    const audit = screen.getByRole("treeitem", { name: "Audit. Audit sources." });
+    await waitFor(() => expect(bus.mounted()).toBe(true));
+    const tree = screen.getByRole("tree", { name: "Project files" });
+
+    fireEvent.mouseDown(within(review).getByText("Review"), { clientX: 60, clientY: 200 });
+    bus.announce({ status: "started" });
+    expect(await screen.findByText("Updating documents…")).toBeInTheDocument();
+    fireEvent.mouseUp(within(audit).getByText("Audit"), { clientX: 60, clientY: 200 });
+    fireEvent.click(tree, { clientX: 60, clientY: 200 });
+
+    expect(review).toHaveAttribute("aria-expanded", "true");
+    expect(audit).toHaveAttribute("aria-expanded", "false");
+    expect(screen.getByRole("treeitem", { name: "skills/review/SKILL.md" })).toBeInTheDocument();
+  });
+
+  it("D27 activates nothing when the pointer moved between press and release (#127)", async () => {
+    render(
+      <ProjectRail
+        projectRoot="/project"
+        activePath={null}
+        onOpen={vi.fn()}
+        refresh={vi.fn().mockResolvedValue({
+          generation: 1,
+          moves: [],
+          entries: [directory("skills", [
+            directory("skills/review", [markdown("skills/review/SKILL.md")]),
+          ])],
+        })}
+        discover={vi.fn().mockResolvedValue({
+          skills: [{ name: "Review", description: "Review drafts.", path: "skills/review/SKILL.md" }],
+          workflows: [],
+          instructionFile: null,
+        })}
+      />,
+    );
+    const review = await screen.findByRole("treeitem", { name: "Review. Review drafts." });
+    const tree = screen.getByRole("tree", { name: "Project files" });
+
+    // A press dragged off its row and released elsewhere is not an activation, natively or here.
+    fireEvent.mouseDown(within(review).getByText("Review"), { clientX: 60, clientY: 200 });
+    fireEvent.click(tree, { clientX: 60, clientY: 260 });
+    expect(review).toHaveAttribute("aria-expanded", "false");
+
+    // Nor does a stale press survive a later click that started off every row.
+    fireEvent.mouseDown(tree, { clientX: 60, clientY: 200 });
+    fireEvent.click(tree, { clientX: 60, clientY: 200 });
+    expect(review).toHaveAttribute("aria-expanded", "false");
+  });
+
   it("D27 reconciles new skill material when Skills finishes before Documents", async () => {
     const updatingDocuments = deferred<ProjectFilesSnapshot>();
     const movedSkill: GroundingPayload = {

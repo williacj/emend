@@ -5423,6 +5423,85 @@ test.describe("P2b-11b J2 — brainstorm to draft materializes", () => {
     await expect(rail.locator('[role="treeitem"][aria-current="page"]')).toHaveCount(1);
   });
 
+  test("D27 rail expands the pressed skill when an automatic refresh starts mid-click (#127)", async ({ page }) => {
+    // The Windows flake behind #127: the backend's automatic refresh announced `started` between
+    // the press and the release of a click on a skill row. `Updating documents…` appeared above
+    // Skills, the rows slid under a still pointer, the release landed on the neighbouring row, and
+    // the browser sent `click` to the tree, so nothing expanded. Here the real notices are held on
+    // their `/events` wire and released around a manual press, which pins that ordering instead of
+    // hoping for it. Only the notices' cadence changes (test-plan §7b): the real watcher produces
+    // them and the production pump and rail consume them.
+    project = createFixtureProject("# Ordinary notes\n");
+    mkdirSync(join(project.root, "claude_skills/review"), { recursive: true });
+    mkdirSync(join(project.root, ".claude/skills/audit"), { recursive: true });
+    writeFileSync(
+      join(project.root, "claude_skills/review/SKILL.md"),
+      "---\nname: Review\ndescription: Review drafts.\n---\n\n# Review body\n",
+    );
+    writeFileSync(
+      join(project.root, ".claude/skills/audit/SKILL.md"),
+      "---\nname: Audit\ndescription: Audit sources.\n---\n\n# Audit body\n",
+    );
+    const startedEventIndex = (text) => {
+      try {
+        return JSON.parse(text).events.findIndex(
+          (event) => event.event === "emend://project/files" && event.payload?.status === "started",
+        );
+      } catch {
+        return -1;
+      }
+    };
+    let holding = false;
+    let startedWasHeld = false;
+    let markStartedHeld;
+    let releaseStarted;
+    let releaseCompleted;
+    const startedHeld = new Promise((resolve) => { markStartedHeld = resolve; });
+    const startedGate = new Promise((resolve) => { releaseStarted = resolve; });
+    const completedGate = new Promise((resolve) => { releaseCompleted = resolve; });
+    await page.route("**/events", async (route) => {
+      const response = await route.fetch();
+      let body = await response.text();
+      const startedIndex = holding && !startedWasHeld ? startedEventIndex(body) : -1;
+      if (startedIndex >= 0) {
+        // The poll may batch `completed` behind `started`. Deliver only up to `started`; the
+        // cursor then makes the next poll fetch `completed`, which is held below.
+        const batch = JSON.parse(body);
+        const kept = batch.events.slice(0, startedIndex + 1);
+        body = JSON.stringify({ ...batch, events: kept, cursor: kept[kept.length - 1].cursor });
+        startedWasHeld = true;
+        markStartedHeld();
+        await startedGate;
+      } else if (startedWasHeld && body.includes('"emend://project/files"')) {
+        await completedGate;
+      }
+      await route.fulfill({ response, body });
+    });
+    await page.goto("/");
+    await page.evaluate((root) => window.__EMEND_E2E__?.openProjectFolder(root), project.root);
+
+    const rail = page.getByRole("complementary", { name: "Project files" });
+    const review = rail.getByRole("treeitem", { name: "Review. Review drafts." });
+    await expect(review).toHaveAttribute("aria-expanded", "false");
+    await expect(rail.getByRole("treeitem", { name: "Audit. Audit sources." })).toBeVisible();
+    holding = true;
+    writeFileSync(join(project.root, "other.md"), "# Other\n");
+    await startedHeld;
+
+    const box = await review.boundingBox();
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    releaseStarted();
+    await expect(rail.getByText("Updating documents…")).toBeVisible();
+    await page.mouse.up();
+    releaseCompleted();
+    await expect(rail.getByText("Updating documents…")).toHaveCount(0);
+
+    await expect(review).toHaveAttribute("aria-expanded", "true");
+    await rail.getByRole("treeitem", { name: "claude_skills/review/SKILL.md" }).click();
+    await expect(page.locator(".cm-content:visible")).toContainText("Review body");
+  });
+
   test("B2 Windows collapsed rail keeps a 44px restore strip", async ({ page }) => {
     project = createFixtureProject("# Rail collapse\n");
     await reportPlatform(page, "Win32");
