@@ -30,10 +30,10 @@ jobs:
       run:
         shell: bash
     steps:
-      # The PR head itself, not the default merge-with-main ref, so the tree under test is #133's head.
+      # #133's head commit itself, checked out by SHA, so the tree under test is exactly that commit.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: c06df0b4c38794b973168e80a3ae41ad89babbab
           fetch-depth: 0
 
       - name: Install Rust
@@ -75,7 +75,10 @@ jobs:
         run: cargo build --manifest-path src-tauri/Cargo.toml -p test-driver
 
       - name: Show tested commit
-        run: git log --oneline -2 && git diff --stat c06df0b4c38794b973168e80a3ae41ad89babbab HEAD
+        run: |
+          git log --oneline -1
+          test "$(git rev-parse HEAD)" = c06df0b4c38794b973168e80a3ae41ad89babbab
+          test -z "$(git status --porcelain)"
 
       # --reporter=list overrides the config's reporter; the log is the per-execution record.
       - name: D27 cases, 20 repeats each, no retries
