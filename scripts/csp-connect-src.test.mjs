@@ -40,7 +40,9 @@ function connectSrcViolations(csp) {
 function networkOriginViolations(csp) {
   const found = [];
   for (const [name, sources] of parseCsp(csp)) {
-    for (const source of sources) if (NETWORK_ORIGIN.test(source)) found.push(`${name} admits ${source}`);
+    for (const source of sources) {
+      if (NETWORK_ORIGIN.test(source) || source.includes('*')) found.push(`${name} admits ${source}`);
+    }
   }
   return found;
 }
@@ -87,6 +89,9 @@ test('the csp checks reject an extra connect-src origin and a network origin in 
   assert.equal(platformConnectSrcViolations("img-src 'self'").length, 1);
   assert.equal(platformConnectSrcViolations("connect-src https://a.example; connect-src 'self'").length, 1);
   assert.deepEqual(networkOriginViolations("img-src 'self' wss://x.example"), ['img-src admits wss://x.example']);
+  assert.deepEqual(networkOriginViolations('img-src *'), ['img-src admits *']);
+  assert.deepEqual(networkOriginViolations("img-src 'self' *.example.com"), ['img-src admits *.example.com']);
+  assert.deepEqual(networkOriginViolations('default-src *'), ['default-src admits *']);
   assert.deepEqual(platformConnectSrcViolations("connect-src 'self' http://localhost:1420"), ['connect-src admits http://localhost:1420']);
   assert.deepEqual(platformConnectSrcViolations('default-src https://a.example'), ['connect-src admits https://a.example']);
 });
