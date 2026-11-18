@@ -17,21 +17,24 @@ function productionCsp(config) {
   return config?.app?.security?.csp;
 }
 
-// Directive name (lowercased) -> its source tokens.
+// Every directive as [lowercased name, source tokens], duplicates kept: a duplicate must never hide an earlier one.
 function parseCsp(csp) {
-  const directives = new Map();
+  const directives = [];
   for (const part of csp.split(';')) {
     const [name, ...sources] = part.trim().split(/\s+/);
-    if (name) directives.set(name.toLowerCase(), sources);
+    if (name) directives.push([name.toLowerCase(), sources]);
   }
   return directives;
 }
 
+const sourcesOf = (directives, wanted) => directives.filter(([name]) => name === wanted).map(([, sources]) => sources);
+
 function connectSrcViolations(csp) {
-  const sources = parseCsp(csp).get('connect-src');
-  return sources !== undefined && sources.length === 1 && sources[0] === "'self'"
-    ? []
-    : [`connect-src must be exactly 'self', found ${JSON.stringify(sources)}`];
+  const all = sourcesOf(parseCsp(csp), 'connect-src');
+  if (all.length === 0) return ["connect-src must be exactly 'self', found none"];
+  return all
+    .filter((sources) => !(sources.length === 1 && sources[0] === "'self'"))
+    .map((sources) => `connect-src must be exactly 'self', found ${JSON.stringify(sources)}`);
 }
 
 function networkOriginViolations(csp) {
@@ -42,11 +45,14 @@ function networkOriginViolations(csp) {
   return found;
 }
 
-// A platform override that sets a policy must not widen connect-src; falls back to default-src as a browser does.
+// A platform override that sets a policy must confine connect-src to 'self'; it falls back to default-src as a
+// browser does, and a policy with neither leaves connect-src unrestricted.
 function platformConnectSrcViolations(csp) {
   const directives = parseCsp(csp);
-  const sources = directives.get('connect-src') ?? directives.get('default-src') ?? [];
-  return sources.filter((source) => source !== "'self'").map((source) => `connect-src admits ${source}`);
+  const explicit = sourcesOf(directives, 'connect-src');
+  const governing = explicit.length > 0 ? explicit : sourcesOf(directives, 'default-src');
+  if (governing.length === 0) return ['connect-src is unrestricted: neither connect-src nor default-src is set'];
+  return governing.flat().filter((source) => source !== "'self'").map((source) => `connect-src admits ${source}`);
 }
 
 test("production csp connect-src is exactly 'self' (TD-9)", () => {
@@ -75,6 +81,11 @@ test('the csp checks reject an extra connect-src origin and a network origin in 
   assert.deepEqual(networkOriginViolations(good), []);
   assert.equal(connectSrcViolations("connect-src 'self' https://api.github.com").length, 1);
   assert.equal(connectSrcViolations("default-src 'self'").length, 1);
+  assert.equal(connectSrcViolations("connect-src https://a.example; connect-src 'self'").length, 1);
+  assert.equal(connectSrcViolations("connect-src 'self'; connect-src https://a.example").length, 1);
+  assert.deepEqual(networkOriginViolations("img-src https://a.example; img-src 'self'"), ['img-src admits https://a.example']);
+  assert.equal(platformConnectSrcViolations("img-src 'self'").length, 1);
+  assert.equal(platformConnectSrcViolations("connect-src https://a.example; connect-src 'self'").length, 1);
   assert.deepEqual(networkOriginViolations("img-src 'self' wss://x.example"), ['img-src admits wss://x.example']);
   assert.deepEqual(platformConnectSrcViolations("connect-src 'self' http://localhost:1420"), ['connect-src admits http://localhost:1420']);
   assert.deepEqual(platformConnectSrcViolations('default-src https://a.example'), ['connect-src admits https://a.example']);
