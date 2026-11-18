@@ -908,7 +908,14 @@ function AuthorWorkspace({
   // the layout doesn't flash workshop-mode-without-a-placeholder for the one render between
   // "request set" and `TabbedEditor` actually processing it. `TabbedEditor.onTabsChange` (below)
   // is the only thing that can later correct this without a new `request` — closing the last tab.
+  // A `(root, null)` request for the root the editor already has open is ignored by `TabbedEditor`
+  // (it reports no tab change), so it must not clear the tabs it already reported (#76).
+  const seededRoot = useRef<string | null>(null);
   useEffect(() => {
+    const sameRootNull =
+      request !== null && request.path === null && request.root === seededRoot.current;
+    seededRoot.current = request?.root ?? null;
+    if (sameRootNull) return;
     setHasOpenTabs(request !== null && request.path !== null);
   }, [request]);
 
