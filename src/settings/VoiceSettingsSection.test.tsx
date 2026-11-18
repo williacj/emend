@@ -183,9 +183,10 @@ describe("settings/VoiceSettingsSection", () => {
 
   it("keeps Voice and Refresh in one heading row", async () => {
     render(<VoiceSettingsSection />);
-    const heading = await screen.findByRole("heading", { name: "Voice" });
+    const refresh = await screen.findByRole("button", { name: "Refresh voice status" });
+    const heading = screen.getByRole("heading", { name: "Voice" });
     expect(heading.parentElement).toHaveClass("voice-settings__heading-row");
-    expect(heading.parentElement).toContainElement(screen.getByRole("button", { name: "Refresh voice status" }));
+    expect(heading.parentElement).toContainElement(refresh);
   });
 
   it("updates an already-mounted mic after disabling voice is confirmed by Rust", async () => {
