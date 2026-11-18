@@ -2,18 +2,26 @@
 // and judges name declared roles (or the owner), so a typo fails here rather than at dispatch.
 
 import assert from 'node:assert/strict';
-import { existsSync } from 'node:fs';
+import { statSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
+function isFile(path) {
+  try {
+    return statSync(path).isFile();
+  } catch {
+    return false;
+  }
+}
+
 function findRiggerConfigFaults(config, root) {
   const faults = [];
   const roles = config.roles ?? {};
   for (const [name, role] of Object.entries(roles)) {
-    if (typeof role.agent !== 'string' || !existsSync(resolve(root, role.agent))) {
+    if (typeof role.agent !== 'string' || !isFile(resolve(root, role.agent))) {
       faults.push(`role "${name}" agent ${JSON.stringify(role.agent)} names no file`);
     }
   }
@@ -48,6 +56,11 @@ test('the fixture config is free of faults', () => {
 
 test('a role agent path naming a missing file is a fault', () => {
   const roles = { ...fixture.roles, engineer: { agent: '.claude/agents/missing.md' } };
+  assert.equal(findRiggerConfigFaults({ ...fixture, roles }, repoRoot).length, 1);
+});
+
+test('a role agent path naming a directory is a fault', () => {
+  const roles = { ...fixture.roles, engineer: { agent: '.claude/agents' } };
   assert.equal(findRiggerConfigFaults({ ...fixture, roles }, repoRoot).length, 1);
 });
 
