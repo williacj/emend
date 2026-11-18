@@ -4,10 +4,15 @@ import { spawn } from "node:child_process";
 import { once } from "node:events";
 import { resolve } from "node:path";
 
+/** The path of a binary cargo built, honouring CARGO_TARGET_DIR as cargo itself does. */
+export function builtBinary(name, env = process.env, platform = process.platform) {
+  const target = env.CARGO_TARGET_DIR ? resolve(env.CARGO_TARGET_DIR) : resolve("src-tauri/target");
+  return resolve(target, "debug", name + (platform === "win32" ? ".exe" : ""));
+}
+
 export async function permissionDriver(page) {
   await buildPermissionProvider();
-  const binary = (name) =>
-    resolve("src-tauri/target/debug", name + (process.platform === "win32" ? ".exe" : ""));
+  const binary = (name) => builtBinary(name);
   const child = spawn(binary("test-driver"), ["0"], {
     env: {
       ...process.env,
