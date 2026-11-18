@@ -1,4 +1,4 @@
-// ABOUTME: Pure capture-gate helpers: scenario selection and live J9 project-open DOM checks.
+// ABOUTME: Pure capture-gate helpers: scenario selection, command-line settings and live J9 project-open DOM checks.
 // ABOUTME: Keeps the capture gate independent of timing and of the image file's existence.
 import { strict as assert } from "node:assert";
 
@@ -7,6 +7,19 @@ export function scenarioSelected(filter, name) {
   if (!filter) return true;
   if (filter.startsWith("=")) return name.slice(name.indexOf(" ") + 1) === filter.slice(1);
   return name.includes(filter);
+}
+
+// The harness's settings with a command-line scenario and output folder, in that order, taking the
+// place of EMEND_ALIGNMENT_SCENARIO and EMEND_ALIGNMENT_OUTPUT; without them the environment's stand.
+export function alignmentEnvironment(argv, environment) {
+  const settings = {};
+  for (const key of ["EMEND_ALIGNMENT_SCENARIO", "EMEND_ALIGNMENT_OUTPUT"]) {
+    if (environment[key] !== undefined) settings[key] = environment[key];
+  }
+  const [scenario, output] = argv;
+  if (scenario !== undefined) settings.EMEND_ALIGNMENT_SCENARIO = scenario;
+  if (output !== undefined) settings.EMEND_ALIGNMENT_OUTPUT = output;
+  return settings;
 }
 
 export function assertProjectOpenCapture(observed, expected) {
