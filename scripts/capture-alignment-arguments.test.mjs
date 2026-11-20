@@ -2,10 +2,9 @@
 // ABOUTME: take the place of EMEND_ALIGNMENT_SCENARIO and EMEND_ALIGNMENT_OUTPUT, which still apply without them.
 import { strict as assert } from "node:assert";
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import test from "node:test";
 import { alignmentEnvironment, scenarioSelected } from "./capture-design-alignment-state.mjs";
 
@@ -50,40 +49,49 @@ test("the npm script runs the entry that applies the arguments before the harnes
   assert.ok(loaded > applied, "the harness loads only after the arguments are applied");
 });
 
-// Runs the real npm script. A scenario that matches nothing makes the harness write an empty
-// measurements.json to its output folder and then refuse, naming the filter it received.
+// Runs the real npm script with the harness replaced by a stand-in that reports the scenario and
+// output folder it was started with, so the arguments' effect is observed without a browser.
+const standIn = pathToFileURL(join(repository, "scripts/fixtures/capture-harness-stand-in.mjs")).href;
+
 function runNpmCapture(commandLine, environment) {
-  const folder = mkdtempSync(join(tmpdir(), "emend-alignment-arguments-"));
-  const outputFolder = join(folder, "capture");
-  const fill = (value) => value === "<output>" ? outputFolder : value;
   const base = { ...process.env };
   delete base.EMEND_ALIGNMENT_SCENARIO;
   delete base.EMEND_ALIGNMENT_OUTPUT;
-  const result = spawnSync("npm", ["run", "capture:alignment", "--silent", "--", ...commandLine.map(fill)], {
+  const npmArguments = ["run", "capture:alignment", "--silent", "--", ...commandLine];
+  const npmCli = process.env.npm_execpath?.endsWith(".js") ? process.env.npm_execpath : null;
+  const result = spawnSync(npmCli ? process.execPath : "npm", npmCli ? [npmCli, ...npmArguments] : npmArguments, {
     cwd: repository,
     encoding: "utf8",
-    env: { ...base, ...Object.fromEntries(Object.entries(environment).map(([key, value]) => [key, fill(value)])) },
+    shell: !npmCli && process.platform === "win32",
+    env: { ...base, ...environment, NODE_OPTIONS: `--import ${standIn}` },
   });
-  const written = join(outputFolder, "measurements.json");
-  const measurements = existsSync(written) ? JSON.parse(readFileSync(written, "utf8")) : null;
-  rmSync(folder, { recursive: true, force: true });
-  return { result, measurements };
+  assert.equal(result.status, 0, `${result.stderr}${result.stdout}`);
+  const line = result.stdout.split(/\r?\n/).find((text) => text.startsWith("RECEIVED "));
+  assert.ok(line, `the harness stand-in ran: ${result.stdout}`);
+  return JSON.parse(line.slice("RECEIVED ".length));
 }
 
 test("npm run capture:alignment -- <scenario> <output> hands both arguments to the harness", () => {
-  const { result, measurements } = runNpmCapture(["=no-such-scenario-argument", "<output>"], {});
-  assert.notEqual(result.status, 0);
-  assert.match(result.stderr, /No capture scenario matched =no-such-scenario-argument/);
-  assert.ok(measurements, "the capture was written to the output folder given as an argument");
-  assert.deepEqual(measurements.captures, {});
+  const received = runNpmCapture(["=toolbar", "captures/from-argument"], {});
+  assert.deepEqual(received, { scenario: "=toolbar", output: "captures/from-argument" });
+});
+
+test("the npm script's arguments win over the environment", () => {
+  const received = runNpmCapture(["=toolbar", "captures/from-argument"], {
+    EMEND_ALIGNMENT_SCENARIO: "j10",
+    EMEND_ALIGNMENT_OUTPUT: "captures/from-environment",
+  });
+  assert.deepEqual(received, { scenario: "=toolbar", output: "captures/from-argument" });
 });
 
 test("without arguments the npm script reads EMEND_ALIGNMENT_SCENARIO and EMEND_ALIGNMENT_OUTPUT", () => {
-  const { result, measurements } = runNpmCapture([], {
-    EMEND_ALIGNMENT_SCENARIO: "=no-such-scenario-environment",
-    EMEND_ALIGNMENT_OUTPUT: "<output>",
+  const received = runNpmCapture([], {
+    EMEND_ALIGNMENT_SCENARIO: "=toolbar",
+    EMEND_ALIGNMENT_OUTPUT: "captures/from-environment",
   });
-  assert.notEqual(result.status, 0);
-  assert.match(result.stderr, /No capture scenario matched =no-such-scenario-environment/);
-  assert.ok(measurements, "the capture was written to the output folder the environment names");
+  assert.deepEqual(received, { scenario: "=toolbar", output: "captures/from-environment" });
+});
+
+test("without arguments or environment the harness is started with neither set", () => {
+  assert.deepEqual(runNpmCapture([], {}), { scenario: null, output: null });
 });
