@@ -1734,8 +1734,9 @@ async function captureMicErrorInteraction(browser, viteUrl, driverUrl, platform)
         for (const [surface, selector, target, container] of surfaces) {
           const mic = page.locator(selector);
           for (const state of ["rest", "hover", "pressed", "focus"]) {
-            await page.mouse.up();
+            // Leave the chip before releasing, so the held press never completes as a click.
             await page.mouse.move(1, 1);
+            await page.mouse.up();
             await page.evaluate(() => document.activeElement?.blur());
             if (state === "hover") await mic.hover();
             if (state === "pressed") {
@@ -1786,6 +1787,7 @@ async function captureMicErrorInteraction(browser, viteUrl, driverUrl, platform)
           }
         }
       }
+      await page.mouse.move(1, 1);
       await page.mouse.up();
     } finally {
       await page.unrouteAll({ behavior: "ignoreErrors" });
