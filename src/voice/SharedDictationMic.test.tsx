@@ -489,40 +489,44 @@ describe("voice/SharedDictationMic", () => {
     await waitFor(() => expect(screen.getByRole("button", { name: "Stop dictation — recording" })).toBeEnabled());
   });
 
-  it.each([
-    ["model_missing", { ...ready, model: "absent" }, "download"],
-    ["model_corrupt", { ...ready, model: "corrupt" }, "download"],
-    ["download_failed", { ...ready, model: "absent", download: { kind: "failed" } }, "download"],
-    ["backend_unavailable", { ...ready, device_issue: "backend_unavailable" }, "start"],
-    ["invalid_audio", { ...ready, dictation: { kind: "error", reason: "invalid_audio" } }, "start"],
-    ["inference_failed", { ...ready, dictation: { kind: "error", reason: "inference_failed" } }, "start"],
-    ["no_device", { ...ready, device_issue: "no_device" }, "settings"],
-    ["no_default_device", { ...ready, device_issue: "no_default_device" }, "settings"],
-    ["selected_unavailable", { ...ready, device_issue: "selected_unavailable" }, "settings"],
-    ["permission_denied", { ...ready, device_issue: "permission_denied" }, "settings"],
-  ] as [string, VoiceStatus, "download" | "start" | "settings"][])(
-    "14g %s activation starts its ruled route", async (_reason, status, route) => {
+  it("14g activation of each of the ten error reasons starts its ruled route", async () => {
+    const rows: [string, VoiceStatus, "download" | "start" | "settings"][] = [
+      ["model_missing", { ...ready, model: "absent" }, "download"],
+      ["model_corrupt", { ...ready, model: "corrupt" }, "download"],
+      ["download_failed", { ...ready, model: "absent", download: { kind: "failed", reason: "transport" } }, "download"],
+      ["backend_unavailable", { ...ready, device_issue: "backend_unavailable" }, "start"],
+      ["invalid_audio", { ...ready, dictation: { kind: "error", reason: "invalid_audio" } }, "start"],
+      ["inference_failed", { ...ready, dictation: { kind: "error", reason: "inference_failed" } }, "start"],
+      ["no_device", { ...ready, device_issue: "no_device" }, "settings"],
+      ["no_default_device", { ...ready, device_issue: "no_default_device" }, "settings"],
+      ["selected_unavailable", { ...ready, device_issue: "selected_unavailable" }, "settings"],
+      ["permission_denied", { ...ready, device_issue: "permission_denied" }, "settings"],
+    ];
+    for (const [reason, status, route] of rows) {
+      invalidateVoiceStatus();
       const open = vi.fn();
       bridge.getVoiceStatus.mockReset().mockResolvedValue(status);
       bridge.downloadVoiceModel.mockReset().mockResolvedValue(undefined);
       bridge.startVoiceDictation.mockReset().mockResolvedValue(
         { ...ready, capture_active: true, dictation: { kind: "recording", elapsed_seconds: 0 } });
-      render(<VoiceSettingsOpenContext.Provider value={open}><SharedDictationMic /></VoiceSettingsOpenContext.Provider>);
+      const mounted = render(<VoiceSettingsOpenContext.Provider value={open}><SharedDictationMic /></VoiceSettingsOpenContext.Provider>);
       const mic = await screen.findByRole("button", { name: /^Dictate — / });
       await waitFor(() => expect(mic).toBeEnabled());
       bridge.getVoiceStatus.mockResolvedValue(ready);
       fireEvent.click(mic);
       if (route === "settings") {
-        expect(open).toHaveBeenCalledWith(mic);
+        expect(open, reason).toHaveBeenCalledWith(mic);
         await act(async () => {});
-        expect(bridge.startVoiceDictation).not.toHaveBeenCalled();
-        expect(bridge.downloadVoiceModel).not.toHaveBeenCalled();
-        return;
+        expect(bridge.startVoiceDictation, reason).not.toHaveBeenCalled();
+        expect(bridge.downloadVoiceModel, reason).not.toHaveBeenCalled();
+      } else {
+        await waitFor(() => expect(bridge.startVoiceDictation, reason).toHaveBeenCalledOnce());
+        expect(open, reason).not.toHaveBeenCalled();
+        expect(bridge.downloadVoiceModel, reason).toHaveBeenCalledTimes(route === "download" ? 1 : 0);
       }
-      await waitFor(() => expect(bridge.startVoiceDictation).toHaveBeenCalledOnce());
-      expect(open).not.toHaveBeenCalled();
-      expect(bridge.downloadVoiceModel).toHaveBeenCalledTimes(route === "download" ? 1 : 0);
-    });
+      mounted.unmount();
+    }
+  });
 
   it("resumes after terminal cancellation before the old download promise settles", async () => {
     const absent: VoiceStatus = { ...ready, model: "absent" };

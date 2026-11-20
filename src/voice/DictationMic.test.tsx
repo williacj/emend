@@ -84,25 +84,31 @@ describe("voice/DictationMic", () => {
   ] as const;
   const settingsRoute = ["no_device", "no_default_device", "selected_unavailable", "permission_denied"] as const;
 
-  it.each(retryable)("14g %s carries the retry cue and its approved description", (reason, description) => {
-    const { container, onActivate } = show({ kind: "error", reason });
-    const button = screen.getByRole("button");
-    expect(button).toHaveAttribute("aria-description", description);
-    expect(button).toHaveStyle({ width: "28px", height: "26px" });
-    const cue = container.querySelector(".dictation-mic__retry");
-    expect(cue).toHaveTextContent("↻");
-    expect(cue).toHaveAttribute("aria-hidden", "true");
-    fireEvent.click(button);
-    expect(onActivate).toHaveBeenCalledOnce();
+  it("14g retryable errors carry the retry cue and their approved description", () => {
+    for (const [reason, description] of retryable) {
+      const { container, onActivate, unmount } = show({ kind: "error", reason });
+      const button = screen.getByRole("button");
+      expect(button, reason).toHaveAttribute("aria-description", description);
+      expect(button, reason).toHaveStyle({ width: "28px", height: "26px" });
+      const cue = container.querySelector(".dictation-mic__retry");
+      expect(cue, reason).toHaveTextContent("↻");
+      expect(cue, reason).toHaveAttribute("aria-hidden", "true");
+      fireEvent.click(button);
+      expect(onActivate, reason).toHaveBeenCalledOnce();
+      unmount();
+    }
   });
 
-  it.each(settingsRoute)("14g %s has no retry cue and describes the Settings route", (reason) => {
-    const { container, onActivate } = show({ kind: "error", reason });
-    const button = screen.getByRole("button");
-    expect(button).toHaveAttribute("aria-description", "Opens Voice Settings");
-    expect(container.querySelector(".dictation-mic__retry")).toBeNull();
-    fireEvent.click(button);
-    expect(onActivate).toHaveBeenCalledOnce();
+  it("14g Settings-route errors have no retry cue and describe the Settings route", () => {
+    for (const reason of settingsRoute) {
+      const { container, onActivate, unmount } = show({ kind: "error", reason });
+      const button = screen.getByRole("button");
+      expect(button, reason).toHaveAttribute("aria-description", "Opens Voice Settings");
+      expect(container.querySelector(".dictation-mic__retry"), reason).toBeNull();
+      fireEvent.click(button);
+      expect(onActivate, reason).toHaveBeenCalledOnce();
+      unmount();
+    }
   });
 
   it("14g non-error phases carry no retry cue or description", () => {
