@@ -1,7 +1,7 @@
-# Emend UX Design (v2 rewrite)
-
 ABOUTME: Flow-level UX design for the Emend rewrite — journeys, states, and lo-fi wireframes.
 ABOUTME: Companion to docs/functional-spec.md (decisions cited as D#/FR-#). Built strawman-by-strawman with CJ.
+
+# Emend UX Design (v2 rewrite)
 
 **Status:** Complete (2026-07-05). All 8 journeys interviewed with CJ; fresh-eyes review findings incorporated. **UXR-Q5** (§5) ratified by CJ 2026-07-22 (DH-7). **J2 project rail** (#698) ratified by CJ 2026-07-30 (DH-7) — the entire document is ratified.
 **Fidelity:** deliberately lo-fi — ASCII wireframes, annotated. Pixel design now exists and lives in `docs/design/` (see below); this document does not duplicate it.

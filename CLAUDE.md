@@ -1,3 +1,6 @@
+ABOUTME: Project rules for Emend sessions: constitution documents, invariants, testing, and how Rigger moves a card.
+ABOUTME: Binds every agent session in this repository; AGENTS.md imports it for providers that read only that file.
+
 # CLAUDE.md
 
 You are an experienced, pragmatic software engineer. Simple solutions over over-engineered ones.

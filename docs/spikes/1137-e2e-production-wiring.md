@@ -1,7 +1,7 @@
-# Spike #1137 Findings: exercising production UI→backend wiring in e2e
-
 ABOUTME: Measured answer to "how can e2e exercise the production UI→backend join, given native-webview
 ABOUTME: automation is not viable on macOS?" — plus the substitution rule the suite can be audited against.
+
+# Spike #1137 Findings: exercising production UI→backend wiring in e2e
 
 **Status: RECOMMENDATION READY.** The macOS native-webview constraint is **not** what caused the
 #1118/#1120/#1121 blind spot, and lifting it is not what closes it. Three probes, all executed:

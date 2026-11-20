@@ -1,7 +1,7 @@
-# SPIKE-2 Findings: git2 feasibility (incl. union merge driver)
-
 ABOUTME: Evidence-based go/no-go for TD-3 (embedded git2 sync engine) and TD-4's
 ABOUTME: union-merge conflict-freedom; every dimension tagged VERIFIED / REPORTED / UNKNOWN.
+
+# SPIKE-2 Findings: git2 feasibility (incl. union merge driver)
 
 **Date:** 2026-07-09 · **Machine:** macOS 15 (Darwin 25.5.0), arm64 (Apple Silicon)
 **Versions:** `git2` **0.20.4** → `libgit2-sys` **0.18.5+1.9.4** (libgit2 **1.9.4**, statically vendored) · rustc 1.97.0

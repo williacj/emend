@@ -1,7 +1,7 @@
-# SPIKE-4 Findings: Fuzzy Re-Anchor Algorithm Profiling
-
 ABOUTME: Evidence-based recommendation for the D17/TD-6/P2 fuzzy re-anchor path — algorithm,
 ABOUTME: parameters, and the deterministic orphan rule — measured over a harvested edit-pattern corpus.
+
+# SPIKE-4 Findings: Fuzzy Re-Anchor Algorithm Profiling
 
 **Status: RECOMMENDATION READY for P1-5b (#103).** A two-stage, token-level, exact-first +
 context-blended fuzzy matcher with **non-maximum suppression before the ambiguity test** meets P2

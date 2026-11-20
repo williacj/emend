@@ -1,7 +1,7 @@
-# Editor toolbar mic visual refresh brief (UXR-Q14.1)
-
 ABOUTME: Handoff for CJ's generated design project to draw editor dictation on Windows and macOS.
 ABOUTME: `docs/ux-design.md` §2 and §4 own behavior; this brief does not replace `docs/design/` appearance authority.
+
+# Editor toolbar mic visual refresh brief (UXR-Q14.1)
 
 **Ruling:** CJ, 2026-09-30. FR-ED-5 and `docs/ux-design.md` §2 require dictation into the editor and place the mic on the editor toolbar. UXR-Q14.1 now confirms that placement for file-backed and pathless authoring panes, in Rich text and Markdown views. The current `docs/design/specs/authoring-shell.md` toolbar inventory and generated `3a`/`3b`/`4a`/`4b` mocks omit it. `9c.9` is a comparison variant, not the ratified placement or default appearance. Refresh the generated design project; do not hand-edit `docs/design/` here.
 
