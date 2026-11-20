@@ -1,7 +1,7 @@
-# SPIKE-1 Findings: Provider Contract (Claude Code CLI + GitHub Copilot CLI)
-
 ABOUTME: Evidence-based verification of the TD-1/TD-5 provider-contract assumptions for both agentic CLIs.
 ABOUTME: Answers §3.4's open questions (FR-PROV-1); every claim tagged VERIFIED / REPORTED / UNKNOWN.
+
+# SPIKE-1 Findings: Provider Contract (Claude Code CLI + GitHub Copilot CLI)
 
 **Date:** 2026-07-05 · **Machine:** Windows 11 (CJ's dev box)
 **Versions tested:** Claude Code CLI **2.1.200** (on PATH) · GitHub Copilot CLI **1.0.68** (standalone `copilot.exe` from `github/copilot-cli` release v1.0.68, run from scratchpad — *not* installed on this machine; winget has `GitHub.Copilot` v1.0.68 when we want it on PATH)

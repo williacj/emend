@@ -1,5 +1,5 @@
-<!-- ABOUTME: Source-stamped dark dictation mic captures for refresh (22) voice.md §1. -->
-<!-- ABOUTME: Explains the browser-only evidence boundary and how to regenerate it. -->
+ABOUTME: Source-stamped dark dictation mic captures for refresh (22) voice.md §1.
+ABOUTME: Explains the browser-only evidence boundary and how to regenerate it.
 
 # Dark dictation mic evidence
 

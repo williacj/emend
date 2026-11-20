@@ -1,5 +1,5 @@
-<!-- ABOUTME: FR-traceability matrix (test-plan §9) — every FR and property maps to named tests; the completeness measure for the rewrite. -->
-<!-- ABOUTME: Enforced by scripts/check-test-matrix.mjs in CI; seeded 2026-07-09 (P0-9) with all FRs, P1–P6, and the §3 named-invariant sweep. -->
+ABOUTME: FR-traceability matrix (test-plan §9) — every FR and property maps to named tests; the completeness measure for the rewrite.
+ABOUTME: Enforced by scripts/check-test-matrix.mjs in CI; seeded 2026-07-09 (P0-9) with all FRs, P1–P6, and the §3 named-invariant sweep.
 
 # Emend Test Matrix
 

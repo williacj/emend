@@ -1,5 +1,5 @@
-<!-- ABOUTME: Catalog + provenance of the Emend sidecar JSON Schemas (comment events, track-changes attribution, doc identity). -->
-<!-- ABOUTME: The FR-X-8 portability contract for `.emend/` (TD-4); validated by the `store::schema` conformance module (test-plan §3 stores). -->
+ABOUTME: Catalog + provenance of the Emend sidecar JSON Schemas (comment events, track-changes attribution, doc identity).
+ABOUTME: The FR-X-8 portability contract for `.emend/` (TD-4); validated by the `store::schema` conformance module (test-plan §3 stores).
 
 # Sidecar schemas
 

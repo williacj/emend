@@ -1,7 +1,7 @@
-# Emend Functional Specification (v2 — rewrite candidate)
-
 ABOUTME: Living functional specification for the Emend rewrite, built via structured interview with CJ.
 ABOUTME: Captures WHAT the app must do, not how. Decisions are logged with IDs (D#) as they are made.
+
+# Emend Functional Specification (v2 — rewrite candidate)
 
 **Status:** Interview complete (Q1–Q19, 2026-07-04); reviewed by fresh-eyes subagent, findings incorporated. Ready for the owner's top-to-bottom read. One design-time item open (Copilot permission-hook parity).
 **Method:** Baseline extracted from the existing codebase (2026-07-04), then interview one question at a time. Existing code/docs are *evidence*, not binding decisions.

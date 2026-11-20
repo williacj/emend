@@ -1,5 +1,5 @@
-<!-- ABOUTME: Catalog + provenance of the Emend provider-contract JSON Schemas (stream-JSON grammar + MCP payloads). -->
-<!-- ABOUTME: The machine-readable half of TD-1's contract; validated by the `provider-contract` crate and consumed by the fake agent (test-plan §1). -->
+ABOUTME: Catalog + provenance of the Emend provider-contract JSON Schemas (stream-JSON grammar + MCP payloads).
+ABOUTME: The machine-readable half of TD-1's contract; validated by the `provider-contract` crate and consumed by the fake agent (test-plan §1).
 
 # Provider contract schemas
 

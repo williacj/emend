@@ -1,7 +1,7 @@
-# Emend rebrand design brief: app icon, accent and design-project refresh
-
 ABOUTME: Handoff for CJ's design project to draw the Emend app icon, adopt the indigo accent, and rebrand the design folder.
 ABOUTME: Behavior is owned by `docs/ux-design.md`; this file does not replace `docs/design/` appearance authority.
+
+# Emend rebrand design brief: app icon, accent and design-project refresh
 
 **Ruling:** CJ, 2026-11-08. The app is renamed **Cowrite → Emend** ("to make corrections to a text": an agent proposes tracked changes and the author accepts or rejects them). It moves to the repository `williacj/emend`, which becomes public. Behavior does not change. CJ also ruled the same day that **the brand accent is the Emend site's indigo**, in the icon and in the app. Tracking: williacj/emend#10 under epic williacj/emend#21.
 
