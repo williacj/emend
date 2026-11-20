@@ -141,6 +141,23 @@ impl std::fmt::Display for SessionError {
 
 impl std::error::Error for SessionError {}
 
+/// Win32 `CREATE_NO_WINDOW`: a console-subsystem child (a `.cmd` shim runs under `cmd.exe`) gets
+/// no console window of its own, so a GUI parent never flashes one per provider turn.
+#[cfg(windows)]
+const CREATE_NO_WINDOW: u32 = 0x0800_0000;
+
+/// Spawns `command` as its own process group. On Windows the job-object group is created
+/// without a console window.
+#[cfg(windows)]
+fn spawn_group(command: &mut Command) -> std::io::Result<GroupChild> {
+    command.group().creation_flags(CREATE_NO_WINDOW).spawn()
+}
+
+#[cfg(not(windows))]
+fn spawn_group(command: &mut Command) -> std::io::Result<GroupChild> {
+    command.group_spawn()
+}
+
 impl AgentSession {
     /// Spawns `program args…` with `cwd` as its working directory, as its own process group,
     /// stdout piped (parsed line-by-line by [`next_event`](Self::next_event)). Stdin is closed
@@ -204,7 +221,7 @@ impl AgentSession {
             .stdout(Stdio::piped())
             .stderr(Stdio::piped());
 
-        let mut child = command.group_spawn().map_err(SessionError::Spawn)?;
+        let mut child = spawn_group(&mut command).map_err(SessionError::Spawn)?;
         let stdin = input.map(|_| {
             child
                 .inner()
@@ -1209,5 +1226,126 @@ mod tests {
             ] }
         });
         assert!(!is_delivery_call(&text_naming_the_tool));
+    }
+
+    /// Windows provider-turn spawn properties (TD-5): a `.cmd`-shim child gets no console window,
+    /// its output still streams line by line, and stop ends the whole process group. Compiled on
+    /// every Windows host; only the hosted Windows runner executes them.
+    #[cfg(windows)]
+    mod windows_provider_turn {
+        use super::*;
+
+        const FIXTURE: &str = "agent::session::tests::windows_provider_turn::";
+
+        /// Writes `<fixture>.cmd` that runs this test binary's ignored fixture of that name.
+        fn shim_running(dir: &Path, fixture: &str) -> String {
+            let exe = std::env::current_exe().unwrap();
+            let body = format!(
+                "@echo off\r\n\"{}\" --ignored --exact {FIXTURE}{fixture} --nocapture\r\n",
+                exe.display()
+            );
+            let path = dir.join(format!("{fixture}.cmd"));
+            std::fs::write(&path, body).unwrap();
+            path.to_string_lossy().into_owned()
+        }
+
+        fn events(session: &mut AgentSession) -> Vec<Value> {
+            let mut out = Vec::new();
+            while let Some(event) = session.next_event().unwrap() {
+                out.push(event.value);
+            }
+            out
+        }
+
+        #[test]
+        #[ignore = "fixture run as a provider-turn child"]
+        fn console_window_fixture() {
+            use windows_sys::Win32::System::Console::GetConsoleWindow;
+            // SAFETY: GetConsoleWindow takes no arguments and has no preconditions.
+            let window = unsafe { GetConsoleWindow() };
+            println!("{}", json!({ "console_window_null": window.is_null() }));
+        }
+
+        #[test]
+        #[ignore = "fixture run as a provider-turn child"]
+        fn streaming_fixture() {
+            println!("{}", json!({ "line": 1 }));
+            eprintln!("diagnostic-line");
+            println!("{}", json!({ "line": 2 }));
+        }
+
+        #[test]
+        #[ignore = "fixture run as a provider-turn child"]
+        fn lingering_fixture() {
+            println!("{}", json!({ "pid": std::process::id() }));
+            std::thread::sleep(Duration::from_secs(120));
+        }
+
+        #[test]
+        fn provider_turn_through_cmd_shim_has_no_console_window() {
+            use windows_sys::Win32::System::Console::AllocConsole;
+            // The parent must own a console, or a child spawned without the flag would also report
+            // none. AllocConsole fails harmlessly when the parent already has one.
+            // SAFETY: AllocConsole takes no arguments and has no preconditions.
+            unsafe { AllocConsole() };
+            let dir = tempfile::tempdir().unwrap();
+            let shim = shim_running(dir.path(), "console_window_fixture");
+            let mut session =
+                AgentSession::spawn_provider_turn_with_stdin(&shim, &[], dir.path(), b"", false)
+                    .unwrap();
+            let seen = events(&mut session);
+            session.stop().unwrap();
+            let reported: Vec<_> = seen
+                .iter()
+                .filter_map(|v| v["console_window_null"].as_bool())
+                .collect();
+            assert_eq!(reported, [true], "child must have no console window");
+        }
+
+        #[test]
+        fn provider_turn_streams_stdout_and_stderr_through_cmd_shim() {
+            let dir = tempfile::tempdir().unwrap();
+            let shim = shim_running(dir.path(), "streaming_fixture");
+            let mut session =
+                AgentSession::spawn_provider_turn_with_stdin(&shim, &[], dir.path(), b"", false)
+                    .unwrap();
+            let lines: Vec<_> = events(&mut session)
+                .iter()
+                .filter_map(|v| v["line"].as_i64())
+                .collect();
+            assert_eq!(lines, [1, 2]);
+            let exit = session.reap().unwrap();
+            assert!(
+                exit.stderr.contains("diagnostic-line"),
+                "stderr must reach the session: {:?}",
+                exit.stderr
+            );
+        }
+
+        #[test]
+        fn stop_ends_the_process_cmd_exe_launched() {
+            use windows_sys::Win32::{
+                Foundation::{CloseHandle, WAIT_OBJECT_0},
+                System::Threading::{OpenProcess, WaitForSingleObject},
+            };
+            const SYNCHRONIZE: u32 = 0x0010_0000;
+            let dir = tempfile::tempdir().unwrap();
+            let shim = shim_running(dir.path(), "lingering_fixture");
+            let mut session =
+                AgentSession::spawn_provider_turn_with_stdin(&shim, &[], dir.path(), b"", false)
+                    .unwrap();
+            let event = session.next_event().unwrap().expect("grandchild pid event");
+            let pid = event.value["pid"].as_u64().expect("pid") as u32;
+            // SAFETY: plain Win32 calls on a handle this test opens and closes.
+            let handle = unsafe { OpenProcess(SYNCHRONIZE, 0, pid) };
+            assert!(!handle.is_null(), "grandchild must be running before stop");
+            session.stop().unwrap();
+            let waited = unsafe { WaitForSingleObject(handle, 10_000) };
+            unsafe { CloseHandle(handle) };
+            assert_eq!(
+                waited, WAIT_OBJECT_0,
+                "stop must end the process cmd.exe launched"
+            );
+        }
     }
 }
