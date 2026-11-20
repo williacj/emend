@@ -26,6 +26,22 @@ export function isVoiceSettingsError(state: DictationPresentation): boolean {
   ].includes(state.reason);
 }
 
+const RETRY_DESCRIPTIONS = {
+  model_missing: "Downloads the voice model, then starts dictation",
+  model_corrupt: "Downloads the voice model, then starts dictation",
+  download_failed: "Retries the voice model download, then starts dictation",
+  backend_unavailable: "Retries dictation",
+  invalid_audio: "Retries dictation",
+  inference_failed: "Retries dictation",
+} as const;
+
+/** The retryable reasons are exactly those with a retry description; the rest open Voice Settings. */
+function retryDescription(state: DictationPresentation): string | undefined {
+  return state.kind === "error" && state.reason in RETRY_DESCRIPTIONS
+    ? RETRY_DESCRIPTIONS[state.reason as keyof typeof RETRY_DESCRIPTIONS]
+    : undefined;
+}
+
 function label(state: DictationPresentation): string {
   switch (state.kind) {
     case "idle": return "Dictate";
@@ -67,7 +83,7 @@ export function DictationMic({ state, platform = "win", onActivate }: DictationM
       className={`dictation-mic dictation-mic--${state.kind}`}
       data-platform={platform}
       aria-label={label(state)}
-      aria-description={isVoiceSettingsError(state) ? "Opens Voice Settings" : undefined}
+      aria-description={isVoiceSettingsError(state) ? "Opens Voice Settings" : retryDescription(state)}
       aria-pressed={state.kind === "recording" ? true : undefined}
       aria-busy={state.kind === "downloading" || state.kind === "cancelling" || state.kind === "transcribing" ? true : undefined}
       disabled={!actionable}
@@ -82,6 +98,9 @@ export function DictationMic({ state, platform = "win", onActivate }: DictationM
           <path d="M1.5 6.5a4.5 4.5 0 0 0 9 0M6 11v2.5M3.5 13.5h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           {state.kind === "error" && <path d="M1 14 11 1" stroke="currentColor" strokeWidth="1.5" />}
         </svg>
+      )}
+      {retryDescription(state) !== undefined && (
+        <span className="dictation-mic__retry" aria-hidden="true">↻</span>
       )}
       {(state.kind === "downloading" || state.kind === "download_cancelled") && (
         <span className="dictation-mic__progress"
