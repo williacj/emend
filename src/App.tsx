@@ -910,13 +910,15 @@ function AuthorWorkspace({
   // is the only thing that can later correct this without a new `request` — closing the last tab.
   // A `(root, null)` request for the root the editor already has open is ignored by `TabbedEditor`
   // (it reports no tab change), so it must not clear the tabs it already reported (#76).
-  const seededRoot = useRef<string | null>(null);
+  // "Already open" means the root `TabbedEditor` committed (`onTabsReady`), not the last root
+  // requested: a different-root request whose session acquisition fails leaves the old root's
+  // tabs in place, and a later null request for that old root must show them again.
+  const committedRoot = useRef<string | null>(null);
+  const reportedTabs = useRef(false);
   useEffect(() => {
     const sameRootNull =
-      request !== null && request.path === null && request.root === seededRoot.current;
-    seededRoot.current = request?.root ?? null;
-    if (sameRootNull) return;
-    setHasOpenTabs(request !== null && request.path !== null);
+      request !== null && request.path === null && request.root === committedRoot.current;
+    setHasOpenTabs(sameRootNull ? reportedTabs.current : request !== null && request.path !== null);
   }, [request]);
 
   // #411's identical optimistic seed, one level down: a new `request` names the path about to
@@ -1241,6 +1243,7 @@ function AuthorWorkspace({
   }
 
   function handleTabsChange(hasOpenTabs: boolean) {
+    reportedTabs.current = hasOpenTabs;
     setHasOpenTabs(hasOpenTabs);
   }
 
@@ -1270,6 +1273,7 @@ function AuthorWorkspace({
   // generations are consumed immediately against the empty set.
   function handleTabsReady() {
     if (request?.root !== project || tabbedEditorRef.current === null) return;
+    committedRoot.current = project ?? null;
     editorTabsReady.current = true;
     const pending = pendingProjectFileGenerations.current;
     pendingProjectFileGenerations.current = [];

@@ -2212,6 +2212,28 @@ describe("App", () => {
       expect(screen.getByRole("tab", { name: /notes\/a\.md/ })).toBeInTheDocument();
     });
 
+    it("a same-root null request keeps the document visible after a different-root session acquisition fails (#76)", async () => {
+      render(<App />);
+      await act(async () => {
+        await window.__EMEND_E2E__?.openProject("/project-a", "notes/a.md");
+      });
+      await waitFor(() =>
+        expect(screen.getByRole("tab", { name: /notes\/a\.md/ })).toBeInTheDocument(),
+      );
+
+      beginTabSessionMock.mockRejectedValueOnce(new Error("authority refused"));
+      await act(async () => {
+        await window.__EMEND_E2E__?.openProject("/project-b", null);
+      });
+      await act(async () => {
+        await window.__EMEND_E2E__?.openProject("/project-a", null);
+      });
+
+      expect(document.querySelector(".app-body")).not.toHaveClass("app-body--workshop");
+      expect(screen.getByRole("main", { name: "Editor" })).toBeVisible();
+      expect(screen.getByRole("tab", { name: /notes\/a\.md/ })).toBeInTheDocument();
+    });
+
     it("the D23 null project fixture clears the previous editor into the bound replacement workshop", async () => {
       render(<App />);
       await act(async () => {
