@@ -83,7 +83,7 @@ describe("voice/SharedDictationMic", () => {
     bridge.startVoiceDictation.mockResolvedValue(ready);
     act(() => publishVoiceStatus({ ...ready, device_issue: "backend_unavailable" }));
     const backendRetry = screen.getByRole("button", { name: "Dictate — microphone access unavailable" });
-    expect(backendRetry).not.toHaveAttribute("aria-description");
+    expect(backendRetry).toHaveAttribute("aria-description", "Retries dictation");
     fireEvent.click(backendRetry);
     await waitFor(() => expect(bridge.startVoiceDictation).toHaveBeenCalledOnce());
     expect(open).toHaveBeenCalledTimes(4);
@@ -488,6 +488,41 @@ describe("voice/SharedDictationMic", () => {
     await waitFor(() => expect(bridge.startVoiceDictation).toHaveBeenCalledOnce());
     await waitFor(() => expect(screen.getByRole("button", { name: "Stop dictation — recording" })).toBeEnabled());
   });
+
+  it.each([
+    ["model_missing", { ...ready, model: "absent" }, "download"],
+    ["model_corrupt", { ...ready, model: "corrupt" }, "download"],
+    ["download_failed", { ...ready, model: "absent", download: { kind: "failed" } }, "download"],
+    ["backend_unavailable", { ...ready, device_issue: "backend_unavailable" }, "start"],
+    ["invalid_audio", { ...ready, dictation: { kind: "error", reason: "invalid_audio" } }, "start"],
+    ["inference_failed", { ...ready, dictation: { kind: "error", reason: "inference_failed" } }, "start"],
+    ["no_device", { ...ready, device_issue: "no_device" }, "settings"],
+    ["no_default_device", { ...ready, device_issue: "no_default_device" }, "settings"],
+    ["selected_unavailable", { ...ready, device_issue: "selected_unavailable" }, "settings"],
+    ["permission_denied", { ...ready, device_issue: "permission_denied" }, "settings"],
+  ] as [string, VoiceStatus, "download" | "start" | "settings"][])(
+    "14g %s activation starts its ruled route", async (_reason, status, route) => {
+      const open = vi.fn();
+      bridge.getVoiceStatus.mockReset().mockResolvedValue(status);
+      bridge.downloadVoiceModel.mockReset().mockResolvedValue(undefined);
+      bridge.startVoiceDictation.mockReset().mockResolvedValue(
+        { ...ready, capture_active: true, dictation: { kind: "recording", elapsed_seconds: 0 } });
+      render(<VoiceSettingsOpenContext.Provider value={open}><SharedDictationMic /></VoiceSettingsOpenContext.Provider>);
+      const mic = await screen.findByRole("button", { name: /^Dictate — / });
+      await waitFor(() => expect(mic).toBeEnabled());
+      bridge.getVoiceStatus.mockResolvedValue(ready);
+      fireEvent.click(mic);
+      if (route === "settings") {
+        expect(open).toHaveBeenCalledWith(mic);
+        await act(async () => {});
+        expect(bridge.startVoiceDictation).not.toHaveBeenCalled();
+        expect(bridge.downloadVoiceModel).not.toHaveBeenCalled();
+        return;
+      }
+      await waitFor(() => expect(bridge.startVoiceDictation).toHaveBeenCalledOnce());
+      expect(open).not.toHaveBeenCalled();
+      expect(bridge.downloadVoiceModel).toHaveBeenCalledTimes(route === "download" ? 1 : 0);
+    });
 
   it("resumes after terminal cancellation before the old download promise settles", async () => {
     const absent: VoiceStatus = { ...ready, model: "absent" };
