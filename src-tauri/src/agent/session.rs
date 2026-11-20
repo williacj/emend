@@ -1278,16 +1278,23 @@ mod tests {
         #[ignore = "fixture run as a provider-turn child"]
         fn lingering_fixture() {
             println!("{}", json!({ "pid": std::process::id() }));
-            std::thread::sleep(Duration::from_secs(120));
+            // Lives until the group is terminated; no timer decides its lifetime.
+            loop {
+                std::thread::park();
+            }
         }
 
         #[test]
         fn provider_turn_through_cmd_shim_has_no_console_window() {
-            use windows_sys::Win32::System::Console::AllocConsole;
-            // The parent must own a console, or a child spawned without the flag would also report
-            // none. AllocConsole fails harmlessly when the parent already has one.
-            // SAFETY: AllocConsole takes no arguments and has no preconditions.
+            use windows_sys::Win32::System::Console::{AllocConsole, GetConsoleWindow};
+            // The parent must own a console window, or a child spawned without the flag would also
+            // report none. AllocConsole fails harmlessly when the parent already has one.
+            // SAFETY: both calls take no arguments and have no preconditions.
             unsafe { AllocConsole() };
+            assert!(
+                !unsafe { GetConsoleWindow() }.is_null(),
+                "precondition: the parent needs a console window, else the child assertion is vacuous"
+            );
             let dir = tempfile::tempdir().unwrap();
             let shim = shim_running(dir.path(), "console_window_fixture");
             let mut session =
@@ -1315,10 +1322,11 @@ mod tests {
                 .collect();
             assert_eq!(lines, [1, 2]);
             let exit = session.reap().unwrap();
+            let retained: Vec<u8> = exit.stderr.bytes.iter().copied().collect();
+            let stderr = String::from_utf8_lossy(&retained);
             assert!(
-                exit.stderr.contains("diagnostic-line"),
-                "stderr must reach the session: {:?}",
-                exit.stderr
+                stderr.contains("diagnostic-line"),
+                "stderr must reach the session: {stderr:?}"
             );
         }
 
@@ -1341,6 +1349,10 @@ mod tests {
             assert!(!handle.is_null(), "grandchild must be running before stop");
             session.stop().unwrap();
             let waited = unsafe { WaitForSingleObject(handle, 10_000) };
+            if waited != WAIT_OBJECT_0 {
+                // Do not leak the parked fixture when the assertion below fails.
+                unsafe { windows_sys::Win32::System::Threading::TerminateProcess(handle, 1) };
+            }
             unsafe { CloseHandle(handle) };
             assert_eq!(
                 waited, WAIT_OBJECT_0,
