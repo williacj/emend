@@ -490,6 +490,19 @@ describe("voice/SharedDictationMic", () => {
   });
 
   it("14g activation of each of the ten error reasons starts its ruled route", async () => {
+    // jsdom does not turn keys into clicks; this mirrors the browser's native button rule:
+    // Enter on keydown, Space on keyup, each unless the app prevented the default.
+    const activate = (mic: HTMLElement, how: "click" | "Enter" | " ") => {
+      if (how === "click") { fireEvent.click(mic); return; }
+      act(() => mic.focus());
+      expect(document.activeElement).toBe(mic);
+      if (how === "Enter") {
+        if (fireEvent.keyDown(mic, { key: "Enter" })) fireEvent.click(mic);
+      } else {
+        fireEvent.keyDown(mic, { key: " " });
+        if (fireEvent.keyUp(mic, { key: " " })) fireEvent.click(mic);
+      }
+    };
     const rows: [string, VoiceStatus, "download" | "start" | "settings"][] = [
       ["model_missing", { ...ready, model: "absent" }, "download"],
       ["model_corrupt", { ...ready, model: "corrupt" }, "download"],
@@ -502,6 +515,7 @@ describe("voice/SharedDictationMic", () => {
       ["selected_unavailable", { ...ready, device_issue: "selected_unavailable" }, "settings"],
       ["permission_denied", { ...ready, device_issue: "permission_denied" }, "settings"],
     ];
+    for (const how of ["click", "Enter", " "] as const)
     for (const [reason, status, route] of rows) {
       invalidateVoiceStatus();
       const open = vi.fn();
@@ -513,9 +527,9 @@ describe("voice/SharedDictationMic", () => {
       const mic = await screen.findByRole("button", { name: /^Dictate — / });
       await waitFor(() => expect(mic).toBeEnabled());
       bridge.getVoiceStatus.mockResolvedValue(ready);
-      fireEvent.click(mic);
+      activate(mic, how);
       if (route === "settings") {
-        expect(open, reason).toHaveBeenCalledWith(mic);
+        expect(open, `${how} ${reason}`).toHaveBeenCalledWith(mic);
         await act(async () => {});
         expect(bridge.startVoiceDictation, reason).not.toHaveBeenCalled();
         expect(bridge.downloadVoiceModel, reason).not.toHaveBeenCalled();
