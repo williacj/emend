@@ -73,4 +73,47 @@ describe("voice/DictationMic", () => {
     expect(screen.getByRole("button", { name: "Dictate — unavailable in this build" })).toBeDisabled();
     unavailable.unmount();
   });
+
+  const retryable = [
+    ["model_missing", "Downloads the voice model, then starts dictation"],
+    ["model_corrupt", "Downloads the voice model, then starts dictation"],
+    ["download_failed", "Retries the voice model download, then starts dictation"],
+    ["backend_unavailable", "Retries dictation"],
+    ["invalid_audio", "Retries dictation"],
+    ["inference_failed", "Retries dictation"],
+  ] as const;
+  const settingsRoute = ["no_device", "no_default_device", "selected_unavailable", "permission_denied"] as const;
+
+  it("14g retryable errors carry the retry cue and their approved description", () => {
+    for (const [reason, description] of retryable) {
+      const { container, onActivate, unmount } = show({ kind: "error", reason });
+      const button = screen.getByRole("button");
+      expect(button, reason).toHaveAttribute("aria-description", description);
+      expect(button, reason).toHaveStyle({ width: "28px", height: "26px" });
+      const cue = container.querySelector(".dictation-mic__retry");
+      expect(cue, reason).toHaveTextContent("↻");
+      expect(cue, reason).toHaveAttribute("aria-hidden", "true");
+      fireEvent.click(button);
+      expect(onActivate, reason).toHaveBeenCalledOnce();
+      unmount();
+    }
+  });
+
+  it("14g Settings-route errors have no retry cue and describe the Settings route", () => {
+    for (const reason of settingsRoute) {
+      const { container, onActivate, unmount } = show({ kind: "error", reason });
+      const button = screen.getByRole("button");
+      expect(button, reason).toHaveAttribute("aria-description", "Opens Voice Settings");
+      expect(container.querySelector(".dictation-mic__retry"), reason).toBeNull();
+      fireEvent.click(button);
+      expect(onActivate, reason).toHaveBeenCalledOnce();
+      unmount();
+    }
+  });
+
+  it("14g non-error phases carry no retry cue or description", () => {
+    const { container } = show({ kind: "idle" });
+    expect(container.querySelector(".dictation-mic__retry")).toBeNull();
+    expect(screen.getByRole("button")).not.toHaveAttribute("aria-description");
+  });
 });
