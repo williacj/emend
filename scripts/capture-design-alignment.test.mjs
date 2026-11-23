@@ -243,6 +243,65 @@ test("refresh (22) composer voice errors replace wrapped provisional lines in th
   }
 });
 
+test("14g error mic cues follow voice.md 1a on all three surfaces", () => {
+  const folder = join(repository, "docs/alignment-voice-error-interaction");
+  const evidence = JSON.parse(readFileSync(join(folder, "measurements.json"), "utf8"));
+  assert.match(evidence.sourceRevision, /^[0-9a-f]{40}$/);
+  assert.deepEqual(evidence.failures, []);
+  const rgb = (hex) => `rgb(${[1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16)).join(", ")})`;
+  const expected = {
+    light: {
+      rest: ["#f8efed", "#dcc4bf", "#a33a2e"], hover: ["#f3e4e0", "#cfa9a1", "#a33a2e"],
+      pressed: ["#ecd7d2", "#c29890", "#8e2f25"], ring: "#4f46e5",
+    },
+    dark: {
+      rest: ["#26282c", "#f87171", "#f87171"], hover: ["#33292b", "#f87171", "#f87171"],
+      pressed: ["#3d2c2e", "#fca5a5", "#fca5a5"], ring: "#a5b0ff",
+    },
+  };
+  for (const platform of ["win", "mac"]) for (const theme of ["light", "dark"]) {
+    for (const [reason, retryable] of [["model_missing", true], ["no_device", false]]) {
+      for (const surface of ["editor", "timeline", "comment"]) {
+        const frames = {};
+        for (const state of ["rest", "hover", "pressed", "focus"]) {
+          const name = `${platform}-${theme}-mic-error-${reason}-${surface}-${state}`;
+          const capture = evidence.captures[name];
+          assert.ok(capture, `missing ${name}`);
+          assert.deepEqual(readFileSync(join(folder, `${name}.png`)).subarray(0, pngSignature.length), pngSignature);
+          const mic = frames[state] = capture.micStyle;
+          assert.equal(mic.theme, theme, name);
+          assert.equal(mic.width, 28, name);
+          assert.equal(mic.height, 26, name);
+          const [fill, stroke, glyph] = expected[theme][state === "focus" ? "rest" : state];
+          assert.equal(mic.background, rgb(fill), `${name} fill`);
+          assert.equal(mic.color, rgb(glyph), `${name} glyph`);
+          if (platform === "win") assert.equal(mic.border, rgb(stroke), `${name} stroke`);
+          else assert.ok(mic.boxShadow.includes(rgb(stroke)), `${name} hairline`);
+          if (state === "pressed") assert.match(mic.boxShadow, /inset/, `${name} pressed inset`);
+          if (state === "focus") {
+            assert.equal(mic.outlineWidth, "2px", name);
+            assert.equal(mic.outlineColor, rgb(expected[theme].ring), name);
+          }
+          assert.equal(mic.ariaDescription, retryable
+            ? "Downloads the voice model, then starts dictation" : "Opens Voice Settings", name);
+          assert.equal(mic.cuePresent, retryable, `${name} cue presence`);
+          if (retryable) {
+            assert.equal(mic.cueText, "↻", name);
+            assert.equal(mic.cueVisibility, state === "rest" ? "hidden" : "visible", `${name} cue visibility`);
+            assert.equal(mic.cueColor, rgb(glyph), `${name} cue colour`);
+            assert.equal(mic.cueFontSize, "9px", name);
+            assert.equal(mic.cueFontWeight, "600", name);
+          }
+        }
+        for (const state of ["hover", "pressed", "focus"]) {
+          assert.deepEqual(frames[state].neighbours, frames.rest.neighbours,
+            `${platform}/${theme}/${reason}/${surface}: neighbours stay put in ${state}`);
+        }
+      }
+    }
+  }
+});
+
 test("refresh (22) dark mic phases use the specified palette on all three surfaces and both platform styles", () => {
   const darkOutput = join(repository, "docs/alignment-voice-dark");
   const evidence = JSON.parse(readFileSync(join(darkOutput, "measurements.json"), "utf8"));

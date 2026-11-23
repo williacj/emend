@@ -2730,6 +2730,32 @@ button.chat-message-card__quote-link:hover {
 .dictation-mic__dots i { width: 2px; height: 2px; border-radius: 50%; background: currentColor; }
 .dictation-mic--error { border-color: #dcc4bf; background: #f8efed; color: #a33a2e; }
 .dictation-mic--error[data-platform="mac"] { box-shadow: 0 0 0 1px #dcc4bf; }
+/* 14g: hover/pressed cues. Colours only change; the chip's box and its neighbours never move. */
+.dictation-mic--error:hover { background: #f3e4e0; color: #a33a2e; }
+.dictation-mic--error:not([data-platform="mac"]):hover { border-color: #cfa9a1; }
+.dictation-mic--error[data-platform="mac"]:hover { box-shadow: 0 0 0 1px #cfa9a1; }
+.dictation-mic--error:active {
+  background: #ecd7d2; color: #8e2f25;
+  box-shadow: inset 0 1px 1px rgba(31, 29, 26, .10);
+}
+.dictation-mic--error:not([data-platform="mac"]):active { border-color: #c29890; }
+.dictation-mic--error[data-platform="mac"]:active {
+  box-shadow: 0 0 0 1px #c29890, inset 0 1px 1px rgba(31, 29, 26, .10);
+}
+/* The retry cue is always laid out (absolute, so it cannot shift the glyph) and only revealed. */
+.dictation-mic__retry {
+  position: absolute;
+  right: 1px;
+  bottom: 0;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1;
+  visibility: hidden;
+  pointer-events: none;
+}
+.dictation-mic--error:hover .dictation-mic__retry,
+.dictation-mic--error:active .dictation-mic__retry,
+.dictation-mic--error:focus-visible .dictation-mic__retry { visibility: visible; }
 .message-input__field-wrap {
   position: relative;
   flex: 1;
@@ -2871,6 +2897,19 @@ button.chat-message-card__quote-link:hover {
 }
 :root[data-theme="dark"] .dictation-mic--error[data-platform="mac"] {
   box-shadow: 0 0 0 1px var(--color-danger-fg);
+}
+:root[data-theme="dark"] .dictation-mic--error:hover {
+  border-color: #f87171; background: #33292b; color: #f87171;
+}
+:root[data-theme="dark"] .dictation-mic--error[data-platform="mac"]:hover {
+  box-shadow: 0 0 0 1px #f87171;
+}
+:root[data-theme="dark"] .dictation-mic--error:active {
+  border-color: #fca5a5; background: #3d2c2e; color: #fca5a5;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .35);
+}
+:root[data-theme="dark"] .dictation-mic--error[data-platform="mac"]:active {
+  box-shadow: 0 0 0 1px #fca5a5, inset 0 1px 1px rgba(0, 0, 0, .35);
 }
 
 :root[data-theme="dark"] .message-input__field::placeholder {

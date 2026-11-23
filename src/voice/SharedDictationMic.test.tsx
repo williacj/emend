@@ -83,7 +83,7 @@ describe("voice/SharedDictationMic", () => {
     bridge.startVoiceDictation.mockResolvedValue(ready);
     act(() => publishVoiceStatus({ ...ready, device_issue: "backend_unavailable" }));
     const backendRetry = screen.getByRole("button", { name: "Dictate — microphone access unavailable" });
-    expect(backendRetry).not.toHaveAttribute("aria-description");
+    expect(backendRetry).toHaveAttribute("aria-description", "Retries dictation");
     fireEvent.click(backendRetry);
     await waitFor(() => expect(bridge.startVoiceDictation).toHaveBeenCalledOnce());
     expect(open).toHaveBeenCalledTimes(4);
@@ -487,6 +487,59 @@ describe("voice/SharedDictationMic", () => {
     await act(async () => resolveDownload());
     await waitFor(() => expect(bridge.startVoiceDictation).toHaveBeenCalledOnce());
     await waitFor(() => expect(screen.getByRole("button", { name: "Stop dictation — recording" })).toBeEnabled());
+  });
+
+  it("14g activation of each of the ten error reasons starts its ruled route", async () => {
+    // jsdom does not turn keys into clicks; this mirrors the browser's native button rule:
+    // Enter on keydown, Space on keyup, each unless the app prevented the default.
+    const activate = (mic: HTMLElement, how: "click" | "Enter" | " ") => {
+      if (how === "click") { fireEvent.click(mic); return; }
+      act(() => mic.focus());
+      expect(document.activeElement).toBe(mic);
+      if (how === "Enter") {
+        if (fireEvent.keyDown(mic, { key: "Enter" })) fireEvent.click(mic);
+      } else {
+        fireEvent.keyDown(mic, { key: " " });
+        if (fireEvent.keyUp(mic, { key: " " })) fireEvent.click(mic);
+      }
+    };
+    const rows: [string, VoiceStatus, "download" | "start" | "settings"][] = [
+      ["model_missing", { ...ready, model: "absent" }, "download"],
+      ["model_corrupt", { ...ready, model: "corrupt" }, "download"],
+      ["download_failed", { ...ready, model: "absent", download: { kind: "failed", reason: "transport" } }, "download"],
+      ["backend_unavailable", { ...ready, device_issue: "backend_unavailable" }, "start"],
+      ["invalid_audio", { ...ready, dictation: { kind: "error", reason: "invalid_audio" } }, "start"],
+      ["inference_failed", { ...ready, dictation: { kind: "error", reason: "inference_failed" } }, "start"],
+      ["no_device", { ...ready, device_issue: "no_device" }, "settings"],
+      ["no_default_device", { ...ready, device_issue: "no_default_device" }, "settings"],
+      ["selected_unavailable", { ...ready, device_issue: "selected_unavailable" }, "settings"],
+      ["permission_denied", { ...ready, device_issue: "permission_denied" }, "settings"],
+    ];
+    for (const how of ["click", "Enter", " "] as const)
+    for (const [reason, status, route] of rows) {
+      invalidateVoiceStatus();
+      const open = vi.fn();
+      bridge.getVoiceStatus.mockReset().mockResolvedValue(status);
+      bridge.downloadVoiceModel.mockReset().mockResolvedValue(undefined);
+      bridge.startVoiceDictation.mockReset().mockResolvedValue(
+        { ...ready, capture_active: true, dictation: { kind: "recording", elapsed_seconds: 0 } });
+      const mounted = render(<VoiceSettingsOpenContext.Provider value={open}><SharedDictationMic /></VoiceSettingsOpenContext.Provider>);
+      const mic = await screen.findByRole("button", { name: /^Dictate — / });
+      await waitFor(() => expect(mic).toBeEnabled());
+      bridge.getVoiceStatus.mockResolvedValue(ready);
+      activate(mic, how);
+      if (route === "settings") {
+        expect(open, `${how} ${reason}`).toHaveBeenCalledWith(mic);
+        await act(async () => {});
+        expect(bridge.startVoiceDictation, reason).not.toHaveBeenCalled();
+        expect(bridge.downloadVoiceModel, reason).not.toHaveBeenCalled();
+      } else {
+        await waitFor(() => expect(bridge.startVoiceDictation, reason).toHaveBeenCalledOnce());
+        expect(open, reason).not.toHaveBeenCalled();
+        expect(bridge.downloadVoiceModel, reason).toHaveBeenCalledTimes(route === "download" ? 1 : 0);
+      }
+      mounted.unmount();
+    }
   });
 
   it("resumes after terminal cancellation before the old download promise settles", async () => {
