@@ -1697,6 +1697,106 @@ async function captureDarkMic(browser, viteUrl, driverUrl, platform) {
   }
 }
 
+// 14g: the error mic's rest, hover, pressed and keyboard-focus states for one retryable and one
+// Settings-route reason, on the editor toolbar, the Timeline input and the comment composer.
+async function captureMicErrorInteraction(browser, viteUrl, driverUrl, platform) {
+  evidence.colorScheme = "mixed";
+  evidence.fixture = { kind: "typed test-only voice transport over D23",
+    boundary: "get_voice_status/start_voice_dictation/cancel_voice_dictation/voice://dictation",
+    limits: "Browser platform styling; no physical microphone, native Windows window or real Whisper inference" };
+  const surfaces = [
+    ["editor", ".view-mode-toolbar__dictation .dictation-mic", ".view-mode-toolbar", ".view-mode-toolbar"],
+    ["timeline", ".message-input .dictation-mic", ".message-composer", ".message-input"],
+    ["comment", ".comment-composer .dictation-mic", ".comment-popover", ".comment-composer"],
+  ];
+  const reasons = [
+    ["model_missing", { model: "absent", download: { kind: "idle" }, device_issue: null }],
+    ["no_device", { model: "ready", download: { kind: "idle" }, device_issue: "no_device" }],
+  ];
+  for (const theme of ["light", "dark"]) {
+    const root = fixture(`${platform.id}-${theme}-mic-error-interaction`, "# Mic error\n\nA sentence for dictation.\n");
+    await post(driverUrl, "close_project");
+    const { context, page, setup: owner } = await newPage(browser, viteUrl, platform, 1400, 900,
+      (tab) => installVoiceCaptureFixture(tab, driverUrl), theme);
+    try {
+      await page.evaluate((projectRoot) => window.__EMEND_E2E__?.openProject(projectRoot, "notes.md"), root);
+      await page.locator(".cm-content:visible").waitFor();
+      await page.locator(".cm-content:visible").click();
+      await page.keyboard.press(platform.id === "mac" ? "Meta+Home" : "Control+Home");
+      for (let index = 0; index < 5; index += 1) await page.keyboard.press("Shift+ArrowRight");
+      await page.getByRole("button", { name: "Comment", exact: true }).click();
+      await page.getByRole("dialog", { name: "New comment" }).waitFor();
+      for (const [reason, status] of reasons) {
+        await owner.setStatus(status);
+        await page.waitForFunction(() =>
+          [".view-mode-toolbar__dictation", ".message-input", ".comment-composer"].every((surface) =>
+            document.querySelector(`${surface} .dictation-mic`)?.classList.contains("dictation-mic--error")));
+        for (const [surface, selector, target, container] of surfaces) {
+          const mic = page.locator(selector);
+          for (const state of ["rest", "hover", "pressed", "focus"]) {
+            // Leave the chip before releasing, so the held press never completes as a click.
+            await page.mouse.move(1, 1);
+            await page.mouse.up();
+            await page.evaluate(() => document.activeElement?.blur());
+            if (state === "hover") await mic.hover();
+            if (state === "pressed") {
+              await mic.hover();
+              await page.mouse.down();
+            }
+            if (state === "focus") {
+              await page.keyboard.press("Tab");
+              await mic.focus();
+              await page.waitForFunction((name) => document.querySelector(name)?.matches(":focus-visible"), selector);
+            }
+            await page.evaluate(() => document.fonts.ready);
+            const micStyle = await mic.evaluate((button, containerSelector) => {
+              const style = getComputedStyle(button);
+              const box = (node) => {
+                const rect = node.getBoundingClientRect();
+                return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+              };
+              const cue = button.querySelector(".dictation-mic__retry");
+              const neighbours = {};
+              [...button.closest(containerSelector).querySelectorAll("button, textarea, input")]
+                .filter((node) => node !== button)
+                .forEach((node, index) => {
+                  neighbours[`${node.tagName.toLowerCase()}:${node.getAttribute("aria-label") ?? node.className}:${index}`] = box(node);
+                });
+              return {
+                theme: document.documentElement.getAttribute("data-theme"),
+                width: button.getBoundingClientRect().width,
+                height: button.getBoundingClientRect().height,
+                background: style.backgroundColor,
+                color: style.color,
+                border: style.borderColor,
+                boxShadow: style.boxShadow,
+                outlineColor: style.outlineColor,
+                outlineWidth: style.outlineWidth,
+                ariaDescription: button.getAttribute("aria-description"),
+                cuePresent: cue !== null,
+                cueVisibility: cue && getComputedStyle(cue).visibility,
+                cueText: cue && cue.textContent,
+                cueColor: cue && getComputedStyle(cue).color,
+                cueFontSize: cue && getComputedStyle(cue).fontSize,
+                cueFontWeight: cue && getComputedStyle(cue).fontWeight,
+                neighbours,
+              };
+            }, container);
+            await snapshot(page, `${platform.id}-${theme}-mic-error-${reason}-${surface}-${state}`, target,
+              { micStyle, reason, surface, state });
+          }
+        }
+      }
+      await page.mouse.move(1, 1);
+      await page.mouse.up();
+    } finally {
+      await page.unrouteAll({ behavior: "ignoreErrors" });
+      await context.close();
+      await post(driverUrl, "close_project");
+    }
+  }
+}
+
 async function captureComposerVoiceError(browser, viteUrl, driverUrl, platform) {
   evidence.colorScheme = "mixed";
   evidence.fixture = { kind: "typed test-only voice transport over D23",
@@ -2454,7 +2554,8 @@ async function main() {
       if (process.env.EMEND_ALIGNMENT_SCENARIO?.includes("dark voice")) {
         await runScenario(`${platform.id} dark voice`, () => captureDarkMic(browser, viteUrl, driverUrl, platform));
       }
-      await runScenario(`${platform.id} composer voice error`, () => captureComposerVoiceError(browser, viteUrl, driverUrl, platform));
+      await runScenario(`${platform.id} mic error interaction`, () => captureMicErrorInteraction(browser, viteUrl, driverUrl, platform));
+      await runScenario(`${platform.id} composer voice error`,() => captureComposerVoiceError(browser, viteUrl, driverUrl, platform));
       await runScenario(`${platform.id} 14b settings controls`, () => captureVoiceSettingsControls(browser, viteUrl, driverUrl, platform));
       await runScenario(`${platform.id} integrity`, () => captureIntegrity(browser, viteUrl, driverUrl, platform));
       await runScenario(`${platform.id} project open`, () => captureProjectOpen(browser, viteUrl, driverUrl, platform));
