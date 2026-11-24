@@ -1,5 +1,5 @@
-<!-- ABOUTME: Records source-stamped `14d` editor ghost captures for both authoring platform styles. -->
-<!-- ABOUTME: Distinguishes browser visual composition from physical microphone and native window evidence. -->
+ABOUTME: Records source-stamped `14d` editor ghost captures for both authoring platform styles.
+ABOUTME: Distinguishes browser visual composition from physical microphone and native window evidence.
 
 # Editor dictation ghost visual evidence (#2650)
 

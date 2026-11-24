@@ -1,5 +1,5 @@
-<!-- ABOUTME: Source-stamped browser evidence for Timeline and comment dictation failure feedback. -->
-<!-- ABOUTME: Records platform, theme, wrapped provisional text, error ink, and composer geometry. -->
+ABOUTME: Source-stamped browser evidence for Timeline and comment dictation failure feedback.
+ABOUTME: Records platform, theme, wrapped provisional text, error ink, and composer geometry.
 
 # Composer dictation error evidence
 

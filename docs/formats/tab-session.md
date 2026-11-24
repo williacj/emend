@@ -1,5 +1,5 @@
-<!-- ABOUTME: On-disk format of `.emend/tab-session.json` — FR-ED-3's per-project tab-session -->
-<!-- ABOUTME: restore state (TD §3.1, P2a-6); machine-local and gitignored per TD-12 (amended). -->
+ABOUTME: On-disk format of `.emend/tab-session.json` — FR-ED-3's per-project tab-session
+ABOUTME: restore state (TD §3.1, P2a-6); machine-local and gitignored per TD-12 (amended).
 
 # Tab-session format (`.emend/tab-session.json`)
 

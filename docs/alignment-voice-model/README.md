@@ -1,5 +1,5 @@
-<!-- ABOUTME: Source-stamped Voice Settings model-row captures for refresh (22) mock 14b. -->
-<!-- ABOUTME: States the browser evidence boundary and regeneration command. -->
+ABOUTME: Source-stamped Voice Settings model-row captures for refresh (22) mock 14b.
+ABOUTME: States the browser evidence boundary and regeneration command.
 
 # Voice Settings model-row evidence
 
