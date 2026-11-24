@@ -563,25 +563,36 @@ Severity is never conveyed by color alone: always **color + letter chip** (`● 
 
 Each conversation, a document's or a Workshop conversation, holds one state on each axis below at once. J2 records the flows that move between them. Wording and placement are `docs/design/`'s: turn 16 proposes them (`16g`, `16j`, `16l`; `specs/agent-conversations.md` §§7–7a), and they are not ratified. Every state is stated in the author's terms and never in Git's vocabulary (Principle 4).
 
-**Where its history is (FR-CONV-8).**
+**Sharing: where its history is (FR-CONV-8).** One status line holds exactly one of these.
 
 | State | Meaning | User-facing behavior |
 |---|---|---|
 | Saved on this computer only | The conversation holds turns that this computer has not shared with the project | Says that another computer sees these turns only once the author's own sharing of the project includes them; Emend shares nothing silently |
 | Shared with the project | Every turn the conversation holds has travelled with the project | Says so; nothing waits on the author |
-| Newer turns arrived | This computer's copy of the project holds turns that its provider session for this conversation has not taken in | Says that the next message starts a fresh session from the combined history (FR-CONV-9); Send stays available |
 | Unreadable | A record of the conversation cannot be read or is invalid | Makes no claim about where the history is; the *Cannot continue — unreadable* error below is the signal |
 
-**Continuing (FR-CONV-9; §2 *Agent states*).**
+*Unreadable* takes precedence over the other Sharing values.
+
+**Session: whether the next message continues (FR-CONV-9; §2 *Agent states*).** One status line holds exactly one of these.
 
 | State | Meaning | User-facing behavior |
 |---|---|---|
 | Continuing | This computer's provider session for the conversation has taken in every turn the conversation holds | The next Send continues that session; nothing extra is shown |
-| Fresh session started | Emend started a fresh provider session from a bounded seed of the conversation's history | One marker at that point says a fresh session started on this computer, what earlier context it left out, and that no earlier tool action or delivery was repeated; never claims memory the session was not given |
-| Diverged | Two computers continued the conversation from the same turn | Both computers' turns in one causal order, neither hidden, with one quiet marker where they diverged; nothing to choose, Send stays available, the conversation never splits (FR-CONV-8) |
+| Next message starts fresh | This computer's copy of the project holds turns that its provider session for this conversation has not taken in, for example turns that arrived from another computer or a divergence | Says that the next message starts a fresh session from the combined history; Send stays available |
 | Cannot continue — handoff does not fit | The conversation's accepted handoff cannot fit in a fresh session's seed | An error says so; Emend does not send the message as a continuation and keeps it in the composer. The recovery route is open (UXR-Q26.5) |
 | Cannot continue — unreadable | A record of the conversation cannot be read | An error says the history could not be read on this computer and that nothing was deleted; offers to try again; the unsent message stays |
 | Cannot continue — fresh session failed | The provider could not start the fresh session | An error says the history is intact and the message was not sent; offers to try again; the unsent message stays |
+
+A *Cannot continue* value takes precedence over every other Session value. Among them, *unreadable* comes first, then *handoff does not fit*, then *fresh session failed*.
+
+A Send under *Next message starts fresh* starts a fresh provider session from a bounded seed of the conversation's history. If it starts, the timeline gains a *Fresh session started* note and Session becomes *Continuing*. If the accepted handoff cannot fit in the seed, Session becomes *Cannot continue — handoff does not fit*. If the provider cannot start the session, Session becomes *Cannot continue — fresh session failed*.
+
+**Timeline notes (FR-CONV-8, FR-CONV-9).** These are not states. Each is pinned in the timeline at the point where it happened, and kept for good.
+
+| Note | When it is added | What it says |
+|---|---|---|
+| Fresh session started | Emend started a fresh provider session from a bounded seed of the conversation's history | One marker at that point says a fresh session started on this computer, what earlier context it left out, and that no earlier tool action or delivery was repeated; never claims memory the session was not given |
+| Diverged | Two computers continued the conversation from the same turn | Both computers' turns in one causal order, neither hidden, with one quiet marker where they diverged; nothing to choose, Send stays available, the conversation never splits (FR-CONV-8) |
 
 **Its document (FR-CONV-7; document conversations only).**
 
@@ -828,7 +839,7 @@ How the author chooses what the selective handoff carries, whether preparing it 
 
 **Where history is, and continuing it on another computer (FR-CONV-8, FR-CONV-9).** Each conversation, a document's timeline and a Workshop conversation alike, tells the author whether its history is saved only on this computer or has travelled with the project, and that another computer sees only what its copy of the project holds. It says so in the author's terms and never in Git's vocabulary (Principle 4). Emend never shares the history silently: it travels when the author's own sharing of the project includes it (D14). How the author shares a project's history at all is open in UXR-Q26. The conversation's states are in §2, *Conversation states*. The moments the author meets are:
 
-- **Newer turns arrived.** Where this computer's copy of the project holds turns that this computer's provider session has not taken in, the conversation says that the next message starts a fresh session from the combined history. Send stays available.
+- **Next message starts fresh.** Where this computer's copy of the project holds turns that this computer's provider session has not taken in, the conversation says that the next message starts a fresh session from the combined history. Send stays available.
 - **A fresh session started.** Where Emend starts a fresh provider session from the conversation's history, one marker at that point in the conversation says that a fresh session started on this computer, says what earlier context it left out, and says that no earlier tool action or delivery was repeated. Emend never claims that the new session remembers what it was not given.
 - **Two computers continued from the same turn.** Both computers' turns appear in one causal order, neither hidden and neither chosen over the other, with one quiet marker where they diverged, for example "Continued on another computer". The author chooses nothing, Send stays available, and the conversation never splits.
 - **The conversation cannot continue.** Where the conversation's accepted handoff cannot fit in a fresh session's seed, where the history cannot be read, or where the provider cannot start the fresh session, the conversation shows an error that says which. Emend never sends the author's message as though the conversation had continued, keeps the author's unsent message in the composer, and never shows the conversation as empty or as fully continued. An unreadable history and a failed fresh session each offer to try again. The recovery route for a handoff that cannot fit is open in UXR-Q26.
