@@ -1,7 +1,7 @@
-# Collapsed Timeline visual refresh brief (UXR-Q13, UXR-Q14.3, UXR-Q16.4)
-
 ABOUTME: Handoff for CJ's generated design project to draw the ruled collapsed-Timeline states.
 ABOUTME: Behavior is owned by `docs/ux-design.md` §4 and J13; this file does not replace `docs/design/` appearance authority.
+
+# Collapsed Timeline visual refresh brief (UXR-Q13, UXR-Q14.3, UXR-Q16.4)
 
 **Rulings:** CJ, 2026-09-30 and 2026-10-01. The existing `4a` (Windows) and `4b` (macOS) mocks show a collapsed Timeline with comments. Draw their missing states without hand-editing `docs/design/` in this repository. `docs/design/specs/state.md` still lists no-comments as undrawn and Q13.1 as open; the next generated refresh should close that stale gap. UXR-Q16.4 now rules the rail transition for run starts outside a persistent comment card, including its active-facet landing.
 

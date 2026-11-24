@@ -1,7 +1,7 @@
-# Emend Technical Design (v2 rewrite)
-
 ABOUTME: Technical design for the Emend rewrite — architecture decisions (TD-#), component designs, contracts, and risks.
 ABOUTME: Satisfies docs/functional-spec.md (D#/FR-#) and docs/ux-design.md; built decision-by-decision with CJ.
+
+# Emend Technical Design (v2 rewrite)
 
 **Status:** Complete (2026-07-05). TD-1–TD-8 locked; fresh-eyes review findings incorporated; remaining unknowns are scoped as SPIKE-1…6 with a build/de-risk order. **TD-18** (#698) ratified by CJ 2026-07-30 (DH-7). **TD-20** (#759 project-open routing, with a narrow TD-12 file-list amendment) ratified by CJ 2026-08-18 (DH-7).
 **Inputs:** functional spec (D1–D23, FR-*), UX design (J1–J8, chrome, state inventories).

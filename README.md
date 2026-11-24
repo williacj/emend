@@ -1,3 +1,6 @@
+ABOUTME: Overview of Emend v2, a cross-platform desktop app for writing and reviewing markdown with agentic CLIs.
+ABOUTME: States the project's status and points to the constitution documents that own its decisions.
+
 # Emend (v2)
 
 A cross-platform desktop app (macOS + Windows) providing a Word-like writing and reviewing experience for markdown files, deeply enhanced by LLM agents (Claude Code CLI, GitHub Copilot CLI). The markdown file is always the source of truth; everything Emend adds — comments, tracked changes, skills, workflows — lives in portable, repo-owned formats.

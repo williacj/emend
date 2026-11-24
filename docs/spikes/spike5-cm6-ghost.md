@@ -1,5 +1,6 @@
-<!-- ABOUTME: Evidence for #2541's throwaway CM6 dictation ghost mechanism spike. -->
-<!-- ABOUTME: Records the browser probe, limits, and smallest production seam under TD-2 and J12. -->
+ABOUTME: Evidence for #2541's throwaway CM6 dictation ghost mechanism spike.
+ABOUTME: Records the browser probe, limits, and smallest production seam under TD-2 and J12.
+
 # SPIKE-5: CM6 dictation ghost outside document history (#2541)
 
 ## Scope and verdict

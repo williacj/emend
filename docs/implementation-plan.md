@@ -1,7 +1,7 @@
-# Emend v2 Implementation Plan
-
 ABOUTME: Phased implementation plan mapping the tech design's build order to GitHub milestones and issue-sized work units.
 ABOUTME: Companion to tech-design.md (TD-1..8, build order) and test-plan.md; every unit carries its FR/TD/J/P references.
+
+# Emend v2 Implementation Plan
 
 **Status:** Reviewed (fresh-eyes pass 2026-07-06, 12 findings folded) — ready for GitHub bootstrap.
 **Rules (CLAUDE.md):** every unit ≤ ~4h, independently testable, one PR. TDD from Phase 1 onward (spike code exempt, never merges). No unit starts before its references exist in `docs/test-matrix.md`. **Unit numbering within a phase is intended build order; issue bodies state intra-phase dependencies explicitly.**
