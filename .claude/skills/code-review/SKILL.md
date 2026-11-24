@@ -57,11 +57,11 @@ maker's, not yours. Maker reports are context, never proof; read the acceptance 
 implementation.
 
 **What your sandbox cannot run.** The Codex sandbox on macOS blocks exactly this, measured on
-#80:
+#80 and, for the three integration tests, on #105:
 
 - `npm run test:e2e`, because Chromium cannot start;
-- in `cargo test --workspace`, these ten file-watch, settings-publication and second-instance
-  tests, and no others:
+- in `cargo test --workspace`, these thirteen file-watch, settings-publication, second-instance
+  and OS-lock tests, and no others:
   - `store::settings::io_tests::a_patch_in_one_service_is_published_by_another_service_watching_the_shared_file`
   - `store::settings::io_tests::service_keeps_an_initial_load_failure_honest_until_a_valid_replacement`
   - `store::settings::io_tests::service_watches_a_valid_external_replacement_and_retains_last_good_on_invalid_input`
@@ -72,6 +72,19 @@ implementation.
   - `agent::watchdog::watchdog_tests::a_real_rename_reaches_the_project_files_sink_as_rename_class_evidence`
   - `agent::watchdog::watchdog_tests::one_real_native_notification_reaches_both_the_watchdog_and_the_project_files_sink`
   - `agent::watchdog::watchdog_tests::the_real_doc_watcher_advances_an_out_of_run_write_baseline`
+  - `one_real_native_write_reaches_both_the_watchdog_and_an_automatic_project_files_refresh`, in
+    the `open_project` target (`src-tauri/tests/open_project.rs`): it waits for a real native
+    file event, which the sandbox never delivers;
+  - `a_real_owner_process_takes_the_os_lock_and_answers_the_request`, in the
+    `project_routing_rendezvous` target (`src-tauri/tests/project_routing_rendezvous.rs`): it
+    needs a real OS lock and native watching between two processes, and ends `DeadlineExpired`
+    in the sandbox;
+  - `automatic_project_files_events_cross_d23_with_the_tauri_event_name`, in the test-driver
+    crate's `http` target (`src-tauri/crates/test-driver/tests/http.rs`): it needs the same real
+    native write, and the sandbox announces no transitions.
+
+  The last three are integration-test targets. A library failure stops `cargo test --workspace`
+  before it reaches them, so run it with `--no-fail-fast` to see every target's result.
 
 No judge runs on Windows. For that list and for Windows, and nothing else, take the result from
 the pull request's own CI. Any other local failure, an `Operation not permitted` included, is
