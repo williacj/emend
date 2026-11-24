@@ -1,7 +1,7 @@
-# SPIKE-3: CM6 source-as-model projection prototype
-
 ABOUTME: Throwaway prototype for TD-2 — proves CodeMirror 6 can deliver Typora-grade
 ABOUTME: live-preview projection over a raw markdown string, with CriticMarkup redline.
+
+# SPIKE-3: CM6 source-as-model projection prototype
 
 **Status: TD-2 projection approach HOLDS UP.** See verdict at the bottom.
 

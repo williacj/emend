@@ -1,7 +1,7 @@
-# SPIKE-6 — cross-platform second-instance spawn and cooperative activation
-
 ABOUTME: Measures TD-20's launch, cooperative activation, and filesystem-notification assumptions on
 ABOUTME: real Windows and macOS hosts, then gives P2a-11f the platform-specific sequences to build.
+
+# SPIKE-6 — cross-platform second-instance spawn and cooperative activation
 
 **Verdict: GO for P2a-11f on the two measured hosts, with one material implementation constraint.**
 Use TD-20's detached launch shapes and its file-rendezvous protocol; option C's endpoint is not

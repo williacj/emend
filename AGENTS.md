@@ -1,5 +1,5 @@
-<!-- ABOUTME: Root instructions for agents working in Emend checkouts: roles under Rigger, review and merge, -->
-<!-- ABOUTME: hand-coordinated pull requests, keeping hand work apart from the engine, the git operations reserved to the owner, and worktrees. -->
+ABOUTME: Root instructions for agents working in Emend checkouts: roles under Rigger, review and merge,
+ABOUTME: hand-coordinated pull requests, keeping hand work apart from the engine, the git operations reserved to the owner, and worktrees.
 
 # Emend agent instructions
 
