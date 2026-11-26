@@ -1,5 +1,5 @@
-// ABOUTME: Proves every role and kind in rigger.config.mjs resolves: agent files exist, makers
-// and judges name declared roles (or the owner), so a typo fails here rather than at dispatch.
+// ABOUTME: Proves rigger.config.mjs resolves: agent files, makers, judges (or the owner) and
+// ABOUTME: kinds' provisioning steps are all declared, so a typo fails here, not at dispatch.
 
 import assert from 'node:assert/strict';
 import { statSync } from 'node:fs';
@@ -35,6 +35,11 @@ function findRiggerConfigFaults(config, root) {
         faults.push(`kind "${kind}" judge ${JSON.stringify(name)} is neither a declared role nor 'owner'`);
       }
     }
+    for (const step of spec.provisioning ?? []) {
+      if (!Object.hasOwn(config.provisioning ?? {}, step)) {
+        faults.push(`kind "${kind}" provisioning step ${JSON.stringify(step)} is not a declared step`);
+      }
+    }
   }
   return faults;
 }
@@ -47,7 +52,8 @@ test('every role and kind in rigger.config.mjs resolves', () => {
 
 const fixture = {
   roles: { engineer: { agent: '.claude/agents/engineer.md' }, reviewer: { agent: '.claude/agents/reviewer.md' } },
-  kinds: { change: { maker: 'engineer', judges: [{ role: 'reviewer' }, 'owner'] } },
+  kinds: { change: { maker: 'engineer', judges: [{ role: 'reviewer' }, 'owner'], provisioning: ['npm-ci'] } },
+  provisioning: { 'npm-ci': { run: 'npm ci' } },
 };
 
 test('the fixture config is free of faults', () => {
@@ -73,4 +79,20 @@ test('string and object judges naming undeclared roles are faults, and owner is 
   const judges = ['ghost', { role: 'phantom' }, 'owner', { role: 'reviewer' }];
   const kinds = { change: { maker: 'engineer', judges } };
   assert.equal(findRiggerConfigFaults({ ...fixture, kinds }, repoRoot).length, 2);
+});
+
+test('a kind naming an undeclared provisioning step is one fault that names it', () => {
+  const kinds = { change: { ...fixture.kinds.change, provisioning: ['npm-ci', 'npm-cl'] } };
+  const faults = findRiggerConfigFaults({ ...fixture, kinds }, repoRoot);
+  assert.equal(faults.length, 1);
+  assert.match(faults[0], /"npm-cl"/);
+});
+
+test('kinds naming only declared provisioning steps have no provisioning fault', () => {
+  const provisioning = { ...fixture.provisioning, 'cargo-build': { run: 'cargo build' } };
+  const kinds = {
+    change: { ...fixture.kinds.change, provisioning: ['npm-ci', 'cargo-build'] },
+    spec: { ...fixture.kinds.change, provisioning: ['npm-ci'] },
+  };
+  assert.deepEqual(findRiggerConfigFaults({ ...fixture, kinds, provisioning }, repoRoot), []);
 });
