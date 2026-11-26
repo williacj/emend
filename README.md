@@ -39,7 +39,7 @@ section; how the engine itself works is Rigger's
 
 Emend is a [Tauri 2](https://tauri.app) desktop app: a Rust backend (`src-tauri/`) with a React + TypeScript + Vite frontend (`src/`). Module homes are defined in [`docs/tech-design.md`](docs/tech-design.md) §3.1.
 
-**Prerequisites:** [Node.js](https://nodejs.org) 20+, the stable [Rust toolchain](https://rustup.rs), and Tauri's [platform prerequisites](https://tauri.app/start/prerequisites/) — on Windows the [WebView2 runtime](https://developer.microsoft.com/microsoft-edge/webview2/) (preinstalled on Windows 11) plus the MSVC C++ build tools; on macOS the Xcode Command Line Tools.
+**Prerequisites:** [Node.js](https://nodejs.org) at a version that [`package.json`](package.json)'s `engines.node` admits, the stable [Rust toolchain](https://rustup.rs), and Tauri's [platform prerequisites](https://tauri.app/start/prerequisites/) — on Windows the [WebView2 runtime](https://developer.microsoft.com/microsoft-edge/webview2/) (preinstalled on Windows 11) plus the MSVC C++ build tools; on macOS the Xcode Command Line Tools.
 
 ```sh
 npm install            # install frontend dependencies
