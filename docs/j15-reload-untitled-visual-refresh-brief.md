@@ -7,17 +7,17 @@ ABOUTME: Hands williacj/emend#107's J15 and §2 delta to the design project with
 
 **What changed.** The author-project body of the render-failure fallback gains one conditional sentence. It renders only where an untitled document was open:
 
-`Reloading brings back an untitled document only as Emend last kept it, so anything typed in it after that won’t come back.`
+`Reloading brings back only what Emend last kept of an untitled document, so it may come back with earlier text, come back empty, or not come back.`
 
-It sits after `Emend can’t confirm from this screen whether every unsaved edit was kept.` and before the conditional agent-run sentence. No other string changes, and `[Reload window]` stays the only action.
+It is one sentence for every untitled case, because the fallback cannot tell which one applies, so there is no per-case variant to draw. It sits after `Emend can’t confirm from this screen whether every unsaved edit was kept.` and before the conditional agent-run sentence. No other string changes, and `[Reload window]` stays the only action.
 
 Refresh turn 12 (`docs/design/specs/render-failure-fallback.md` §3) for this sentence, on both the Windows 11 and macOS frames:
 
 1. Add the author-project row with the untitled sentence and no agent-run sentence.
 2. Add the author-project row with both conditional sentences, untitled first. This is the longest body the fallback can show, so it fixes the column's tallest measure at both the 1400px window and the 660px study size.
-3. Keep the layout, column width, button position and focus treatment exactly as in `12a`–`12d`. The sentence is a body sentence in the existing body style. It gets no icon, colour, emphasis, separate block or warning treatment, because §2 states what a reload does and asserts no confirmed loss.
+3. Keep the layout, column width, button position and focus treatment exactly as in `12a`–`12d`. The sentence is a body sentence in the existing body style. It gets no icon, colour, emphasis, separate block or warning treatment, because §2 states what a reload does and asserts no confirmed loss. Where a remount brings an untitled document back empty after an omission, it shows J2's existing `restored-omitted-empty` treatment (`9c.2`, `specs/recovered-document.md`), and where it does not bring one back, nothing new is drawn.
 4. Correct §3's note that *"sentence three of the author-project body is conditional"*. The body now has two conditional sentences, and their order is untitled, then agent run.
 
-**What does not change.** The status-region answers in the same amendment add no appearance. While the fallback is mounted it shows only its own copy, and after a remount the status region uses its existing treatments. The dismissal-memory ruling has no visible state. The close refusal, the reload states and the other three copy rows are unchanged.
+**What does not change.** The status-region answers in the same amendment add no appearance. While the fallback is mounted it shows only its own copy, and after a remount the status region uses its existing treatments, or is clear where the owning journey clears it, as J9's *Adopted here* does. The dismissal-memory ruling has no visible state. The close refusal, the reload states and the other three copy rows are unchanged.
 
 This is an appearance handoff. Generated `docs/design/` is not edited in this repository, and refreshing it is the owner's to commission.
