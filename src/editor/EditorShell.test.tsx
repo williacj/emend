@@ -741,7 +741,7 @@ describe("editor/EditorShell — the async redline seed refreshes the toolbar on
 });
 
 describe("editor/EditorShell — redline seed offsets on a CRLF document (#447)", () => {
-  // `parse_changes` reports offsets into *the exact string it was handed* (UTF-16, via `Utf16Map`).
+  // `parse_changes` reports offsets into *the exact string it was handed* (UTF-16, via `Utf16Offsets`).
   // Those offsets are consumed straight as CM6 decoration positions and, on accept/reject, as the
   // range `decisionsTransaction` replaces. CM6 counts every line break — CRLF included — as one
   // position, so the text handed to the parse must be the same LF-joined string CM6 positions index

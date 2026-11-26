@@ -79,7 +79,7 @@ export function serializeDocumentState(state: EditorState): string {
  * ranges accept/reject replaces) and `capture_anchor`'s quote anchors.
  *
  * There are two independent coordinate axes in this codebase. The backend already handles the first
- * (byte ↔ UTF-16, `textops::Utf16Map`). This is the second: CM6 counts every line break as exactly
+ * (byte ↔ UTF-16, `textops::Utf16Offsets`). This is the second: CM6 counts every line break as exactly
  * **one** position, whatever its literal bytes, whereas `serializeDocumentState` rejoins lines with
  * the document's real `lineBreak` — two UTF-16 units on a CRLF file. Pairing a CM6 offset with that
  * string drifts by one unit per preceding line break, so a redline decorates the wrong span and an
