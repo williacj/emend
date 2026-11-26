@@ -31,7 +31,7 @@
     "note": { "type": ["string", "null"] },
     "outcome": {
       "enum": ["accepted", "rejected", null],
-      "description": "The change's recorded decision (FR-AGENT-9, TD-1 amendment #92): `accepted` or `rejected` once the author decides it, `null` while it is undecided or after an undo restores its marker. An absent field reads as `null`; a record written before this field existed carries none. Emend alone writes it, and it states the outcome and nothing more. A live CriticMarkup marker that joins this record outranks it: the change is pending whatever this field says (TD-2). Additive and optional, so `schema_version` stays 1."
+      "description": "The change's recorded decision (FR-AGENT-9, TD-1 amendment #92): `accepted` or `rejected` once a saved document decides it, `null` while it is undecided, after an undo restores its marker, or while a save is replacing an earlier decision. Emend alone writes it, and only while saving the document: first `null` to every record whose value the save changes, then the document, then each decision that document implies, so a stored decision always describes the document on disk. An absent field means no save since this field existed has touched the record; only then may a reader fall back to a thread's linked-change decision. It states the outcome and nothing more. A live CriticMarkup marker that joins this record outranks it: the change is pending whatever this field says (TD-2). Additive and optional, so `schema_version` stays 1."
     }
   },
   "$defs": {

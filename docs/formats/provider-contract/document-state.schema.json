@@ -39,7 +39,7 @@
   "$defs": {
     "disposition": {
       "enum": ["pending", "accepted", "rejected", "unknown"],
-      "description": "A tracked change's current disposition (FR-AGENT-8). `pending`: its marker is live in `content`. `accepted`/`rejected`: the change's `ChangeRecord.outcome`, or else its thread's linked-change decision. `unknown`: no live marker and no recorded decision, never reported as `pending` (FR-X-5)."
+      "description": "A tracked change's current disposition (FR-AGENT-8). `pending`: its marker is live in `content`. `accepted`/`rejected`: the change's `ChangeRecord.outcome`, which Emend writes only after the saved document decides it, or, for a record with no `outcome` field at all, its thread's linked-change decision. `unknown`: no live marker and no recorded decision, never reported as `pending` (FR-X-5)."
     },
     "anchor": {
       "type": "object",
