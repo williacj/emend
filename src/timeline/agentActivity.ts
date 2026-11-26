@@ -256,7 +256,7 @@ export async function startAddressRun(
  * own `Failed` phase through the normal `agent://activity` push, which the timeline's `foldRunStatus`
  * already handles), so this never runs the risk of double-rendering a failure the backend also
  * pushed. `commands::agent::start_run_on` raises it for two causes: a blank prompt, which no frontend
- * caller actually sends, and a target that fails `confine` (`commands/commands/path_confine.rs`) —
+ * caller actually sends, and a target that fails `confine` (`commands/path_confine.rs`) —
  * whose `root.canonicalize()` fails once the project root has been moved, deleted or unmounted under
  * the app, so it is reachable from any caller.
  *
