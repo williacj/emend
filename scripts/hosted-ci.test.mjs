@@ -83,6 +83,21 @@ test('every hosted suite step runs on both legs and after an earlier suite fails
   ]);
 });
 
+test('a required hosted job checks the repo-skill alias on every run (#126)', () => {
+  // `Test-matrix traceability` is a check the main ruleset requires. It runs on Ubuntu, where Git
+  // checks `.agents/skills` out as the symlink the check expects.
+  const block = job(readFileSync(WORKFLOW_PATH, 'utf8'), 'test-matrix');
+  assert.match(block, /^    name: Test-matrix traceability$/m);
+  assert.match(block, /^    runs-on: ubuntu-latest$/m);
+
+  const step = namedStep(block, 'Validate the repo-skill alias')?.[1];
+  assert.ok(step, 'expected the repo-skill alias step');
+  assert.match(step, /^        run: npm run check:repo-skills$/m);
+  // Neither the job nor the step may be skipped or allowed to fail.
+  assert.doesNotMatch(block, /^    if:|continue-on-error/m);
+  assert.doesNotMatch(step, /^        if:/m);
+});
+
 test('the hosted execution check reads both legs together and fails when a leg did not pass (williacj/emend#8)', () => {
   const evidence = job(readFileSync(WORKFLOW_PATH, 'utf8'), 'matrix-evidence');
 

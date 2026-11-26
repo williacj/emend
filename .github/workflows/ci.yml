@@ -370,6 +370,11 @@ jobs:
       - name: Validate vitest unhandled-errors invariant (test-plan §9b)
         run: npm run check:vitest-unhandled-errors
 
+      # `.agents/skills` must stay a symlink to `.claude/skills` (.agents/README.md). Ubuntu checks
+      # it out as one, so a failure here is the tracked entry, not the runner's Git settings.
+      - name: Validate the repo-skill alias
+        run: npm run check:repo-skills
+
   # The strong half of the test-plan §9 gate (#1814): every matrix row's named test must appear as
   # executed in the results of the Windows or the macOS leg. Results of one kind from several
   # artifacts are read as one set (scripts/test-execution-results.mjs), so a Windows-only or
