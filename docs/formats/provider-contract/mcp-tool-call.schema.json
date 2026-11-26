@@ -141,7 +141,11 @@
       "required": ["path", "content"],
       "properties": {
         "path": { "type": "string" },
-        "content": { "type": "string" }
+        "content": { "type": "string" },
+        "handoff_summary": {
+          "type": "string",
+          "description": "Optional (TD-1 amended #94; FR-CONV-5, FR-CONV-6). The agent's visible summary of the discussion that led to this document, up to the birth. Emend offers it to the author in the born document's next composer turn, atomically with the birth. Omitted, empty or whitespace-only offers nothing. Over 65,536 bytes of UTF-8 the tool refuses the whole call and creates no document; JSON Schema's `maxLength` counts code points, so the tool enforces the byte bound, not this schema."
+        }
       },
       "additionalProperties": false
     },

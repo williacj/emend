@@ -24,6 +24,7 @@ revision of the contract that particular value was written under.
 | `comment-event.schema.json` | One line of a comment event log | `.emend/comments/<doc-hash>/<author>.jsonl` — one JSONL file per document per author, append-only |
 | `change-record.schema.json` | One track-changes attribution record | `.emend/changes/<doc-hash>.json` — a single JSON object per document, keyed by change id: `{"<change-id>": ChangeRecord, ...}`; each value conforms to this schema |
 | `docs-map.schema.json` | The whole document-identity map file | `.emend/docs.json` — one file per project, mapping a per-doc UUID to its current project-relative path |
+| `conversation-event.schema.json` | One line of a conversation event log; `conversations.md` documents the layout, file naming and event types | `.emend/conversations/<conversation-id>/<author>-<device-id>.jsonl` — one JSONL file per conversation per writing device, append-only (FR-CONV-8, TD-4 amended #94) |
 | `project-config.schema.json` | The whole project-config override file | `.emend/config.json` — one file per project, overriding the `skills/` module's discovery defaults (FR-SKILL-5); optional, degrades to the ratified defaults when absent/unreadable/malformed (FR-X-5) |
 
 ## Grounding & drift tolerance
@@ -36,6 +37,13 @@ revision of the contract that particular value was written under.
   whole log. A *known* `type` is checked for its load-bearing fields, including
   that `parent_id` is present and non-null for every type except `create` (the
   one that starts a new thread).
+- **`conversation-event.schema.json` is drift-tolerant in the same way.** An
+  unrecognized `type` validates on its envelope alone (`schema_version`, `id`,
+  `parent_id`, `author`, `device`, `timestamp`, `type`), because the
+  conversation fold also skips unknown event kinds (TD-4 amended #94). A known
+  `type` is checked for its fields. This build has no producer yet, so
+  `store::schema` gains its variant with the card that first writes a
+  conversation record.
 - **`publish` is durable evidence of review visibility (D20/J10).** It names a
   root comment in `parent_id` and is appended by review sync when that root
   reaches an external audience. Its effect is permanent: withdrawing the root

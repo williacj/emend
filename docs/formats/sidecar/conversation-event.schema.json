@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://emend.local/formats/sidecar/conversation-event.schema.json",
+  "schema_version": 1,
+  "title": "Emend conversation event",
+  "description": "One line of a `.emend/conversations/<conversation-id>/<author>-<device-id>.jsonl` append-only event log (FR-CONV-8; TD-4 amended #94). `conversations.md` beside this file documents the layout, the file naming and each event type. The visible conversation is the fold of every log in the directory, in the order TD-4 amended #94 gives in `docs/tech-design.md`. `parent_id` names the last event the writing device had seen in this conversation, so two events sharing a `parent_id` are a divergence point. `parent_id` is null only for `conversation_created`. An unrecognized `type` still validates, because the fold skips unknown event types (test-plan P5); a known `type` is checked for its fields.",
+  "type": "object",
+  "required": ["schema_version", "id", "parent_id", "author", "device", "timestamp", "type"],
+  "properties": {
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Globally unique, minted by the writer (UUID/ULID). For `conversation_created`, this id is not the conversation id; the directory name is."
+    },
+    "parent_id": {
+      "type": ["string", "null"],
+      "description": "The last event of this conversation the writing device had seen when it wrote this one. Null only for `conversation_created`."
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Who acted: the person's author value (TD-4's comment-log value) for an act the person took, `agent` for `agent_reply`, and `emend` for a fact the app records."
+    },
+    "device": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The writing device's id, the same id the log's file name carries."
+    },
+    "timestamp": {
+      "type": "integer",
+      "description": "Milliseconds since the Unix epoch, stamped by the writing device's own clock. Cross-device clock skew is expected; the fold orders by (timestamp, id) with buffer-until-parent, never by file or line order."
+    },
+    "type": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "conversation_created" } } },
+      "then": {
+        "required": ["name", "kind", "document_uuid"],
+        "properties": {
+          "parent_id": { "type": "null" },
+          "name": { "type": "string" },
+          "kind": { "enum": ["document", "workshop"] },
+          "document_uuid": {
+            "type": ["string", "null"],
+            "description": "The `docs.json` UUID of the document this conversation belongs to. Null for a Workshop conversation, and for a document conversation whose document has no identity yet (an untitled document)."
+          },
+          "origin": {
+            "type": "object",
+            "description": "Present only on a document conversation born from a run of another conversation (FR-CONV-5): that conversation and run.",
+            "required": ["conversation_id", "run_id"],
+            "properties": {
+              "conversation_id": { "type": "string", "minLength": 1 },
+              "run_id": { "type": "string", "minLength": 1 }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "renamed" } } },
+      "then": {
+        "required": ["name", "kind", "document_uuid"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "name": { "type": "string" },
+          "kind": { "enum": ["document", "workshop"] },
+          "document_uuid": { "type": ["string", "null"] }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "user_turn" } } },
+      "then": {
+        "required": ["text"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "text": { "type": "string", "description": "The author's message text, exactly as sent." },
+          "run_id": { "type": "string", "minLength": 1, "description": "The run this turn started. Absent only on a turn converted by migration, whose run no longer exists." },
+          "unsaved_sent": {
+            "type": "array",
+            "description": "Present when the turn sent unsaved document text (FR-CHAT-4, J13): one entry per document whose unsaved text was sent. Never the text itself.",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["document_uuid"],
+              "properties": {
+                "document_uuid": { "type": ["string", "null"], "description": "Null for an untitled document with no identity yet." }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "handoff_accepted" } } },
+      "then": {
+        "required": ["text", "source_conversation_id", "source_run_id", "run_id"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "text": { "type": "string", "description": "The exact summary text sent, after any edit the author made (FR-CONV-6)." },
+          "source_conversation_id": { "type": "string", "minLength": 1 },
+          "source_run_id": { "type": "string", "minLength": 1 },
+          "run_id": { "type": "string", "minLength": 1, "description": "The run that received the handoff." }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "agent_reply" } } },
+      "then": {
+        "required": ["text"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "text": { "type": "string", "description": "The run's final reply text." },
+          "run_id": { "type": "string", "minLength": 1, "description": "Absent only on a reply converted by migration." }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "run_ref" } } },
+      "then": {
+        "required": ["run_id", "outcome", "changed_documents"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "run_id": { "type": "string", "minLength": 1 },
+          "outcome": { "enum": ["completed", "recovered", "failed", "stopped"] },
+          "changed_documents": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "description": "The `docs.json` UUIDs of the documents the run changed."
+          },
+          "home_conversation_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Present only on the link Emend writes into a changed document's conversation when the run belongs to another conversation (FR-CONV-3): the run's own conversation."
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["type"], "properties": { "type": { "const": "migrated" } } },
+      "then": {
+        "required": ["source", "imported_count"],
+        "properties": {
+          "parent_id": { "type": "string" },
+          "source": { "const": "project-transcript" },
+          "imported_count": { "type": "integer", "minimum": 0 }
+        }
+      }
+    }
+  ]
+}
