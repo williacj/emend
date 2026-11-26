@@ -307,7 +307,9 @@ describe("editor/formatCommands — semantic inline toggles (J14, #2412)", () =>
     ] as const;
 
     for (const [label, suffix, activeFrom] of cases) {
-      const state = coldStateWithSuffix(suffix, { anchor: activeFrom, head: activeFrom + 6 });
+      // 100 KB is far past CodeMirror's 3,000-character initial parse, so the target starts cold.
+      // Four full parses of the helper's 1 MB default overran the test timeout on a loaded host.
+      const state = coldStateWithSuffix(suffix, { anchor: activeFrom, head: activeFrom + 6 }, 100_000);
       const view = new EditorView({ state, parent: document.body });
       views.push(view);
       const selection = view.state.selection;
