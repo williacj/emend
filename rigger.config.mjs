@@ -1,5 +1,5 @@
 // ABOUTME: This repository's Rigger config: the board it works, the roles it dispatches, the
-// kinds of work it binds, and the steps that provision a card.
+// ABOUTME: kinds of work it binds, and the steps that provision a card.
 
 // This file is L4, the consumer's own layer, so it is the repository's rather than the engine's.
 // It declares the extension points Rigger's architecture marks as the consumer's, in the spelling
