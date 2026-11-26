@@ -27,7 +27,7 @@ defaults:
 
 env:
   # The commit of Rigger the gate runs. Changing it changes the live gate.
-  RIGGER_COMMIT: 3e325ab83911b66a07076d6dc852d9291941075d
+  RIGGER_COMMIT: 6bfc431111584267be389876185947dae8a6fd3b
   # The Node major the gate runs on: one `engines` admits, and past no end of life.
   NODE_MAJOR: '24'
   # The gate check, inside the package installed under the runner's temporary directory.
