@@ -69,7 +69,7 @@ test('the e2e gate runs on hosted Windows and macOS runners (williacj/emend#8)',
   assert.match(job, /npm run test:e2e:ci/);
 });
 
-test('the e2e gate is failure-visible inside each per-OS merge check (#1403)', () => {
+test('the e2e gate is failure-visible inside each per-OS merge check',() => {
   const job = e2eJob();
   const acceptance = job.match(/- name: Playwright acceptance suite\n([\s\S]*?)(?=\n\s+- name:|$)/)?.[0];
   assert.ok(acceptance, 'expected the Playwright acceptance step in the required job');
@@ -84,7 +84,7 @@ test('the e2e gate is failure-visible inside each per-OS merge check (#1403)', (
   assert.doesNotMatch(job, /\n    if:/);
 });
 
-test('the required e2e gate makes retry masking impossible (#1403/#1595)', () => {
+test('the required e2e gate makes retry masking impossible',() => {
   const job = e2eJob();
   const acceptance = job.match(/- name: Playwright acceptance suite\n([\s\S]*?)(?=\n\s+- name:|$)/)?.[0];
   assert.ok(acceptance, 'expected the Playwright acceptance step in the required job');
@@ -132,7 +132,7 @@ test('the one-project D23 backend is never shared by concurrent Playwright worke
   );
 });
 
-test('the e2e gate never arms the real-claude spawn escape hatch (issue #1149 stays fail-closed)', () => {
+test('the e2e gate never arms the real-claude spawn escape hatch (stays fail-closed)',() => {
   const job = e2eJob();
 
   // #1149 fixed the driver binary spawning the real, billable `claude` CLI by refusing unless
@@ -141,7 +141,7 @@ test('the e2e gate never arms the real-claude spawn escape hatch (issue #1149 st
   assert.doesNotMatch(job, /EMEND_TEST_DRIVER_ALLOW_REAL_CLAUDE_SPAWN/);
 });
 
-test('the CI subset excludes exactly the quarantine tag (issue #1124 item 2)', () => {
+test('the CI subset excludes exactly the quarantine tag',() => {
   const pkg = JSON.parse(readFileSync(PACKAGE_PATH, 'utf8'));
 
   // The blocking gate runs a *named subset*, so the exclusion has to live in one greppable place
@@ -185,7 +185,7 @@ test('untrackedQuarantineTags passes vacuously with zero @quarantine tags', () =
   assert.deepEqual(untrackedQuarantineTags(spec), []);
 });
 
-test('every quarantined e2e test names the issue tracking it (issue #1124 item 2)', () => {
+test('every quarantined e2e test names the issue tracking it',() => {
   const spec = readFileSync(SPEC_PATH, 'utf8');
   const offenders = untrackedQuarantineTags(spec);
 
