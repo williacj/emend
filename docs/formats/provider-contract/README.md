@@ -68,7 +68,8 @@ provider_contract::validate_transcript(Schema::CopilotStreamEvent, jsonl)?; // r
 ```
 
 `Schema` variants: `ClaudeStreamEvent`, `CopilotStreamEvent`, `McpServerConfig`,
-`PermissionHookDecision`, `McpToolCall`. See the crate rustdoc for details.
+`PermissionHookDecision`, `McpToolCall`, `ClaudePermissionCallback`. See the crate
+rustdoc for details.
 
 
 ### Claude permission callback adapter (#2399)
