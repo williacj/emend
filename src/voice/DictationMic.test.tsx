@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 // ABOUTME: Dictation chip contract from the authoring shell's 3c voice-state table.
+// ABOUTME: Checks each state's accessible name, activation, progress, geometry, and error retry cues or descriptions.
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { DictationMic, type DictationPresentation } from "./DictationMic";

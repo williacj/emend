@@ -1,3 +1,5 @@
+# ABOUTME: Manifest for the textops library crate: CriticMarkup, diffs, anchors, and coordinate transforms.
+# ABOUTME: Declares its property-test and fixture dev-dependencies and the `delivery_apply` benchmark.
 [package]
 name = "textops"
 version = "0.1.0"

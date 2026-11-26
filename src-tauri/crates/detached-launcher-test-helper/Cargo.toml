@@ -1,3 +1,5 @@
+# ABOUTME: Manifest for the detached-launcher-test-helper binary used by launcher platform tests.
+# ABOUTME: The helper runs as a real parent or routed child and depends on the `emend` app package.
 [package]
 name = "detached-launcher-test-helper"
 version = "0.1.0"

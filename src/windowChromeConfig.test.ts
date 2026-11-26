@@ -1,4 +1,5 @@
 // ABOUTME: Pins platform-specific Tauri chrome and permissions so web title controls replace one native row.
+// ABOUTME: Reads the Tauri config and capability JSON to check window decorations, titles, and window permissions.
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";

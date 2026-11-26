@@ -1,4 +1,5 @@
 // ABOUTME: One projection of Rust-owned voice availability and phase for every input surface.
+// ABOUTME: Maps voice status to a dictation chip state, and a chip state to its status echo text.
 import type { VoiceStatus } from "../settings/voiceIpc";
 import type { DictationPresentation } from "./DictationMic";
 

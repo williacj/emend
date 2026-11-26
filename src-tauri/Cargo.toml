@@ -1,3 +1,5 @@
+# ABOUTME: Root manifest of Emend's Cargo workspace: lists its member crates and sets the dev profile.
+# ABOUTME: Also defines the `emend` app package, its `emend_lib` library target, and its dependencies.
 [workspace]
 members = [".", "crates/textops", "crates/provider-contract", "crates/fixtures", "crates/fake-agent", "crates/test-driver", "crates/rendezvous-test-helper", "crates/detached-launcher-test-helper"]
 resolver = "2"

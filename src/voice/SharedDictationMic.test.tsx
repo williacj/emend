@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 // ABOUTME: Two live input surfaces share one backend-confirmed dictation state.
+// ABOUTME: Covers start and cancel races, transcript targeting, owner status refreshes, downloads, and error routes.
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { useLayoutEffect } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
