@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://emend.local/formats/provider-contract/document-state.schema.json",
+  "schema_version": 1,
+  "title": "Emend get_document_state result",
+  "description": "The result of the Emend-hosted `get_document_state(doc)` MCP tool (TD-1 §3.2), as amended by the TD-1 amendment for #92 (PROPOSED until the owner ratifies it). It is the agent's read path for one document: its raw `content` and `revision`, every tracked change with its current `disposition`, the comments it is offered, every thread's `closure` and linked changes (FR-AGENT-8), and its D21 `protection`. The response is state, not an event stream: it carries no cursor and no history (D35). It confers no authority: no Emend tool accepts, rejects, resolves, dismisses, reopens or unlinks anything (D21). Strict, because these are Emend's own tools: an unknown key is a contract violation. Until the implementing card binds `agent::state`'s result to this schema, the shipped result still carries `pending_changes[]`, `comments[].resolved` and no `threads[]`.",
+  "type": "object",
+  "required": ["content", "revision", "changes", "comments", "threads", "protection"],
+  "additionalProperties": false,
+  "properties": {
+    "content": {
+      "type": "string",
+      "description": "The document's raw text on disk, CriticMarkup included (TD-6's canonical coordinate space)."
+    },
+    "revision": {
+      "type": "string",
+      "description": "The content-hash revision token for `content` that `propose_changes` validates against (TD-7)."
+    },
+    "changes": {
+      "type": "array",
+      "description": "Every change the document's TD-4 record set holds, plus every live marker that joins no record (TD-16 `snap:` identity).",
+      "items": { "$ref": "#/$defs/change" }
+    },
+    "comments": {
+      "type": "array",
+      "description": "The comment threads the agent is offered (TD-21 ruling 9, J10 child-first note). Closure is not stated here; it is stated in `threads[]`.",
+      "items": { "$ref": "#/$defs/comment" }
+    },
+    "threads": {
+      "type": "array",
+      "description": "Every thread except those FR-CMT-9 withholds after withdrawal, whatever its closure.",
+      "items": { "$ref": "#/$defs/thread" }
+    },
+    "protection": {
+      "enum": ["protected", "unprotected"],
+      "description": "Whether the document is in the D21 protected set."
+    }
+  },
+  "$defs": {
+    "disposition": {
+      "enum": ["pending", "accepted", "rejected", "unknown"],
+      "description": "A tracked change's current disposition (FR-AGENT-8). `pending`: its marker is live in `content`. `accepted`/`rejected`: the change's `ChangeRecord.outcome`, or else its thread's linked-change decision. `unknown`: no live marker and no recorded decision, never reported as `pending` (FR-X-5)."
+    },
+    "anchor": {
+      "type": "object",
+      "description": "Raw-file offset and length of the live marker (TD-6), the coordinate space `propose_changes` ranges use.",
+      "required": ["offset", "length"],
+      "additionalProperties": false,
+      "properties": {
+        "offset": { "type": "integer", "minimum": 0 },
+        "length": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "change": {
+      "type": "object",
+      "required": ["id", "disposition", "kind"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The durable `chg-` id for a recorded change, or a snapshot-scoped `snap:` id for an unrecorded live marker (TD-16)."
+        },
+        "disposition": { "$ref": "#/$defs/disposition" },
+        "kind": { "enum": ["insertion", "deletion", "substitution"] },
+        "author": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The recorded change's author (TD-4). Absent for an unrecorded live marker, which has no record."
+        },
+        "anchor": {
+          "$ref": "#/$defs/anchor",
+          "description": "Present only while `disposition` is `pending`; a decided change's marker no longer exists."
+        },
+        "note": { "type": "string" },
+        "group": { "type": "string" },
+        "change_set": { "type": "string" }
+      },
+      "if": { "properties": { "disposition": { "const": "pending" } } },
+      "then": { "required": ["anchor"] },
+      "else": { "not": { "required": ["anchor"] } }
+    },
+    "reply": {
+      "type": "object",
+      "required": ["id", "author", "body", "defense"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "author": { "type": "string" },
+        "body": { "type": "string" },
+        "defense": { "type": "boolean" }
+      }
+    },
+    "comment": {
+      "type": "object",
+      "required": ["id", "author", "body", "withdrawn", "replies"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "author": { "type": "string" },
+        "body": {
+          "type": "string",
+          "description": "Empty for a withdrawn root served only as the context wrapper for a live reply."
+        },
+        "withdrawn": { "type": "boolean" },
+        "severity": { "type": "string" },
+        "anchor": { "$ref": "#/$defs/anchor" },
+        "replies": { "type": "array", "items": { "$ref": "#/$defs/reply" } }
+      }
+    },
+    "thread": {
+      "type": "object",
+      "required": ["id", "closure", "linked_changes"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "The thread's root comment id." },
+        "closure": {
+          "enum": ["open", "resolved", "dismissed", "reopened"],
+          "description": "The thread's current closure outcome, derived once by the comment fold (FR-AGENT-8, FR-CMT-15, FR-CMT-20). `dismissed` appears only once the fold records dismissal (D25)."
+        },
+        "linked_changes": {
+          "type": "array",
+          "description": "Every tracked change an address round linked to this thread, oldest first (FR-CMT-7).",
+          "items": {
+            "type": "object",
+            "required": ["id", "disposition"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "disposition": { "$ref": "#/$defs/disposition" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
