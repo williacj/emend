@@ -58,6 +58,20 @@ revision of the contract that particular value was written under.
   CriticMarkup marker live in the document is the source of truth for *what*
   changed (TD-2); this schema only records *who* changed it and how it's
   grouped/noted.
+- **`change-record.schema.json`'s `outcome` keeps a decided change's verdict**
+  (FR-AGENT-9, TD-1 amendment #92, proposed). Accepting or rejecting a change
+  removes its marker from the document, so for a change that belongs to no
+  thread this field is the only record of which way it went. Emend writes it
+  only when it saves the document, in three steps: `null` to every record whose
+  stored value the save changes, then the document, then each `accepted` or
+  `rejected` that document implies. So a stored decision always describes the
+  document on disk, even after an undo, an opposite decision or a crash. A
+  `null` field means undecided or not yet confirmed by a save. An absent field
+  means no save since the field existed has touched the record. A live marker
+  that joins the record outranks the field, so a reader never treats a change
+  whose marker is still in the file as decided. The field is
+  optional and additive, so `schema_version` does not change: an older reader
+  ignores it and loses no attribution fact.
 - **`docs-map.schema.json`'s real producer/consumer is `store::docs_map`**
   (P2a-10, `src-tauri/src/store/docs_map.rs`), wrapped by the sidecar store
   service (`store::service::SidecarStore`) that owns the doc-identity

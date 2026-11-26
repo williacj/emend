@@ -23,6 +23,7 @@ draft meta-schema.
 | `permission-hook-decision.schema.json` | A Copilot `preToolUse` hook decision (`allow`/`deny`/`ask`) | SPIKE-1 §4.4 |
 | `permission-callback.claude.schema.json` | Native Claude permission callback arguments before TD-1 adaptation | Claude 2.1.263 live callback, 2026-09-07 |
 | `mcp-tool-call.schema.json` | Arguments for an Emend-hosted MCP tool call (`{name, arguments}`) | TD-1 §3.2 tool surface (design contract) |
+| `document-state.schema.json` | The result of `get_document_state(doc)`: `{content, revision, changes[], comments[], threads[], protection}` | TD-1 amendment #92 (design contract, proposed) |
 
 ## Grounding & drift tolerance
 
@@ -37,6 +38,16 @@ draft meta-schema.
   SPIKE-1 (gap #7); it is captured during adapter work (P2a/P3). Protection (D21)
   and revision-token staleness (TD-7) are enforced by the tool implementation, not
   these schemas.
+- **`document-state.schema.json` is strict too**, and is the first published tool
+  *result*. It records the TD-1 amendment for #92, proposed: `changes[]` states
+  each tracked change's `disposition` (`pending`, `accepted`, `rejected` or
+  `unknown`), and `threads[]` states each thread's `closure` and the disposition
+  of its `linked_changes` (FR-AGENT-8). It replaces the result's former
+  `pending_changes[]` and `comments[].resolved`. The shipped
+  `agent::state::get_document_state` still returns the former shape until the
+  implementing card binds its result to this schema with a conformance test and
+  adds a `Schema` variant for it. No tool reached through this contract can
+  accept, reject, resolve, dismiss, reopen or unlink anything (D35, D21).
 
 ## Validation helper
 
