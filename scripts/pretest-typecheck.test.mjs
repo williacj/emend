@@ -5,8 +5,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import { dirname, join, relative } from "node:path";
 import { readPackageScripts } from "./package-scripts.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -78,5 +79,34 @@ test("an isolated real type error fails its pretest while a concurrent productio
     cleanResult.status,
     0,
     `expected the concurrent production pretest to pass; stdout: ${cleanResult.stdout}\nstderr: ${cleanResult.stderr}`,
+  );
+});
+
+// `--listFilesOnly` makes the production pretest print its project's files and stop: it checks and
+// emits nothing.
+const LIST_PRETEST = "npm run pretest --silent -- --listFilesOnly";
+
+function toRepoPath(path) {
+  return relative(REPO_ROOT, path).replaceAll("\\", "/");
+}
+
+test("the production pretest project includes every TypeScript file under tests/perf", async () => {
+  const present = readdirSync(join(REPO_ROOT, "tests", "perf"), { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile() && /\.tsx?$/.test(entry.name))
+    .map((entry) => toRepoPath(join(entry.parentPath, entry.name)));
+  // An empty walk would make the comparison below pass without checking anything.
+  assert.notEqual(present.length, 0, "expected TypeScript files under tests/perf");
+
+  const result = await runPretest(LIST_PRETEST);
+  assert.equal(
+    result.status,
+    0,
+    `expected tsc to list the pretest project's files; stdout: ${result.stdout}\nstderr: ${result.stderr}`,
+  );
+  const listed = new Set(result.stdout.split(/\r?\n/).filter(Boolean).map(toRepoPath));
+  assert.deepEqual(
+    present.filter((path) => !listed.has(path)),
+    [],
+    "files under tests/perf that the pretest project leaves unchecked",
   );
 });
