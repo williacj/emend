@@ -1,5 +1,5 @@
 // ABOUTME: CI enforcement for docs/test-matrix.md (test-plan §9) — the FR-traceability gate.
-// ABOUTME: Fails when a matrix row names a test that does not exist/would not run/did not execute in its own defining file, when a bare title is defined in several files, when a spec FR/property has no row, or when a blank line detaches a row from its table header.
+// ABOUTME: Fails when a matrix row names a test that does not exist/would not run/did not execute in its own defining file, when a bare title is defined in several files, when a spec FR/property has no row, when two rows share ID, requirement text and test kind, or when a blank line detaches a row from its table header.
 // ABOUTME: Also fails a present-not-gating row that mixes executed and non-executed test ids (a relabelled mixed row), and a row naming a test-plan §6 bench-only assertion under any status but present-not-gating.
 
 import { readFileSync, readdirSync } from "node:fs";
@@ -786,6 +786,19 @@ export function checkMatrix({
     errors.push(
       `test-matrix.md:${o.line}: table row "${o.id}" has no header above it — a blank line detached it from its table; remove the blank line or add a header row`,
     );
+  }
+
+  // Uniqueness: one ID may span several rows (a split rule, or one row per kind), but two rows
+  // agreeing on ID, requirement text and kind are the same row twice, free to drift apart.
+  const rowKeys = new Set();
+  for (const row of rows) {
+    const key = JSON.stringify([row.id, row.requirement, row.kind]);
+    if (rowKeys.has(key)) {
+      errors.push(
+        `${row.id}: duplicate row — two rows share this ID, requirement text and test kind "${row.kind}"; merge them into one`,
+      );
+    }
+    rowKeys.add(key);
   }
 
   const seen = new Set(rows.map((r) => r.id));

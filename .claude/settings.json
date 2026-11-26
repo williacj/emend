@@ -40,6 +40,7 @@
       "Bash(gh pr view:*)",
       "Bash(gh pr comment:*)",
       "Bash(gh pr checks:*)",
+      "Bash(gh pr edit * --body-file *)",
       "Edit(./**)"
     ],
     "deny": [
@@ -49,7 +50,27 @@
       "Bash(git push -f:*)",
       "Bash(git push --delete:*)",
       "Bash(git branch -D:*)",
-      "Bash(git branch --delete:*)"
+      "Bash(git branch --delete:*)",
+      "Bash(*pr edit* --base *)",
+      "Bash(*pr edit* -B *)",
+      "Bash(*pr edit* --title *)",
+      "Bash(*pr edit* -t *)",
+      "Bash(*pr edit* --body *)",
+      "Bash(*pr edit* -b *)",
+      "Bash(*pr edit* --milestone *)",
+      "Bash(*pr edit* -m *)",
+      "Bash(*pr edit*--remove-milestone*)",
+      "Bash(*pr edit* --add-label *)",
+      "Bash(*pr edit* --remove-label *)",
+      "Bash(*pr edit* --add-reviewer *)",
+      "Bash(*pr edit* --remove-reviewer *)",
+      "Bash(*pr edit* --add-assignee *)",
+      "Bash(*pr edit* --remove-assignee *)",
+      "Bash(*pr edit* --add-project *)",
+      "Bash(*pr edit* --remove-project *)",
+      "Bash(*pr edit* --attach *)",
+      "Bash(*pr edit* --repo *)",
+      "Bash(*pr edit* -R *)"
     ]
   }
 }

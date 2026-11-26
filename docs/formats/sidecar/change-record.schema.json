@@ -3,7 +3,7 @@
   "$id": "https://emend.local/formats/sidecar/change-record.schema.json",
   "schema_version": 1,
   "title": "Emend track-changes attribution record",
-  "description": "One attribution record in `.emend/changes/<doc-hash>.json` (TD-4), keyed by `id` in the persisted file (`{\"<change-id>\": ChangeRecord, ...}`) — this schema validates one record's value. Track-changes is single-writer by design (only the author decides changes, D19): the file holds the *current* record set, so last-write-wins per id is correct by construction; there is no cross-author causal fold like `comment-event.schema.json`'s. The record deliberately carries no range/text of its own — the CriticMarkup marker live in the document is the source of truth for *what* changed (TD-2); this schema only records *who* changed it and how it's grouped/noted.",
+  "description": "One attribution record in `.emend/changes/<doc-hash>.json` (TD-4), keyed by `id` in the persisted file (`{\"<change-id>\": ChangeRecord, ...}`) — this schema validates one record's value. Track-changes is single-writer by design (only the author decides changes, D19): the file holds the *current* record set, so last-write-wins per id is correct by construction; there is no cross-author causal fold like `comment-event.schema.json`'s. The record deliberately carries no range/text of its own — the CriticMarkup marker live in the document is the source of truth for *what* changed (TD-2); this schema only records *who* changed it, how it's grouped/noted, and, once the author decides it, its `outcome`.",
   "type": "object",
   "required": ["schema_version", "id", "kind", "author", "anchor", "created_at", "updated_at"],
   "properties": {
@@ -28,7 +28,11 @@
       "type": ["string", "null"],
       "description": "The atomic `propose_changes` delivery this change belongs to (its returned `change_set_id`)."
     },
-    "note": { "type": ["string", "null"] }
+    "note": { "type": ["string", "null"] },
+    "outcome": {
+      "enum": ["accepted", "rejected", null],
+      "description": "The change's recorded decision (FR-AGENT-9, TD-1 amendment #92): `accepted` or `rejected` once a saved document decides it, `null` while it is undecided, after an undo restores its marker, or while a save is replacing an earlier decision. Emend alone writes it, and only while saving the document: first `null` to every record whose value the save changes, then the document, then each decision that document implies, so a stored decision always describes the document on disk. An absent field means no save since this field existed has touched the record; only then may a reader fall back to a thread's linked-change decision. It states the outcome and nothing more. A live CriticMarkup marker that joins this record outranks it: the change is pending whatever this field says (TD-2). Additive and optional, so `schema_version` stays 1."
+    }
   },
   "$defs": {
     "anchor": {

@@ -1,5 +1,5 @@
 ABOUTME: Overview of Emend v2, a cross-platform desktop app for writing and reviewing markdown with agentic CLIs.
-ABOUTME: States the project's status and points to the constitution documents that own its decisions.
+ABOUTME: Points to the constitution documents that own the project's decisions, and covers local development.
 
 # Emend (v2)
 
@@ -7,7 +7,7 @@ A cross-platform desktop app (macOS + Windows) providing a Word-like writing and
 
 ## Status
 
-**v2 ground-up rewrite — planning complete, implementation starting.** The v1 application lives on the [`legacy/v1`](../../tree/legacy/v1) branch (tag `v1-legacy`), fully buildable.
+Emend v2 is a ground-up rewrite. For where the v1 application lives, see [`CLAUDE.md`](CLAUDE.md)'s ["Project Context"](CLAUDE.md#project-context).
 
 ## The constitution
 
@@ -15,10 +15,10 @@ All product and engineering decisions are recorded, with IDs, in four documents.
 
 | Document | Contents |
 |---|---|
-| [`docs/functional-spec.md`](docs/functional-spec.md) | What the product does — decisions D1–D23, requirements FR-* |
-| [`docs/ux-design.md`](docs/ux-design.md) | How it behaves — principles, state inventories, journeys J1–J8 |
-| [`docs/tech-design.md`](docs/tech-design.md) | How it's built — decisions TD-1..8, component designs, spikes, build order |
-| [`docs/test-plan.md`](docs/test-plan.md) | How it's proven — properties P1–P6, fake-agent parity, release gates |
+| [`docs/functional-spec.md`](docs/functional-spec.md) | What the product does — decisions, requirements |
+| [`docs/ux-design.md`](docs/ux-design.md) | How it behaves — principles, state inventories, journeys |
+| [`docs/tech-design.md`](docs/tech-design.md) | How it's built — decisions, component designs, spikes, build order |
+| [`docs/test-plan.md`](docs/test-plan.md) | How it's proven — properties, fake-agent parity, release gates |
 
 Supporting: [`docs/journal.md`](docs/journal.md) (engineering journal) · [`docs/spikes/`](docs/spikes/) (executed spike findings) · `spikes/` (untracked throwaway prototypes — never merged, per test plan).
 

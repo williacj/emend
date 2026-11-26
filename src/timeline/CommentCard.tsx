@@ -184,7 +184,7 @@ export function CommentCard({
       ));
     } catch (error: unknown) {
       // No run ever started — today a `confine` rejection, reachable whenever the project root has
-      // been moved, deleted or unmounted under the app (`commands/commands/path_confine.rs`). So
+      // been moved, deleted or unmounted under the app (`commands/path_confine.rs`). So
       // nothing may claim the thread pending: [Address with AI] stays available to retry, rather
       // than stamping a run id that would name a run that doesn't exist (the false "Working" state
       // #1721 exists to prevent). Short-circuiting is only half the answer, though: #1721 left the

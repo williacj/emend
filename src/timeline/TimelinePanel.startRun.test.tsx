@@ -338,7 +338,7 @@ describe("timeline/TimelinePanel — a thread's [Address with AI] surfaces a rej
     invokeMock.mockImplementation((command: string) => {
       if (command === "load_transcript") return Promise.resolve([]);
       // The reachable rejection for this surface: the target failed `confine` because the project
-      // root moved or unmounted under the app (`commands/commands/path_confine.rs`).
+      // root moved or unmounted under the app (`commands/path_confine.rs`).
       if (command === "start_address_run") {
         return Promise.reject({ kind: "InvalidArguments", message: "target escapes the project root" });
       }

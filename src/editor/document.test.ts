@@ -70,7 +70,7 @@ describe("editor/document", () => {
   });
 });
 
-// The second coordinate axis (#447), independent of the byte↔UTF-16 one `Utf16Map` handles:
+// The second coordinate axis (#447), independent of the byte↔UTF-16 one `Utf16Offsets` handles:
 // CM6 positions vs the serialized (disk-shaped) string. Every one of these pins the same
 // invariant from a different angle — an offset produced against `editorOffsetText` indexes
 // exactly what the same offset means to CM6.
