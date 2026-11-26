@@ -490,6 +490,34 @@ test("a detached row is not counted in the row total the check reports", () => {
   rmSync(root, { recursive: true, force: true });
 });
 
+// A complete matrix plus two rows that share ID and requirement text, differing at most in kind.
+function twinRowMatrix(secondKind) {
+  return (
+    HEADER +
+    "| FR-ED-1 | editor | pending | — | pending | |\n" +
+    "| FR-X-2 | secrets | pending | — | pending | |\n" +
+    "| FR-ED-6 | cut | descoped | — | descoped | |\n" +
+    "| P1 | no drift | pending | — | pending | |\n" +
+    "| NI-twin | one invariant | rust | alive | present | |\n" +
+    `| NI-twin | one invariant | ${secondKind} | also alive | present | |\n`
+  );
+}
+
+test("checkMatrix FAILS two rows that share ID, requirement text and test kind, naming the ID", () => {
+  const root = scaffold(twinRowMatrix("rust").replace("also alive", "also_alive"), { rust: THREE_LIVE_TESTS });
+  const { errors } = checkMatrix({ repoRoot: root });
+  assert.equal(errors.length, 1, errors.join("\n"));
+  assert.match(errors[0], /NI-twin: duplicate row/);
+  rmSync(root, { recursive: true, force: true });
+});
+
+test("checkMatrix allows rows that share ID and requirement text but differ in test kind", () => {
+  const root = scaffold(twinRowMatrix("node"), { rust: THREE_LIVE_TESTS, node: "test('also alive', () => {});\n" });
+  const { errors } = checkMatrix({ repoRoot: root });
+  assert.deepEqual(errors, [], errors.join("\n"));
+  rmSync(root, { recursive: true, force: true });
+});
+
 // --- Execution evidence (#1814, Route 1 of #1384) ----------------------------
 //
 // Everything above proves a named test is DEFINED. The block below proves the second,
