@@ -53,6 +53,24 @@ a row in that table, in its columns, never prose beside it.
 A structure that neither a list nor a table carries — a set of things and the relations between
 them, or a state machine — becomes a diagram.
 
+### 4. A requirement states what must be true; its reasons go elsewhere
+
+Mixing a requirement with the reasons for it makes both harder to follow. Each kind of content
+has its own container:
+
+| Container | Holds |
+|---|---|
+| An FR-* entry | what must be true |
+| The notes column of the D# or TD-# row the FR-* entry cites | why it was decided |
+| `docs/functional-spec.md` §5 | what is still open |
+
+An FR-* entry that needs justifying cites the D# or TD-# row that carries the reason; it does not
+carry the reason itself. An open question goes in §5, not in the requirement it would change.
+
+This rule binds new and amended constitution text from the day it lands. It does not by itself
+license restyling existing text; existing text is brought into line only under a card that says
+so.
+
 Beyond these rules, which document owns a fact, and so where a delta states it, is
 `AGENTS.md`'s "Documents own their facts".
 
@@ -73,3 +91,5 @@ Beyond these rules, which document owns a fact, and so where a delta states it, 
 3. Is anything ordered or conditional still buried in prose?
 4. Does the delta state each fact in the document that owns it?
 5. Did you change what a ratified clause means? That is a proposal, not a restyle.
+6. Does each new or amended FR-* entry state only what must be true, with its reasons in the
+   notes column of the D# or TD-# row it cites and its open items in §5?
