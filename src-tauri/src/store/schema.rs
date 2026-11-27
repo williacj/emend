@@ -19,10 +19,10 @@ use serde_json::Value;
 /// A published sidecar schema (`docs/formats/sidecar/`).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum Schema {
-    /// One line of a `.emend/comments/<doc-hash>/<author>.jsonl` event log
+    /// One line of a `.emend/comments/<document-uuid>/<author>.jsonl` event log
     /// (`comment-event.schema.json`) — `store::comments::CommentEvent`.
     CommentEvent,
-    /// One record's value in `.emend/changes/<doc-hash>.json` (`change-record.schema.json`) —
+    /// One record's value in `.emend/changes/<document-uuid>.json` (`change-record.schema.json`) —
     /// `store::changes::ChangeRecord`.
     ChangeRecord,
     /// The whole `.emend/docs.json` file (`docs-map.schema.json`) — `store::docs_map::DocsMap`
