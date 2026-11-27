@@ -1,5 +1,5 @@
 // ABOUTME: CI enforcement for docs/test-matrix.md (test-plan §9) — the FR-traceability gate.
-// ABOUTME: Fails when a matrix row names a test that does not exist/would not run/did not execute in its own defining file, when a bare title is defined in several files, when a spec FR/property has no row, when two rows share ID, requirement text and test kind, or when a blank line detaches a row from its table header.
+// ABOUTME: Fails when a matrix row names a test that does not exist/would not run/did not execute in its own defining file, when a bare title is defined in several files, when a spec FR/property has no row, when two rows share ID, requirement text and test kind, when a row's Status is outside the legend, or when a blank line detaches a row from its table header.
 // ABOUTME: Also fails a present-not-gating row that mixes executed and non-executed test ids (a relabelled mixed row), and a row naming a test-plan §6 bench-only assertion under any status but present-not-gating.
 
 import { readFileSync, readdirSync } from "node:fs";
@@ -158,6 +158,10 @@ const NON_CODE_KINDS = new Set(["pending", "descoped", "manual", "release-gate"]
 // PR gate (test-plan §6). Flattening those into `present` is what let #1124 read as coverage
 // for a month, so they get their own status rather than sharing one.
 const NOT_GATING_STATUS = "present-not-gating";
+
+// The values the Status legend in docs/test-matrix.md defines. Any other value is a typo or an
+// unrecorded state, which the status-keyed rules would silently read as something else.
+const STATUSES = new Set(["present", NOT_GATING_STATUS, "partial", "pending", "manual", "descoped"]);
 
 // Deliberately unmissable: the whole failure mode this check exists to kill is a weaker
 // guarantee quietly reading as the strong one, so the fallback announces itself in a shape
@@ -799,6 +803,12 @@ export function checkMatrix({
       );
     }
     rowKeys.add(key);
+  }
+
+  for (const row of rows) {
+    if (!STATUSES.has(row.status)) {
+      errors.push(`${row.id}: unknown status "${row.status}" (expected: ${[...STATUSES].join(", ")})`);
+    }
   }
 
   const seen = new Set(rows.map((r) => r.id));

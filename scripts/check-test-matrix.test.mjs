@@ -518,6 +518,30 @@ test("checkMatrix allows rows that share ID and requirement text but differ in t
   rmSync(root, { recursive: true, force: true });
 });
 
+test("checkMatrix FAILS a Status the legend does not define, naming the row ID and the value", () => {
+  const root = scaffold(executionMatrix("| FR-ED-1 | editor | rust | alive | presnt | |\n"), { rust: THREE_LIVE_TESTS });
+  const { errors } = checkMatrix({ repoRoot: root });
+  assert.equal(errors.length, 1, errors.join("\n"));
+  assert.match(errors[0], /^FR-ED-1: unknown status "presnt"/);
+  rmSync(root, { recursive: true, force: true });
+});
+
+test("checkMatrix accepts each of the six Status values the legend defines", () => {
+  const md =
+    HEADER +
+    "| FR-ED-1 | editor | rust | alive | present | |\n" +
+    "| FR-X-2 | secrets | rust | also_alive | present-not-gating | |\n" +
+    "| FR-ED-6 | cut | descoped | — | descoped | |\n" +
+    "| P1 | no drift | rust | third_alive | partial | |\n" +
+    "| NI-later | not written yet | pending | — | pending | |\n" +
+    "| NI-by-hand | release smoke | manual | — | manual | |\n";
+  const root = scaffold(md, { rust: THREE_LIVE_TESTS });
+  const { errors, stats } = checkMatrix({ repoRoot: root });
+  assert.deepEqual(errors, [], errors.join("\n"));
+  assert.equal(stats.rows, 6);
+  rmSync(root, { recursive: true, force: true });
+});
+
 // --- Execution evidence (#1814, Route 1 of #1384) ----------------------------
 //
 // Everything above proves a named test is DEFINED. The block below proves the second,
