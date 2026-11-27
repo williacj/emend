@@ -45,6 +45,15 @@ revision of the contract that particular value was written under.
   skips `publish` can omit that placeholder; a reader that skips `withdraw`
   instead may still show the original body. The append-only log retains both
   facts for readers that understand them.
+- **A reader that skips `withdraw` and `revise` shows the original words
+  (D24, FR-CMT-11).** Skipping `withdraw` shows a withdrawn comment or reply as
+  live, and skipping `revise` shows a revised one at its original body.
+- **The same-author rule is a convergence rule, not an authenticity check
+  (TD-21 ruling 3).** A `revise` or `withdraw` whose `author` differs from its
+  target's author is skipped by the fold, so every reader reaches the same
+  thread state. It authenticates nothing: `author` is a self-asserted string,
+  Emend signs no comment event, and the trust boundary is write access to the
+  repository (`docs/tech-design.md` §3.2b).
 - **The app's own author value is `emend`.** An event the app records as a
   system-observed fact, not an action a person or the agent took, carries
   `author: "emend"` and lands in `.emend/comments/<doc-hash>/emend.jsonl`.
