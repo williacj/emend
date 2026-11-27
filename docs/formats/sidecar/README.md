@@ -21,11 +21,15 @@ revision of the contract that particular value was written under.
 
 | File | What it validates | On disk |
 |---|---|---|
-| `comment-event.schema.json` | One line of a comment event log | `.emend/comments/<doc-hash>/<author>.jsonl` — one JSONL file per document per author, append-only |
-| `change-record.schema.json` | One track-changes attribution record | `.emend/changes/<doc-hash>.json` — a single JSON object per document, keyed by change id: `{"<change-id>": ChangeRecord, ...}`; each value conforms to this schema |
+| `comment-event.schema.json` | One line of a comment event log | `.emend/comments/<document-uuid>/<author>.jsonl` — one JSONL file per document per author, append-only |
+| `change-record.schema.json` | One track-changes attribution record | `.emend/changes/<document-uuid>.json` — a single JSON object per document, keyed by change id: `{"<change-id>": ChangeRecord, ...}`; each value conforms to this schema |
 | `docs-map.schema.json` | The whole document-identity map file | `.emend/docs.json` — one file per project, mapping a per-doc UUID to its current project-relative path |
 | `conversation-event.schema.json` | One line of a conversation event log; `conversations.md` documents the layout, file naming and event types | `.emend/conversations/<conversation-id>/<author>-<device-id>.jsonl` — one JSONL file per conversation per writing device, append-only (FR-CONV-8, TD-4 amended #94) |
 | `project-config.schema.json` | The whole project-config override file | `.emend/config.json` — one file per project, overriding the `skills/` module's discovery defaults (FR-SKILL-5); optional, degrades to the ratified defaults when absent/unreadable/malformed (FR-X-5) |
+
+In the paths above, `<document-uuid>` is the document's UUID from
+`.emend/docs.json`. It is not derived from the document's path or content, so a
+rename or move updates only that map.
 
 ## Grounding & drift tolerance
 
@@ -64,7 +68,7 @@ revision of the contract that particular value was written under.
   repository (`docs/tech-design.md` §3.2b).
 - **The app's own author value is `emend`.** An event the app records as a
   system-observed fact, not an action a person or the agent took, carries
-  `author: "emend"` and lands in `.emend/comments/<doc-hash>/emend.jsonl`.
+  `author: "emend"` and lands in `.emend/comments/<document-uuid>/emend.jsonl`.
   Today that is the `address_failed` the app appends at load for an
   "Address with AI" run that no longer exists. Under TD-29 nothing reads a
   pre-rename `.cowrite/`, so no event with the old author value is ever folded.

@@ -37,7 +37,7 @@ directory (TD-5 amended #94). Credentials stay in the OS keychain (FR-X-2).
 `<author>-<device-id>.jsonl`, where:
 
 - `<author>` is the author value of the person using the writing device: the same value TD-4's
-  comment logs name their files by (`.emend/comments/<doc-hash>/<author>.jsonl`).
+  comment logs name their files by (`.emend/comments/<document-uuid>/<author>.jsonl`).
 - `<device-id>` is the writing device's id: a lowercase hyphenated UUID, 36 characters long, that
   Emend mints once per installation and keeps in the app's local data directory. It never travels
   with a project except as this file name and the `device` field.
