@@ -88,6 +88,7 @@ One JSON object, whole-file-rewritten on every save (`store::atomic::write_json`
 | Field | Type | Meaning |
 |---|---|---|
 | `path` | string | The tab's identity. For an ordinary tab this is its project-relative path (§3.5 confinement). For an untitled recovery document (`recovered_from` non-null) it is an opaque identity the app minted — currently spelled `untitled:<n>:<former path>` — which names no file and is never resolved against the filesystem. Nothing parses it; which of the two kinds a tab is, is `recovered_from` and nothing else. |
+| `doc_id` | string \| `null` (optional) | A UUID identifying an untitled recovery document's sidecars independent of its `path`. On load it is kept only when `recovered_from` is non-null and the value parses as a UUID; otherwise it becomes `null`. |
 | `unsaved_content` | string \| `null` | Content to restore into the tab instead of reading its file. `null` means no content bytes are present in this field; `unsaved_content_omitted` is the sole current-format authority for whether bytes were deliberately omitted over cap. Non-null for a dirty tab, and **also for an untitled recovery document, which is never dirty**: that document has no file to restore from, so this field is the only durable copy of it. |
 | `recovered_from` | string \| `null` (optional) | Non-null only on an untitled recovery document (#932/#2515, J2), naming its former project-relative path. That path may have been displaced by an external move or refused on legacy restore because its document type is unsupported. `null`/absent means an ordinary project tab. Absent entirely in files written before this field existed — see the `schema_version` judgment below. |
 | `displaced_label_ordinal` | integer \| `null` (optional) | Stable creation-order disambiguator for repeated displacement of the same `recovered_from` path (`9d.3`). Assigned when the recovery document is created, persisted without deriving it from the opaque `path`, and never renumbered when a sibling closes. Legacy absence is assigned fail-soft by the frontend and becomes durable on the next checkpoint. |
@@ -148,6 +149,9 @@ of an over-cap J2 recovery document. Current writers persist the outcome
 explicitly, so frontend state and later relaunches never depend on re-inferring
 it. A missing ordinal is assigned without parsing the opaque identity and is persisted on the next
 checkpoint; a present ordinal survives unchanged. Unknown fields remain tolerated in the downgrade direction.
+
+`doc_id` follows the same additive rule: it is optional and defaults to absent, so a version-1 file
+written before it existed still restores, keeping every tab and buffer.
 
 ## The per-tab unsaved-content cap
 
