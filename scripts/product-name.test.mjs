@@ -96,8 +96,9 @@ const HISTORICAL_FILES = [
 
 // Lines in live documents that record the rename itself: its decision-log entries (D36, its D30
 // amendment, TD-29), the design refresh that carried it, and the test-matrix rows for TD-29's
-// clean break, which name pre-rename tests; and CLAUDE.md's pointer to v1, which lives in the
-// cowrite repository. Each is the line holding the marker, in that file only.
+// clean break, which name pre-rename tests; CLAUDE.md's pointer to v1, which lives in the
+// cowrite repository; and links to records imported from Cowrite, which exist only in that
+// repository. Each is the line holding the marker, in that file only.
 const RENAME_RECORDS = [
   { file: 'CLAUDE.md', marker: 'The v1 application lives on branch `legacy/v1`' },
   { file: 'docs/functional-spec.md', marker: '| D36 |' },
@@ -107,6 +108,11 @@ const RENAME_RECORDS = [
   { file: 'docs/design/specs/tokens.md', marker: "replacing Cowrite's blue" },
   { file: 'docs/test-matrix.md', marker: '| NI-sidecar-clean-break |' },
   { file: 'docs/test-matrix.md', marker: '| NI-project-lock |' },
+  { file: 'docs/test-matrix.md', marker: '**A row splits when its tests do not share one answer**' },
+  { file: 'docs/test-matrix.md', marker: '| NI-missing-save-as-filesystem-identity |' },
+  { file: 'docs/alignment-refresh20-d27/README.md', marker: '| Omission-only refusal |' },
+  { file: 'docs/alignment-refresh20-j10/README.md', marker: '| `5d.5` withdrawn published root |' },
+  { file: 'docs/alignment-refresh23-dark/README.md', marker: 'For `14f`, the fixture reopens' },
 ];
 
 // The pre-rename sidecar folder `.cowrite/`, named only where TD-29's clean-break tests, the
