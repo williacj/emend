@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 // ABOUTME: The shared voice owner projects into every authored input surface and editor echo.
+// ABOUTME: Tests that editor, Timeline, and comment mics agree on state, and that voice failures keep authored text.
 import { act, createRef } from "react";
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";

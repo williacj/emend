@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 // ABOUTME: Pins the shared three-action close guard, including J2's truthful empty over-cap body.
+// ABOUTME: Covers action order, Esc and Tab focus handling, recovery variants, and Save As failure and in-flight states.
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";

@@ -1,3 +1,5 @@
+# ABOUTME: Manifest for the rendezvous-test-helper binary used by project-routing rendezvous tests.
+# ABOUTME: The helper is a real separate owner process and depends on the `emend` app package.
 [package]
 name = "rendezvous-test-helper"
 version = "0.1.0"

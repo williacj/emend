@@ -1,4 +1,5 @@
 // ABOUTME: Projects Rust voice truth into one shared dictation chip state.
+// ABOUTME: Tests precedence among availability, phase, download, device, and model states, plus device-error echo text.
 import { describe, expect, it } from "vitest";
 import type { VoiceStatus } from "../settings/voiceIpc";
 import { voicePresentation, voiceStatusEcho } from "./voicePresentation";

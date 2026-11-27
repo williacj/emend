@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 // ABOUTME: Verifies the app-owned title row keeps real window controls behind the normal Tauri close event.
+// ABOUTME: Also covers title-row dragging, status double-clicks, and the macOS traffic-light lane without web controls.
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 

@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 // ABOUTME: Exercises the fallback's Windows close cell through the supervisor's guarded native-close route.
+// ABOUTME: With unsaved work, the guard keeps the window open and the focused fallback mounted, and reports why.
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { FailureContext } from "./types";

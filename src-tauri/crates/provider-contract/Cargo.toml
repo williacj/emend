@@ -1,3 +1,5 @@
+# ABOUTME: Manifest for the provider-contract library crate, which validates the Emend provider contract.
+# ABOUTME: Its JSON and JSON Schema dependencies check stream-JSON and MCP payloads against published schemas.
 [package]
 name = "provider-contract"
 version = "0.1.0"

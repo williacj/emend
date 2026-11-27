@@ -1,3 +1,5 @@
+# ABOUTME: Manifest for the fixtures library crate, the loader for the open-source fixture corpus.
+# ABOUTME: Its serde dependencies support reading the corpus manifest that tests load fixtures through.
 [package]
 name = "fixtures"
 version = "0.1.0"

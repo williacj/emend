@@ -1,3 +1,5 @@
+# ABOUTME: Manifest for the test-driver crate (D23), a headless loopback HTTP driver that is never shipped.
+# ABOUTME: Defines its library and binary targets, which call the `emend` app package's backend commands.
 [package]
 name = "test-driver"
 version = "0.1.0"
