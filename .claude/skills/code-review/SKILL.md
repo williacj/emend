@@ -146,7 +146,7 @@ any Critical invariant or constitution violation block merge.
 | Document | The lens asks |
 |---|---|
 | `CLAUDE.md`, non-negotiable invariants | Does the change put a serializer between view and file, make anything on disk unportable or undocumented, deliver an agent change to a protected document other than as an atomic tracked change through the MCP contract, store a secret outside the OS keychain or send traffic from outside the Rust backend, or show git to the user? |
-| `docs/functional-spec.md` | Does the behaviour still meet every D# and FR-* it touches, and does it add behaviour no requirement records? |
+| `docs/functional-spec.md` | Does the behaviour still meet every D# and FR-* it touches, and does it add behaviour no requirement records? Where the change adds or amends an FR-* entry, does the entry state only what must be true, with its reasons in the cited D# or TD-# row's notes column and its open items in §5 (the `spec-style` skill's rule 4)? |
 | `docs/ux-design.md` | Does each state and flow the change reaches match its journey (J#) and state inventory? Does it build behaviour a mock implies but `ux-design.md` does not record? |
 | `docs/tech-design.md` | Is the code where §3.1 says it lives, and does it keep every TD-# contract it touches? |
 | `docs/test-plan.md` | Are the properties P1–P6 and the substitution discipline (§7b) still held, and does every FR the change touches still have named tests in `docs/test-matrix.md`? |
