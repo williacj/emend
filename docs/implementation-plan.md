@@ -129,7 +129,7 @@ ABOUTME: Companion to tech-design.md (TD-1..8, build order) and test-plan.md; ev
 | # | Unit | Refs |
 |---|---|---|
 | P4-1 | **Chore (open at phase start): procure signing certs** (Windows cert + Apple Developer ID — lead time) | TD §3.6 (review M10) |
-| P4-2 | git2 foundation: detect/init, D12 light-up, auto-checkpoint + race matrix; **machine-commit identity synthesis** (GitHub account → fallback `Emend <noreply@…>`, tested on config-less repos) | TD-8 (review M6) |
+| P4-2 | git2 foundation: detect/init, D12 light-up, auto-checkpoint + race matrix; **machine-commit identity synthesis** (GitHub account's no-reply address → fallback `Emend <noreply@emend.invalid>`, tested on config-less repos) | TD-8 (review M6), D39, FR-X-13..15 |
 | P4-3 | GitHub device flow + keychain | FR-X-9 |
 | P4-4 | Worktree manager: create/mirror/prune/crash-repair (+ identity, + attribute install per SPIKE-2 mechanism) | TD-3 |
 | P4-5 | Union merge driver: install + sidecar branch-merge tests | TD §3.2b |
